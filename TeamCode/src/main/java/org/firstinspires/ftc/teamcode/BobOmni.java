@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name = "\uD83E\uDD5A")
@@ -14,7 +15,8 @@ public class BobOmni extends LinearOpMode {
     private double currentSensitivity = 1.0;
     @Override
     public void runOpMode() {
-      bobHardware.init();
+      bobHardware=new BobHardware(hardwareMap);
+        bobHardware.init();
         waitForStart();
         while (opModeIsActive()) {
             //drive robot according to sticks * sensitivity. I am very sensitive irl. Please don't bully me. aka yoink mcsploink
