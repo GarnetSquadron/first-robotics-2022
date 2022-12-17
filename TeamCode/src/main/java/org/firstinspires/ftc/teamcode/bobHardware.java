@@ -131,5 +131,8 @@ public class BobHardware {
                         + GAIN_STRAFE * strafe * currentSensitivity
                         - GAIN_TURN * turn * currentSensitivity
         );
+        // the proper formula is left stick y, left stick x, right stick x. I.E you want to input those
+        // values into this function to get it to be able to drive. Current sensitivity must be defined - default
+        // as of 12/16/2022 is 1.0
     }
 }
