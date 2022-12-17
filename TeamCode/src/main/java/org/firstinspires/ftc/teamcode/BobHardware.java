@@ -29,12 +29,9 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Range;
 
 /**
  * This file works in conjunction with the External Hardware Class sample called: ConceptExternalHardwareClass.java
@@ -60,8 +57,6 @@ public class BobHardware {
     private static final double GAIN_DRIVE = 0.8;
     private static final double GAIN_STRAFE = -0.8;
     private static final double GAIN_TURN = 0.6;
-    //part of above, this variable exists as a place holder to check if the turbo is pressed
-    private boolean turbo = false;
 
     //define motors and servos
     private DcMotor lf;
@@ -72,12 +67,8 @@ public class BobHardware {
     //sensitivities outside of currentSensitivity should not be changed during opmode.
     //they are intended as base sensitivities. tweak them in code, not with a if statement.
     private double defaultSensitivity = 1.0;
-    // private double slowSensitivity = 0.5;
+    private double slowSensitivity = 0.5;
     private double currentSensitivity = 1.0;
-
-    private double getGain(double gain) {
-        return turbo ? Math.copySign(1.0, gain) : gain;
-    }
 
     /* Declare OpMode members. */
     private HardwareMap robotHardware; // gain access to methods in the calling OpMode.
@@ -115,22 +106,22 @@ public class BobHardware {
         // values into this function to get it to be able to drive. Current sensitivity must be defined - default
         // as of 12/16/2022 is 1.0
         lf.setPower(
-                -GAIN_DRIVE * drive * currentSensitivity
+                GAIN_DRIVE * drive * currentSensitivity
                         + GAIN_STRAFE * strafe * currentSensitivity
                         + GAIN_TURN * turn * currentSensitivity
         );
         rf.setPower(
-                -GAIN_DRIVE * drive * currentSensitivity
+                GAIN_DRIVE * drive * currentSensitivity
                         - GAIN_STRAFE * strafe * currentSensitivity
                         - GAIN_TURN * turn * currentSensitivity
         );
         lb.setPower(
-                -GAIN_DRIVE * drive * currentSensitivity
+                GAIN_DRIVE * drive * currentSensitivity
                         - GAIN_STRAFE * strafe * currentSensitivity
                         + GAIN_TURN * turn * currentSensitivity
         );
         rb.setPower(
-                -GAIN_DRIVE * drive * currentSensitivity
+                GAIN_DRIVE * drive * currentSensitivity
                         + GAIN_STRAFE * strafe * currentSensitivity
                         - GAIN_TURN * turn * currentSensitivity
         );
