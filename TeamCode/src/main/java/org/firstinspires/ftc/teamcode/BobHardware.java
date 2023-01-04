@@ -84,7 +84,7 @@ public class BobHardware {
      *
      * All of the hardware devices are accessed via the hardware map, and initialized.
      */
-    public void init()    {
+    public void initHardware()    {
         lf = robotHardware.get(DcMotor.class, "lf");
         rf = robotHardware.get(DcMotor.class, "rf");
         lb = robotHardware.get(DcMotor.class, "lb");

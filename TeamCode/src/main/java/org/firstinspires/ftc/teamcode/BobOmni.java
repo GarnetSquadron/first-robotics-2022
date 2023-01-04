@@ -16,7 +16,7 @@ public class BobOmni extends LinearOpMode {
     @Override
     public void runOpMode() {
       bobHardware=new BobHardware(hardwareMap);
-        bobHardware.init();
+        bobHardware.initHardware();
         waitForStart();
         while (opModeIsActive()) {
             //drive robot according to sticks * sensitivity. I am very sensitive irl. Please don't bully me. aka yoink mcsploink
