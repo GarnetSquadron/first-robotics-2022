@@ -1,0 +1,1 @@
+Things that aren't quite opmodes, but are still useful. Not auton, not teleop; like a hardware map.

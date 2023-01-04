@@ -7,15 +7,19 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name = "\uD83E\uDD5A")
 public class BobOmni extends LinearOpMode {
-   private BobHardware bobHardware;
-
+    private BobHardware bobHardware;
+    private double defaultSensitivity = 1.0;
+    private double slowSensitivity = 0.5;
+    private double turboSensitivity = 1.5;
+    private double currentSensitivity = 1.0;
     @Override
     public void runOpMode() {
       bobHardware.init();
         waitForStart();
         while (opModeIsActive()) {
-            //yoink mcshloink
-            bobHardware.driveRobot(-gamepad1.left_stick_y,gamepad1.left_stick_x,gamepad1.right_stick_x);
+            //drive robot according to sticks * sensitivity. I am very sensitive irl. Please don't bully me. aka yoink mcsploink
+            //ftc judges please understand this is a inside joke
+            bobHardware.driveRobot(-gamepad1.left_stick_y*currentSensitivity,gamepad1.left_stick_x*currentSensitivity,gamepad1.right_stick_x*currentSensitivity);
 
             //claw controls
             while(gamepad1.a) {
@@ -28,7 +32,15 @@ public class BobOmni extends LinearOpMode {
             while(gamepad1.b) {
                 bobHardware.setClawPosition(0);
             }
-            
+            if(gamepad1.right_bumper){
+                currentSensitivity = turboSensitivity;
+            }
+            else if(gamepad1.left_bumper){
+                currentSensitivity = slowSensitivity;
+            }
+            else {
+                currentSensitivity = defaultSensitivity;
+            }
 //            telemetry.addData("Left Front", lf.getPower());
 //            telemetry.addData("Right Front", rf.getPower());
 //            telemetry.addData("Left Back", lb.getPower());
