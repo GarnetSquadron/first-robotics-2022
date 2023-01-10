@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="bob first auto", group="Robot")
 @Disabled
-//TODO: Delete disabled once we have a semiworking auto.
+
 public class bobfirstauto extends LinearOpMode {
     //define motors and servos. We're doing this outside of BobHardware because I want to use encoders.
     //...i want to use encoders the non easy way.
@@ -23,15 +23,12 @@ public class bobfirstauto extends LinearOpMode {
     private DcMotor rf;
     private DcMotor lb;
     private DcMotor rb;
-    private Servo claw;
-    private HardwareMap robotHardware;
     @Override
     public void runOpMode() {
-        lf = robotHardware.get(DcMotor.class, "lf");
-        rf = robotHardware.get(DcMotor.class, "rf");
-        lb = robotHardware.get(DcMotor.class, "lb");
-        rb = robotHardware.get(DcMotor.class, "rb");
-        claw = robotHardware.get(Servo.class, "claw");
+        lf = hardwareMap.get(DcMotor.class, "lf");
+        rf = hardwareMap.get(DcMotor.class, "rf");
+        lb = hardwareMap.get(DcMotor.class, "lb");
+        rb = hardwareMap.get(DcMotor.class, "rb");
 
         lf.setDirection(DcMotor.Direction.REVERSE);
         rf.setDirection(DcMotor.Direction.REVERSE);
