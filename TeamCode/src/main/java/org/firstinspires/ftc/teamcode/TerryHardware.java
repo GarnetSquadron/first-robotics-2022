@@ -129,22 +129,22 @@ public class TerryHardware {
         // as of 12/16/2022 is 1.0
         lf.setPower(
                 GAIN_DRIVE * drive * currentSensitivity
-                        + GAIN_STRAFE * strafe * currentSensitivity
+                        - GAIN_STRAFE * strafe * currentSensitivity
                         + GAIN_TURN * turn * currentSensitivity
         );
         rf.setPower(
                 GAIN_DRIVE * drive * currentSensitivity
-                        - GAIN_STRAFE * strafe * currentSensitivity
+                        + GAIN_STRAFE * strafe * currentSensitivity
                         - GAIN_TURN * turn * currentSensitivity
         );
         lb.setPower(
                 GAIN_DRIVE * drive * currentSensitivity
-                        - GAIN_STRAFE * strafe * currentSensitivity
+                        + GAIN_STRAFE * strafe * currentSensitivity
                         + GAIN_TURN * turn * currentSensitivity
         );
         rb.setPower(
                 GAIN_DRIVE * drive * currentSensitivity
-                        + GAIN_STRAFE * strafe * currentSensitivity
+                        - GAIN_STRAFE * strafe * currentSensitivity
                         - GAIN_TURN * turn * currentSensitivity
         );
     }

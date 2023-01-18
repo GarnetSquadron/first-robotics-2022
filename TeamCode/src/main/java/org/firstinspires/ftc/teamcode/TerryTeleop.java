@@ -10,7 +10,7 @@ public class TerryTeleop extends LinearOpMode {
     private TerryHardware terryHardware;
     private double defaultSensitivity = 1.0;
     private double slowSensitivity = 0.5;
-    private double turboSensitivity = 1.5;
+    private double turboSensitivity = 2;
     private double currentSensitivity = 1.0;
 
     private DcMotor arm;
@@ -20,30 +20,30 @@ public class TerryTeleop extends LinearOpMode {
         arm = hardwareMap.get(DcMotor.class, "arm");
         terryHardware = new TerryHardware(hardwareMap);
         terryHardware.initHardware();
+//      terryHardware.setClawPosition(1);
         waitForStart();
         while (opModeIsActive()) {
             //drive robot according to sticks * sensitivity. I am very sensitive irl. Please don't bully me. aka yoink mcsploink
             //ftc judges please understand this is a inside joke
             terryHardware.driveRobot(-gamepad1.left_stick_y * currentSensitivity, gamepad1.left_stick_x * currentSensitivity, gamepad1.right_stick_x * currentSensitivity);
 
-            arm.setPower(-gamepad2.right_stick_y * 0.25);
+            arm.setPower(gamepad2.right_stick_y * 0.75);
 
-            while(gamepad2.right_bumper) {
-                arm.setPower(-0.1); //TODO: needs to be slower. Fixed direction, do not change this to positive lol
+            if(gamepad2.right_bumper) {
+                arm.setPower(-0.1);
             }
 
             //claw controls
-            //TODO: this does not work at all for some reason. either claw is not defined, or you need a new servo.
             //probably servo knowing our luck honestly
-            while (gamepad2.a) {
+            if (gamepad2.a) {
                 //yo bass pls i need claw stuff im gonna cry :-;
                 //Make this one the open claw, DIS OPEN CLAW UWU
-                terryHardware.setClawPosition(0.5);
+                terryHardware.setClawPosition(0.7);
             }
             //jesse, jesse we need a setClawPosition. JESSE!
             //Make this on close the claw, just like me closed off to commitment
-            while (gamepad2.b) {
-                terryHardware.setClawPosition(0);
+            if (gamepad2.b) {
+                terryHardware.setClawPosition(0.40);
             }
             if (gamepad1.right_bumper) {
                 currentSensitivity = turboSensitivity;
