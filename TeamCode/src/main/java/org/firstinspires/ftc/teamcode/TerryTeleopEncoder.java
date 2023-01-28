@@ -59,13 +59,13 @@ public class TerryTeleopEncoder extends LinearOpMode {
 
             if (gamepad2.a) {
                 //opens claw
-                terryHardware.setClawPosition(0.7);
+                terryHardware.setClawPosition(0.4);
             }
 
             //jesse, jesse we need a setClawPosition. JESSE!
             //Closes claw, just like me closed off to commitment
             if (gamepad2.b) {
-                terryHardware.setClawPosition(0.40);
+                terryHardware.setClawPosition(0.05);
             }
 
             //arm pos code ahead. checks if in between a amount, then moves according to gamepad 2 right stick.

@@ -27,7 +27,7 @@ public class TerryTeleop extends LinearOpMode {
             //ftc judges please understand this is a inside joke
             terryHardware.driveRobot(-gamepad1.left_stick_y * currentSensitivity, gamepad1.left_stick_x * currentSensitivity, gamepad1.right_stick_x * currentSensitivity);
 
-            arm.setPower(gamepad2.right_stick_y * 0.75);
+            arm.setPower(gamepad2.left_stick_y * 0.75);
 
             if(gamepad2.right_bumper) {
                 arm.setPower(-0.1);
@@ -35,15 +35,19 @@ public class TerryTeleop extends LinearOpMode {
 
             //claw controls
             //probably servo knowing our luck honestly
+            if (gamepad2.back) {
+                //full open - DO NOT USE UNLESS YOU ARE HAVING SOME SERIOUS ISSUES WITH CLAW.
+                terryHardware.setClawPosition(1);
+            }
             if (gamepad2.a) {
                 //yo bass pls i need claw stuff im gonna cry :-;
                 //Make this one the open claw, DIS OPEN CLAW UWU
-                terryHardware.setClawPosition(0.7);
+                terryHardware.setClawPosition(0.4);
             }
             //jesse, jesse we need a setClawPosition. JESSE!
             //Make this on close the claw, just like me closed off to commitment
             if (gamepad2.b) {
-                terryHardware.setClawPosition(0.40);
+                terryHardware.setClawPosition(0.05);
             }
             if (gamepad1.right_bumper) {
                 currentSensitivity = turboSensitivity;
