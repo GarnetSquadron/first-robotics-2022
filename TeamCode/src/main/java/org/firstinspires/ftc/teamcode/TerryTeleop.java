@@ -18,6 +18,7 @@ public class TerryTeleop extends LinearOpMode {
     @Override
     public void runOpMode() {
         arm = hardwareMap.get(DcMotor.class, "arm");
+        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         terryHardware = new TerryHardware(hardwareMap);
         terryHardware.initHardware();
 //      terryHardware.setClawPosition(1);
