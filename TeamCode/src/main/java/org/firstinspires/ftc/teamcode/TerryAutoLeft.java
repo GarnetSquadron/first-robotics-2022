@@ -30,18 +30,18 @@ public class TerryAutoLeft extends LinearOpMode {
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // 2,786.2 * 1/99.5 * 3/1
-//unitTicks taken from https://www.gobilda.com/5203-series-yellow-jacket-planetary-gear-motor-99-5-1-ratio-24mm-length-8mm-rex-shaft-60-rpm-3-3-5v-encoder/
+        //unitTicks taken from https://www.gobilda.com/5203-series-yellow-jacket-planetary-gear-motor-99-5-1-ratio-24mm-length-8mm-rex-shaft-60-rpm-3-3-5v-encoder/
         final double unitTicks = 2786.2;
-//gearRatios is 3/1
+        //gearRatios is 3/1
         final double gearRatios = -3;
-//this makes the full equation 2,786.2 (unitTicks) * 1/99.5 * 3/1 (gearRatios) and defines it to armRotation
+        //this makes the full equation 2,786.2 (unitTicks) * 1/99.5 * 3/1 (gearRatios) and defines it to armRotation
         final double armRotation = (unitTicks * gearRatios);
-//1 is placeholder for now
+        //1 is placeholder for now
         final double angle = 115;
 
-//taking angle and making it into a percent
+        //taking angle and making it into a percent
         final double percentAngle = angle / 360;
-//will define max rotation
+        //will define max rotation
         final double allowedRotation = (percentAngle * armRotation);
 
         //Wheel encoders
@@ -73,7 +73,7 @@ public class TerryAutoLeft extends LinearOpMode {
 //
 //        };
 
-//-2290 is the medium pos
+        //-2290 is the medium pos
 
 //Preparing the motors to have the correct mode for encoders.
         lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -122,4 +122,4 @@ public class TerryAutoLeft extends LinearOpMode {
 
     ;
 
-}
+
