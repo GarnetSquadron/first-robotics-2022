@@ -4,7 +4,11 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.external.JavaUtil;
 
 @Autonomous(name = "TO THE LEFT TO THE LEFT EVERYTHING YOU OWN TO THE BOX TO THE LEFT")
 public class TerryAutoLeft extends LinearOpMode {
@@ -14,6 +18,32 @@ public class TerryAutoLeft extends LinearOpMode {
     private DcMotor lb;
     private DcMotor rb;
     private DcMotor arm;
+    private Servo claw;
+    //Int to save color for later use after scanning it.
+    public int SavedColor;
+    ColorSensor colorSensor;
+    //Stop and reset encoder. Used after most movements - we want to minimize the amount of numbers we have to remember.
+    public void resetEncoders() {
+        lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+    //Sets mode to run to position. Useful if we ever swap.
+    public void runToPosition()  {
+        lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+    //Must be a integer. Cast argument to int (literally just do (int) (your broke variable here) )
+    public void setTargetPos0() {
+        lf.setTargetPosition(0);
+        rf.setTargetPosition(0);
+        lb.setTargetPosition(0);
+        rb.setTargetPosition(0);
+    }
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -22,6 +52,8 @@ public class TerryAutoLeft extends LinearOpMode {
         lb = hardwareMap.get(DcMotor.class, "lb");
         rb = hardwareMap.get(DcMotor.class, "rb");
         arm = hardwareMap.get(DcMotor.class, "arm");
+        claw = hardwareMap.get(Servo.class, "claw");
+        colorSensor = hardwareMap.colorSensor.get("color");
 
 
         waitForStart();
@@ -45,7 +77,7 @@ public class TerryAutoLeft extends LinearOpMode {
         final double allowedRotation = (percentAngle * armRotation);
 
         //Wheel encoders
-        //This is the gobuilda encoder value that is used
+        //This is the gobilda encoder value that is used
         final double wheelUnitTicks = 537.7;
 
         //this is the gear ratio (this is to make it looks consistent with the arm encoders)
@@ -54,7 +86,7 @@ public class TerryAutoLeft extends LinearOpMode {
         //multiplies wheelUnitTicks by wheelGearRatios
         final double wheelRotation = (wheelUnitTicks * wheelGearRatios);
 
-        //This is the circumference value for the gobuilda wheels we use
+        //This is the circumference value for the gobilda wheels we use
         final double wheelCircumference = 12.5663706144;
 
         //this is the wheelUnitTicks divided by wheelCircumference to get the amount of ticks to move one inch, this
@@ -75,21 +107,26 @@ public class TerryAutoLeft extends LinearOpMode {
 
         //-2290 is the medium pos
 
-//Preparing the motors to have the correct mode for encoders.
-        lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //Preparing the motors to have the correct mode for encoders.
+        //This calls the method to set target position to 0 before continuing
+        setTargetPos0();
+        //Calls method
+        resetEncoders();
+        runToPosition();
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        claw.setPosition(0.05);
+        sleep(300);
+        arm.setTargetPosition(-240);
+        //-240 is the cone for detection
+        sleep(500);
 
-        lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        lb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
         //Setting target position to go 12 inches and also convert it to a integer. setTargetPosition requires it to be a integer.
-        lf.setTargetPosition((int) (12 * wheelOneInch));
-        rf.setTargetPosition((int) (12 * wheelOneInch));
-        lb.setTargetPosition((int) (12 * wheelOneInch));
-        rb.setTargetPosition((int) (12 * wheelOneInch));
+        lf.setTargetPosition((int) (-15 * wheelOneInch));
+        rf.setTargetPosition((int) (15 * wheelOneInch));
+        lb.setTargetPosition((int) (-15 * wheelOneInch));
+        rb.setTargetPosition((int) (15 * wheelOneInch));
         //Overly cautious wait, could be deleted. Just time to get out of the way while testing.
         sleep(1000);
         //Starts moving the bot - this only goes up to the target position due to the mode.
@@ -97,6 +134,12 @@ public class TerryAutoLeft extends LinearOpMode {
         rf.setPower(0.25);
         lb.setPower(0.25);
         rb.setPower(0.25);
+        // arm.setPower(0.25);
+
+
+
+
+
         while (opModeIsActive()) {
             //low is -1325
             //537.7 ppr encoder resolution
@@ -116,10 +159,23 @@ public class TerryAutoLeft extends LinearOpMode {
             telemetry.addData("Target Position", arm.getTargetPosition());
             telemetry.addData("Allowed Rotation", allowedRotation);
             telemetry.addData("One Inch Value", wheelOneInch);
+            telemetry.addData("lfb target pos", lf.getTargetPosition());
+            telemetry.addData("rf target pos", rf.getTargetPosition());
+            telemetry.addData("lb target pos", lb.getTargetPosition());
+            telemetry.addData("rb target pos", rb.getTargetPosition());
+            telemetry.addData("Red",colorSensor.red());
+            telemetry.addData("Green",colorSensor.green());
+            telemetry.addData("Blue",colorSensor.blue());
+            telemetry.addData("Alpha",colorSensor.alpha());
+            telemetry.addData("ARGB", colorSensor.argb());
+            telemetry.addData("hue ig???", JavaUtil.rgbToHue(colorSensor.red(),colorSensor.green(),colorSensor.blue()));
+            telemetry.update();
             telemetry.update();
         }
     }
 
     ;
+
+}
 
 
