@@ -19,8 +19,6 @@ public class TerryAutoLeft extends LinearOpMode {
     private DcMotor rb;
     private DcMotor arm;
     private Servo claw;
-    //Int to save color for later use after scanning it.
-    public int SavedColor;
     ColorSensor colorSensor;
     //Stop and reset encoder. Used after most movements - we want to minimize the amount of numbers we have to remember.
     public void resetEncoders() {
@@ -60,7 +58,7 @@ public class TerryAutoLeft extends LinearOpMode {
 
         arm.setTargetPosition(0);
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         // 2,786.2 * 1/99.5 * 3/1
         //unitTicks taken from https://www.gobilda.com/5203-series-yellow-jacket-planetary-gear-motor-99-5-1-ratio-24mm-length-8mm-rex-shaft-60-rpm-3-3-5v-encoder/
         final double unitTicks = 2786.2;
@@ -112,11 +110,13 @@ public class TerryAutoLeft extends LinearOpMode {
         setTargetPos0();
         //Calls method
         resetEncoders();
-        runToPosition();
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        runToPosition();
         claw.setPosition(0.05);
-        sleep(300);
-        arm.setTargetPosition(-240);
+        sleep(600);
+        arm.setTargetPosition(-300);
+        //sleep(500);
+        arm.setPower(.75);
         //-240 is the cone for detection
         sleep(500);
 
@@ -134,8 +134,101 @@ public class TerryAutoLeft extends LinearOpMode {
         rf.setPower(0.25);
         lb.setPower(0.25);
         rb.setPower(0.25);
-        // arm.setPower(0.25);
+        sleep(4000);
+        int SavedColor = 0;
+        SavedColor = ((int)(JavaUtil.rgbToHue(colorSensor.red(),colorSensor.green(),colorSensor.blue())));
 
+
+        //setTargetPos0();
+        //turns off the motors, resets them. keeping big numbers in head is hard
+        lf.setPower(0);
+        rf.setPower(0);
+        lb.setPower(0);
+        rb.setPower(0);
+        arm.setPower(0);
+
+        resetEncoders();
+        runToPosition();
+        //turns right, to score.
+        lf.setTargetPosition((int) (-3 * wheelOneInch));
+        rf.setTargetPosition((int) (-3 * wheelOneInch));
+        lb.setTargetPosition((int) (-3 * wheelOneInch));
+        rb.setTargetPosition((int) (-3 * wheelOneInch));
+        arm.setTargetPosition(-2193);
+
+        lf.setPower(.25);
+        rf.setPower(.25);
+        lb.setPower(.25);
+        rb.setPower(.25);
+        arm.setPower(.4);
+        sleep(500);
+
+        //setTargetPos0();
+        // resets to keep number low
+
+        lf.setPower(0);
+        rf.setPower(0);
+        lb.setPower(0);
+        rb.setPower(0);
+        arm.setPower(0);
+
+        resetEncoders();
+        runToPosition();
+        //drives forward to scoring position
+        lf.setTargetPosition((int) (-18 * wheelOneInch));
+        rf.setTargetPosition((int) (18 * wheelOneInch));
+        lb.setTargetPosition((int) (-18 * wheelOneInch));
+        rb.setTargetPosition((int) (168 * wheelOneInch));
+        arm.setTargetPosition(-2193);
+
+        lf.setPower(.25);
+        rf.setPower(.25);
+        lb.setPower(.25);
+        rb.setPower(.25);
+        arm.setPower(.4);
+        sleep(3000);
+        //score a cone on a medium!!!
+        claw.setPosition(0.4);
+        sleep(200);
+        //resets, large numbers are hard to remember
+        resetEncoders();
+        setTargetPos0();
+        runToPosition();
+
+
+/*
+work in progress, copied from our other work.
+
+
+        if(SavedColor<30){
+            terryHardware.driveRobot(-0.5,0,0);
+            sleep(400);
+            terryHardware.driveRobot(0,0,0);
+        }
+        //Checks for color green, if so, it strafes right
+        else if(SavedColor<160 && SavedColor>120){
+            terryHardware.driveRobot(-0.5,0,0);
+            sleep(400);
+            terryHardware.driveRobot(0,-0.5,0);
+            //todo: ditto of below comment, find out the milliseconds it must sleep.
+            sleep(1550);
+            terryHardware.driveRobot(0,0,0);
+        }
+        //checks for the hue yellow, if detected, it will strafe left
+        else if(SavedColor<100 && SavedColor>40){
+            terryHardware.driveRobot(-0.5,0,0);
+            sleep(400);
+            terryHardware.driveRobot(0, 0.5,0);
+            //todo: find out how many milliseconds it must drive sideways. also find out how much the green must drive sideways.
+            sleep(1550);
+            terryHardware.driveRobot(0,0,0);
+        }
+        else{
+            terryHardware.driveRobot(-0.5,0,0);
+            sleep(400);
+            terryHardware.driveRobot(0,0,0);
+        }
+*/
 
 
 
@@ -159,7 +252,7 @@ public class TerryAutoLeft extends LinearOpMode {
             telemetry.addData("Target Position", arm.getTargetPosition());
             telemetry.addData("Allowed Rotation", allowedRotation);
             telemetry.addData("One Inch Value", wheelOneInch);
-            telemetry.addData("lfb target pos", lf.getTargetPosition());
+            telemetry.addData("lf target pos", lf.getTargetPosition());
             telemetry.addData("rf target pos", rf.getTargetPosition());
             telemetry.addData("lb target pos", lb.getTargetPosition());
             telemetry.addData("rb target pos", rb.getTargetPosition());
@@ -169,7 +262,6 @@ public class TerryAutoLeft extends LinearOpMode {
             telemetry.addData("Alpha",colorSensor.alpha());
             telemetry.addData("ARGB", colorSensor.argb());
             telemetry.addData("hue ig???", JavaUtil.rgbToHue(colorSensor.red(),colorSensor.green(),colorSensor.blue()));
-            telemetry.update();
             telemetry.update();
         }
     }
