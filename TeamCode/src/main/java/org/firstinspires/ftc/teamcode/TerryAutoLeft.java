@@ -122,7 +122,7 @@ public class TerryAutoLeft extends LinearOpMode {
 
 
 
-        //Setting target position to go 12 inches and also convert it to a integer. setTargetPosition requires it to be a integer.
+        //Setting target position to go 15 inches and also convert it to a integer. setTargetPosition requires it to be a integer.
         lf.setTargetPosition((int) (-15 * wheelOneInch));
         rf.setTargetPosition((int) (15 * wheelOneInch));
         lb.setTargetPosition((int) (-15 * wheelOneInch));
@@ -137,8 +137,29 @@ public class TerryAutoLeft extends LinearOpMode {
         sleep(4000);
         int SavedColor = 0;
         SavedColor = ((int)(JavaUtil.rgbToHue(colorSensor.red(),colorSensor.green(),colorSensor.blue())));
+        lf.setPower(0);
+        rf.setPower(0);
+        lb.setPower(0);
+        rb.setPower(0);
+        resetEncoders();
+        runToPosition();
+        arm.setTargetPosition(0);
+        sleep(200);
+        lf.setTargetPosition((int) (-16 * wheelOneInch));
+        rf.setTargetPosition((int) (16 * wheelOneInch));
+        lb.setTargetPosition((int) (-16 * wheelOneInch));
+        rb.setTargetPosition((int) (16 * wheelOneInch));
 
-
+        lf.setPower(0.25);
+        rf.setPower(0.25);
+        lb.setPower(0.25);
+        rb.setPower(0.25);
+        sleep(2000);
+        lf.setTargetPosition((int) (0 * wheelOneInch));
+        rf.setTargetPosition((int) (0 * wheelOneInch));
+        lb.setTargetPosition((int) (0 * wheelOneInch));
+        rb.setTargetPosition((int) (0 * wheelOneInch));
+        sleep(2000);
         //setTargetPos0();
         //turns off the motors, resets them. keeping big numbers in head is hard
         lf.setPower(0);
@@ -150,17 +171,17 @@ public class TerryAutoLeft extends LinearOpMode {
         resetEncoders();
         runToPosition();
         //turns right, to score.
-        lf.setTargetPosition((int) (-3 * wheelOneInch));
-        rf.setTargetPosition((int) (-3 * wheelOneInch));
-        lb.setTargetPosition((int) (-3 * wheelOneInch));
-        rb.setTargetPosition((int) (-3 * wheelOneInch));
+        lf.setTargetPosition((int) (-5 * wheelOneInch));
+        rf.setTargetPosition((int) (-4 * wheelOneInch));
+        lb.setTargetPosition((int) (-5 * wheelOneInch));
+        rb.setTargetPosition((int) (-4 * wheelOneInch));
         arm.setTargetPosition(-2193);
 
         lf.setPower(.25);
         rf.setPower(.25);
         lb.setPower(.25);
         rb.setPower(.25);
-        arm.setPower(.4);
+        arm.setPower(1);
         sleep(500);
 
         //setTargetPos0();
@@ -175,25 +196,113 @@ public class TerryAutoLeft extends LinearOpMode {
         resetEncoders();
         runToPosition();
         //drives forward to scoring position
-        lf.setTargetPosition((int) (-18 * wheelOneInch));
-        rf.setTargetPosition((int) (18 * wheelOneInch));
-        lb.setTargetPosition((int) (-18 * wheelOneInch));
-        rb.setTargetPosition((int) (168 * wheelOneInch));
-        arm.setTargetPosition(-2193);
+        lf.setTargetPosition((int) (-20 * wheelOneInch));
+        rf.setTargetPosition((int) (20 * wheelOneInch));
+        lb.setTargetPosition((int) (-20 * wheelOneInch));
+        rb.setTargetPosition((int) (20 * wheelOneInch));
+        arm.setTargetPosition(-2400);
 
         lf.setPower(.25);
         rf.setPower(.25);
         lb.setPower(.25);
         rb.setPower(.25);
-        arm.setPower(.4);
+        arm.setPower(.8);
         sleep(3000);
         //score a cone on a medium!!!
         claw.setPosition(0.4);
-        sleep(200);
+        sleep(500);
         //resets, large numbers are hard to remember
         resetEncoders();
         setTargetPos0();
         runToPosition();
+
+        lf.setTargetPosition((int) (9 * wheelOneInch));
+        rf.setTargetPosition((int) (-9 * wheelOneInch));
+        lb.setTargetPosition((int) (9 * wheelOneInch));
+        rb.setTargetPosition((int) (-9 * wheelOneInch));
+        //Moves the bot back before lowering arm so we don't accidentally flip
+        //we got very close one time! worlds first garnet squadron wheelie
+        sleep(300);
+        arm.setTargetPosition(0);
+
+        lf.setPower(.25);
+        rf.setPower(.25);
+        lb.setPower(.25);
+        rb.setPower(.25);
+        arm.setPower(.8);
+        sleep(3000);
+
+        claw.setPosition(0.4);
+        sleep(200);
+
+        resetEncoders();
+        setTargetPos0();
+        runToPosition();
+
+        //Turns the bot right to go into right zone
+        lf.setTargetPosition((int) (-8 * wheelOneInch));
+        rf.setTargetPosition((int) (-8 * wheelOneInch));
+        lb.setTargetPosition((int) (-8 * wheelOneInch));
+        rb.setTargetPosition((int) (-8 * wheelOneInch));
+        arm.setTargetPosition(0);
+
+        lf.setPower(.25);
+        rf.setPower(.25);
+        lb.setPower(.25);
+        rb.setPower(.25);
+        arm.setPower(.8);
+        sleep(1000);
+
+        sleep(200);
+
+        resetEncoders();
+        setTargetPos0();
+        runToPosition();
+
+        //moves bot forward more into right zone
+        lf.setTargetPosition((int) (-16 * wheelOneInch));
+        rf.setTargetPosition((int) (16 * wheelOneInch));
+        lb.setTargetPosition((int) (-16 * wheelOneInch));
+        rb.setTargetPosition((int) (16 * wheelOneInch));
+        arm.setTargetPosition(0);
+
+        lf.setPower(.25);
+        rf.setPower(.25);
+        lb.setPower(.25);
+        rb.setPower(.25);
+        arm.setPower(.8);
+        sleep(1000);
+
+        claw.setPosition(0.4);
+        sleep(200);
+
+        resetEncoders();
+        setTargetPos0();
+        runToPosition();
+        //lines up the bot parallel to drivers
+        //todo: correct line up, it must turn more likely
+        lf.setTargetPosition((int) (10 * wheelOneInch));
+        rf.setTargetPosition((int) (10 * wheelOneInch));
+        lb.setTargetPosition((int) (10 * wheelOneInch));
+        rb.setTargetPosition((int) (10 * wheelOneInch));
+        arm.setTargetPosition(0);
+
+        lf.setPower(.25);
+        rf.setPower(.25);
+        lb.setPower(.25);
+        rb.setPower(.25);
+        arm.setPower(.8);
+        sleep(1000);
+
+        claw.setPosition(0.4);
+        sleep(200);
+
+        resetEncoders();
+        setTargetPos0();
+        runToPosition();
+
+
+
 
 
 /*
@@ -262,6 +371,7 @@ work in progress, copied from our other work.
             telemetry.addData("Alpha",colorSensor.alpha());
             telemetry.addData("ARGB", colorSensor.argb());
             telemetry.addData("hue ig???", JavaUtil.rgbToHue(colorSensor.red(),colorSensor.green(),colorSensor.blue()));
+            telemetry.addData("stored color", SavedColor);
             telemetry.update();
         }
     }
