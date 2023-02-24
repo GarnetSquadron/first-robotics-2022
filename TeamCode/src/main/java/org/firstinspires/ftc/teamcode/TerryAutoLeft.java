@@ -196,10 +196,10 @@ public class TerryAutoLeft extends LinearOpMode {
         resetEncoders();
         runToPosition();
         //drives forward to scoring position
-        lf.setTargetPosition((int) (-20 * wheelOneInch));
-        rf.setTargetPosition((int) (20 * wheelOneInch));
-        lb.setTargetPosition((int) (-20 * wheelOneInch));
-        rb.setTargetPosition((int) (20 * wheelOneInch));
+        lf.setTargetPosition((int) (-19 * wheelOneInch));
+        rf.setTargetPosition((int) (19 * wheelOneInch));
+        lb.setTargetPosition((int) (-19 * wheelOneInch));
+        rb.setTargetPosition((int) (19 * wheelOneInch));
         arm.setTargetPosition(-2400);
 
         lf.setPower(.25);
@@ -216,13 +216,13 @@ public class TerryAutoLeft extends LinearOpMode {
         setTargetPos0();
         runToPosition();
 
-        lf.setTargetPosition((int) (9 * wheelOneInch));
-        rf.setTargetPosition((int) (-9 * wheelOneInch));
-        lb.setTargetPosition((int) (9 * wheelOneInch));
-        rb.setTargetPosition((int) (-9 * wheelOneInch));
+        lf.setTargetPosition((int) (8 * wheelOneInch));
+        rf.setTargetPosition((int) (-8 * wheelOneInch));
+        lb.setTargetPosition((int) (8 * wheelOneInch));
+        rb.setTargetPosition((int) (-8 * wheelOneInch));
         //Moves the bot back before lowering arm so we don't accidentally flip
-        //we got very close one time! worlds first garnet squadron wheelie
-        sleep(300);
+        //we got very close one time! worlds first garnet squadron wheelie-No longer does a wheelie!
+        sleep(600);
         arm.setTargetPosition(0);
 
         lf.setPower(.25);
@@ -239,109 +239,369 @@ public class TerryAutoLeft extends LinearOpMode {
         setTargetPos0();
         runToPosition();
 
-        //Turns the bot right to go into right zone
-        lf.setTargetPosition((int) (-8 * wheelOneInch));
-        rf.setTargetPosition((int) (-8 * wheelOneInch));
-        lb.setTargetPosition((int) (-8 * wheelOneInch));
-        rb.setTargetPosition((int) (-8 * wheelOneInch));
-        arm.setTargetPosition(0);
-
-        lf.setPower(.25);
-        rf.setPower(.25);
-        lb.setPower(.25);
-        rb.setPower(.25);
-        arm.setPower(.8);
-        sleep(1000);
-
-        sleep(200);
-
-        resetEncoders();
-        setTargetPos0();
-        runToPosition();
-
-        //moves bot forward more into right zone
-        lf.setTargetPosition((int) (-16 * wheelOneInch));
-        rf.setTargetPosition((int) (16 * wheelOneInch));
-        lb.setTargetPosition((int) (-16 * wheelOneInch));
-        rb.setTargetPosition((int) (16 * wheelOneInch));
-        arm.setTargetPosition(0);
-
-        lf.setPower(.25);
-        rf.setPower(.25);
-        lb.setPower(.25);
-        rb.setPower(.25);
-        arm.setPower(.8);
-        sleep(1000);
-
-        claw.setPosition(0.4);
-        sleep(200);
-
-        resetEncoders();
-        setTargetPos0();
-        runToPosition();
-        //lines up the bot parallel to drivers
-        //todo: correct line up, it must turn more likely
-        lf.setTargetPosition((int) (10 * wheelOneInch));
-        rf.setTargetPosition((int) (10 * wheelOneInch));
-        lb.setTargetPosition((int) (10 * wheelOneInch));
-        rb.setTargetPosition((int) (10 * wheelOneInch));
-        arm.setTargetPosition(0);
-
-        lf.setPower(.25);
-        rf.setPower(.25);
-        lb.setPower(.25);
-        rb.setPower(.25);
-        arm.setPower(.8);
-        sleep(1000);
-
-        claw.setPosition(0.4);
-        sleep(200);
-
-        resetEncoders();
-        setTargetPos0();
-        runToPosition();
-
+//        //Turns the bot right to go into right zone
+//        lf.setTargetPosition((int) (-8 * wheelOneInch));
+//        rf.setTargetPosition((int) (-8 * wheelOneInch));
+//        lb.setTargetPosition((int) (-8 * wheelOneInch));
+//        rb.setTargetPosition((int) (-8 * wheelOneInch));
+//        arm.setTargetPosition(0);
+//
+//        lf.setPower(.25);
+//        rf.setPower(.25);
+//        lb.setPower(.25);
+//        rb.setPower(.25);
+//        arm.setPower(.8);
+//        sleep(1000);
+//
+//        sleep(200);
+//
+//        resetEncoders();
+//        setTargetPos0();
+//        runToPosition();
+//
+//        //moves bot forward more into right zone
+//        lf.setTargetPosition((int) (-23 * wheelOneInch));
+//        rf.setTargetPosition((int) (23 * wheelOneInch));
+//        lb.setTargetPosition((int) (-23 * wheelOneInch));
+//        rb.setTargetPosition((int) (23 * wheelOneInch));
+//        arm.setTargetPosition(0);
+//
+//        lf.setPower(.25);
+//        rf.setPower(.25);
+//        lb.setPower(.25);
+//        rb.setPower(.25);
+//        arm.setPower(.8);
+//        sleep(3000);
+//
+//        claw.setPosition(0.4);
+//        sleep(200);
+//
+//        resetEncoders();
+//        setTargetPos0();
+//        runToPosition();
+//        //lines up the bot parallel to drivers
+//        lf.setTargetPosition((int) (10 * wheelOneInch));
+//        rf.setTargetPosition((int) (10 * wheelOneInch));
+//        lb.setTargetPosition((int) (10 * wheelOneInch));
+//        rb.setTargetPosition((int) (10 * wheelOneInch));
+//        arm.setTargetPosition(0);
+//
+//        lf.setPower(.25);
+//        rf.setPower(.25);
+//        lb.setPower(.25);
+//        rb.setPower(.25);
+//        arm.setPower(.8);
+//        sleep(1000);
+//
+//        claw.setPosition(0.4);
+//        sleep(200);
+//
+//        resetEncoders();
+//        setTargetPos0();
+//        runToPosition();
 
 
 
 
-/*
-work in progress, copied from our other work.
 
 
+
+// this is detecting the saved color of red and giving the bot commands to move to the middle
         if(SavedColor<30){
-            terryHardware.driveRobot(-0.5,0,0);
-            sleep(400);
-            terryHardware.driveRobot(0,0,0);
+            //turn left towards middle
+            lf.setTargetPosition((int) (9 * wheelOneInch));
+            rf.setTargetPosition((int) (8 * wheelOneInch));
+            lb.setTargetPosition((int) (9 * wheelOneInch));
+            rb.setTargetPosition((int) (8 * wheelOneInch));
+            arm.setTargetPosition(0);
+
+            lf.setPower(.25);
+            rf.setPower(.25);
+            lb.setPower(.25);
+            rb.setPower(.25);
+            arm.setPower(1);
+            sleep(1000);
+
+
+            lf.setPower(0);
+            rf.setPower(0);
+            lb.setPower(0);
+            rb.setPower(0);
+            arm.setPower(0);
+
+            resetEncoders();
+            runToPosition();
+
+            //go forward towards middle
+            lf.setTargetPosition((int) (-8 * wheelOneInch));
+            rf.setTargetPosition((int) (8 * wheelOneInch));
+            lb.setTargetPosition((int) (-8 * wheelOneInch));
+            rb.setTargetPosition((int) (8 * wheelOneInch));
+            arm.setTargetPosition(0);
+
+            lf.setPower(.25);
+            rf.setPower(.25);
+            lb.setPower(.25);
+            rb.setPower(.25);
+            arm.setPower(1);
+            sleep(1500);
+
+
+            lf.setPower(0);
+            rf.setPower(0);
+            lb.setPower(0);
+            rb.setPower(0);
+            arm.setPower(0);
+
+            resetEncoders();
+            runToPosition();
+
+            //angles it back straight
+            lf.setTargetPosition((int) (-4 * wheelOneInch));
+            rf.setTargetPosition((int) (-4 * wheelOneInch));
+            lb.setTargetPosition((int) (-4 * wheelOneInch));
+            rb.setTargetPosition((int) (-4 * wheelOneInch));
+            arm.setTargetPosition(0);
+
+            lf.setPower(.25);
+            rf.setPower(.25);
+            lb.setPower(.25);
+            rb.setPower(.25);
+            arm.setPower(1);
+            sleep(1000);
+
+
+            lf.setPower(0);
+            rf.setPower(0);
+            lb.setPower(0);
+            rb.setPower(0);
+            arm.setPower(0);
+
+            resetEncoders();
+            runToPosition();
+
         }
-        //Checks for color green, if so, it strafes right
+        //Finds value of SavedColor, if within set hue amount, it goes to the third parking station
         else if(SavedColor<160 && SavedColor>120){
-            terryHardware.driveRobot(-0.5,0,0);
-            sleep(400);
-            terryHardware.driveRobot(0,-0.5,0);
-            //todo: ditto of below comment, find out the milliseconds it must sleep.
-            sleep(1550);
-            terryHardware.driveRobot(0,0,0);
+            //Turns the bot right to go into right zone
+            lf.setTargetPosition((int) (-8 * wheelOneInch));
+            rf.setTargetPosition((int) (-8 * wheelOneInch));
+            lb.setTargetPosition((int) (-8 * wheelOneInch));
+            rb.setTargetPosition((int) (-8 * wheelOneInch));
+            arm.setTargetPosition(0);
+
+            lf.setPower(.25);
+            rf.setPower(.25);
+            lb.setPower(.25);
+            rb.setPower(.25);
+            arm.setPower(.8);
+            sleep(1000);
+
+            sleep(200);
+
+            resetEncoders();
+            setTargetPos0();
+            runToPosition();
+
+            //moves bot forward more into right zone
+            lf.setTargetPosition((int) (-23 * wheelOneInch));
+            rf.setTargetPosition((int) (23 * wheelOneInch));
+            lb.setTargetPosition((int) (-23 * wheelOneInch));
+            rb.setTargetPosition((int) (23 * wheelOneInch));
+            arm.setTargetPosition(0);
+
+            lf.setPower(.25);
+            rf.setPower(.25);
+            lb.setPower(.25);
+            rb.setPower(.25);
+            arm.setPower(.8);
+            sleep(3000);
+
+            claw.setPosition(0.4);
+            sleep(200);
+
+            resetEncoders();
+            setTargetPos0();
+            runToPosition();
+            //lines up the bot parallel to drivers
+            lf.setTargetPosition((int) (10 * wheelOneInch));
+            rf.setTargetPosition((int) (10 * wheelOneInch));
+            lb.setTargetPosition((int) (10 * wheelOneInch));
+            rb.setTargetPosition((int) (10 * wheelOneInch));
+            arm.setTargetPosition(0);
+
+            lf.setPower(.25);
+            rf.setPower(.25);
+            lb.setPower(.25);
+            rb.setPower(.25);
+            arm.setPower(.8);
+            sleep(1000);
+
+            claw.setPosition(0.4);
+            sleep(200);
+
+            resetEncoders();
+            setTargetPos0();
+            runToPosition();
         }
-        //checks for the hue yellow, if detected, it will strafe left
+
+        //looks for SavedColor for yellow, and checks if its in its range
         else if(SavedColor<100 && SavedColor>40){
-            terryHardware.driveRobot(-0.5,0,0);
-            sleep(400);
-            terryHardware.driveRobot(0, 0.5,0);
-            //todo: find out how many milliseconds it must drive sideways. also find out how much the green must drive sideways.
-            sleep(1550);
-            terryHardware.driveRobot(0,0,0);
+            //turns it left to face towards first parking station
+            lf.setTargetPosition((int) (20 * wheelOneInch));
+            rf.setTargetPosition((int) (20 * wheelOneInch));
+            lb.setTargetPosition((int) (20 * wheelOneInch));
+            rb.setTargetPosition((int) (20 * wheelOneInch));
+            arm.setTargetPosition(0);
+
+            lf.setPower(.25);
+            rf.setPower(.25);
+            lb.setPower(.25);
+            rb.setPower(.25);
+            arm.setPower(1);
+            sleep(4000);
+
+
+            lf.setPower(0);
+            rf.setPower(0);
+            lb.setPower(0);
+            rb.setPower(0);
+            arm.setPower(0);
+
+            resetEncoders();
+            runToPosition();
+
+            //drives forward into station
+            lf.setTargetPosition((int) (-30 * wheelOneInch));
+            rf.setTargetPosition((int) (30 * wheelOneInch));
+            lb.setTargetPosition((int) (-30 * wheelOneInch));
+            rb.setTargetPosition((int) (30 * wheelOneInch));
+            arm.setTargetPosition(0);
+
+            lf.setPower(.25);
+            rf.setPower(.25);
+            lb.setPower(.25);
+            rb.setPower(.25);
+            arm.setPower(1);
+            sleep(4000);
+
+
+            lf.setPower(0);
+            rf.setPower(0);
+            lb.setPower(0);
+            rb.setPower(0);
+            arm.setPower(0);
+
+            resetEncoders();
+            runToPosition();
+
+            //angles for it to be straight in
+            lf.setTargetPosition((int) (-12 * wheelOneInch));
+            rf.setTargetPosition((int) (-12 * wheelOneInch));
+            lb.setTargetPosition((int) (-12 * wheelOneInch));
+            rb.setTargetPosition((int) (-12 * wheelOneInch));
+            arm.setTargetPosition(0);
+
+            lf.setPower(.25);
+            rf.setPower(.25);
+            lb.setPower(.25);
+            rb.setPower(.25);
+            arm.setPower(1);
+            sleep(1500);
+
+
+            lf.setPower(0);
+            rf.setPower(0);
+            lb.setPower(0);
+            rb.setPower(0);
+            arm.setPower(0);
+
+            resetEncoders();
+            runToPosition();
+
         }
+        //makes an else if no other value detected, makes a failsafe so it goes to a parking station anyways
         else{
-            terryHardware.driveRobot(-0.5,0,0);
-            sleep(400);
-            terryHardware.driveRobot(0,0,0);
+            lf.setTargetPosition((int) (9 * wheelOneInch));
+            rf.setTargetPosition((int) (8 * wheelOneInch));
+            lb.setTargetPosition((int) (9 * wheelOneInch));
+            rb.setTargetPosition((int) (8 * wheelOneInch));
+            arm.setTargetPosition(0);
+
+            lf.setPower(.25);
+            rf.setPower(.25);
+            lb.setPower(.25);
+            rb.setPower(.25);
+            arm.setPower(1);
+            sleep(1000);
+
+            // resets to keep number low
+
+            lf.setPower(0);
+            rf.setPower(0);
+            lb.setPower(0);
+            rb.setPower(0);
+            arm.setPower(0);
+
+            resetEncoders();
+            runToPosition();
+
+            lf.setTargetPosition((int) (-8 * wheelOneInch));
+            rf.setTargetPosition((int) (8 * wheelOneInch));
+            lb.setTargetPosition((int) (-8 * wheelOneInch));
+            rb.setTargetPosition((int) (8 * wheelOneInch));
+            arm.setTargetPosition(0);
+
+            lf.setPower(.25);
+            rf.setPower(.25);
+            lb.setPower(.25);
+            rb.setPower(.25);
+            arm.setPower(1);
+            sleep(1500);
+
+            //setTargetPos0();
+            // resets to keep number low
+
+            lf.setPower(0);
+            rf.setPower(0);
+            lb.setPower(0);
+            rb.setPower(0);
+            arm.setPower(0);
+
+            resetEncoders();
+            runToPosition();
+
+            lf.setTargetPosition((int) (-4 * wheelOneInch));
+            rf.setTargetPosition((int) (-4 * wheelOneInch));
+            lb.setTargetPosition((int) (-4 * wheelOneInch));
+            rb.setTargetPosition((int) (-4 * wheelOneInch));
+            arm.setTargetPosition(0);
+
+            lf.setPower(.25);
+            rf.setPower(.25);
+            lb.setPower(.25);
+            rb.setPower(.25);
+            arm.setPower(1);
+            sleep(1000);
+
+            // resets to keep number low
+
+            lf.setPower(0);
+            rf.setPower(0);
+            lb.setPower(0);
+            rb.setPower(0);
+            arm.setPower(0);
+
+            resetEncoders();
+            runToPosition();
+
         }
-*/
 
 
 
 
+
+        //telemetry for debug
         while (opModeIsActive()) {
             //low is -1325
             //537.7 ppr encoder resolution
