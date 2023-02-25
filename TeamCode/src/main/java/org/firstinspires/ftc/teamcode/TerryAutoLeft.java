@@ -333,10 +333,10 @@ public class TerryAutoLeft extends LinearOpMode {
             runToPosition();
 
             //go forward towards middle
-            lf.setTargetPosition((int) (-8 * wheelOneInch));
-            rf.setTargetPosition((int) (8 * wheelOneInch));
-            lb.setTargetPosition((int) (-8 * wheelOneInch));
-            rb.setTargetPosition((int) (8 * wheelOneInch));
+            lf.setTargetPosition((int) (-10 * wheelOneInch));
+            rf.setTargetPosition((int) (10 * wheelOneInch));
+            lb.setTargetPosition((int) (-10 * wheelOneInch));
+            rb.setTargetPosition((int) (10 * wheelOneInch));
             arm.setTargetPosition(0);
 
             lf.setPower(.25);
