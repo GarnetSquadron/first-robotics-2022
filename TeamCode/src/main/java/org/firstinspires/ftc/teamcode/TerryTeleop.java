@@ -10,7 +10,7 @@ public class TerryTeleop extends LinearOpMode {
     private TerryHardware terryHardware;
     private double defaultSensitivity = 1.0;
     private double slowSensitivity = 0.5;
-    private double turboSensitivity = 2;
+    private double turboSensitivity = 1.5;
     private double currentSensitivity = 1.0;
 
     private DcMotor arm;
