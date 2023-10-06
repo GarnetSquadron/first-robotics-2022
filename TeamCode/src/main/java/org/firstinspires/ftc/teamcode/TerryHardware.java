@@ -54,6 +54,14 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 
 public class TerryHardware {
+    public void move(double direction, double power){
+        double power2 = Math.sin(direction - Math.PI / 4) * power;
+        lf.setPower(power2);
+        double power1 = Math.sin(direction + Math.PI / 4) * power;
+        rf.setPower(power1);
+        lb.setPower(power2);
+        rb.setPower(power1);
+    }
     //omni/mechanum wheels variable definition
     private static final double GAIN_DRIVE = 0.8;
     private static final double GAIN_STRAFE = -0.8;
@@ -147,6 +155,8 @@ public class TerryHardware {
                         - GAIN_STRAFE * strafe * currentSensitivity
                         - GAIN_TURN * turn * currentSensitivity
         );
+
+
     }
     //sets the claw position to whatever value is passed to it.
 

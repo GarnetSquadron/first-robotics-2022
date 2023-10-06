@@ -26,8 +26,8 @@ public class TerryTeleop extends LinearOpMode {
         while (opModeIsActive()) {
             //drive robot according to sticks * sensitivity. I am very sensitive irl. Please don't bully me. aka yoink mcsploink
             //ftc judges please understand this is a inside joke
-            terryHardware.driveRobot(-gamepad1.left_stick_y * currentSensitivity, gamepad1.left_stick_x * currentSensitivity, gamepad1.right_stick_x * currentSensitivity);
-
+            //terryHardware.driveRobot(-gamepad1.left_stick_y * currentSensitivity, gamepad1.left_stick_x * currentSensitivity, gamepad1.right_stick_x * currentSensitivity);
+            terryHardware.move(Math.atan2(-gamepad1.left_stick_y,gamepad1.left_stick_x),Math.hypot(gamepad1.left_stick_y,gamepad1.left_stick_x));
             arm.setPower(gamepad2.left_stick_y * 0.75);
 
             if(gamepad2.right_bumper) {
