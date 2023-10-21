@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous(name = "auto1")
@@ -38,12 +39,15 @@ public class Auto1 extends LinearOpMode {
     //makes it so we can just call on this value instead of pasting the number each time in code, as well as
     //the value can be multiplied by the amount of inches desired to make it more simple.
     final double wheelOneInch = (wheelRotation / wheelCircumference);
+    /*
     public void move(double direction, double power) {
         lf.setPower(Math.sin(direction - Math.PI / 4) * power);
         rf.setPower(Math.sin(direction + Math.PI / 4) * power);
         lb.setPower(Math.sin(direction - Math.PI / 4) * power);
         rb.setPower(Math.sin(direction + Math.PI / 4) * power);
     }
+
+     */
 
     /*
     public void forward(double power) {//forward(1);forward(-1);
@@ -71,18 +75,48 @@ public class Auto1 extends LinearOpMode {
     public void forward(double power,double distance) {//forward(1);forward(-1);
         //rb.resetDeviceConfigurationForOpMode();
         resetEncoders();
-        runToPosition();
         lf.setTargetPosition((int) (distance*wheelOneInch));
-        rf.setTargetPosition((int) (-distance*wheelOneInch));
+        rf.setTargetPosition((int) (distance*wheelOneInch));
         lb.setTargetPosition((int) (distance*wheelOneInch));
-        rb.setTargetPosition((int) (-distance*wheelOneInch));
+        rb.setTargetPosition((int) (distance*wheelOneInch));
+
+        runToPosition();
+//        lf.setTargetPosition((int) (distance*wheelOneInch));
+//        rf.setTargetPosition((int) (-distance*wheelOneInch));
+//        lb.setTargetPosition((int) (distance*wheelOneInch));
+//        rb.setTargetPosition((int) (-distance*wheelOneInch));
+
         lf.setPower(power);
         rf.setPower(power);
         lb.setPower(power);
         rb.setPower(power);
 
+        while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()) {
+            /*
+            lf.setPower(power);
+            rf.setPower(power);
+            lb.setPower(-power);
+            rb.setPower(power);
 
-        //telemetry.addData("encoder: ",rb.getCurrentPosition());
+            */
+            telemetry.addData("rb encoder: ",rb.getCurrentPosition());
+            telemetry.addData("power: ",rb.getPower());
+            telemetry.addData("lb encoder: ",lb.getCurrentPosition());
+            telemetry.addData("power: ",lb.getPower());
+            telemetry.addData("rf encoder: ",rf.getCurrentPosition());
+            telemetry.addData("power: ",rf.getPower());
+            telemetry.addData("lf encoder: ",lf.getCurrentPosition());
+            telemetry.addData("power: ",lf.getPower());
+            telemetry.update();
+        }
+
+
+        lf.setPower(0);
+        rf.setPower(0);
+        lb.setPower(0);
+        rb.setPower(0);
+
+
         /*
         while(Math.abs(rb.getCurrentPosition())<distance*wheelOneInch) {
             telemetry.addData("encoder: ",rb.getCurrentPosition());
@@ -141,16 +175,18 @@ public class Auto1 extends LinearOpMode {
         rf = hardwareMap.get(DcMotor.class, "rf");
         lb = hardwareMap.get(DcMotor.class, "lb");
         rb = hardwareMap.get(DcMotor.class, "rb");
+        rf.setDirection(DcMotorSimple.Direction.REVERSE);
+        rb.setDirection(DcMotorSimple.Direction.REVERSE);
         //arm = hardwareMap.get(DcMotor.class, "arm");
         //claw = hardwareMap.get(Servo.class, "claw");
         //colorSensor = hardwareMap.colorSensor.get("color");
         waitForStart();
-        forward(3, 100);
+        forward(.25, 100);
 
 
 
-
-        }
 
     }
+
+}
 
