@@ -46,7 +46,7 @@ public class Auto1 extends LinearOpMode {
         lb.setPower(Math.sin(direction - Math.PI / 4) * power);
         rb.setPower(Math.sin(direction + Math.PI / 4) * power);
     }
-
+//hello
      */
 
     /*
