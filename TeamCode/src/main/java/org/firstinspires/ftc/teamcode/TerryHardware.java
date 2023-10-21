@@ -55,9 +55,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class TerryHardware {
     public void move(double direction, double power){
-        double power2 = Math.sin(direction - Math.PI / 4) * power;
+        double power2 = -Math.sin(direction - Math.PI / 4) * power;
         lf.setPower(power2);
-        double power1 = Math.sin(direction + Math.PI / 4) * power;
+        double power1 = -Math.sin(direction + Math.PI / 4) * power;
         rf.setPower(power1);
         lb.setPower(power2);
         rb.setPower(power1);
@@ -99,8 +99,8 @@ public class TerryHardware {
         rf = robotHardware.get(DcMotor.class, "rf");
         lb = robotHardware.get(DcMotor.class, "lb");
         rb = robotHardware.get(DcMotor.class, "rb");
-        arm = robotHardware.get(DcMotor.class,"arm");
-        claw = robotHardware.get(Servo.class, "claw");
+        //arm = robotHardware.get(DcMotor.class,"arm");
+        //claw = robotHardware.get(Servo.class, "claw");
         /*
         YOU MUST ADD THIS TO ANYTHING THAT USES ENCODERS AFTER DEFINING MOTORS
         lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -119,7 +119,7 @@ public class TerryHardware {
         rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         lf.setDirection(DcMotor.Direction.REVERSE);
         lf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

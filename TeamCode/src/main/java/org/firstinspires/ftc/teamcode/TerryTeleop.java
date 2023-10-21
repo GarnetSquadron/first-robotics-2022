@@ -17,8 +17,8 @@ public class TerryTeleop extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        arm = hardwareMap.get(DcMotor.class, "arm");
-        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //arm = hardwareMap.get(DcMotor.class, "arm");
+        //arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         terryHardware = new TerryHardware(hardwareMap);
         terryHardware.initHardware();
 //      terryHardware.setClawPosition(1);
@@ -26,16 +26,19 @@ public class TerryTeleop extends LinearOpMode {
         while (opModeIsActive()) {
             //drive robot according to sticks * sensitivity. I am very sensitive irl. Please don't bully me. aka yoink mcsploink
             //ftc judges please understand this is a inside joke
-            //terryHardware.driveRobot(-gamepad1.left_stick_y * currentSensitivity, gamepad1.left_stick_x * currentSensitivity, gamepad1.right_stick_x * currentSensitivity);
-            terryHardware.move(Math.atan2(-gamepad1.left_stick_y,gamepad1.left_stick_x),Math.hypot(gamepad1.left_stick_y,gamepad1.left_stick_x));
-            arm.setPower(gamepad2.left_stick_y * 0.75);
+            terryHardware.driveRobot(-gamepad1.left_stick_y * currentSensitivity, gamepad1.left_stick_x * currentSensitivity, gamepad1.right_stick_x * currentSensitivity);
+            //terryHardware.move(Math.atan2(-gamepad1.left_stick_y,gamepad1.left_stick_x),Math.hypot(gamepad1.left_stick_y,gamepad1.left_stick_x));
+            //^working on this universal strafing function
+
+            //arm.setPower(gamepad2.left_stick_y * 0.75);
 
             if(gamepad2.right_bumper) {
-                arm.setPower(-0.1);
+                //arm.setPower(-0.1);
             }
 
             //claw controls
             //probably servo knowing our luck honestly
+            /*
             if (gamepad2.back) {
                 //full open - DO NOT USE UNLESS YOU ARE HAVING SOME SERIOUS ISSUES WITH CLAW.
                 terryHardware.setClawPosition(1);
@@ -50,6 +53,7 @@ public class TerryTeleop extends LinearOpMode {
             if (gamepad2.b) {
                 terryHardware.setClawPosition(0.05);
             }
+            */
             if (gamepad1.right_bumper) {
                 currentSensitivity = turboSensitivity;
             } else if (gamepad1.left_bumper) {
