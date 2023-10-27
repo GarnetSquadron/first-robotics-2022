@@ -39,7 +39,7 @@ public class Auto1 extends LinearOpMode {
     //makes it so we can just call on this value instead of pasting the number each time in code, as well as
     //the value can be multiplied by the amount of inches desired to make it more simple.
     final double wheelOneInch = (wheelRotation / wheelCircumference);
-    /*
+
     public void move(double direction, double power) {
         lf.setPower(Math.sin(direction - Math.PI / 4) * power);
         rf.setPower(Math.sin(direction + Math.PI / 4) * power);
@@ -47,9 +47,9 @@ public class Auto1 extends LinearOpMode {
         rb.setPower(Math.sin(direction + Math.PI / 4) * power);
     }
 //hello
-     */
 
-    /*
+
+
     public void forward(double power) {//forward(1);forward(-1);
         lf.setPower(power);
         rf.setPower(power);
@@ -58,7 +58,7 @@ public class Auto1 extends LinearOpMode {
 
     }
 
-     */
+
     public void resetEncoders() {
         lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -145,13 +145,50 @@ public class Auto1 extends LinearOpMode {
         rb.setPower(-power);
 
     }
+    public void backward(double power,double distance) {//forward(1);forward(-1);
+        //rb.resetDeviceConfigurationForOpMode();
+        resetEncoders();
+        lf.setTargetPosition((int) (-distance * wheelOneInch));
+        rf.setTargetPosition((int) (-distance * wheelOneInch));
+        lb.setTargetPosition((int) (-distance * wheelOneInch));
+        rb.setTargetPosition((int) (-distance * wheelOneInch));
 
+        runToPosition();
+//        lf.setTargetPosition((int) (distance*wheelOneInch));
+//        rf.setTargetPosition((int) (-distance*wheelOneInch));
+//        lb.setTargetPosition((int) (distance*wheelOneInch));
+//        rb.setTargetPosition((int) (-distance*wheelOneInch));
+
+        lf.setPower(-power);
+        rf.setPower(-power);
+        lb.setPower(-power);
+        rb.setPower(-power);
+    }
     public void right(double power) {
         lf.setPower(-power);
         rf.setPower(power);
         lb.setPower(-power);
         rb.setPower(power);
 
+    }
+    public void right(double power,double distance) {//forward(1);forward(-1);
+        //rb.resetDeviceConfigurationForOpMode();
+        resetEncoders();
+        lf.setTargetPosition((int) (-distance * wheelOneInch));
+        rf.setTargetPosition((int) (distance * wheelOneInch));
+        lb.setTargetPosition((int) (-distance * wheelOneInch));
+        rb.setTargetPosition((int) (distance * wheelOneInch));
+
+        runToPosition();
+//        lf.setTargetPosition((int) (distance*wheelOneInch));
+//        rf.setTargetPosition((int) (-distance*wheelOneInch));
+//        lb.setTargetPosition((int) (distance*wheelOneInch));
+//        rb.setTargetPosition((int) (-distance*wheelOneInch));
+
+        lf.setPower(-power);
+        rf.setPower(power);
+        lb.setPower(-power);
+        rb.setPower(power);
     }
 
     public void left(double power) {
@@ -160,6 +197,25 @@ public class Auto1 extends LinearOpMode {
         lb.setPower(power);
         rb.setPower(-power);
 
+    }
+    public void left(double power,double distance) {//forward(1);forward(-1);
+        //rb.resetDeviceConfigurationForOpMode();
+        resetEncoders();
+        lf.setTargetPosition((int) (distance * wheelOneInch));
+        rf.setTargetPosition((int) (-distance * wheelOneInch));
+        lb.setTargetPosition((int) (distance * wheelOneInch));
+        rb.setTargetPosition((int) (-distance * wheelOneInch));
+
+        runToPosition();
+//        lf.setTargetPosition((int) (distance*wheelOneInch));
+//        rf.setTargetPosition((int) (-distance*wheelOneInch));
+//        lb.setTargetPosition((int) (distance*wheelOneInch));
+//        rb.setTargetPosition((int) (-distance*wheelOneInch));
+
+        lf.setPower(power);
+        rf.setPower(-power);
+        lb.setPower(power);
+        rb.setPower(-power);
     }
 
     public void Stop() {
@@ -181,7 +237,7 @@ public class Auto1 extends LinearOpMode {
         //claw = hardwareMap.get(Servo.class, "claw");
         //colorSensor = hardwareMap.colorSensor.get("color");
         waitForStart();
-        forward(.25, 100);
+        forward(.5, 12);
 
 
 
