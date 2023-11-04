@@ -230,7 +230,7 @@ public class Auto1 extends LinearOpMode {
     public void autoScrimmage() {
         forward(-.25, -28);
         sleep(200);
-        if(false){ //Put yes statement here for detection of spike marker
+        if(true){ //Put yes statement here for detection of spike marker
             forward(-.25, -9);
             forward(.25, 9);
         } //end of yes statement
@@ -252,6 +252,27 @@ public class Auto1 extends LinearOpMode {
         //forward(.25, 28);
 
     }
+//--------------------------------------------------------------------
+    public void autoScrimmage2() {
+        forward(-.25, -48);
+        sleep(200);
+        forward(-.25, -5);
+        forward(.25, 5);
+    }
+
+    //-------------------------------------------------------------------
+
+    public void autoScrimmage3() {
+        forward(-.25, -38);
+        forward(.25, 26);
+        right(.25,3);
+        forward(.25,5);
+        forward(.25,36);
+    }
+
+    public void autoScrimmage4() {
+        right(.25,100000);
+    }
 
 
     @Override
@@ -266,7 +287,7 @@ public class Auto1 extends LinearOpMode {
         //claw = hardwareMap.get(Servo.class, "claw");
         //colorSensor = hardwareMap.colorSensor.get("color");
         waitForStart();
-        autoScrimmage();
+        autoScrimmage3();
 
 
 
