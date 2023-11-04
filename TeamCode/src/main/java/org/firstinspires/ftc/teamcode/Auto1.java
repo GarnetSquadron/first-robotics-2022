@@ -225,6 +225,35 @@ public class Auto1 extends LinearOpMode {
         rb.setPower(0);
 
     }
+
+    //this is test for the first scrimmage
+    public void autoScrimmage() {
+        forward(-.25, -28);
+        sleep(200);
+        if(false){ //Put yes statement here for detection of spike marker
+            forward(-.25, -9);
+            forward(.25, 9);
+        } //end of yes statement
+        else{ //Put no statement here for detection of spike marker
+            right(.25,3);
+            if(true){ //Put yes statement here for detection of spike marker
+                forward(-.25, -4);
+                forward(.25, 4);
+                right(-.25,-3);
+            } //end of yes statement
+            else { //Put no statement here for detection of spike marker
+                right(-.25,-6);
+                forward(-.25, -4);
+                forward(.25, 4);
+                right(.25,3);
+            }
+
+        }
+        //forward(.25, 28);
+
+    }
+
+
     @Override
     public void runOpMode() throws InterruptedException {
         lf = hardwareMap.get(DcMotor.class, "lf");
@@ -237,7 +266,7 @@ public class Auto1 extends LinearOpMode {
         //claw = hardwareMap.get(Servo.class, "claw");
         //colorSensor = hardwareMap.colorSensor.get("color");
         waitForStart();
-        forward(.5, 12);
+        autoScrimmage();
 
 
 
