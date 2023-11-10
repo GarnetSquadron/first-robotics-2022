@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name = "auto1(red)")
-public class Auto1 extends LinearOpMode {
+@Autonomous(name = "auto" + "blue")
+public class AutoBlue extends LinearOpMode {
 
 
 
@@ -269,7 +269,7 @@ public class Auto1 extends LinearOpMode {
         //forward(.25, 28);
 
     }
-//--------------------------------------------------------------------
+    //--------------------------------------------------------------------
     public void autoScrimmage2() {
         forward(-.25, -48);
         sleep(200);
@@ -342,12 +342,7 @@ public class Auto1 extends LinearOpMode {
         //claw = hardwareMap.get(Servo.class, "claw");
         //colorSensor = hardwareMap.colorSensor.get("color");
         waitForStart();
-        autoScrimmagered();
-
-
-
+        autoScrimmageblue();
 
     }
-
-}
-
+    }
