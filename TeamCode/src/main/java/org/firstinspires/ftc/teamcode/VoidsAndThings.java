@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -22,11 +25,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 //import com.google.blocks.ftcrobotcontroller.runtime.ColorRangeSensorAccess;
 
-@Autonomous(name = "auto1")
-public class Auto1 extends LinearOpMode {
+
+public class VoidsAndThings {
 
 
-
+    private HardwareMap hardwareMap;
 
     //We are defining all motors here, as to manually control each motor rather than use terry hardware.
     private DcMotor lf;
@@ -38,7 +41,6 @@ public class Auto1 extends LinearOpMode {
     //private Servo claw;
     //ColorSensor colorSensor;
     IMU imu;
-    private VoidsAndThings VoidsAndThings;
     //Wheel encoders
     //This is the gobilda encoder value that is used
     final double wheelUnitTicks = 537.7;
@@ -67,13 +69,7 @@ public class Auto1 extends LinearOpMode {
 
 
 
-    public void forward(double power) {//forward(1);forward(-1);
-        lf.setPower(power);
-        rf.setPower(power);
-        lb.setPower(power);
-        rb.setPower(power);
 
-    }
 
 
     public void resetEncoders() {
@@ -95,13 +91,23 @@ public class Auto1 extends LinearOpMode {
         rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         //arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
+    public void setTgPos(double distance1, double distance2, double distance3, double distance4){
+        lf.setTargetPosition((int) (distance1*wheelOneInch));
+        rf.setTargetPosition((int) (distance2*wheelOneInch));
+        lb.setTargetPosition((int) (distance3*wheelOneInch));
+        rb.setTargetPosition((int) (distance4*wheelOneInch));
+    }
+    public void forward(double power) {//forward(1);forward(-1);
+        lf.setPower(power);
+        rf.setPower(power);
+        lb.setPower(power);
+        rb.setPower(power);
+
+    }
     public void forward(double power,double distance) {//forward(1);forward(-1);
         //rb.resetDeviceConfigurationForOpMode();
         resetEncoders();
-        lf.setTargetPosition((int) (distance*wheelOneInch));
-        rf.setTargetPosition((int) (distance*wheelOneInch));
-        lb.setTargetPosition((int) (distance*wheelOneInch));
-        rb.setTargetPosition((int) (distance*wheelOneInch));
+        setTgPos(distance, distance, distance, distance);
 
         runToPosition();
 //        lf.setTargetPosition((int) (distance*wheelOneInch));
@@ -109,19 +115,16 @@ public class Auto1 extends LinearOpMode {
 //        lb.setTargetPosition((int) (distance*wheelOneInch));
 //        rb.setTargetPosition((int) (-distance*wheelOneInch));
 
-        lf.setPower(power);
-        rf.setPower(power);
-        lb.setPower(power);
-        rb.setPower(power);
+        forward(power);
 
-        while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()) {
-            /*
+        /*while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()) {
+            *//*
             lf.setPower(power);
             rf.setPower(power);
             lb.setPower(-power);
             rb.setPower(power);
 
-            */
+            *//*
             telemetry.addData("rb encoder: ",rb.getCurrentPosition());
             telemetry.addData("power: ",rb.getPower());
             telemetry.addData("lb encoder: ",lb.getCurrentPosition());
@@ -132,13 +135,10 @@ public class Auto1 extends LinearOpMode {
             telemetry.addData("power: ",lf.getPower());
             telemetry.addData("Distance (cm)", sensor.getDistance(DistanceUnit.CM));
             telemetry.update();
-        }
+        }*/
 
 
-        lf.setPower(0);
-        rf.setPower(0);
-        lb.setPower(0);
-        rb.setPower(0);
+        forward(0);
 
 
         /*
@@ -189,8 +189,8 @@ public class Auto1 extends LinearOpMode {
         rb.setPower(-power);
     }
     public void right(double power) {
-        lf.setPower(-power);
-        rf.setPower(power);
+        lf.setPower(power);
+        rf.setPower(-power);
         lb.setPower(-power);
         rb.setPower(power);
 
@@ -198,11 +198,7 @@ public class Auto1 extends LinearOpMode {
     public void right(double power,double distance) {//forward(1);forward(-1);
         //rb.resetDeviceConfigurationForOpMode();
         resetEncoders();
-
-        lf.setTargetPosition((int) (-distance * wheelOneInch));
-        rf.setTargetPosition((int) (distance * wheelOneInch));
-        lb.setTargetPosition((int) (-distance * wheelOneInch));
-        rb.setTargetPosition((int) (distance * wheelOneInch));
+        setTgPos(distance, -distance, -distance, distance);
 
         runToPosition();
 //        lf.setTargetPosition((int) (distance*wheelOneInch));
@@ -210,10 +206,7 @@ public class Auto1 extends LinearOpMode {
 //        lb.setTargetPosition((int) (distance*wheelOneInch));
 //        rb.setTargetPosition((int) (-distance*wheelOneInch));
 
-        lf.setPower(power);
-        rf.setPower(-power);
-        lb.setPower(-power);
-        rb.setPower(power);
+        right(power);
     }
 
     public void left(double power) {
@@ -226,10 +219,7 @@ public class Auto1 extends LinearOpMode {
     public void left(double power,double distance) {//forward(1);forward(-1);
         //rb.resetDeviceConfigurationForOpMode();
         resetEncoders();
-        lf.setTargetPosition((int) (-distance * wheelOneInch));
-        rf.setTargetPosition((int) (distance * wheelOneInch));
-        lb.setTargetPosition((int) (distance * wheelOneInch));
-        rb.setTargetPosition((int) (-distance * wheelOneInch));
+        setTgPos(-distance, distance, distance, -distance);
 
         runToPosition();
 //        lf.setTargetPosition((int) (distance*wheelOneInch));
@@ -237,10 +227,7 @@ public class Auto1 extends LinearOpMode {
 //        lb.setTargetPosition((int) (distance*wheelOneInch));
 //        rb.setTargetPosition((int) (-distance*wheelOneInch));
 
-        lf.setPower(-power);
-        rf.setPower(power);
-        lb.setPower(power);
-        rb.setPower(-power);
+        left(power);
     }
 
     public void Stop() {
@@ -251,17 +238,16 @@ public class Auto1 extends LinearOpMode {
 
     }
 
-    public int SpikeCheck(double interval) {
-        int max1= 5;
-        int max2= 10;
+    public int SpikeCheck() {
+        int max1= 10;
+        int max2= 20;
         int spike;
         int i=0;
         forward(0.25,1);
         left(0.25,-2);
-        while((sensor.getDistance(DistanceUnit.INCH)>=30)&&(i<=max2)) {
-            right(0.25, interval);
-            i+=interval;
-            telemetry.addData("distance",sensor.getDistance(DistanceUnit.INCH));
+        while(sensor.getDistance(DistanceUnit.INCH)>=30) {
+            right(0.25, 2);
+            i+=2;
         }
         if (i<max1)
             spike=1;
@@ -269,7 +255,7 @@ public class Auto1 extends LinearOpMode {
             spike=2;
         else
             spike=3;
-        left(0.25,interval*i);
+        left(0.25, 2*i);
 
         return spike;
 
@@ -277,9 +263,9 @@ public class Auto1 extends LinearOpMode {
 
     //this is test for the first scrimmage
     public void autoScrimmage() {
-        int spike=SpikeCheck(2);//VoidsAndThings.SpikeCheck();
+        int spike=SpikeCheck();
         forward(-.25, -28);
-        sleep(200);
+        //sleep(200);
         if(spike==1){ //Put yes statement here for detection of spike marker
             forward(-.25, -9);
             forward(.25, 9);
@@ -302,6 +288,12 @@ public class Auto1 extends LinearOpMode {
         //forward(.25, 28);
 
     }
+    public void turn(double power){
+        lf.setPower(power);
+        rf.setPower(-power);
+        lb.setPower(power);
+        rb.setPower(-power);
+    }
     public void turn(double power, double degrees){
         runWithoutEncoders();
         //YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
@@ -311,25 +303,21 @@ public class Auto1 extends LinearOpMode {
         while (Math.abs (orientation.getYaw(AngleUnit.DEGREES)) <=degrees-3) {
 
 
-            lf.setPower(-power);
-            rf.setPower(power);
-            lb.setPower(-power);
-            rb.setPower(power);
-            telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", orientation.getYaw(AngleUnit.DEGREES));
-            telemetry.addData("Pitch (X)", "%.2f Deg.", orientation.getPitch(AngleUnit.DEGREES));
-            telemetry.addData("Roll (Y)", "%.2f Deg.\n", orientation.getRoll(AngleUnit.DEGREES));
-            telemetry.update();
+            turn(power);
+//            telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", orientation.getYaw(AngleUnit.DEGREES));
+//            telemetry.addData("Pitch (X)", "%.2f Deg.", orientation.getPitch(AngleUnit.DEGREES));
+//            telemetry.addData("Roll (Y)", "%.2f Deg.\n", orientation.getRoll(AngleUnit.DEGREES));
+//            telemetry.update();
             orientation = imu.getRobotYawPitchRollAngles();
         }
     }
-    @Override
-    public void runOpMode() throws InterruptedException {
+    public void initHardware()    {
         lf = hardwareMap.get(DcMotor.class, "lf");
         rf = hardwareMap.get(DcMotor.class, "rf");
         lb = hardwareMap.get(DcMotor.class, "lb");
         rb = hardwareMap.get(DcMotor.class, "rb");
-        rf.setDirection(DcMotorSimple.Direction.REVERSE);
-        rb.setDirection(DcMotorSimple.Direction.REVERSE);
+        lf.setDirection(DcMotorSimple.Direction.REVERSE);
+        lb.setDirection(DcMotorSimple.Direction.REVERSE);
         //DistanceSensor sensor;
         sensor=hardwareMap.get(DistanceSensor.class, "distance");
         imu = hardwareMap.get(IMU.class, "imu");
@@ -338,22 +326,66 @@ public class Auto1 extends LinearOpMode {
 
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         imu.initialize(new IMU.Parameters(orientationOnRobot));
-        VoidsAndThings = new VoidsAndThings();
-//        VoidsAndThings.initHardware();
+        //arm = robotHardware.get(DcMotor.class,"arm");
+        //claw = robotHardware.get(Servo.class, "claw");
+        /*
+        YOU MUST ADD THIS TO ANYTHING THAT USES ENCODERS AFTER DEFINING MOTORS
+        lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        */
+        //set the encoders to be enabled
+        //lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        //arm = hardwareMap.get(DcMotor.class, "arm");
-        //claw = hardwareMap.get(Servo.class, "claw");
-        //colorSensor = hardwareMap.colorSensor.get("color");
-        waitForStart();
-        //autoScrimmage();
+        //sets all motors to run without encoders. remember to set a target before turning encoders on!
+        lf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        //turn(-0.25,90);
-        SpikeCheck(2);
-
-
-
-
+        lf.setDirection(DcMotor.Direction.REVERSE);
+        lf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lb.setDirection(DcMotor.Direction.REVERSE);
+        lb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        System.out.print("Initialized!");
     }
 
+
+    /*public void driveRobot(double drive, double strafe, double turn) {
+        // the proper formula is left stick y, left stick x, right stick x. I.E you want to input those
+        // values into this function to get it to be able to drive. Current sensitivity must be defined - default
+        // as of 12/16/2022 is 1.0
+        lf.setPower(
+                GAIN_DRIVE * drive * currentSensitivity
+                        - GAIN_STRAFE * strafe * currentSensitivity
+                        + GAIN_TURN * turn * currentSensitivity
+        );
+        rf.setPower(
+                GAIN_DRIVE * drive * currentSensitivity
+                        + GAIN_STRAFE * strafe * currentSensitivity
+                        - GAIN_TURN * turn * currentSensitivity
+        );
+        lb.setPower(
+                GAIN_DRIVE * drive * currentSensitivity
+                        + GAIN_STRAFE * strafe * currentSensitivity
+                        + GAIN_TURN * turn * currentSensitivity
+        );
+        rb.setPower(
+                GAIN_DRIVE * drive * currentSensitivity
+                        - GAIN_STRAFE * strafe * currentSensitivity
+                        - GAIN_TURN * turn * currentSensitivity
+        );
+   }
+*/
+
 }
+
+
 
