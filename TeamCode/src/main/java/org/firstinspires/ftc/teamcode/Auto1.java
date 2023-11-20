@@ -32,7 +32,7 @@ public class Auto1 extends LinearOpMode {
     //multiplies wheelUnitTicks by wheelGearRatios
     final double wheelRotation = (wheelUnitTicks * wheelGearRatios);
 
-    //This is the circumference value for the gobilda wheels we use in inches
+    //This is the circumference value for thegobilda wheels we use in inches
     final double wheelCircumference = 12.5663706144;
 
     //this is the wheelUnitTicks divided by wheelCircumference to get the amount of ticks to move one inch, this
@@ -72,33 +72,23 @@ public class Auto1 extends LinearOpMode {
         rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         //arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
-    public void forward(double power,double distance) {//forward(1);forward(-1);
-        //rb.resetDeviceConfigurationForOpMode();
+    //----------------------------Forward starts----------------------------------------------------
+    public void forward(double power,double distance) {//forward(1);forward(-1)
         resetEncoders();
         lf.setTargetPosition((int) (distance*wheelOneInch));
         rf.setTargetPosition((int) (distance*wheelOneInch));
         lb.setTargetPosition((int) (distance*wheelOneInch));
         rb.setTargetPosition((int) (distance*wheelOneInch));
-
+//--------------------------------------------------------------------------------------------------
         runToPosition();
-//        lf.setTargetPosition((int) (distance*wheelOneInch));
-//        rf.setTargetPosition((int) (-distance*wheelOneInch));
-//        lb.setTargetPosition((int) (distance*wheelOneInch));
-//        rb.setTargetPosition((int) (-distance*wheelOneInch));
-
+//--------------------------------------------------------------------------------------------------
         lf.setPower(power);
         rf.setPower(power);
         lb.setPower(power);
         rb.setPower(power);
 
+        //--------------------------------Telematry, gives data about position----------------------
         while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()) {
-            /*
-            lf.setPower(power);
-            rf.setPower(power);
-            lb.setPower(-power);
-            rb.setPower(power);
-
-            */
             telemetry.addData("rb encoder: ",rb.getCurrentPosition());
             telemetry.addData("power: ",rb.getPower());
             telemetry.addData("lb encoder: ",lb.getCurrentPosition());
@@ -109,114 +99,43 @@ public class Auto1 extends LinearOpMode {
             telemetry.addData("power: ",lf.getPower());
             telemetry.update();
         }
-
-
-        lf.setPower(0);
-        rf.setPower(0);
-        lb.setPower(0);
-        rb.setPower(0);
-
-
-        /*
-        while(Math.abs(rb.getCurrentPosition())<distance*wheelOneInch) {
-            telemetry.addData("encoder: ",rb.getCurrentPosition());
-            telemetry.update();
-            //System.out.println(rb.getCurrentPosition());
-            lf.setPower(power);
-            rf.setPower(power);
-            lb.setPower(power);
-            rb.setPower(power);
-        }
-
-        lf.setPower(0);
-        rf.setPower(0);
-        lb.setPower(0);
-        rb.setPower(0);
-
-         */
-
-
+        //-------------------------End While--------------------------------------------------------
+        stop(); //stopping all motors
     }
+//----------------------------------End of forward--------------------------------------------------
+    //sRight = straife right
+    //right = ++ left = --
+//----------------------------sRight starts---------------------------------------------------------
+public void sRight(double power,double distance) {
+    resetEncoders();
+    lf.setTargetPosition((int) (-distance*wheelOneInch));
+    rf.setTargetPosition((int) (distance*wheelOneInch));
+    lb.setTargetPosition((int) (distance*wheelOneInch));
+    rb.setTargetPosition((int) (-distance*wheelOneInch));
+//--------------------------------------------------------------------------------------------------
+    runToPosition();
+//--------------------------------------------------------------------------------------------------
+    lf.setPower(-power);
+    rf.setPower(power);
+    lb.setPower(power);
+    rb.setPower(-power);
 
-    public void backward(double power) {
-        lf.setPower(-power);
-        rf.setPower(-power);
-        lb.setPower(-power);
-        rb.setPower(-power);
-
+    //--------------------------------Telematry, gives data about position--------------------------
+    while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()) {
+        telemetry.addData("rb encoder: ",rb.getCurrentPosition());
+        telemetry.addData("power: ",rb.getPower());
+        telemetry.addData("lb encoder: ",lb.getCurrentPosition());
+        telemetry.addData("power: ",lb.getPower());
+        telemetry.addData("rf encoder: ",rf.getCurrentPosition());
+        telemetry.addData("power: ",rf.getPower());
+        telemetry.addData("lf encoder: ",lf.getCurrentPosition());
+        telemetry.addData("power: ",lf.getPower());
+        telemetry.update();
     }
-    public void backward(double power,double distance) {//forward(1);forward(-1);
-        //rb.resetDeviceConfigurationForOpMode();
-        resetEncoders();
-        lf.setTargetPosition((int) (-distance * wheelOneInch));
-        rf.setTargetPosition((int) (-distance * wheelOneInch));
-        lb.setTargetPosition((int) (-distance * wheelOneInch));
-        rb.setTargetPosition((int) (-distance * wheelOneInch));
-
-        runToPosition();
-//        lf.setTargetPosition((int) (distance*wheelOneInch));
-//        rf.setTargetPosition((int) (-distance*wheelOneInch));
-//        lb.setTargetPosition((int) (distance*wheelOneInch));
-//        rb.setTargetPosition((int) (-distance*wheelOneInch));
-
-        lf.setPower(-power);
-        rf.setPower(-power);
-        lb.setPower(-power);
-        rb.setPower(-power);
-    }
-    public void right(double power) {
-        lf.setPower(-power);
-        rf.setPower(power);
-        lb.setPower(-power);
-        rb.setPower(power);
-
-    }
-    public void right(double power,double distance) {//forward(1);forward(-1);
-        //rb.resetDeviceConfigurationForOpMode();
-        resetEncoders();
-        lf.setTargetPosition((int) (-distance * wheelOneInch));
-        rf.setTargetPosition((int) (distance * wheelOneInch));
-        lb.setTargetPosition((int) (-distance * wheelOneInch));
-        rb.setTargetPosition((int) (distance * wheelOneInch));
-
-        runToPosition();
-//        lf.setTargetPosition((int) (distance*wheelOneInch));
-//        rf.setTargetPosition((int) (-distance*wheelOneInch));
-//        lb.setTargetPosition((int) (distance*wheelOneInch));
-//        rb.setTargetPosition((int) (-distance*wheelOneInch));
-
-        lf.setPower(-power);
-        rf.setPower(power);
-        lb.setPower(-power);
-        rb.setPower(power);
-    }
-
-    public void left(double power) {
-        lf.setPower(power);
-        rf.setPower(-power);
-        lb.setPower(power);
-        rb.setPower(-power);
-
-    }
-    public void left(double power,double distance) {//forward(1);forward(-1);
-        //rb.resetDeviceConfigurationForOpMode();
-        resetEncoders();
-        lf.setTargetPosition((int) (distance * wheelOneInch));
-        rf.setTargetPosition((int) (-distance * wheelOneInch));
-        lb.setTargetPosition((int) (distance * wheelOneInch));
-        rb.setTargetPosition((int) (-distance * wheelOneInch));
-
-        runToPosition();
-//        lf.setTargetPosition((int) (distance*wheelOneInch));
-//        rf.setTargetPosition((int) (-distance*wheelOneInch));
-//        lb.setTargetPosition((int) (distance*wheelOneInch));
-//        rb.setTargetPosition((int) (-distance*wheelOneInch));
-
-        lf.setPower(power);
-        rf.setPower(-power);
-        lb.setPower(power);
-        rb.setPower(-power);
-    }
+    //-------------------------End While------------------------------------------------------------
+    stop(); //stopping all motors
+}
+    //----------------------------------End of sRight----------------------------------------------
 
     public void Stop() {
         lf.setPower(0);
@@ -245,24 +164,26 @@ public class Auto1 extends LinearOpMode {
 
     //this is test for the first scrimmage
     public void autoScrimmage() {
-        forward(-.25, -28);
+        sRight(-.25, -28);
         sleep(200);
+        forward(.25,6);
         if(true){ //Put yes statement here for detection of spike marker
-            forward(-.25, -9);
-            forward(.25, 9);
+            forward(.25, 2);
+            //drop piece here
+            forward(-.25, -52);
         } //end of yes statement
         else{ //Put no statement here for detection of spike marker
-            right(.25,3);
+            forward(-.25, -8);
             if(true){ //Put yes statement here for detection of spike marker
-                forward(-.25, -4);
-                forward(.25, 4);
-                right(-.25,-3);
+                forward(-.25, -2);
+                //drop piece here
+                forward(-.25, -36);
             } //end of yes statement
             else { //Put no statement here for detection of spike marker
-                right(-.25,-6);
-                forward(-.25, -4);
-                forward(.25, 4);
-                right(.25,3);
+                forward(.25,2);
+                sRight(-.25,-6);
+                sRight(.25,6);
+                forward(-.25,38);
             }
 
         }
@@ -286,7 +207,7 @@ public class Auto1 extends LinearOpMode {
         rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        right(.25);
+        //right(.25);
         sleep(1600);
         forward(0);
         forward(.25,5);
@@ -302,7 +223,7 @@ public class Auto1 extends LinearOpMode {
     }
 
     public void quarterTurn() {
-        right(1);
+        //right(1);
         sleep(200);
         forward(0);
     }
@@ -348,6 +269,7 @@ public class Auto1 extends LinearOpMode {
 
 
     }
-
++
 }
+
 
