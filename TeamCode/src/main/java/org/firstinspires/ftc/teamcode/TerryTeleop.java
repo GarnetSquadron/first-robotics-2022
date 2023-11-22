@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
+
 
 @TeleOp(name = "\uD83C\uDF56") // ham emoji
 public class TerryTeleop extends LinearOpMode {
@@ -14,15 +16,46 @@ public class TerryTeleop extends LinearOpMode {
     private double currentSensitivity = 1.0;
 
     private DcMotor arm;
+    private Servo claw;
+    private DcMotor lift;
+    private double MaxClawPos = 20;
+    private double MinClawPos = 0;
+    private double MaxLiftPos = 20;
+    private double MinLiftPos = 0;
+    public void resetEncoders() {
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+    public void runToPosition()  {
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+    public void Lift(double power,double height) {//forward(1);forward(-1)
+        //resetEncoders();   <--we dont want this
+        lift.setTargetPosition((int) (height));
+//--------------------------------------------------------------------------------------------------
+        runToPosition();
+//--------------------------------------------------------------------------------------------------
+        lift.setPower(power);
 
-
+        //--------------------------------Telemetry, gives data about position and makes sure it doesnt stop immediately.----------------------
+        while (lift.isBusy()) {
+            telemetry.addData("lf encoder: ",lift.getCurrentPosition());
+            telemetry.addData("power: ",lift.getPower());
+            telemetry.update();
+        }
+        //-------------------------End While--------------------------------------------------------
+        stop(); //stopping all motors
+    }
 
     @Override
     public void runOpMode() {
+        resetEncoders();
+        runToPosition();
         //arm = hardwareMap.get(DcMotor.class, "arm");
         //arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         terryHardware = new TerryHardware(hardwareMap);
         terryHardware.initHardware();
+
 //      terryHardware.setClawPosition(1);
         waitForStart();
         while (opModeIsActive()) {
@@ -36,6 +69,18 @@ public class TerryTeleop extends LinearOpMode {
 
             if(gamepad2.right_bumper) {
                 //arm.setPower(-0.1);
+            }
+            if(gamepad1.y){
+                claw.setPosition(MaxClawPos);
+            }
+            if(gamepad1.b){
+                claw.setPosition(MinClawPos);
+            }
+            if(gamepad1.x){
+                Lift(1,20);
+            }
+            if(gamepad1.a){
+                Lift(-1,0);
             }
 
             //claw controls
@@ -55,6 +100,7 @@ public class TerryTeleop extends LinearOpMode {
             if (gamepad2.b) {
                 terryHardware.setClawPosition(0.05);
             }
+
             */
             if (gamepad1.right_bumper) {
                 currentSensitivity = turboSensitivity;

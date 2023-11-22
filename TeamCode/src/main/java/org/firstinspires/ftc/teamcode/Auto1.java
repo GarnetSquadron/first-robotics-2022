@@ -88,7 +88,7 @@ public class Auto1 extends LinearOpMode {
         lb.setPower(power);
         rb.setPower(power);
 
-        //--------------------------------Telematry, gives data about position----------------------
+        //--------------------------------Telematry, gives data about position and makes sure it doesnt stop immediately.-----------------------
         while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()) {
             telemetry.addData("rb encoder: ",rb.getCurrentPosition());
             telemetry.addData("power: ",rb.getPower());
@@ -121,7 +121,7 @@ public void sRight(double power,double distance) {
     lb.setPower(power);
     rb.setPower(-power);
 
-    //--------------------------------Telematry, gives data about position--------------------------
+    //--------------------------------Telematry, gives data about position and makes sure it doesnt stop immediately.---------------------------
     while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()) {
         telemetry.addData("rb encoder: ",rb.getCurrentPosition());
         telemetry.addData("power: ",rb.getPower());
