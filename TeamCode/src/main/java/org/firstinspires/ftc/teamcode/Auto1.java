@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous(name = "auto1(red)")
 public class Auto1 extends LinearOpMode {
+    private VoidsAndThings voidsAndThings;
 
 
 
@@ -191,28 +192,28 @@ public void sRight(double power,double distance) {
 
     }
 //--------------------------------------------------------------------
-    public void autoScrimmage2() {
-        forward(-.25, -48);
-        sleep(200);
-        forward(-.25, -5);
-        forward(.25, 5);
-    }
+//    public void autoScrimmage2() {
+//        forward(-.25, -48);
+//        sleep(200);
+//        forward(-.25, -5);
+//        forward(.25, 5);
+//    }
 
     //-------------------------------------------------------------------
 
-    public void autoScrimmage3() {
-        forward(-.25, -38);
-        forward(.25, 26);
-        lf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        lb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //right(.25);
-        sleep(1600);
-        forward(0);
-        forward(.25,5);
-        forward(-.25,-36);
-    }
+//    public void autoScrimmage3() {
+//        forward(-.25, -38);
+//        forward(.25, 26);
+//        lf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        lb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        rb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        //right(.25);
+//        sleep(1600);
+//        forward(0);
+//        forward(.25,5);
+//        forward(-.25,-36);
+//    }
 
     //-----------------------------------------------------
 
@@ -253,6 +254,8 @@ public void sRight(double power,double distance) {
     }
     @Override
     public void runOpMode() throws InterruptedException {
+        voidsAndThings = new VoidsAndThings(hardwareMap);
+        voidsAndThings.initHardware();
         lf = hardwareMap.get(DcMotor.class, "lf");
         rf = hardwareMap.get(DcMotor.class, "rf");
         lb = hardwareMap.get(DcMotor.class, "lb");
@@ -269,7 +272,7 @@ public void sRight(double power,double distance) {
 
 
     }
-+
+
 }
 
 

@@ -21,6 +21,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 //import com.google.blocks.ftcrobotcontroller.runtime.ColorRangeSensorAccess;
@@ -31,12 +32,23 @@ public class VoidsAndThings {
 
     private HardwareMap hardwareMap;
 
+    // Define a constructor that allows the OpMode to pass a reference to itself.
+    public VoidsAndThings(HardwareMap voidsAndThings) {
+        hardwareMap = voidsAndThings;
+    }
+
     //We are defining all motors here, as to manually control each motor rather than use terry hardware.
     private DcMotor lf;
     private DcMotor rf;
     private DcMotor lb;
     private DcMotor rb;
     private DistanceSensor sensor;
+    DcMotor lift;
+    Servo claw;
+    ColorSensor Fsensor;
+    ColorSensor Bsensor;
+
+
     //private DcMotor arm;
     //private Servo claw;
     //ColorSensor colorSensor;
@@ -288,11 +300,19 @@ public class VoidsAndThings {
         //forward(.25, 28);
 
     }
+    private double minRed=20;
+    //minimum amount of red in a gamepiece
+    public boolean GetColorF(){
+        return minRed<Fsensor.red();
+    }
+    public boolean GetColorB(){
+        return minRed<Bsensor.red();
+    }
     public void turn(double power){
         lf.setPower(power);
-        rf.setPower(-power);
+        rf.setPower(power);
         lb.setPower(power);
-        rb.setPower(-power);
+        rb.setPower(power);
     }
     public void turn(double power, double degrees){
         runWithoutEncoders();
@@ -312,6 +332,7 @@ public class VoidsAndThings {
         }
     }
     public void initHardware()    {
+
         lf = hardwareMap.get(DcMotor.class, "lf");
         rf = hardwareMap.get(DcMotor.class, "rf");
         lb = hardwareMap.get(DcMotor.class, "lb");
@@ -319,7 +340,9 @@ public class VoidsAndThings {
         lf.setDirection(DcMotorSimple.Direction.REVERSE);
         lb.setDirection(DcMotorSimple.Direction.REVERSE);
         //DistanceSensor sensor;
-        sensor=hardwareMap.get(DistanceSensor.class, "distance");
+        //sensor=hardwareMap.get(DistanceSensor.class, "distance");
+        Fsensor=hardwareMap.get(ColorSensor.class, "");
+        Fsensor=hardwareMap.get(ColorSensor.class, "");
         imu = hardwareMap.get(IMU.class, "imu");
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
         RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
@@ -348,10 +371,10 @@ public class VoidsAndThings {
         rb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        lf.setDirection(DcMotor.Direction.REVERSE);
+        //lf.setDirection(DcMotor.Direction.REVERSE);
         lf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        lb.setDirection(DcMotor.Direction.REVERSE);
+        //lb.setDirection(DcMotor.Direction.REVERSE);
         lb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         System.out.print("Initialized!");
