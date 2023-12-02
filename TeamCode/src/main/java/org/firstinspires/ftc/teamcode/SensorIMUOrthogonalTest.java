@@ -30,7 +30,6 @@ package org.firstinspires.ftc.teamcode;/* Copyright (c) 2022 FIRST. All rights r
 //package org.firstinspires.ftc.robotcontroller.external.samples;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -40,7 +39,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 /**
- * {@link SensorIMUOrthogonal} shows how to use the new universal {@link IMU} interface. This
+ * {@link SensorIMUOrthogonalTest} shows how to use the new universal {@link IMU} interface. This
  * interface may be used with the BNO055 IMU or the BHI260 IMU. It assumes that an IMU is configured
  * on the robot with the name "imu".
  * <p>
@@ -77,9 +76,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
  * Finally, choose the two correct parameters to define how your Hub is mounted and edit this OpMode
  * to use those parameters.
  */
-@TeleOp(name = "Sensor: IMU Orthogonal", group="sensor")
+@TeleOp(name = "Sensor: IMU OrthogonalTest", group="sensor")
 //@Disabled   // Comment this out to add to the OpMode list
-public class SensorIMUOrthogonal extends LinearOpMode
+public class SensorIMUOrthogonalTest extends LinearOpMode
 {
     // The IMU sensor object
     IMU imu;

@@ -116,90 +116,30 @@ public class VoidsAndThings {
         rb.setPower(power);
 
     }
-    public void forward(double power,double distance) {//forward(1);forward(-1);
-        //rb.resetDeviceConfigurationForOpMode();
+    public void forward(double power,double distance) {//forward(1);forward(-1)
         resetEncoders();
-        setTgPos(distance, distance, distance, distance);
-
+        lf.setTargetPosition((int) (distance*wheelOneInch));
+        rf.setTargetPosition((int) (distance*wheelOneInch));
+        lb.setTargetPosition((int) (distance*wheelOneInch));
+        rb.setTargetPosition((int) (distance*wheelOneInch));
+//--------------------------------------------------------------------------------------------------
         runToPosition();
-//        lf.setTargetPosition((int) (distance*wheelOneInch));
-//        rf.setTargetPosition((int) (-distance*wheelOneInch));
-//        lb.setTargetPosition((int) (distance*wheelOneInch));
-//        rb.setTargetPosition((int) (-distance*wheelOneInch));
+//--------------------------------------------------------------------------------------------------
+        lf.setPower(power);
+        rf.setPower(power);
+        lb.setPower(power);
+        rb.setPower(power);
 
-        forward(power);
+        //--------------------------------Telematry, gives data about position and makes sure it doesnt stop immediately.-----------------------
+        while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()) {
 
-        /*while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()) {
-            *//*
-            lf.setPower(power);
-            rf.setPower(power);
-            lb.setPower(-power);
-            rb.setPower(power);
-
-            *//*
-            telemetry.addData("rb encoder: ",rb.getCurrentPosition());
-            telemetry.addData("power: ",rb.getPower());
-            telemetry.addData("lb encoder: ",lb.getCurrentPosition());
-            telemetry.addData("power: ",lb.getPower());
-            telemetry.addData("rf encoder: ",rf.getCurrentPosition());
-            telemetry.addData("power: ",rf.getPower());
-            telemetry.addData("lf encoder: ",lf.getCurrentPosition());
-            telemetry.addData("power: ",lf.getPower());
-            telemetry.addData("Distance (cm)", sensor.getDistance(DistanceUnit.CM));
-            telemetry.update();
-        }*/
-
-
-        forward(0);
-
-
-        /*
-        while(Math.abs(rb.getCurrentPosition())<distance*wheelOneInch) {
-            telemetry.addData("encoder: ",rb.getCurrentPosition());
-            telemetry.update();
-            //System.out.println(rb.getCurrentPosition());
-            lf.setPower(power);
-            rf.setPower(power);
-            lb.setPower(power);
-            rb.setPower(power);
         }
-
-        lf.setPower(0);
-        rf.setPower(0);
-        lb.setPower(0);
-        rb.setPower(0);
-
-         */
-
-
+        //-------------------------End While--------------------------------------------------------
+        forward(0); //stopping all motors
     }
+//----------------------------------End of forward--------------------------------------------------
 
-    public void backward(double power) {
-        lf.setPower(-power);
-        rf.setPower(-power);
-        lb.setPower(-power);
-        rb.setPower(-power);
 
-    }
-    public void backward(double power,double distance) {//forward(1);forward(-1);
-        //rb.resetDeviceConfigurationForOpMode();
-        resetEncoders();
-        lf.setTargetPosition((int) (-distance * wheelOneInch));
-        rf.setTargetPosition((int) (-distance * wheelOneInch));
-        lb.setTargetPosition((int) (-distance * wheelOneInch));
-        rb.setTargetPosition((int) (-distance * wheelOneInch));
-
-        runToPosition();
-//        lf.setTargetPosition((int) (distance*wheelOneInch));
-//        rf.setTargetPosition((int) (-distance*wheelOneInch));
-//        lb.setTargetPosition((int) (distance*wheelOneInch));
-//        rb.setTargetPosition((int) (-distance*wheelOneInch));
-
-        lf.setPower(-power);
-        rf.setPower(-power);
-        lb.setPower(-power);
-        rb.setPower(-power);
-    }
     public void right(double power) {
         lf.setPower(power);
         rf.setPower(-power);
@@ -342,7 +282,7 @@ public class VoidsAndThings {
         //DistanceSensor sensor;
         //sensor=hardwareMap.get(DistanceSensor.class, "distance");
         Fsensor=hardwareMap.get(ColorSensor.class, "");
-        Fsensor=hardwareMap.get(ColorSensor.class, "");
+        Bsensor=hardwareMap.get(ColorSensor.class, "");
         imu = hardwareMap.get(IMU.class, "imu");
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
         RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
