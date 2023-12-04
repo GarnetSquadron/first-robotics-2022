@@ -215,9 +215,10 @@ public class VoidsAndThings {
 
     //this is test for the first scrimmage
     public void autoScrimmage() {
-        int spike=SpikeCheck();
+
         forward(-.25, -28);
         //sleep(200);
+        int spike=SpikeCheck();
         if(spike==1){ //Put yes statement here for detection of spike marker
             forward(-.25, -9);
             forward(.25, 9);
@@ -281,8 +282,8 @@ public class VoidsAndThings {
         lb.setDirection(DcMotorSimple.Direction.REVERSE);
         //DistanceSensor sensor;
         //sensor=hardwareMap.get(DistanceSensor.class, "distance");
-        Fsensor=hardwareMap.get(ColorSensor.class, "");
-        Bsensor=hardwareMap.get(ColorSensor.class, "");
+        Fsensor=hardwareMap.get(ColorSensor.class, "Fsensor");
+        Bsensor=hardwareMap.get(ColorSensor.class, "Bsensor");
         imu = hardwareMap.get(IMU.class, "imu");
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
         RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;

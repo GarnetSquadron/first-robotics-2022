@@ -8,9 +8,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 @Autonomous(name = "auto1(red)")
 public class Auto1 extends LinearOpMode {
-    private VoidsAndThings voidsAndThings;
 
 
 
@@ -20,6 +21,8 @@ public class Auto1 extends LinearOpMode {
     private DcMotor rf;
     private DcMotor lb;
     private DcMotor rb;
+    ColorSensor Fsensor;
+    ColorSensor Bsensor;
     //private DcMotor arm;
     //private Servo claw;
     //ColorSensor colorSensor;
@@ -40,7 +43,10 @@ public class Auto1 extends LinearOpMode {
     //makes it so we can just call on this value instead of pasting the number each time in code, as well as
     //the value can be multiplied by the amount of inches desired to make it more simple.
     final double wheelOneInch = (wheelRotation / wheelCircumference);
-
+    private double minRed=20;//Im going to change this according to tests
+    private boolean GetColorB(){
+        return minRed<Bsensor.red();
+    }
     public void move(double direction, double power) {
         lf.setPower(Math.sin(direction - Math.PI / 4) * power);
         rf.setPower(Math.sin(direction + Math.PI / 4) * power);
@@ -88,7 +94,7 @@ public class Auto1 extends LinearOpMode {
         lb.setPower(power);
         rb.setPower(power);
 
-        //--------------------------------Telematry, gives data about position and makes sure it doesnt stop immediately.-----------------------
+        //--------------------------------Telematry, gives data about position----------------------
         while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()) {
             telemetry.addData("rb encoder: ",rb.getCurrentPosition());
             telemetry.addData("power: ",rb.getPower());
@@ -98,6 +104,8 @@ public class Auto1 extends LinearOpMode {
             telemetry.addData("power: ",rf.getPower());
             telemetry.addData("lf encoder: ",lf.getCurrentPosition());
             telemetry.addData("power: ",lf.getPower());
+            telemetry.addData("Bsensor: ",Bsensor.red());
+            telemetry.update();
             telemetry.update();
         }
         //-------------------------End While--------------------------------------------------------
@@ -121,7 +129,7 @@ public void sRight(double power,double distance) {
     lb.setPower(power);
     rb.setPower(-power);
 
-    //--------------------------------Telematry, gives data about position and makes sure it doesnt stop immediately.---------------------------
+    //--------------------------------Telematry, gives data about position--------------------------
     while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()) {
         telemetry.addData("rb encoder: ",rb.getCurrentPosition());
         telemetry.addData("power: ",rb.getPower());
@@ -131,6 +139,9 @@ public void sRight(double power,double distance) {
         telemetry.addData("power: ",rf.getPower());
         telemetry.addData("lf encoder: ",lf.getCurrentPosition());
         telemetry.addData("power: ",lf.getPower());
+        telemetry.addData("Bsensor: ",Bsensor.red());
+        telemetry.update();
+
         telemetry.update();
     }
     //-------------------------End While------------------------------------------------------------
@@ -161,14 +172,36 @@ public void sRight(double power,double distance) {
         rb.setPower(-power);
 
     }
+//    public int SpikeCheck() {
+//        int max1= 10;
+//        int max2= 20;
+//        int spike;
+//        int i=0;
+//        forward(0.25,1);
+//        left(0.25,-2);
+//        while(sensor.getDistance(DistanceUnit.INCH)>=30) {
+//            right(0.25, 2);
+//            i+=2;
+//        }
+//        if (i<max1)
+//            spike=1;
+//        else if (i<max2)
+//            spike=2;
+//        else
+//            spike=3;
+//        left(0.25, 2*i);
+//
+//        return spike;
+//
+//    }
 
-
-    //this is test for the first scrimmage
+    //This is a new auto with the color sensor and straife
     public void autoScrimmage() {
-        sRight(-.25, -28);
+        sRight(-.25, -45);
         sleep(200);
-        forward(.25,6);
-        if(true){ //Put yes statement here for detection of spike marker
+        forward(.25,4);
+        //boolean spike=GetColorB();
+        if(GetColorB()){ //Put yes statement here for detection of spike marker
             forward(.25, 2);
             //drop piece here
             forward(-.25, -52);
@@ -179,7 +212,7 @@ public void sRight(double power,double distance) {
                 forward(-.25, -2);
                 //drop piece here
                 forward(-.25, -36);
-            } //end of yes statement
+           } //end of yes statement
             else { //Put no statement here for detection of spike marker
                 forward(.25,2);
                 sRight(-.25,-6);
@@ -192,28 +225,28 @@ public void sRight(double power,double distance) {
 
     }
 //--------------------------------------------------------------------
-//    public void autoScrimmage2() {
-//        forward(-.25, -48);
-//        sleep(200);
-//        forward(-.25, -5);
-//        forward(.25, 5);
-//    }
+    public void autoScrimmage2() {
+        forward(-.25, -48);
+        sleep(200);
+        forward(-.25, -5);
+        forward(.25, 5);
+    }
 
     //-------------------------------------------------------------------
 
-//    public void autoScrimmage3() {
-//        forward(-.25, -38);
-//        forward(.25, 26);
-//        lf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        lb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        rb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        //right(.25);
-//        sleep(1600);
-//        forward(0);
-//        forward(.25,5);
-//        forward(-.25,-36);
-//    }
+    public void autoScrimmage3() {
+        forward(-.25, -38);
+        forward(.25, 26);
+        lf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //right(.25);
+        sleep(1600);
+        forward(0);
+        forward(.25,5);
+        forward(-.25,-36);
+    }
 
     //-----------------------------------------------------
 
@@ -254,24 +287,26 @@ public void sRight(double power,double distance) {
     }
     @Override
     public void runOpMode() throws InterruptedException {
-        voidsAndThings = new VoidsAndThings(hardwareMap);
-        voidsAndThings.initHardware();
         lf = hardwareMap.get(DcMotor.class, "lf");
         rf = hardwareMap.get(DcMotor.class, "rf");
         lb = hardwareMap.get(DcMotor.class, "lb");
         rb = hardwareMap.get(DcMotor.class, "rb");
         rf.setDirection(DcMotorSimple.Direction.REVERSE);
         rb.setDirection(DcMotorSimple.Direction.REVERSE);
+        Fsensor=hardwareMap.get(ColorSensor.class, "Fsensor");
+        Bsensor=hardwareMap.get(ColorSensor.class, "Bsensor");
+
         //arm = hardwareMap.get(DcMotor.class, "arm");
         //claw = hardwareMap.get(Servo.class, "claw");
         //colorSensor = hardwareMap.colorSensor.get("color");
         waitForStart();
-        autoScrimmagered();
+        autoScrimmage();
 
 
 
 
     }
+
 
 }
 
