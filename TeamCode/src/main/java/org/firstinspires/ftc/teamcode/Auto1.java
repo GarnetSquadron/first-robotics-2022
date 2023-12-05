@@ -43,9 +43,15 @@ public class Auto1 extends LinearOpMode {
     //makes it so we can just call on this value instead of pasting the number each time in code, as well as
     //the value can be multiplied by the amount of inches desired to make it more simple.
     final double wheelOneInch = (wheelRotation / wheelCircumference);
-    private double minRed=20;//Im going to change this according to tests
-    private boolean GetColorB(){
+    private double minRed=90;//under 90
+    private double minBlue=50;
+    private boolean GetColorBRed(){
+
         return minRed<Bsensor.red();
+    }
+    private boolean GetColorBBlue(){
+
+        return minBlue<Bsensor.blue();//under
     }
     public void move(double direction, double power) {
         lf.setPower(Math.sin(direction - Math.PI / 4) * power);
@@ -104,7 +110,8 @@ public class Auto1 extends LinearOpMode {
             telemetry.addData("power: ",rf.getPower());
             telemetry.addData("lf encoder: ",lf.getCurrentPosition());
             telemetry.addData("power: ",lf.getPower());
-            telemetry.addData("Bsensor: ",Bsensor.red());
+            telemetry.addData("Bsensor red: ",Bsensor.red());
+            telemetry.addData("Bsensor blue: ",Bsensor.blue());
             telemetry.update();
             telemetry.update();
         }
@@ -139,7 +146,8 @@ public void sRight(double power,double distance) {
         telemetry.addData("power: ",rf.getPower());
         telemetry.addData("lf encoder: ",lf.getCurrentPosition());
         telemetry.addData("power: ",lf.getPower());
-        telemetry.addData("Bsensor: ",Bsensor.red());
+        telemetry.addData("Bsensor red: ",Bsensor.red());
+        telemetry.addData("Bsensor blue: ",Bsensor.blue());
         telemetry.update();
 
         telemetry.update();
@@ -201,7 +209,7 @@ public void sRight(double power,double distance) {
         sleep(200);
         forward(.25,4);
         //boolean spike=GetColorB();
-        if(GetColorB()){ //Put yes statement here for detection of spike marker
+        if(GetColorBRed()){ //Put yes statement here for detection of spike marker
             forward(.25, 2);
             //drop piece here
             forward(-.25, -52);
