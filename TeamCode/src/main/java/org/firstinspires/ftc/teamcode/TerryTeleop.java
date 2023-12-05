@@ -23,26 +23,26 @@ public class TerryTeleop extends LinearOpMode {
     private double MaxLiftPos = 20;
     private double MinLiftPos = 0;
     public void resetEncoders() {
-        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
     public void runToPosition()  {
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+       // lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         //arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public void Lift(double power,double height) {//forward(1);forward(-1)
         //resetEncoders();   <--we dont want this
-        lift.setTargetPosition((int) (height));
+        //lift.setTargetPosition((int) (height));
 //--------------------------------------------------------------------------------------------------
         runToPosition();
 //--------------------------------------------------------------------------------------------------
-        lift.setPower(power);
+        //lift.setPower(power);
 
         //--------------------------------Telemetry, gives data about position and makes sure it doesnt stop immediately.----------------------
-        while (lift.isBusy()) {
-            telemetry.addData("lf encoder: ",lift.getCurrentPosition());
-            telemetry.addData("power: ",lift.getPower());
-            telemetry.update();
-        }
+//        while (lift.isBusy()) {
+//            telemetry.addData("lf encoder: ",lift.getCurrentPosition());
+//            telemetry.addData("power: ",lift.getPower());
+//            telemetry.update();
+//        }
         //-------------------------End While--------------------------------------------------------
         stop(); //stopping all motors
     }
@@ -50,7 +50,7 @@ public class TerryTeleop extends LinearOpMode {
     @Override
     public void runOpMode() {
         resetEncoders();
-        runToPosition();
+       // runToPosition();
         //arm = hardwareMap.get(DcMotor.class, "arm");
         //arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         terryHardware = new TerryHardware(hardwareMap);

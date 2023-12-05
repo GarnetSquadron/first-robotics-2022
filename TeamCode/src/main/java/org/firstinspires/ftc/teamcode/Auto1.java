@@ -1,14 +1,18 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 @Autonomous(name = "auto1(red)")
 public class Auto1 extends LinearOpMode {
@@ -52,6 +56,12 @@ public class Auto1 extends LinearOpMode {
     private boolean GetColorBBlue(){
 
         return minBlue<Bsensor.blue();//under
+    }
+    public void runWithoutEncoders() {
+        lf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        lb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
     public void move(double direction, double power) {
         lf.setPower(Math.sin(direction - Math.PI / 4) * power);
@@ -117,6 +127,31 @@ public class Auto1 extends LinearOpMode {
         }
         //-------------------------End While--------------------------------------------------------
         stop(); //stopping all motors
+    }
+
+    public void turn(double power){
+        lf.setPower(-power);
+        rf.setPower(power);
+        lb.setPower(-power);
+        rb.setPower(power);
+    }
+    IMU imu;
+    public void turn(double power, double degrees){
+        runWithoutEncoders();
+        //YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
+        //double initdirection = orientation.getYaw(AngleUnit.DEGREES);
+        imu.resetYaw();
+        YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
+        while (Math.abs (orientation.getYaw(AngleUnit.DEGREES)) <=degrees) {
+
+
+            turn(power);
+            telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", Math.abs(orientation.getYaw(AngleUnit.DEGREES)));
+//            telemetry.addData("Pitch (X)", "%.2f Deg.", orientation.getPitch(AngleUnit.DEGREES));
+//            telemetry.addData("Roll (Y)", "%.2f Deg.\n", orientation.getRoll(AngleUnit.DEGREES));
+            telemetry.update();
+            orientation = imu.getRobotYawPitchRollAngles();
+        }
     }
 //----------------------------------End of forward--------------------------------------------------
     //sRight = straife right
@@ -205,19 +240,28 @@ public void sRight(double power,double distance) {
 
     //This is a new auto with the color sensor and straife
     public void autoScrimmage() {
-        sRight(-.25, -45);
+        sRight(-.25, -44.5);
         sleep(200);
         forward(.25,4);
         //boolean spike=GetColorB();
         if(GetColorBRed()){ //Put yes statement here for detection of spike marker
             forward(.25, 2);
+            forward(-.25,-7);
+            turn(0.25,179);
+            sRight(-.25,-7);
+            forward(-.25,-2);
             //drop piece here
-            forward(-.25, -52);
+            forward(.25, 52);
         } //end of yes statement
         else{ //Put no statement here for detection of spike marker
-            forward(-.25, -8);
-            if(true){ //Put yes statement here for detection of spike marker
+            forward(-.25, -4);
+            turn(0.25, 176);
+            sRight(-.25,-11);
+            forward(0.25,4);
+            sleep(200);
+            if(GetColorBRed()){ //Put yes statement here for detection of spike marker
                 forward(-.25, -2);
+                forward(-.25,-14);
                 //drop piece here
                 forward(-.25, -36);
            } //end of yes statement
@@ -303,6 +347,12 @@ public void sRight(double power,double distance) {
         rb.setDirection(DcMotorSimple.Direction.REVERSE);
         Fsensor=hardwareMap.get(ColorSensor.class, "Fsensor");
         Bsensor=hardwareMap.get(ColorSensor.class, "Bsensor");
+        imu = hardwareMap.get(IMU.class, "imu");
+        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
+        RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
+
+        RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
+        imu.initialize(new IMU.Parameters(orientationOnRobot));
 
         //arm = hardwareMap.get(DcMotor.class, "arm");
         //claw = hardwareMap.get(Servo.class, "claw");
