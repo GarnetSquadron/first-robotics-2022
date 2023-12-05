@@ -23,19 +23,19 @@ public class TerryTeleop extends LinearOpMode {
     private double MaxLiftPos = 20;
     private double MinLiftPos = 0;
     public void resetEncoders() {
-        //lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
     public void runToPosition()  {
-       // lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         //arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public void Lift(double power,double height) {//forward(1);forward(-1)
         //resetEncoders();   <--we dont want this
-        //lift.setTargetPosition((int) (height));
+        lift.setTargetPosition((int) (height));
 //--------------------------------------------------------------------------------------------------
         runToPosition();
 //--------------------------------------------------------------------------------------------------
-        //lift.setPower(power);
+        lift.setPower(power);
 
         //--------------------------------Telemetry, gives data about position and makes sure it doesnt stop immediately.----------------------
 //        while (lift.isBusy()) {
@@ -43,6 +43,23 @@ public class TerryTeleop extends LinearOpMode {
 //            telemetry.addData("power: ",lift.getPower());
 //            telemetry.update();
 //        }
+//        //-------------------------End While--------------------------------------------------------
+//        stop(); //stopping all motors
+    }
+    public void arm(double power,double height) {//forward(1);forward(-1)
+        //resetEncoders();   <--we dont want this
+        arm.setTargetPosition((int) (height));
+//--------------------------------------------------------------------------------------------------
+        runToPosition();
+//--------------------------------------------------------------------------------------------------
+        arm.setPower(power);
+
+        //--------------------------------Telemetry, gives data about position and makes sure it doesnt stop immediately.----------------------
+        while (arm.isBusy()) {
+            telemetry.addData("lf encoder: ",arm.getCurrentPosition());
+            telemetry.addData("power: ",arm.getPower());
+            telemetry.update();
+        }
         //-------------------------End While--------------------------------------------------------
         stop(); //stopping all motors
     }
@@ -50,15 +67,22 @@ public class TerryTeleop extends LinearOpMode {
     @Override
     public void runOpMode() {
         resetEncoders();
-       // runToPosition();
+        runToPosition();
         //arm = hardwareMap.get(DcMotor.class, "arm");
         //arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         terryHardware = new TerryHardware(hardwareMap);
         terryHardware.initHardware();
+        arm = hardwareMap.get(DcMotor.class, "arm");
+        lift = hardwareMap.get(DcMotor.class, "lift");
+        claw = hardwareMap.get(Servo.class, "claw");
 
 //      terryHardware.setClawPosition(1);
         waitForStart();
+        boolean liftUp = false;
+        boolean armUp = false;
+        boolean clawUp = false;
         while (opModeIsActive()) {
+
             //drive robot according to sticks * sensitivity. I am very sensitive irl. Please don't bully me. aka yoink mcsploink
             //ftc judges please understand this is a inside joke
             terryHardware.driveRobot(-gamepad1.left_stick_y * currentSensitivity, gamepad1.left_stick_x * currentSensitivity, gamepad1.right_stick_x * currentSensitivity);
@@ -72,15 +96,27 @@ public class TerryTeleop extends LinearOpMode {
             }
             if(gamepad1.y){
                 claw.setPosition(MaxClawPos);
+                clawUp=true;
             }
             if(gamepad1.b){
                 claw.setPosition(MinClawPos);
+                clawUp=false;
             }
             if(gamepad1.x){
-                Lift(1,20);
+                Lift(-0.75,0);
+                liftUp=false;
             }
             if(gamepad1.a){
-                Lift(-1,0);
+                Lift(0.75,10);
+                liftUp=true;
+            }
+            if(gamepad1.left_trigger>0){
+                arm(0.2,0);
+                armUp=false;
+            }
+            if(gamepad1.right_trigger>0){
+                arm(0.75,10);
+                armUp=true;
             }
 
             //claw controls
@@ -102,6 +138,12 @@ public class TerryTeleop extends LinearOpMode {
             }
 
             */
+
+            telemetry.addData("Lift:",liftUp);
+            telemetry.addData("arm:",armUp);
+            telemetry.addData("claw:",clawUp);
+
+
             if (gamepad1.right_bumper) {
                 currentSensitivity = turboSensitivity;
             } else if (gamepad1.left_bumper) {
@@ -109,6 +151,7 @@ public class TerryTeleop extends LinearOpMode {
             } else {
                 currentSensitivity = defaultSensitivity;
             }
+
         }
     }
 }
