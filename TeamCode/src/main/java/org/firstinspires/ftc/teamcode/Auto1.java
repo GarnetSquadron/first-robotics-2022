@@ -239,7 +239,8 @@ public void sRight(double power,double distance) {
 //    }
 
     //This is a new auto with the color sensor and straife
-    public void autoScrimmage() {
+
+    public void autoScrimmageRF() {
         sRight(-.25, -44.5);
         sleep(200);
         forward(.25,4);
@@ -253,27 +254,28 @@ public void sRight(double power,double distance) {
             //drop piece here
             forward(.25, 52);
         } //end of yes statement
-        else{ //Put no statement here for detection of spike marker
-            forward(-.25, -4);
-            turn(0.25, 176);
-            sRight(-.25,-11);
-            forward(0.25,4);
-            sleep(200);
+            else{ //Put no statement here for detection of spike marker
+                forward(-.25, -4);
+                sRight(-.25,-6);;
+                turn(0.25, 176);
+                sRight(-.25,-17);
+                forward(0.25,4);
+                sleep(200);
             if(GetColorBRed()){ //Put yes statement here for detection of spike marker
-                forward(-.25, -2);
-                forward(-.25,-14);
+                forward(.25, 2);
                 //drop piece here
-                forward(-.25, -36);
+                forward(.25,14);
+
            } //end of yes statement
             else { //Put no statement here for detection of spike marker
                 forward(.25,2);
                 sRight(-.25,-6);
-                sRight(.25,6);
-                forward(-.25,38);
+                //drop thing
+                forward(.25,38);
             }
 
         }
-        //forward(.25, 28);
+
 
     }
 //--------------------------------------------------------------------
@@ -358,7 +360,7 @@ public void sRight(double power,double distance) {
         //claw = hardwareMap.get(Servo.class, "claw");
         //colorSensor = hardwareMap.colorSensor.get("color");
         waitForStart();
-        autoScrimmage();
+        autoScrimmageRF();
 
 
 

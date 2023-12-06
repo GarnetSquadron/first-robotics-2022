@@ -20,18 +20,21 @@ public class TerryTeleop extends LinearOpMode {
     private DcMotor lift;
     private double MaxClawPos = 20;
     private double MinClawPos = 0;
-    private double MaxLiftPos = 20;
+    private double MaxLiftPos = 10;
     private double MinLiftPos = 0;
+    private double MaxArmPos = 20;
+    private double MinArmPos = 0;
+
     public void resetEncoders() {
-        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);//WHY DOES THIS GIVE ERROR :(
     }
     public void runToPosition()  {
-        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);//WHY DOES THIS GIVE ERROR :(
         //arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public void Lift(double power,double height) {//forward(1);forward(-1)
         //resetEncoders();   <--we dont want this
-        lift.setTargetPosition((int) (height));
+        //lift.setTargetPosition((int) (height));
 //--------------------------------------------------------------------------------------------------
         runToPosition();
 //--------------------------------------------------------------------------------------------------
@@ -66,21 +69,22 @@ public class TerryTeleop extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        resetEncoders();
-        runToPosition();
+
         //arm = hardwareMap.get(DcMotor.class, "arm");
         //arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         terryHardware = new TerryHardware(hardwareMap);
         terryHardware.initHardware();
         arm = hardwareMap.get(DcMotor.class, "arm");
         lift = hardwareMap.get(DcMotor.class, "lift");
-        claw = hardwareMap.get(Servo.class, "claw");
-
+        //claw = hardwareMap.get(Servo.class, "claw");
+//        resetEncoders();
+//        runToPosition();
 //      terryHardware.setClawPosition(1);
         waitForStart();
         boolean liftUp = false;
         boolean armUp = false;
         boolean clawUp = false;
+        telemetry.addLine("running");
         while (opModeIsActive()) {
 
             //drive robot according to sticks * sensitivity. I am very sensitive irl. Please don't bully me. aka yoink mcsploink
@@ -95,27 +99,32 @@ public class TerryTeleop extends LinearOpMode {
                 //arm.setPower(-0.1);
             }
             if(gamepad1.y){
-                claw.setPosition(MaxClawPos);
+                //claw.setPosition(MaxClawPos);
                 clawUp=true;
             }
             if(gamepad1.b){
-                claw.setPosition(MinClawPos);
+                //claw.setPosition(MinClawPos);
                 clawUp=false;
             }
             if(gamepad1.x){
-                Lift(-0.75,0);
+                Lift(-0.75,MinLiftPos);
                 liftUp=false;
             }
-            if(gamepad1.a){
-                Lift(0.75,10);
+
+            else if(gamepad1.a){
+                Lift(0.75,MaxLiftPos);
                 liftUp=true;
             }
+            else {
+                Lift(0,0);
+                liftUp=false;
+            }
             if(gamepad1.left_trigger>0){
-                arm(0.2,0);
+                //arm(0.2,0);
                 armUp=false;
             }
             if(gamepad1.right_trigger>0){
-                arm(0.75,10);
+                //arm(0.75,10);
                 armUp=true;
             }
 
@@ -142,6 +151,7 @@ public class TerryTeleop extends LinearOpMode {
             telemetry.addData("Lift:",liftUp);
             telemetry.addData("arm:",armUp);
             telemetry.addData("claw:",clawUp);
+            telemetry.update();
 
 
             if (gamepad1.right_bumper) {
