@@ -34,7 +34,7 @@ public class TerryTeleop extends LinearOpMode {
     }
     public void Lift(double power,double height) {//forward(1);forward(-1)
         //resetEncoders();   <--we dont want this
-        //lift.setTargetPosition((int) (height));
+        lift.setTargetPosition((int) (height));
 //--------------------------------------------------------------------------------------------------
         runToPosition();
 //--------------------------------------------------------------------------------------------------
@@ -77,7 +77,7 @@ public class TerryTeleop extends LinearOpMode {
         arm = hardwareMap.get(DcMotor.class, "arm");
         lift = hardwareMap.get(DcMotor.class, "lift");
         //claw = hardwareMap.get(Servo.class, "claw");
-//        resetEncoders();
+        resetEncoders();
 //        runToPosition();
 //      terryHardware.setClawPosition(1);
         waitForStart();
