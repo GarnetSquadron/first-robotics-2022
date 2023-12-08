@@ -254,7 +254,7 @@ public void sRight(double power,double distance) {
             //drop piece here
             forward(.25, 52);
         } //end of yes statement
-            else{ //Put no statement here for detection of spike marker
+        else{ //Put no statement here for detection of spike marker
                 forward(-.25, -4);
                 sRight(-.25,-6);;
                 turn(0.25, 176);

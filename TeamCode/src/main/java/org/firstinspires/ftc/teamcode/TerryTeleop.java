@@ -28,15 +28,19 @@ public class TerryTeleop extends LinearOpMode {
     public void resetEncoders() {
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);//WHY DOES THIS GIVE ERROR :(
     }
+    public void runWithoutEncoders() {
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
     public void runToPosition()  {
         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);//WHY DOES THIS GIVE ERROR :(
         //arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public void Lift(double power,double height) {//forward(1);forward(-1)
         //resetEncoders();   <--we dont want this
-        lift.setTargetPosition((int) (height));
+        //lift.setTargetPosition((int) (height));
+        runWithoutEncoders();
 //--------------------------------------------------------------------------------------------------
-        runToPosition();
+        //runToPosition();
 //--------------------------------------------------------------------------------------------------
         lift.setPower(power);
 
