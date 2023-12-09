@@ -49,8 +49,8 @@ public class Auto2 extends LinearOpMode {
     //the value can be multiplied by the amount of inches desired to make it more simple.
     final double wheelOneInch = (wheelRotation / wheelCircumference);
 
-    private double MaxClawPos = 0.1;
-    private double MinClawPos = 0.3;
+    private double MaxClawPos = 0;
+    private double MinClawPos = 0;
     private double minRed=90;//under 90
     private double minBlue=50;
     private boolean GetColorBRed(){

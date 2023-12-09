@@ -18,8 +18,8 @@ public class TerryTeleop extends LinearOpMode {
     private DcMotor arm;
     private Servo claw;
     private DcMotor lift;
-    private double MaxClawPos = 0.08;
-    private double MinClawPos = 0.1;
+    private double MaxClawPos = 0.3;
+    private double MinClawPos = 0.4;
     private double MaxLiftPos = 6750;//DO NOt go over 7267
     private double MinLiftPos = 0;
     private double MaxArmPos = 20;
@@ -105,11 +105,11 @@ public class TerryTeleop extends LinearOpMode {
             if(gamepad2.right_bumper) {
                 //arm.setPower(-0.1);
             }
-            if(gamepad1.y){
+            if(gamepad2.y){
                 claw.setPosition(MaxClawPos);
                 clawUp=true;
             }
-            if(gamepad1.b){
+            if(gamepad2.b){
                 claw.setPosition(MinClawPos);
                 clawUp=false;
             }
