@@ -49,8 +49,8 @@ public class Auto1 extends LinearOpMode {
     //the value can be multiplied by the amount of inches desired to make it more simple.
     final double wheelOneInch = (wheelRotation / wheelCircumference);
 
-    private double MaxClawPos = 0.1;
-    private double MinClawPos = 0.3;
+    private double MaxClawPos = 0.3;
+    private double MinClawPos = 0.4;
     private double minRed=90;//under 90
     private double minBlue=50;
     private boolean GetColorBRed(){
@@ -246,9 +246,10 @@ public void sRight(double power,double distance) {
 
     public void autoScrimmageRF() {
         claw.setPosition(MinClawPos);
-        sRight(-.25, -44.5);
+        sRight(-.25, -40);
         sleep(200);
         forward(.25,4);
+        sleep(200);
         //boolean spike=GetColorB();
         if(GetColorBRed()){ //Put yes statement here for detection of spike marker
             forward(.25, 2);
@@ -257,6 +258,7 @@ public void sRight(double power,double distance) {
             sRight(-.25,-7);
             forward(-.25,-2);
             forward(.25, 52);
+            sleep(1000);
             claw.setPosition(MaxClawPos);
         } //end of yes statement
         else{ //Put no statement here for detection of spike marker
@@ -270,6 +272,7 @@ public void sRight(double power,double distance) {
                 forward(.25, 2);
                 //drop piece here
                 forward(.25,14);
+                sleep(1000);
                 claw.setPosition(MaxClawPos);
 
            } //end of yes statement
@@ -277,7 +280,8 @@ public void sRight(double power,double distance) {
                 forward(.25,2);
                 sRight(-.25,-6);
                 //drop thing
-                forward(.25,38);
+                forward(.25,35);
+                sleep(1000);
                 claw.setPosition(MaxClawPos);
             }
 
@@ -368,7 +372,19 @@ public void sRight(double power,double distance) {
         //claw = hardwareMap.get(Servo.class, "claw");
         //colorSensor = hardwareMap.colorSensor.get("color");
         waitForStart();
-        autoScrimmageRF();
+        //autoScrimmageRF();
+//        claw.setPosition(MinClawPos);
+//        telemetry.addData("claw", claw.getPosition());
+//        telemetry.update();
+//        sleep(1000);
+//        claw.setPosition(MaxClawPos);
+//        telemetry.addData("claw", claw.getPosition());
+//        telemetry.update();
+//
+//        sleep(1000);
+//        claw.setPosition(MinClawPos);
+//        telemetry.addData("claw", claw.getPosition());
+//        telemetry.update();
 
 
 

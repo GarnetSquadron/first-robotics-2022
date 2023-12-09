@@ -253,7 +253,7 @@ public class Auto2 extends LinearOpMode {
         if(GetColorBRed()){ //Put yes statement here for detection of spike marker
             forward(.25, 2);
             forward(-.25,-7);
-            turn(0.25,179);
+            turn(-0.25,179);
             sRight(.25,7);
             forward(-.25,-2);
             forward(.25, 52);
@@ -262,7 +262,7 @@ public class Auto2 extends LinearOpMode {
         else{ //Put no statement here for detection of spike marker
             forward(-.25, -4);
             sRight(.25,6);;
-            turn(0.25, 176);
+            turn(-0.25, 176);
             sRight(.25,17);
             forward(0.25,4);
             sleep(200);
