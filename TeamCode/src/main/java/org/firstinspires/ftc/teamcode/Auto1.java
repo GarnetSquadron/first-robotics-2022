@@ -50,7 +50,7 @@ public class Auto1 extends LinearOpMode {
     final double wheelOneInch = (wheelRotation / wheelCircumference);
 
     private double MaxClawPos = 0.3;
-    private double MinClawPos = 0.4;
+    private double MinClawPos = 0.45;
     private double minRed=90;//under 90
     private double minBlue=50;
     private boolean GetColorBRed(){
@@ -126,6 +126,7 @@ public class Auto1 extends LinearOpMode {
             telemetry.addData("power: ",lf.getPower());
             telemetry.addData("Bsensor red: ",Bsensor.red());
             telemetry.addData("Bsensor blue: ",Bsensor.blue());
+            telemetry.addData("claw: ",claw.getPosition());
             telemetry.update();
             telemetry.update();
         }
@@ -187,6 +188,7 @@ public void sRight(double power,double distance) {
         telemetry.addData("power: ",lf.getPower());
         telemetry.addData("Bsensor red: ",Bsensor.red());
         telemetry.addData("Bsensor blue: ",Bsensor.blue());
+        telemetry.addData("claw: ",claw.getPosition());
         telemetry.update();
 
         telemetry.update();
@@ -245,7 +247,7 @@ public void sRight(double power,double distance) {
     //This is a new auto with the color sensor and straife
 
     public void autoScrimmageRF() {
-        claw.setPosition(MinClawPos);
+        //claw.setPosition(MinClawPos);
         sRight(-.25, -40);
         sleep(200);
         forward(.25,4);
@@ -257,9 +259,9 @@ public void sRight(double power,double distance) {
             turn(0.25,179);
             sRight(-.25,-7);
             forward(-.25,-2);
-            forward(.25, 52);
+            forward(.25, 45);
             sleep(1000);
-            claw.setPosition(MaxClawPos);
+            //claw.setPosition(MaxClawPos);
         } //end of yes statement
         else{ //Put no statement here for detection of spike marker
                 forward(-.25, -4);
@@ -273,7 +275,7 @@ public void sRight(double power,double distance) {
                 //drop piece here
                 forward(.25,14);
                 sleep(1000);
-                claw.setPosition(MaxClawPos);
+                //claw.setPosition(MaxClawPos);
 
            } //end of yes statement
             else { //Put no statement here for detection of spike marker
@@ -282,7 +284,7 @@ public void sRight(double power,double distance) {
                 //drop thing
                 forward(.25,35);
                 sleep(1000);
-                claw.setPosition(MaxClawPos);
+                //claw.setPosition(MaxClawPos);
             }
 
         }
@@ -372,7 +374,7 @@ public void sRight(double power,double distance) {
         //claw = hardwareMap.get(Servo.class, "claw");
         //colorSensor = hardwareMap.colorSensor.get("color");
         waitForStart();
-        //autoScrimmageRF();
+        autoScrimmageRF();
 //        claw.setPosition(MinClawPos);
 //        telemetry.addData("claw", claw.getPosition());
 //        telemetry.update();

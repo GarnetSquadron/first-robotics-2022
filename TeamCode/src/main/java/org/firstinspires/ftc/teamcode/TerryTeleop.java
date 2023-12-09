@@ -19,7 +19,7 @@ public class TerryTeleop extends LinearOpMode {
     private Servo claw;
     private DcMotor lift;
     private double MaxClawPos = 0.3;
-    private double MinClawPos = 0.4;
+    private double MinClawPos = 0.45;
     private double MaxLiftPos = 6750;//DO NOt go over 7267
     private double MinLiftPos = 0;
     private double MaxArmPos = 20;
