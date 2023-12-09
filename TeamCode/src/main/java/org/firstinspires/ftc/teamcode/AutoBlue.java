@@ -19,6 +19,7 @@ public class AutoBlue extends LinearOpMode {
     private DcMotor rf;
     private DcMotor lb;
     private DcMotor rb;
+    private Servo claw;
     //private DcMotor arm;
     //private Servo claw;
     //ColorSensor colorSensor;
@@ -330,6 +331,10 @@ public class AutoBlue extends LinearOpMode {
         forward( .25,5);
 
     }
+
+
+
+
     @Override
     public void runOpMode() throws InterruptedException {
         lf = hardwareMap.get(DcMotor.class, "lf");
