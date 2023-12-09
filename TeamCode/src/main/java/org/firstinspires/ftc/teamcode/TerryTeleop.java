@@ -18,9 +18,9 @@ public class TerryTeleop extends LinearOpMode {
     private DcMotor arm;
     private Servo claw;
     private DcMotor lift;
-    private double MaxClawPos = 20;
-    private double MinClawPos = 0;
-    private double MaxLiftPos = 10;
+    private double MaxClawPos = 0.1;
+    private double MinClawPos = 0.3;
+    private double MaxLiftPos = 6750;//DO NOt go over 7267
     private double MinLiftPos = 0;
     private double MaxArmPos = 20;
     private double MinArmPos = 0;
@@ -37,10 +37,13 @@ public class TerryTeleop extends LinearOpMode {
     }
     public void Lift(double power,double height) {//forward(1);forward(-1)
         //resetEncoders();   <--we dont want this
-        //lift.setTargetPosition((int) (height));
-        runWithoutEncoders();
-//--------------------------------------------------------------------------------------------------
-        //runToPosition();
+        lift.setTargetPosition((int) (height));
+        //runWithoutEncoders();
+//        telemetry.addData("lf encoder: ",lift.getCurrentPosition());
+//        telemetry.update();
+
+//-------------------------------------------------------------------------------------------------
+        runToPosition();
 //--------------------------------------------------------------------------------------------------
         lift.setPower(power);
 
@@ -80,7 +83,7 @@ public class TerryTeleop extends LinearOpMode {
         terryHardware.initHardware();
         arm = hardwareMap.get(DcMotor.class, "arm");
         lift = hardwareMap.get(DcMotor.class, "lift");
-        //claw = hardwareMap.get(Servo.class, "claw");
+        claw = hardwareMap.get(Servo.class, "claw");
         resetEncoders();
 //        runToPosition();
 //      terryHardware.setClawPosition(1);
@@ -103,19 +106,19 @@ public class TerryTeleop extends LinearOpMode {
                 //arm.setPower(-0.1);
             }
             if(gamepad1.y){
-                //claw.setPosition(MaxClawPos);
+                claw.setPosition(MaxClawPos);
                 clawUp=true;
             }
             if(gamepad1.b){
-                //claw.setPosition(MinClawPos);
+                claw.setPosition(MinClawPos);
                 clawUp=false;
             }
-            if(gamepad1.x){
+            if(gamepad1.a){
                 Lift(-0.75,MinLiftPos);
                 liftUp=false;
             }
 
-            else if(gamepad1.a){
+            else if(gamepad1.x){
                 Lift(0.75,MaxLiftPos);
                 liftUp=true;
             }
@@ -155,6 +158,7 @@ public class TerryTeleop extends LinearOpMode {
             telemetry.addData("Lift:",liftUp);
             telemetry.addData("arm:",armUp);
             telemetry.addData("claw:",clawUp);
+            telemetry.addData("clawPos:",claw.getPosition());
             telemetry.update();
 
 

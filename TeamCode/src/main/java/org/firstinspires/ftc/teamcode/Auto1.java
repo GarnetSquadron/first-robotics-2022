@@ -25,6 +25,7 @@ public class Auto1 extends LinearOpMode {
     private DcMotor rf;
     private DcMotor lb;
     private DcMotor rb;
+    private Servo claw;
     ColorSensor Fsensor;
     ColorSensor Bsensor;
     //private DcMotor arm;
@@ -350,6 +351,7 @@ public void sRight(double power,double distance) {
         Fsensor=hardwareMap.get(ColorSensor.class, "Fsensor");
         Bsensor=hardwareMap.get(ColorSensor.class, "Bsensor");
         imu = hardwareMap.get(IMU.class, "imu");
+        claw = hardwareMap.get(Servo.class, "claw");
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
         RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
 
