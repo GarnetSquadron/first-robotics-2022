@@ -33,6 +33,7 @@ public class Auto1 extends LinearOpMode {
     //ColorSensor colorSensor;
     //Wheel encoders
     //This is the gobilda encoder value that is used
+    private VoidsAndThings voidsAndThings;
     final double wheelUnitTicks = 537.7;
 
     //this is the gear ratio (this is to make it looks consistent with the arm encoders)
@@ -364,6 +365,8 @@ public void sRight(double power,double distance) {
         Bsensor=hardwareMap.get(ColorSensor.class, "Bsensor");
         imu = hardwareMap.get(IMU.class, "imu");
         claw = hardwareMap.get(Servo.class, "claw");
+        voidsAndThings = new VoidsAndThings(hardwareMap);
+        voidsAndThings.initHardware();
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
         RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
 
@@ -374,7 +377,8 @@ public void sRight(double power,double distance) {
         //claw = hardwareMap.get(Servo.class, "claw");
         //colorSensor = hardwareMap.colorSensor.get("color");
         waitForStart();
-        autoScrimmageRF();
+        //autoScrimmageRF();
+        voidsAndThings.turn(0.25, 180);
 //        claw.setPosition(MinClawPos);
 //        telemetry.addData("claw", claw.getPosition());
 //        telemetry.update();

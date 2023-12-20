@@ -272,14 +272,15 @@ public class VoidsAndThings {
             orientation = imu.getRobotYawPitchRollAngles();
         }
     }
+
     public void initHardware()    {
 
         lf = hardwareMap.get(DcMotor.class, "lf");
         rf = hardwareMap.get(DcMotor.class, "rf");
         lb = hardwareMap.get(DcMotor.class, "lb");
         rb = hardwareMap.get(DcMotor.class, "rb");
-        lf.setDirection(DcMotorSimple.Direction.REVERSE);
-        lb.setDirection(DcMotorSimple.Direction.REVERSE);
+        rf.setDirection(DcMotorSimple.Direction.REVERSE);
+        rb.setDirection(DcMotorSimple.Direction.REVERSE);
         //DistanceSensor sensor;
         //sensor=hardwareMap.get(DistanceSensor.class, "distance");
         Fsensor=hardwareMap.get(ColorSensor.class, "Fsensor");
