@@ -274,6 +274,11 @@ public void sRight(double power,double distance) {
             if(GetColorBRed()){ //Put yes statement here for detection of spike marker
                 forward(.25, 2);
                 //drop piece here
+
+
+
+
+                
                 forward(.25,14);
                 sleep(1000);
                 //claw.setPosition(MaxClawPos);
@@ -294,41 +299,41 @@ public void sRight(double power,double distance) {
     }
     public void CameraAutoScrimmageRF() {
         //claw.setPosition(MinClawPos);
-        sRight(-.25, -40);
+        forward(-.25, -40);
         sleep(200);
-        forward(.25,4);
+        sRight(.25,4);
         sleep(200);
         //boolean spike=GetColorB();
         if(GetColorBRed()){ //Put yes statement here for detection of spike marker
-            forward(.25, 2);
-            forward(-.25,-7);
-            turn(0.25,179);
+            sRight(.25, 2);
             sRight(-.25,-7);
-            forward(-.25,-2);
-            forward(.25, 45);
+            turn(0.25,90);
+            forward(-.25,-7);
+            sRight(-.25,-2);
+            sRight(.25, 45);
             sleep(1000);
             //claw.setPosition(MaxClawPos);
         } //end of yes statement
         else{ //Put no statement here for detection of spike marker
-            forward(-.25, -4);
-            sRight(-.25,-6);;
-            turn(0.25, 176);
-            sRight(-.25,-17);
-            forward(0.25,4);
+            sRight(-.25, -4);
+            forward(-.25,-6);
+            turn(0.25, 90);
+            forward(-.25,-17);
+            sRight(0.25,4);
             sleep(200);
             if(GetColorBRed()){ //Put yes statement here for detection of spike marker
-                forward(.25, 2);
+                sRight(.25, 2);
                 //drop piece here
-                forward(.25,14);
+                sRight(.25,14);
                 sleep(1000);
                 //claw.setPosition(MaxClawPos);
 
             } //end of yes statement
             else { //Put no statement here for detection of spike marker
-                forward(.25,2);
-                sRight(-.25,-6);
+                sRight(.25,2);
+                forward(-.25,-6);
                 //drop thing
-                forward(.25,35);
+                sRight(.25,35);
                 sleep(1000);
                 //claw.setPosition(MaxClawPos);
             }
@@ -422,7 +427,7 @@ public void sRight(double power,double distance) {
         //claw = hardwareMap.get(Servo.class, "claw");
         //colorSensor = hardwareMap.colorSensor.get("color");
         waitForStart();
-        autoScrimmageRF();
+        CameraAutoScrimmageRF();
         //voidsAndThings.turn(0.25, 180);
 //        claw.setPosition(MinClawPos);
 //        telemetry.addData("claw", claw.getPosition());
