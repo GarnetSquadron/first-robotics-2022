@@ -315,8 +315,8 @@ public void sRight(double power,double distance) {
             //claw.setPosition(MaxClawPos);
         } //end of yes statement
         else{ //Put no statement here for detection of spike marker
-            sRight(-.25, -4);
-            forward(-.25,-6);
+            //sRight(-.25, -4);
+            forward(-.25,-9);
             turn(0.25, 90);
             forward(-.25,-17);
             sRight(0.25,4);
