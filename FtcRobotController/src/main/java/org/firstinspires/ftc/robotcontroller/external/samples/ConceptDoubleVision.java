@@ -72,10 +72,12 @@ public class ConceptDoubleVision extends LinearOpMode {
     @Override
     public void runOpMode() {
         initDoubleVision();
+        String TFOD_MODEL_ASSET = "MyModelStoredAsAsset.tflite";
 
         // This OpMode loops continuously, allowing the user to switch between
         // AprilTag and TensorFlow Object Detection (TFOD) image processors.
         while (!isStopRequested())  {
+
 
             if (opModeInInit()) {
                 telemetry.addData("DS preview on/off","3 dots, Camera Stream");

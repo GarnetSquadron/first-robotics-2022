@@ -57,6 +57,7 @@ public class TensorFlowObjectDetectionTest extends LinearOpMode {
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
     // this is only used for Android Studio when using models in Assets.
     private static final String TFOD_MODEL_ASSET = "model_20231220_201017.tflite";
+    private static final String TFOD_MODEL_ASSET2 = "model_20240104_203329.tflite";
     // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
     // this is used when uploading models directly to the RC using the model upload interface.
     //private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/myCustomModel.tflite";
@@ -64,11 +65,15 @@ public class TensorFlowObjectDetectionTest extends LinearOpMode {
     private static final String[] LABELS = {
        "BlueCube",
     };
+    private static final String[] LABELS2 = {
+            "RedCube",
+    };
 
     /**
      * The variable to store our instance of the TensorFlow Object Detection processor.
      */
     private TfodProcessor tfod;
+    //private TfodProcessor tfod2;
 
     /**
      * The variable to store our instance of the vision portal.
@@ -119,23 +124,26 @@ public class TensorFlowObjectDetectionTest extends LinearOpMode {
         // Create the TensorFlow processor by using a builder.
         tfod = new TfodProcessor.Builder()
 
+
             // With the following lines commented out, the default TfodProcessor Builder
             // will load the default model for the season. To define a custom model to load, 
             // choose one of the following:
             //   Use setModelAssetName() if the custom TF Model is built in as an asset (AS only).
             //   Use setModelFileName() if you have downloaded a custom team model to the Robot Controller.
-            .setModelAssetName(TFOD_MODEL_ASSET)
+            .setModelAssetName(TFOD_MODEL_ASSET2)
             //.setModelFileName(TFOD_MODEL_FILE)
 
             // The following default settings are available to un-comment and edit as needed to 
             // set parameters for custom models.
-            .setModelLabels(LABELS)
+            .setModelLabels(LABELS2)
             //.setIsModelTensorFlow2(true)
             //.setIsModelQuantized(true)
             //.setModelInputSize(300)
             //.setModelAspectRatio(16.0 / 9.0)
 
             .build();
+        //time for tfod 2!
+        //tfod2 = new TfodProcessor.Builder().setModelAssetName(TFOD_MODEL_ASSET2).setModelLabels(LABELS2).build();
 
         // Create the vision portal by using a builder.
         VisionPortal.Builder builder = new VisionPortal.Builder();
@@ -163,6 +171,7 @@ public class TensorFlowObjectDetectionTest extends LinearOpMode {
 
         // Set and enable the processor.
         builder.addProcessor(tfod);
+        //builder.addProcessor(tfod2);
 
         // Build the Vision Portal, using the above settings.
         visionPortal = builder.build();
@@ -192,7 +201,7 @@ public class TensorFlowObjectDetectionTest extends LinearOpMode {
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
-            telemetry.addData("- spikemark?","%.0f x %.0f", Math.round(x/200));
+            //telemetry.addData("- spikemark?","%.0f x %.0f", Math.round(x/200));
         }   // end for() loop
 
     }   // end method telemetryTfod()
@@ -204,7 +213,7 @@ public class TensorFlowObjectDetectionTest extends LinearOpMode {
 
             telemetry.addData(""," ");
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
-            telemetry.addData("- Position", "%.0f / %.0f", x, y);
+            telemetry.addData("- Position",  "%.0f / %.0f", x, y);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
             telemetry.addData("- spikemark?","%.0f x %.0f", Math.round(x/200));
         }

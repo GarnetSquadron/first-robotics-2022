@@ -3,8 +3,11 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 
 @TeleOp(name = "\uD83C\uDF56") // ham emoji
@@ -15,9 +18,12 @@ public class TerryTeleop extends LinearOpMode {
     private double turboSensitivity = 1.5;
     private double currentSensitivity = 1.0;
 
+
+
     private DcMotor arm;
     private Servo claw;
     private DcMotor lift;
+    private DistanceSensor sensor;
     private double MaxClawPos = 0.3;
     private double MinClawPos = 0.45;
     private double MaxLiftPos = 6750;//DO NOt go over 7267
@@ -84,6 +90,7 @@ public class TerryTeleop extends LinearOpMode {
         arm = hardwareMap.get(DcMotor.class, "arm");
         lift = hardwareMap.get(DcMotor.class, "lift");
         claw = hardwareMap.get(Servo.class, "claw");
+        sensor=hardwareMap.get(DistanceSensor.class, "distance");
         resetEncoders();
 //        runToPosition();
 //      terryHardware.setClawPosition(1);
@@ -135,6 +142,7 @@ public class TerryTeleop extends LinearOpMode {
                 armUp=true;
             }
 
+
             //claw controls
             //probably servo knowing our luck honestly
             /*
@@ -166,6 +174,9 @@ public class TerryTeleop extends LinearOpMode {
                 currentSensitivity = turboSensitivity;
             } else if (gamepad1.left_bumper) {
                 currentSensitivity = slowSensitivity;
+                if (sensor.getDistance(DistanceUnit.INCH)<=1){
+                    currentSensitivity = 0;
+                }
             } else {
                 currentSensitivity = defaultSensitivity;
             }

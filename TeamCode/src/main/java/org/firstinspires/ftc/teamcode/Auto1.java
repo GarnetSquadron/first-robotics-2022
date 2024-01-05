@@ -10,9 +10,19 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
+//cv imports:
+import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+
+//imu imports:
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
+
+import java.util.List;
 
 @Autonomous(name = "auto1(red)")
 public class Auto1 extends LinearOpMode {
@@ -21,6 +31,26 @@ public class Auto1 extends LinearOpMode {
 
 
     //We are defining all motors here, as to manually control each motor rather than use terry hardware.
+    private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
+
+    // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
+    // this is only used for Android Studio when using models in Assets.
+    private static final String TFOD_MODEL_ASSET = "model_20240104_203329.tflite";
+    private static final String[] LABELS = {
+            "RedCube",
+    };
+    /**
+     * The variable to store our instance of the TensorFlow Object Detection processor.
+     */
+    private TfodProcessor tfod;
+    /**
+     * The variable to store our instance of the vision portal.
+     */
+    private VisionPortal visionPortal;
+
+
+
+
     private DcMotor lf;
     private DcMotor rf;
     private DcMotor lb;
@@ -246,6 +276,108 @@ public void sRight(double power,double distance) {
 //
 //    }
 
+    private void initTfod() {
+
+        // Create the TensorFlow processor by using a builder.
+        tfod = new TfodProcessor.Builder()
+
+
+                // With the following lines commented out, the default TfodProcessor Builder
+                // will load the default model for the season. To define a custom model to load,
+                // choose one of the following:
+                //   Use setModelAssetName() if the custom TF Model is built in as an asset (AS only).
+                //   Use setModelFileName() if you have downloaded a custom team model to the Robot Controller.
+                .setModelAssetName(TFOD_MODEL_ASSET)
+                //.setModelFileName(TFOD_MODEL_FILE)
+
+                // The following default settings are available to un-comment and edit as needed to
+                // set parameters for custom models.
+                .setModelLabels(LABELS)
+                //.setIsModelTensorFlow2(true)
+                //.setIsModelQuantized(true)
+                //.setModelInputSize(300)
+                //.setModelAspectRatio(16.0 / 9.0)
+
+                .build();
+        //time for tfod 2!
+        //tfod2 = new TfodProcessor.Builder().setModelAssetName(TFOD_MODEL_ASSET2).setModelLabels(LABELS2).build();
+
+        // Create the vision portal by using a builder.
+        VisionPortal.Builder builder = new VisionPortal.Builder();
+
+        // Set the camera (webcam vs. built-in RC phone camera).
+        if (USE_WEBCAM) {
+            builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
+        } else {
+            builder.setCamera(BuiltinCameraDirection.BACK);
+        }
+
+        // Choose a camera resolution. Not all cameras support all resolutions.
+        //builder.setCameraResolution(new Size(640, 480));
+
+        // Enable the RC preview (LiveView).  Set "false" to omit camera monitoring.
+        //builder.enableLiveView(true);
+
+        // Set the stream format; MJPEG uses less bandwidth than default YUY2.
+        //builder.setStreamFormat(VisionPortal.StreamFormat.YUY2);
+
+        // Choose whether or not LiveView stops if no processors are enabled.
+        // If set "true", monitor shows solid orange screen if no processors enabled.
+        // If set "false", monitor shows camera view without annotations.
+        //builder.setAutoStopLiveView(false);
+
+        // Set and enable the processor.
+        builder.addProcessor(tfod);
+        //builder.addProcessor(tfod2);
+
+        // Build the Vision Portal, using the above settings.
+        visionPortal = builder.build();
+
+        // Set confidence threshold for TFOD recognitions, at any time.
+        //tfod.setMinResultConfidence(0.75f);
+
+        // Disable or re-enable the TFOD processor at any time.
+        //visionPortal.setProcessorEnabled(tfod, true);
+
+    }   // end method initTfod()
+    private int getSpikeMarkVision() {
+
+        List<Recognition> currentRecognitions = tfod.getRecognitions();
+        //telemetry.addData("# Objects Detected", currentRecognitions.size());
+
+        double confidence=0;
+        double x=100;
+        while ((currentRecognitions.size()==0) && opModeIsActive()) {
+            currentRecognitions = tfod.getRecognitions();
+
+
+        }
+        // Step through the list of recognitions and display info for each one.
+        for (Recognition recognition : currentRecognitions) {
+            if (confidence < recognition.getConfidence()) {
+                x = (recognition.getLeft() + recognition.getRight()) / 2;
+                confidence = recognition.getConfidence();
+            }
+
+
+            //            telemetry.addData(""," ");
+            //            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
+            //            telemetry.addData("- Position", "%.0f / %.0f", x, y);
+            //            telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
+            //telemetry.addData("- spikemark?","%.0f x %.0f", Math.round(x/200));
+        }   // end for() loop
+        telemetry.addData("position",x);
+        telemetry.addData("spikemark",x/100);
+        return (int) Math.ceil(x/200);
+
+    }
+
+
+
+
+
+
+
     //This is a new auto with the color sensor and straife
 
     public void autoScrimmageRF() {
@@ -300,9 +432,9 @@ public void sRight(double power,double distance) {
     }
     public void CameraAutoScrimmageRF() {
         //claw.setPosition(MinClawPos);
-
+        int spikemark = getSpikeMarkVision();
         //boolean spike=GetColorB();
-        if(GetColorBRed()){ //Put yes statement here for detection of spike marker
+        if(spikemark==1){ //Put yes statement here for detection of spike marker
             forward(-.25, -40);
             sleep(200);
             sRight(.25,4);
@@ -327,7 +459,7 @@ public void sRight(double power,double distance) {
             forward(-.25,-17);
             sRight(0.25,4);
             sleep(200);
-            if(GetColorBRed()){ //Put yes statement here for detection of spike marker
+            if(spikemark==2){ //Put yes statement here for detection of spike marker
                 sRight(.25, 2);
                 //drop piece here
                 sRight(.25,14);
@@ -423,8 +555,11 @@ public void sRight(double power,double distance) {
         claw = hardwareMap.get(Servo.class, "claw");
         voidsAndThings = new VoidsAndThings(hardwareMap);
         voidsAndThings.initHardware();
+
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
         RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
+
+
 
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         imu.initialize(new IMU.Parameters(orientationOnRobot));
@@ -432,8 +567,22 @@ public void sRight(double power,double distance) {
         //arm = hardwareMap.get(DcMotor.class, "arm");
         //claw = hardwareMap.get(Servo.class, "claw");
         //colorSensor = hardwareMap.colorSensor.get("color");
+        initTfod();
         waitForStart();
-        CameraAutoScrimmageRF();
+
+
+        //  below is a test of the tensor flow; uncomment to test
+//        int x=100;
+//        x=getSpikeMarkVision();
+//        telemetry.addData("spikemark", x);
+//        telemetry.update();
+//        sleep(10000);
+
+
+
+        //CameraAutoScrimmageRF();
+
+
         //voidsAndThings.turn(0.25, 180);
 //        claw.setPosition(MinClawPos);
 //        telemetry.addData("claw", claw.getPosition());
