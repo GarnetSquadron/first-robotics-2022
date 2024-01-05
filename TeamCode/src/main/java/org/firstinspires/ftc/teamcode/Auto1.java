@@ -33,6 +33,7 @@ public class Auto1 extends LinearOpMode {
     //ColorSensor colorSensor;
     //Wheel encoders
     //This is the gobilda encoder value that is used
+
     private VoidsAndThings voidsAndThings;
     final double wheelUnitTicks = 537.7;
 
@@ -299,12 +300,13 @@ public void sRight(double power,double distance) {
     }
     public void CameraAutoScrimmageRF() {
         //claw.setPosition(MinClawPos);
-        forward(-.25, -40);
-        sleep(200);
-        sRight(.25,4);
-        sleep(200);
+
         //boolean spike=GetColorB();
         if(GetColorBRed()){ //Put yes statement here for detection of spike marker
+            forward(-.25, -40);
+            sleep(200);
+            sRight(.25,4);
+            sleep(200);
             sRight(.25, 2);
             sRight(-.25,-7);
             turn(0.25,90);
@@ -315,6 +317,10 @@ public void sRight(double power,double distance) {
             //claw.setPosition(MaxClawPos);
         } //end of yes statement
         else{ //Put no statement here for detection of spike marker
+            forward(-.25, -40);
+            sleep(200);
+            sRight(.25,4);
+            sleep(200);
             //sRight(-.25, -4);
             forward(-.25,-9);
             turn(0.25, 90);
