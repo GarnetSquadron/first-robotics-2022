@@ -347,8 +347,17 @@ public void sRight(double power,double distance) {
 
         double confidence=0;
         double x=100;
-        while ((currentRecognitions.size()==0) && opModeIsActive()) {
+        double counter=0;
+        while ((currentRecognitions.size()==0) && opModeIsActive() ) {
             currentRecognitions = tfod.getRecognitions();
+            counter++;
+            telemetry.addData("counter", counter);
+            telemetry.update();
+            if (counter>40){
+                x=3;
+                break;
+            }
+            sleep(200);
 
 
         }
@@ -360,6 +369,7 @@ public void sRight(double power,double distance) {
             }
 
 
+
             //            telemetry.addData(""," ");
             //            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             //            telemetry.addData("- Position", "%.0f / %.0f", x, y);
@@ -369,6 +379,7 @@ public void sRight(double power,double distance) {
         telemetry.addData("position",x);
         telemetry.addData("spikemark",x/100);
         return (int) Math.ceil(x/200);
+
 
     }
 
@@ -433,47 +444,54 @@ public void sRight(double power,double distance) {
     public void CameraAutoScrimmageRF() {
         //claw.setPosition(MinClawPos);
         int spikemark = getSpikeMarkVision();
+        visionPortal.close();
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker
             forward(-.25, -40);
             sleep(200);
-            sRight(.25,4);
-            sleep(200);
-            sRight(.25, 2);
-            sRight(-.25,-7);
-            turn(0.25,90);
-            forward(-.25,-7);
-            sRight(-.25,-2);
-            sRight(.25, 45);
-            sleep(1000);
+            turn(-0.25,91);
+            //claw open plz
+
+//            sRight(.25,4);
+//            sleep(200);
+//            sRight(.25, 2);
+//            sRight(-.25,-7);
+//            turn(0.25,90);
+//            forward(-.25,-7);
+//            sRight(-.25,-2);
+//            sRight(.25, 45);
+//            sleep(1000);
             //claw.setPosition(MaxClawPos);
         } //end of yes statement
         else{ //Put no statement here for detection of spike marker
-            forward(-.25, -40);
-            sleep(200);
-            sRight(.25,4);
-            sleep(200);
-            //sRight(-.25, -4);
-            forward(-.25,-9);
-            turn(0.25, 90);
-            forward(-.25,-17);
-            sRight(0.25,4);
-            sleep(200);
+
+
+
+//            sRight(.25,4);
+//            sleep(200);
+//            //sRight(-.25, -4);
+//            forward(-.25,-9);
+//            turn(0.25, 90);
+//            forward(-.25,-17);
+//            sRight(0.25,4);
+//            sleep(200);
             if(spikemark==2){ //Put yes statement here for detection of spike marker
-                sRight(.25, 2);
-                //drop piece here
-                sRight(.25,14);
-                sleep(1000);
-                //claw.setPosition(MaxClawPos);
+                forward(-.25, -46);
+                sleep(200);
+//                sRight(.25, 2);
+//                //drop piece here
+//                sRight(.25,14);
+//                sleep(1000);
+//                //claw.setPosition(MaxClawPos);
 
             } //end of yes statement
             else { //Put no statement here for detection of spike marker
                 sRight(.25,2);
                 forward(-.25,-6);
                 //drop thing
-                sRight(.25,35);
-                sleep(1000);
-                //claw.setPosition(MaxClawPos);
+//                sRight(.25,35);
+//                sleep(1000);
+//                //claw.setPosition(MaxClawPos);
             }
 
         }
@@ -580,7 +598,7 @@ public void sRight(double power,double distance) {
 
 
 
-        //CameraAutoScrimmageRF();
+        CameraAutoScrimmageRF();
 
 
         //voidsAndThings.turn(0.25, 180);
