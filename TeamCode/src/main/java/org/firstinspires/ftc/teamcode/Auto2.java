@@ -14,8 +14,36 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+
+import java.util.List;
+
+
 @Autonomous(name = "auto2(blue)")
 public class Auto2 extends LinearOpMode {
+
+
+
+    private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
+
+    // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
+    // this is only used for Android Studio when using models in Assets.
+    private static final String TFOD_MODEL_ASSET = "model_20240104_203329.tflite";
+    private static final String[] LABELS = {
+            "BlueCube",
+    };
+    /**
+     * The variable to store our instance of the TensorFlow Object Detection processor.
+     */
+    private TfodProcessor tfod;
+    /**
+     * The variable to store our instance of the vision portal.
+     */
+    private VisionPortal visionPortal;
 
 
 
@@ -27,7 +55,7 @@ public class Auto2 extends LinearOpMode {
     private DcMotor rb;
     private Servo claw;
     ColorSensor Fsensor;
-    ColorSensor Bsensor;
+    //ColorSensor Bsensor;
     //private DcMotor arm;
     //private Servo claw;
     //ColorSensor colorSensor;
@@ -53,14 +81,14 @@ public class Auto2 extends LinearOpMode {
     private double MinClawPos = 0;
     private double minRed=90;//under 90
     private double minBlue=50;
-    private boolean GetColorBRed(){
-
-        return minRed<Bsensor.red();
-    }
-    private boolean GetColorBBlue(){
-
-        return minBlue<Bsensor.blue();//under
-    }
+//    private boolean GetColorBRed(){
+//
+//        return minRed<Bsensor.red();
+//    }
+//    private boolean GetColorBBlue(){
+//
+//        return minBlue<Bsensor.blue();//under
+//    }
     public void runWithoutEncoders() {
         lf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -124,8 +152,8 @@ public class Auto2 extends LinearOpMode {
             telemetry.addData("power: ",rf.getPower());
             telemetry.addData("lf encoder: ",lf.getCurrentPosition());
             telemetry.addData("power: ",lf.getPower());
-            telemetry.addData("Bsensor red: ",Bsensor.red());
-            telemetry.addData("Bsensor blue: ",Bsensor.blue());
+//            telemetry.addData("Bsensor red: ",Bsensor.red());
+//            telemetry.addData("Bsensor blue: ",Bsensor.blue());
             telemetry.update();
             telemetry.update();
         }
@@ -185,8 +213,8 @@ public class Auto2 extends LinearOpMode {
             telemetry.addData("power: ",rf.getPower());
             telemetry.addData("lf encoder: ",lf.getCurrentPosition());
             telemetry.addData("power: ",lf.getPower());
-            telemetry.addData("Bsensor red: ",Bsensor.red());
-            telemetry.addData("Bsensor blue: ",Bsensor.blue());
+//            telemetry.addData("Bsensor red: ",Bsensor.red());
+//            telemetry.addData("Bsensor blue: ",Bsensor.blue());
             telemetry.update();
 
             telemetry.update();
@@ -244,47 +272,47 @@ public class Auto2 extends LinearOpMode {
 
     //This is a new auto with the color sensor and straife
 
-    public void autoScrimmageBF() {
-        claw.setPosition(MinClawPos);
-        sRight(.25, 44.5);
-        sleep(200);
-        forward(.25,4);
-        //boolean spike=GetColorB();
-        if(GetColorBRed()){ //Put yes statement here for detection of spike marker
-            forward(.25, 2);
-            forward(-.25,-7);
-            turn(-0.25,179);
-            sRight(.25,7);
-            forward(-.25,-2);
-            forward(.25, 52);
-            claw.setPosition(MaxClawPos);
-        } //end of yes statement
-        else{ //Put no statement here for detection of spike marker
-            forward(-.25, -4);
-            sRight(.25,6);;
-            turn(-0.25, 176);
-            sRight(.25,17);
-            forward(0.25,4);
-            sleep(200);
-            if(GetColorBRed()){ //Put yes statement here for detection of spike marker
-                forward(.25, 2);
-                //drop piece here
-                forward(.25,14);
-                claw.setPosition(MaxClawPos);
-
-            } //end of yes statement
-            else { //Put no statement here for detection of spike marker
-                forward(.25,2);
-                sRight(.25,6);
-                //drop thing
-                forward(.25,38);
-                claw.setPosition(MaxClawPos);
-            }
-
-        }
-
-
-    }
+//    public void autoScrimmageBF() {
+//        claw.setPosition(MinClawPos);
+//        sRight(.25, 44.5);
+//        sleep(200);
+//        forward(.25,4);
+//        //boolean spike=GetColorB();
+//        if(GetColorBRed()){ //Put yes statement here for detection of spike marker
+//            forward(.25, 2);
+//            forward(-.25,-7);
+//            turn(-0.25,179);
+//            sRight(.25,7);
+//            forward(-.25,-2);
+//            forward(.25, 52);
+//            claw.setPosition(MaxClawPos);
+//        } //end of yes statement
+//        else{ //Put no statement here for detection of spike marker
+//            forward(-.25, -4);
+//            sRight(.25,6);;
+//            turn(-0.25, 176);
+//            sRight(.25,17);
+//            forward(0.25,4);
+//            sleep(200);
+//            if(GetColorBRed()){ //Put yes statement here for detection of spike marker
+//                forward(.25, 2);
+//                //drop piece here
+//                forward(.25,14);
+//                claw.setPosition(MaxClawPos);
+//
+//            } //end of yes statement
+//            else { //Put no statement here for detection of spike marker
+//                forward(.25,2);
+//                sRight(.25,6);
+//                //drop thing
+//                forward(.25,38);
+//                claw.setPosition(MaxClawPos);
+//            }
+//
+//        }
+//
+//
+//    }
     //--------------------------------------------------------------------
     public void autoScrimmage2() {
         forward(-.25, -48);
@@ -346,6 +374,185 @@ public class Auto2 extends LinearOpMode {
         forward( .25,5);
 
     }
+
+
+
+
+    private void initTfod() {
+
+        // Create the TensorFlow processor by using a builder.
+        tfod = new TfodProcessor.Builder()
+
+
+                // With the following lines commented out, the default TfodProcessor Builder
+                // will load the default model for the season. To define a custom model to load,
+                // choose one of the following:
+                //   Use setModelAssetName() if the custom TF Model is built in as an asset (AS only).
+                //   Use setModelFileName() if you have downloaded a custom team model to the Robot Controller.
+                .setModelAssetName(TFOD_MODEL_ASSET)
+                //.setModelFileName(TFOD_MODEL_FILE)
+
+                // The following default settings are available to un-comment and edit as needed to
+                // set parameters for custom models.
+                .setModelLabels(LABELS)
+                //.setIsModelTensorFlow2(true)
+                //.setIsModelQuantized(true)
+                //.setModelInputSize(300)
+                //.setModelAspectRatio(16.0 / 9.0)
+
+                .build();
+        //time for tfod 2!
+        //tfod2 = new TfodProcessor.Builder().setModelAssetName(TFOD_MODEL_ASSET2).setModelLabels(LABELS2).build();
+
+        // Create the vision portal by using a builder.
+        VisionPortal.Builder builder = new VisionPortal.Builder();
+
+        // Set the camera (webcam vs. built-in RC phone camera).
+        if (USE_WEBCAM) {
+            builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
+        } else {
+            builder.setCamera(BuiltinCameraDirection.BACK);
+        }
+
+        // Choose a camera resolution. Not all cameras support all resolutions.
+        //builder.setCameraResolution(new Size(640, 480));
+
+        // Enable the RC preview (LiveView).  Set "false" to omit camera monitoring.
+        //builder.enableLiveView(true);
+
+        // Set the stream format; MJPEG uses less bandwidth than default YUY2.
+        //builder.setStreamFormat(VisionPortal.StreamFormat.YUY2);
+
+        // Choose whether or not LiveView stops if no processors are enabled.
+        // If set "true", monitor shows solid orange screen if no processors enabled.
+        // If set "false", monitor shows camera view without annotations.
+        //builder.setAutoStopLiveView(false);
+
+        // Set and enable the processor.
+        builder.addProcessor(tfod);
+        //builder.addProcessor(tfod2);
+
+        // Build the Vision Portal, using the above settings.
+        visionPortal = builder.build();
+
+        // Set confidence threshold for TFOD recognitions, at any time.
+        //tfod.setMinResultConfidence(0.75f);
+
+        // Disable or re-enable the TFOD processor at any time.
+        //visionPortal.setProcessorEnabled(tfod, true);
+
+    }
+
+    private int getSpikeMarkVision() {
+
+        List<Recognition> currentRecognitions = tfod.getRecognitions();
+        //telemetry.addData("# Objects Detected", currentRecognitions.size());
+
+        double confidence=0;
+        double x=100;
+        double counter=0;
+        while ((currentRecognitions.size()==0) && opModeIsActive() ) {
+            currentRecognitions = tfod.getRecognitions();
+            counter++;
+            telemetry.addData("counter", counter);
+            telemetry.update();
+            if (counter>40){
+                x=100;//to get spikemark 1
+                break;
+            }
+            sleep(200);
+
+
+        }
+        // Step through the list of recognitions and display info for each one.
+        for (Recognition recognition : currentRecognitions) {
+            if (confidence < recognition.getConfidence()) {
+                x = (recognition.getLeft() + recognition.getRight()) / 2;
+                confidence = recognition.getConfidence();
+            }
+
+            //            telemetry.addData(""," ");
+            //            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
+            //            telemetry.addData("- Position", "%.0f / %.0f", x, y);
+            //            telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
+            //telemetry.addData("- spikemark?","%.0f x %.0f", Math.round(x/200));
+        }   // end for() loop
+        telemetry.addData("position",x);
+        telemetry.addData("spikemark",x/200);
+        telemetry.update();
+        sleep(500);
+        return (int) Math.ceil(x/200);
+    }
+
+
+    public void CameraAutoScrimmageRF() {
+        //claw.setPosition(MinClawPos);
+        int spikemark = getSpikeMarkVision();
+        visionPortal.close();
+        //boolean spike=GetColorB();
+        if(spikemark==1){ //Put yes statement here for detection of spike marker
+            forward(-.25, -33);
+            sleep(200);
+            turn(-0.25,91);
+            forward(-0.25,-20);
+            //claw open plz
+            sleep(1200);
+            forward(-0.25,-20);
+
+
+//            sRight(.25,4);
+//            sleep(200);
+//            sRight(.25, 2);
+//            sRight(-.25,-7);
+//            turn(0.25,90);
+//            forward(-.25,-7);
+//            sRight(-.25,-2);
+//            sRight(.25, 45);
+//            sleep(1000);
+            //claw.setPosition(MaxClawPos);
+        } //end of yes statement
+        else{ //Put no statement here for detection of spike marker
+
+
+
+//            sRight(.25,4);
+//            sleep(200);
+//            //sRight(-.25, -4);
+//            forward(-.25,-9);
+//            turn(0.25, 90);
+//            forward(-.25,-17);
+//            sRight(0.25,4);
+//            sleep(200);
+            if(spikemark==2){ //Put yes statement here for detection of spike marker
+                forward(-.25, -53);
+
+                sleep(200);
+                //claw open
+                sRight(-.25, -40);
+                //turn(0.25,178);
+//                sRight(.25, 2);
+//
+//                sRight(.25,14);
+//                sleep(1000);
+//                //claw.setPosition(MaxClawPos);
+
+            } //end of yes statement
+            else { //Put no statement here for detection of spike marker
+                //sRight(.25,2);
+                forward(-.25,-33);
+                turn(-0.25,91);
+                //sleep(30000);
+                //drop thing
+                forward(-0.25,-40);
+//                sRight(.25,35);
+//                sleep(1000);
+//                //claw.setPosition(MaxClawPos);
+            }
+
+        }
+
+
+    }
     @Override
     public void runOpMode() throws InterruptedException {
         lf = hardwareMap.get(DcMotor.class, "lf");
@@ -355,7 +562,7 @@ public class Auto2 extends LinearOpMode {
         rf.setDirection(DcMotorSimple.Direction.REVERSE);
         rb.setDirection(DcMotorSimple.Direction.REVERSE);
         Fsensor=hardwareMap.get(ColorSensor.class, "Fsensor");
-        Bsensor=hardwareMap.get(ColorSensor.class, "Bsensor");
+     //   Bsensor=hardwareMap.get(ColorSensor.class, "Bsensor");
         imu = hardwareMap.get(IMU.class, "imu");
         claw = hardwareMap.get(Servo.class, "claw");
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
@@ -367,8 +574,12 @@ public class Auto2 extends LinearOpMode {
         //arm = hardwareMap.get(DcMotor.class, "arm");
         //claw = hardwareMap.get(Servo.class, "claw");
         //colorSensor = hardwareMap.colorSensor.get("color");
+        initTfod();
         waitForStart();
-        autoScrimmageBF();
+        //autoScrimmageBF();
+        CameraAutoScrimmageRF();
+//        turn(0.25,91);
+//        forward(0.25,11);
 
 
 

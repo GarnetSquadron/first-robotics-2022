@@ -1,16 +1,17 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.IMU;
+
 import com.qualcomm.robotcore.hardware.Servo;
 
 //cv imports:
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
@@ -18,6 +19,8 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 //imu imports:
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
@@ -57,7 +60,7 @@ public class Auto1 extends LinearOpMode {
     private DcMotor rb;
     private Servo claw;
     ColorSensor Fsensor;
-    ColorSensor Bsensor;
+    //ColorSensor Bsensor;
     //private DcMotor arm;
     //private Servo claw;
     //ColorSensor colorSensor;
@@ -85,14 +88,14 @@ public class Auto1 extends LinearOpMode {
     private double MinClawPos = 0.45;
     private double minRed=90;//under 90
     private double minBlue=50;
-    private boolean GetColorBRed(){
-
-        return minRed<Bsensor.red();
-    }
-    private boolean GetColorBBlue(){
-
-        return minBlue<Bsensor.blue();//under
-    }
+//    private boolean GetColorBRed(){
+//
+//        return minRed<Bsensor.red();
+//    }
+//    private boolean GetColorBBlue(){
+//
+//        return minBlue<Bsensor.blue();//under
+//    }
     public void runWithoutEncoders() {
         lf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -148,19 +151,19 @@ public class Auto1 extends LinearOpMode {
 
         //--------------------------------Telematry, gives data about position----------------------
         while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()) {
-            telemetry.addData("rb encoder: ",rb.getCurrentPosition());
-            telemetry.addData("power: ",rb.getPower());
-            telemetry.addData("lb encoder: ",lb.getCurrentPosition());
-            telemetry.addData("power: ",lb.getPower());
-            telemetry.addData("rf encoder: ",rf.getCurrentPosition());
-            telemetry.addData("power: ",rf.getPower());
-            telemetry.addData("lf encoder: ",lf.getCurrentPosition());
-            telemetry.addData("power: ",lf.getPower());
-            telemetry.addData("Bsensor red: ",Bsensor.red());
-            telemetry.addData("Bsensor blue: ",Bsensor.blue());
-            telemetry.addData("claw: ",claw.getPosition());
-            telemetry.update();
-            telemetry.update();
+//            telemetry.addData("rb encoder: ",rb.getCurrentPosition());
+//            telemetry.addData("power: ",rb.getPower());
+//            telemetry.addData("lb encoder: ",lb.getCurrentPosition());
+//            telemetry.addData("power: ",lb.getPower());
+//            telemetry.addData("rf encoder: ",rf.getCurrentPosition());
+//            telemetry.addData("power: ",rf.getPower());
+//            telemetry.addData("lf encoder: ",lf.getCurrentPosition());
+//            telemetry.addData("power: ",lf.getPower());
+//            telemetry.addData("Bsensor red: ",Bsensor.red());
+//            telemetry.addData("Bsensor blue: ",Bsensor.blue());
+//            telemetry.addData("claw: ",claw.getPosition());
+//            telemetry.update();
+//            telemetry.update();
         }
         //-------------------------End While--------------------------------------------------------
         stop(); //stopping all motors
@@ -218,8 +221,8 @@ public void sRight(double power,double distance) {
         telemetry.addData("power: ",rf.getPower());
         telemetry.addData("lf encoder: ",lf.getCurrentPosition());
         telemetry.addData("power: ",lf.getPower());
-        telemetry.addData("Bsensor red: ",Bsensor.red());
-        telemetry.addData("Bsensor blue: ",Bsensor.blue());
+        //telemetry.addData("Bsensor red: ",Bsensor.red());
+        //telemetry.addData("Bsensor blue: ",Bsensor.blue());
         telemetry.addData("claw: ",claw.getPosition());
         telemetry.update();
 
@@ -354,7 +357,7 @@ public void sRight(double power,double distance) {
             telemetry.addData("counter", counter);
             telemetry.update();
             if (counter>40){
-                x=3;
+                x=500;//to get spikemark 1
                 break;
             }
             sleep(200);
@@ -368,8 +371,6 @@ public void sRight(double power,double distance) {
                 confidence = recognition.getConfidence();
             }
 
-
-
             //            telemetry.addData(""," ");
             //            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             //            telemetry.addData("- Position", "%.0f / %.0f", x, y);
@@ -377,10 +378,10 @@ public void sRight(double power,double distance) {
             //telemetry.addData("- spikemark?","%.0f x %.0f", Math.round(x/200));
         }   // end for() loop
         telemetry.addData("position",x);
-        telemetry.addData("spikemark",x/100);
+        telemetry.addData("spikemark",x/200);
+        telemetry.update();
+        sleep(500);
         return (int) Math.ceil(x/200);
-
-
     }
 
 
@@ -391,66 +392,70 @@ public void sRight(double power,double distance) {
 
     //This is a new auto with the color sensor and straife
 
-    public void autoScrimmageRF() {
-        //claw.setPosition(MinClawPos);
-        sRight(-.25, -40);
-        sleep(200);
-        forward(.25,4);
-        sleep(200);
-        //boolean spike=GetColorB();
-        if(GetColorBRed()){ //Put yes statement here for detection of spike marker
-            forward(.25, 2);
-            forward(-.25,-7);
-            turn(0.25,179);
-            sRight(-.25,-7);
-            forward(-.25,-2);
-            forward(.25, 45);
-            sleep(1000);
-            //claw.setPosition(MaxClawPos);
-        } //end of yes statement
-        else{ //Put no statement here for detection of spike marker
-                forward(-.25, -4);
-                sRight(-.25,-6);;
-                turn(0.25, 176);
-                sRight(-.25,-17);
-                forward(0.25,4);
-                sleep(200);
-            if(GetColorBRed()){ //Put yes statement here for detection of spike marker
-                forward(.25, 2);
-                //drop piece here
-
-
-
-
-                
-                forward(.25,14);
-                sleep(1000);
-                //claw.setPosition(MaxClawPos);
-
-           } //end of yes statement
-            else { //Put no statement here for detection of spike marker
-                forward(.25,2);
-                sRight(-.25,-6);
-                //drop thing
-                forward(.25,35);
-                sleep(1000);
-                //claw.setPosition(MaxClawPos);
-            }
-
-        }
-
-
-    }
+//    public void autoScrimmageRF() {
+//        //claw.setPosition(MinClawPos);
+//        sRight(-.25, -40);
+//        sleep(200);
+//        forward(.25,4);
+//        sleep(200);
+//        //boolean spike=GetColorB();
+//        if(GetColorBRed()){ //Put yes statement here for detection of spike marker
+//            forward(.25, 2);
+//            forward(-.25,-7);
+//            turn(0.25,179);
+//            sRight(-.25,-7);
+//            forward(-.25,-2);
+//            forward(.25, 45);
+//            sleep(1000);
+//            //claw.setPosition(MaxClawPos);
+//        } //end of yes statement
+//        else{ //Put no statement here for detection of spike marker
+//                forward(-.25, -4);
+//                sRight(-.25,-6);;
+//                turn(0.25, 176);
+//                sRight(-.25,-17);
+//                forward(0.25,4);
+//                sleep(200);
+//            if(GetColorBRed()){ //Put yes statement here for detection of spike marker
+//                forward(.25, 2);
+//                //drop piece here
+//
+//
+//
+//
+//
+//                forward(.25,14);
+//                sleep(1000);
+//                //claw.setPosition(MaxClawPos);
+//
+//           } //end of yes statement
+//            else { //Put no statement here for detection of spike marker
+//                forward(.25,2);
+//                sRight(-.25,-6);
+//                //drop thing
+//                forward(.25,35);
+//                sleep(1000);
+//                //claw.setPosition(MaxClawPos);
+//            }
+//
+//        }
+//
+//
+//    }
     public void CameraAutoScrimmageRF() {
         //claw.setPosition(MinClawPos);
         int spikemark = getSpikeMarkVision();
         visionPortal.close();
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker
-            forward(-.25, -40);
+            forward(-.25, -33);
             sleep(200);
-            turn(-0.25,91);
+            turn(0.25,91);
+            forward(-0.25,-20);
             //claw open plz
+            sleep(1200);
+            forward(-0.25,-20);
+
 
 //            sRight(.25,4);
 //            sleep(200);
@@ -476,19 +481,25 @@ public void sRight(double power,double distance) {
 //            sRight(0.25,4);
 //            sleep(200);
             if(spikemark==2){ //Put yes statement here for detection of spike marker
-                forward(-.25, -46);
+                forward(-.25, -53);
+
                 sleep(200);
+                //claw open
+                sRight(.25, 40);
+                //turn(0.25,178);
 //                sRight(.25, 2);
-//                //drop piece here
+//
 //                sRight(.25,14);
 //                sleep(1000);
 //                //claw.setPosition(MaxClawPos);
 
             } //end of yes statement
             else { //Put no statement here for detection of spike marker
-                sRight(.25,2);
-                forward(-.25,-6);
+                //sRight(.25,2);
+                forward(-.25,-33);
+                turn(0.25,91);
                 //drop thing
+                forward(-0.25,-40);
 //                sRight(.25,35);
 //                sleep(1000);
 //                //claw.setPosition(MaxClawPos);
@@ -568,7 +579,7 @@ public void sRight(double power,double distance) {
         rf.setDirection(DcMotorSimple.Direction.REVERSE);
         rb.setDirection(DcMotorSimple.Direction.REVERSE);
         Fsensor=hardwareMap.get(ColorSensor.class, "Fsensor");
-        Bsensor=hardwareMap.get(ColorSensor.class, "Bsensor");
+        //Bsensor=hardwareMap.get(ColorSensor.class, "Bsensor");
         imu = hardwareMap.get(IMU.class, "imu");
         claw = hardwareMap.get(Servo.class, "claw");
         voidsAndThings = new VoidsAndThings(hardwareMap);

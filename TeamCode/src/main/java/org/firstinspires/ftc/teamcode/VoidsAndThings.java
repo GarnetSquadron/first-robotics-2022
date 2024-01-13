@@ -46,7 +46,7 @@ public class VoidsAndThings {
     DcMotor lift;
     Servo claw;
     ColorSensor Fsensor;
-    ColorSensor Bsensor;
+    //ColorSensor Bsensor;
 
 
     //private DcMotor arm;
@@ -246,9 +246,9 @@ public class VoidsAndThings {
     public boolean GetColorF(){
         return minRed<Fsensor.red();
     }
-    public boolean GetColorB(){
-        return minRed<Bsensor.red();
-    }
+//    public boolean GetColorB(){
+//        return minRed<Bsensor.red();
+//    }
     public void turn(double power){
         lf.setPower(power);
         rf.setPower(power);
@@ -284,7 +284,7 @@ public class VoidsAndThings {
         //DistanceSensor sensor;
         //sensor=hardwareMap.get(DistanceSensor.class, "distance");
         Fsensor=hardwareMap.get(ColorSensor.class, "Fsensor");
-        Bsensor=hardwareMap.get(ColorSensor.class, "Bsensor");
+        //Bsensor=hardwareMap.get(ColorSensor.class, "Bsensor");
         imu = hardwareMap.get(IMU.class, "imu");
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
         RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;

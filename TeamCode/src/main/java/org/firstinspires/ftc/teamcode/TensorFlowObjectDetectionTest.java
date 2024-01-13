@@ -57,7 +57,7 @@ public class TensorFlowObjectDetectionTest extends LinearOpMode {
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
     // this is only used for Android Studio when using models in Assets.
     private static final String TFOD_MODEL_ASSET = "model_20231220_201017.tflite";
-    private static final String TFOD_MODEL_ASSET2 = "model_20240104_203329.tflite";
+    private static final String TFOD_MODEL_ASSET2 = "BlueCube.tflite";
     // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
     // this is used when uploading models directly to the RC using the model upload interface.
     //private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/myCustomModel.tflite";
@@ -135,7 +135,7 @@ public class TensorFlowObjectDetectionTest extends LinearOpMode {
 
             // The following default settings are available to un-comment and edit as needed to 
             // set parameters for custom models.
-            .setModelLabels(LABELS2)
+            .setModelLabels(LABELS)
             //.setIsModelTensorFlow2(true)
             //.setIsModelQuantized(true)
             //.setModelInputSize(300)

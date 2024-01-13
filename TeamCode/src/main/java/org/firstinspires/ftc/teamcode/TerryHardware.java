@@ -100,7 +100,7 @@ public class TerryHardware {
         lb = robotHardware.get(DcMotor.class, "lb");
         rb = robotHardware.get(DcMotor.class, "rb");
         //arm = robotHardware.get(DcMotor.class,"arm");
-        //claw = robotHardware.get(Servo.class, "claw");
+        claw = robotHardware.get(Servo.class, "claw");
         /*
         YOU MUST ADD THIS TO ANYTHING THAT USES ENCODERS AFTER DEFINING MOTORS
         lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
