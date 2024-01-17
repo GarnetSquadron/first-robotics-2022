@@ -393,7 +393,7 @@ public void sRight(double power,double distance) {
             counter++;
             telemetry.addData("counter", counter);
             telemetry.update();
-            if (counter>40){
+            if (counter>0){
                 x=500;//to get spikemark 1
                 break;
             }
