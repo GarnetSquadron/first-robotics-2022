@@ -58,6 +58,7 @@ public class Auto1 extends LinearOpMode {
     private DcMotor rf;
     private DcMotor lb;
     private DcMotor rb;
+    private DcMotor arm;
     private Servo claw;
     ColorSensor Fsensor;
     //ColorSensor Bsensor;
@@ -86,6 +87,8 @@ public class Auto1 extends LinearOpMode {
 
     private double MaxClawPos = 0.3;
     private double MinClawPos = 0.45;
+    private double MaxArmPos = 565;
+    private double MinArmPos = 0;
     private double minRed=90;//under 90
     private double minBlue=50;
 //    private boolean GetColorBRed(){
@@ -101,6 +104,40 @@ public class Auto1 extends LinearOpMode {
         rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+    public void arm(double power,double height) {//forward(1);forward(-1)
+        //resetEncoders();   <--we dont want this
+        arm.setTargetPosition((int) (height));
+//--------------------------------------------------------------------------------------------------
+        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//--------------------------------------------------------------------------------------------------
+        arm.setPower(power);
+
+        //--------------------------------Telemetry, gives data about position and makes sure it doesnt stop immediately.----------------------
+//        while (arm.isBusy()) {
+//            telemetry.addData("lf encoder: ",arm.getCurrentPosition());
+//            telemetry.addData("power: ",arm.getPower());
+//            telemetry.update();
+//        }
+        //-------------------------End While--------------------------------------------------------
+        stop(); //stopping all motors
+    }
+    public void armUp(){
+        arm(0.15, MaxArmPos);
+        while(arm.isBusy()) {
+            telemetry.addData("arm position", arm.getCurrentPosition());
+            telemetry.update();
+
+        }
+
+    }
+    public void armDown(){
+        arm(-0.35, MinArmPos);
+        while(arm.isBusy()){
+            telemetry.addData("arm position",arm.getCurrentPosition());
+            telemetry.update();
+
+        }
     }
     public void move(double direction, double power) {
         lf.setPower(Math.sin(direction - Math.PI / 4) * power);
@@ -446,13 +483,16 @@ public void sRight(double power,double distance) {
         //claw.setPosition(MinClawPos);
         int spikemark = getSpikeMarkVision();
         visionPortal.close();
+        claw.setPosition(0.6);
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker
             forward(-.25, -33);
             sleep(200);
             turn(0.25,91);
             forward(-0.25,-20);
-            //claw open plz
+
+            armDown();
+            claw.setPosition(0.3);//claw open plz
             sleep(1200);
             forward(-0.25,-20);
 
@@ -484,7 +524,9 @@ public void sRight(double power,double distance) {
                 forward(-.25, -53);
 
                 sleep(200);
-                //claw open
+
+                armDown();
+                claw.setPosition(0.3);//claw open
                 sRight(.25, 40);
                 //turn(0.25,178);
 //                sRight(.25, 2);
@@ -498,7 +540,10 @@ public void sRight(double power,double distance) {
                 //sRight(.25,2);
                 forward(-.25,-33);
                 turn(0.25,91);
-                //drop thing
+
+
+                //armDown();
+                claw.setPosition(0.3);//drop thing
                 forward(-0.25,-40);
 //                sRight(.25,35);
 //                sleep(1000);
@@ -506,6 +551,7 @@ public void sRight(double power,double distance) {
             }
 
         }
+        armUp();
 
 
     }
@@ -582,6 +628,10 @@ public void sRight(double power,double distance) {
         //Bsensor=hardwareMap.get(ColorSensor.class, "Bsensor");
         imu = hardwareMap.get(IMU.class, "imu");
         claw = hardwareMap.get(Servo.class, "claw");
+        arm = hardwareMap.get(DcMotor.class, "arm");
+
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         voidsAndThings = new VoidsAndThings(hardwareMap);
         voidsAndThings.initHardware();
 

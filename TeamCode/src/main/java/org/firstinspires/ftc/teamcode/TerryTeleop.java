@@ -31,6 +31,7 @@ public class TerryTeleop extends LinearOpMode {
     private DcMotor arm;//arm motor goes to port 1
     private DcMotor telearm;
     private Servo claw;
+    private Servo funnel;
     private DcMotor lift;
      private DistanceSensor sensor;
     private double MaxClawPos = 0.3;
@@ -38,7 +39,7 @@ public class TerryTeleop extends LinearOpMode {
     private double MaxLiftPos = 6750;//DO NOt go over 7267
     private double MinLiftPos = 0;
     private double MaxArmPos = 565;
-    private double MinArmPos = 10;
+    private double MinArmPos = 0;
 
     public void resetEncoders() {
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);//WHY DOES THIS GIVE ERROR :(
@@ -119,9 +120,9 @@ public class TerryTeleop extends LinearOpMode {
         arm = hardwareMap.get(DcMotor.class, "arm");
         lift = hardwareMap.get(DcMotor.class, "lift");
         claw = hardwareMap.get(Servo.class, "claw");
+        funnel = hardwareMap.get(Servo.class, "funnel");
         telearm = hardwareMap.get(DcMotor.class, "teleArm");
         sensor=hardwareMap.get(DistanceSensor.class, "distance");
-
 
         imu = hardwareMap.get(IMU.class, "imu");
 
@@ -149,7 +150,7 @@ public class TerryTeleop extends LinearOpMode {
 
             //drive robot according to sticks * sensitivity. I am very sensitive irl. Please don't bully me. aka yoink mcsploink
             //ftc judges please understand this is a inside joke
-            terryHardware.driveRobot(-gamepad1.left_stick_y * currentSensitivity, gamepad1.left_stick_x * currentSensitivity, gamepad1.right_stick_x * currentSensitivity);
+            terryHardware.driveRobot(gamepad1.left_stick_y * currentSensitivity, -gamepad1.left_stick_x * currentSensitivity, gamepad1.right_stick_x * currentSensitivity);
             //terryHardware.move(Math.atan2(-gamepad1.left_stick_y,gamepad1.left_stick_x),Math.hypot(gamepad1.left_stick_y,gamepad1.left_stick_x));
             //^working on this universal strafing function
 
@@ -166,6 +167,12 @@ public class TerryTeleop extends LinearOpMode {
                 claw.setPosition(MinClawPos);
                 clawUp=false;
             }
+            if(gamepad2.x){
+                funnel.setPosition(0);
+            }
+            else if(funnel.getPosition()<0.4){
+                funnel.setPosition(0.4);
+            }
             if(gamepad1.a){
                 Lift(-0.75,MinLiftPos);
                 liftUp=false;
@@ -179,22 +186,58 @@ public class TerryTeleop extends LinearOpMode {
                 Lift(0,0);
                 liftUp=false;
             }
-            if(gamepad1.left_trigger>0){
-                arm(-0.35,MinArmPos);
+            if(gamepad2.right_stick_y<0){
+                arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                arm.setPower(-0.45);
+                //arm(-0.35,MinArmPos);
                 armUp=false;
             }
-            if(gamepad1.right_trigger>0){
-                arm(0.15,MaxArmPos);
+            else if(gamepad2.right_stick_y>0){
+                arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                arm.setPower(0.25);
+                //arm(0.15,MaxArmPos);
                 armUp=true;
             }
-            if(gamepad2.left_trigger>0){
-                tele(0.2,0);
+            else {
+                arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                arm.setPower(0);
+                //arm(0,0);
+                armUp=false;
+            }
+            if(gamepad2.left_stick_y<0){
+                telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                telearm.setPower(-1);
+                //tele(-0.2,0);
                 teleUp=false;
             }
-            if(gamepad2.right_trigger>0){
-                tele(0.2,10);
+            else if(gamepad2.left_stick_y>0){
+                telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                telearm.setPower(1);
+                //tele(0.2,100);
                 teleUp=true;
             }
+            else{
+                tele(0,0);
+                teleUp=false;
+            }
+//            if(gamepad2.left_stick_y<0){
+//                telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+////              telearm.setPower(-1);
+//                tele(-0.2,0);
+//                teleUp=false;
+//            }
+//            else if(gamepad2.left_stick_y>0){
+//                telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+////              telearm.setPower(1);
+//                tele(0.2,100);
+//                teleUp=true;
+//            }
+//            else{
+//                telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+////              telearm.setPower(-1);
+//                tele(-0.2,0);
+//                teleUp=false;
+//            }
 
 
 
@@ -229,6 +272,8 @@ public class TerryTeleop extends LinearOpMode {
             telemetry.addData("power: ",arm.getPower());
             telemetry.addData("direction: ",claw.getDirection());
             telemetry.addData("arm busy?",arm.isBusy());
+            telemetry.addData("telescoping encoder",telearm.getCurrentPosition());
+            telemetry.addData("FunnelPos",funnel.getPosition());
             telemetry.update();
 
 
