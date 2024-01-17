@@ -122,7 +122,7 @@ public class Auto1 extends LinearOpMode {
         //-------------------------End While--------------------------------------------------------
         stop(); //stopping all motors
     }
-    public void armUp(){
+    public void armDown(){
         arm(0.15, MaxArmPos);
         while(arm.isBusy()) {
             telemetry.addData("arm position", arm.getCurrentPosition());
@@ -131,7 +131,7 @@ public class Auto1 extends LinearOpMode {
         }
 
     }
-    public void armDown(){
+    public void armUp(){
         arm(-0.35, MinArmPos);
         while(arm.isBusy()){
             telemetry.addData("arm position",arm.getCurrentPosition());
@@ -224,11 +224,13 @@ public class Auto1 extends LinearOpMode {
 
             turn(power);
             telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", Math.abs(orientation.getYaw(AngleUnit.DEGREES)));
-//            telemetry.addData("Pitch (X)", "%.2f Deg.", orientation.getPitch(AngleUnit.DEGREES));
-//            telemetry.addData("Roll (Y)", "%.2f Deg.\n", orientation.getRoll(AngleUnit.DEGREES));
+//          telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", Math.abs(orientation.getYaw(AngleUnit.DEGREES)));
+            telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", Math.abs(orientation.getYaw(AngleUnit.DEGREES)));
+            telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", Math.abs(orientation.getYaw(AngleUnit.DEGREES)));
             telemetry.update();
             orientation = imu.getRobotYawPitchRollAngles();
         }
+
     }
 //----------------------------------End of forward--------------------------------------------------
     //sRight = straife right
