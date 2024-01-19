@@ -230,6 +230,7 @@ public class Auto1 extends LinearOpMode {
             telemetry.update();
             orientation = imu.getRobotYawPitchRollAngles();
         }
+        turn(0);
 
     }
 //----------------------------------End of forward--------------------------------------------------
@@ -395,7 +396,7 @@ public void sRight(double power,double distance) {
             counter++;
             telemetry.addData("counter", counter);
             telemetry.update();
-            if (counter>0){
+            if (counter>40){
                 x=500;//to get spikemark 1
                 break;
             }
@@ -661,7 +662,8 @@ public void sRight(double power,double distance) {
 
 
 
-        CameraAutoScrimmageRF();
+        //CameraAutoScrimmageRF();
+        forward(0.25,10);
 
 
         //voidsAndThings.turn(0.25, 180);
