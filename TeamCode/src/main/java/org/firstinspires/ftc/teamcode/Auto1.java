@@ -60,6 +60,7 @@ public class Auto1 extends LinearOpMode {
     private DcMotor rb;
     private DcMotor arm;
     private Servo claw;
+    private Servo funnel;
     ColorSensor Fsensor;
     //ColorSensor Bsensor;
     //private DcMotor arm;
@@ -87,7 +88,7 @@ public class Auto1 extends LinearOpMode {
 
     private double MaxClawPos = 0.3;
     private double MinClawPos = 0.45;
-    private double MaxArmPos = 565;
+    private double MaxArmPos = 509;
     private double MinArmPos = 0;
     private double minRed=90;//under 90
     private double minBlue=50;
@@ -123,12 +124,16 @@ public class Auto1 extends LinearOpMode {
         stop(); //stopping all motors
     }
     public void armDown(){
+        sleep(200);
         arm(0.15, MaxArmPos);
         while(arm.isBusy()) {
             telemetry.addData("arm position", arm.getCurrentPosition());
             telemetry.update();
 
         }
+        sleep(200);
+        arm.setPower(0);
+        sleep(200);
 
     }
     public void armUp(){
@@ -138,6 +143,22 @@ public class Auto1 extends LinearOpMode {
             telemetry.update();
 
         }
+        arm.setPower(0);
+    }
+    public void ClawOpenWIDE(){
+        claw.setPosition(0);
+    }
+    public void ClawOpen(){
+        claw.setPosition(0);
+    }
+    public void ClawClose(){
+        claw.setPosition(0.2);
+    }
+    public void FunnelOpen(){
+        funnel.setPosition(0);
+    }
+    public void FunnelClose(){
+        funnel.setPosition(0.4);
     }
     public void move(double direction, double power) {
         lf.setPower(Math.sin(direction - Math.PI / 4) * power);
@@ -397,7 +418,7 @@ public void sRight(double power,double distance) {
             telemetry.addData("counter", counter);
             telemetry.update();
             if (counter>40){
-                x=500;//to get spikemark 1
+                x=0;//to get spikemark 1
                 break;
             }
             sleep(200);
@@ -418,10 +439,10 @@ public void sRight(double power,double distance) {
             //telemetry.addData("- spikemark?","%.0f x %.0f", Math.round(x/200));
         }   // end for() loop
         telemetry.addData("position",x);
-        telemetry.addData("spikemark",x/200);
+        telemetry.addData("spikemark",Math.round(x/200+1));
         telemetry.update();
         sleep(500);
-        return (int) Math.ceil(x/200);
+        return (int) Math.round(x/200+1);
     }
 
 
@@ -486,18 +507,21 @@ public void sRight(double power,double distance) {
         //claw.setPosition(MinClawPos);
         int spikemark = getSpikeMarkVision();
         visionPortal.close();
-        claw.setPosition(0.6);
+        sleep(1000);
+        ClawClose();
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker
-            forward(-.25, -33);
-            sleep(200);
+            forward(-.25,-33);
             turn(0.25,91);
-            forward(-0.25,-20);
+            forward(-0.25, -5);
 
             armDown();
-            claw.setPosition(0.3);//claw open plz
-            sleep(1200);
-            forward(-0.25,-20);
+            sleep(1000);
+            //forward(0.25, 5);
+            ClawOpen();//drop thing
+            forward(-0.25,-40);
+            sRight(-0.25,-5);
+
 
 
 //            sRight(.25,4);
@@ -529,8 +553,16 @@ public void sRight(double power,double distance) {
                 sleep(200);
 
                 armDown();
-                claw.setPosition(0.3);//claw open
+                sleep(1000);
+                ClawOpenWIDE();//claw open
                 sRight(.25, 40);
+                forward(.25, 20);
+                turn(0.25,91);
+                forward(-0.25, -5);
+                ClawOpen();//so that it is not WIDE anymore
+                sleep(100);
+
+
                 //turn(0.25,178);
 //                sRight(.25, 2);
 //
@@ -541,20 +573,36 @@ public void sRight(double power,double distance) {
             } //end of yes statement
             else { //Put no statement here for detection of spike marker
                 //sRight(.25,2);
-                forward(-.25,-33);
+                forward(-.25, -33);
+                sleep(200);
                 turn(0.25,91);
+                forward(-0.25,-25);
+
+                armDown();
+                sleep(1000);
+                ClawOpenWIDE();//claw open
+                sleep(1200);
+                forward(-0.25,-5);
+                forward(0.25,5);
+
+                sRight(0.25,12);
+                forward(-0.25,-18);
+                ClawOpen();//so that it is not WIDE anymore
+                sleep(500);
+                sRight(-0.25,-5);
 
 
-                //armDown();
-                claw.setPosition(0.3);//drop thing
-                forward(-0.25,-40);
+
 //                sRight(.25,35);
 //                sleep(1000);
 //                //claw.setPosition(MaxClawPos);
             }
 
         }
-        armUp();
+        FunnelOpen();
+        sleep(700);
+        armUp();//VERY IMPORTANT: line keeps the teleop from losing control of arm/stalling arm
+
 
 
     }
@@ -632,8 +680,10 @@ public void sRight(double power,double distance) {
         imu = hardwareMap.get(IMU.class, "imu");
         claw = hardwareMap.get(Servo.class, "claw");
         arm = hardwareMap.get(DcMotor.class, "arm");
+        funnel = hardwareMap.get(Servo.class, "funnel");
 
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
 
         voidsAndThings = new VoidsAndThings(hardwareMap);
         voidsAndThings.initHardware();
@@ -662,8 +712,18 @@ public void sRight(double power,double distance) {
 
 
 
-        //CameraAutoScrimmageRF();
-        forward(0.25,10);
+        CameraAutoScrimmageRF();
+
+
+//        FunnelClose();
+//        telemetry.addData("funnel",funnel.getPosition());
+//        telemetry.update();
+//        sleep(300);
+//        FunnelOpen();
+//        telemetry.addData("funnel",funnel.getPosition());
+//        telemetry.update();
+//        sleep(300);
+
 
 
         //voidsAndThings.turn(0.25, 180);

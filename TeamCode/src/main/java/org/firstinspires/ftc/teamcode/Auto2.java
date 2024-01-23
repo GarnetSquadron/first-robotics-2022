@@ -32,7 +32,7 @@ public class Auto2 extends LinearOpMode {
 
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
     // this is only used for Android Studio when using models in Assets.
-    private static final String TFOD_MODEL_ASSET = "model_20240104_203329.tflite";
+    private static final String TFOD_MODEL_ASSET = "BlueCubeActuallyWorks.tflite";
     private static final String[] LABELS = {
             "BlueCube",
     };
@@ -53,7 +53,9 @@ public class Auto2 extends LinearOpMode {
     private DcMotor rf;
     private DcMotor lb;
     private DcMotor rb;
+    private DcMotor arm;
     private Servo claw;
+    private Servo funnel;
     ColorSensor Fsensor;
     //ColorSensor Bsensor;
     //private DcMotor arm;
@@ -77,8 +79,10 @@ public class Auto2 extends LinearOpMode {
     //the value can be multiplied by the amount of inches desired to make it more simple.
     final double wheelOneInch = (wheelRotation / wheelCircumference);
 
-    private double MaxClawPos = 0;
-    private double MinClawPos = 0;
+    private double MaxClawPos = 0.3;
+    private double MinClawPos = 0.45;
+    private double MaxArmPos = 509;
+    private double MinArmPos = 0;
     private double minRed=90;//under 90
     private double minBlue=50;
 //    private boolean GetColorBRed(){
@@ -89,6 +93,59 @@ public class Auto2 extends LinearOpMode {
 //
 //        return minBlue<Bsensor.blue();//under
 //    }
+public void arm(double power,double height) {//forward(1);forward(-1)
+    //resetEncoders();   <--we dont want this
+    arm.setTargetPosition((int) (height));
+//--------------------------------------------------------------------------------------------------
+    arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//--------------------------------------------------------------------------------------------------
+    arm.setPower(power);
+
+    //--------------------------------Telemetry, gives data about position and makes sure it doesnt stop immediately.----------------------
+    while (arm.isBusy()) {
+        telemetry.addData("arm position", arm.getCurrentPosition());
+        telemetry.addData("arm tg position", arm.getTargetPosition());
+        telemetry.update();
+    }
+    //-------------------------End While--------------------------------------------------------
+    arm.setPower(0); //stopping all motors
+}
+public void armDown(){
+    sleep(200);
+    arm(0.15, MaxArmPos);
+//    while(arm.isBusy()) {
+//        telemetry.addData("arm position", arm.getCurrentPosition());
+//        telemetry.addData("arm tg position", arm.getTargetPosition());
+//        telemetry.addData("arm power", arm.getPower());
+//        telemetry.update();
+//
+//    }
+    sleep(200);
+    arm.setPower(0);
+    sleep(200);
+
+}
+    public void armUp(){
+        arm(-0.35, MinArmPos);
+//        while(arm.isBusy()){
+//            telemetry.addData("arm position",arm.getCurrentPosition());
+//            telemetry.update();
+//
+//        }
+        arm.setPower(0);
+    }
+    public void ClawOpenWIDE(){
+        claw.setPosition(0);
+    }
+    public void ClawOpen(){
+        claw.setPosition(0);
+    }
+    public void ClawClose(){
+        claw.setPosition(0.2);
+    }
+    public void FunnelOpen(){
+        funnel.setPosition(0);
+    }
     public void runWithoutEncoders() {
         lf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -457,7 +514,7 @@ public class Auto2 extends LinearOpMode {
             telemetry.addData("counter", counter);
             telemetry.update();
             if (counter>40){
-                x=100;//to get spikemark 1
+                x=0;//to get spikemark 1
                 break;
             }
             sleep(200);
@@ -478,26 +535,99 @@ public class Auto2 extends LinearOpMode {
             //telemetry.addData("- spikemark?","%.0f x %.0f", Math.round(x/200));
         }   // end for() loop
         telemetry.addData("position",x);
-        telemetry.addData("spikemark",x/200);
+        telemetry.addData("spikemark",Math.round(x/200+1));
         telemetry.update();
         sleep(500);
-        return (int) Math.ceil(x/200);
+        return (int) Math.round(x/200+1);
     }
 
 
+
+
+
+
+
+    //This is a new auto with the color sensor and straife
+
+    //    public void autoScrimmageRF() {
+//        //claw.setPosition(MinClawPos);
+//        sRight(-.25, -40);
+//        sleep(200);
+//        forward(.25,4);
+//        sleep(200);
+//        //boolean spike=GetColorB();
+//        if(GetColorBRed()){ //Put yes statement here for detection of spike marker
+//            forward(.25, 2);
+//            forward(-.25,-7);
+//            turn(0.25,179);
+//            sRight(-.25,-7);
+//            forward(-.25,-2);
+//            forward(.25, 45);
+//            sleep(1000);
+//            //claw.setPosition(MaxClawPos);
+//        } //end of yes statement
+//        else{ //Put no statement here for detection of spike marker
+//                forward(-.25, -4);
+//                sRight(-.25,-6);;
+//                turn(0.25, 176);
+//                sRight(-.25,-17);
+//                forward(0.25,4);
+//                sleep(200);
+//            if(GetColorBRed()){ //Put yes statement here for detection of spike marker
+//                forward(.25, 2);
+//                //drop piece here
+//
+//
+//
+//
+//
+//                forward(.25,14);
+//                sleep(1000);
+//                //claw.setPosition(MaxClawPos);
+//
+//           } //end of yes statement
+//            else { //Put no statement here for detection of spike marker
+//                forward(.25,2);
+//                sRight(-.25,-6);
+//                //drop thing
+//                forward(.25,35);
+//                sleep(1000);
+//                //claw.setPosition(MaxClawPos);
+//            }
+//
+//        }
+//
+//
+//    }
     public void CameraAutoScrimmageRF() {
         //claw.setPosition(MinClawPos);
         int spikemark = getSpikeMarkVision();
         visionPortal.close();
+        sleep(1000);
+        ClawClose();
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker
             forward(-.25, -33);
             sleep(200);
             turn(-0.25,91);
-            forward(-0.25,-20);
-            //claw open plz
+            forward(-0.25,-25);
+
+            armDown();
+            sleep(1000);
+            ClawOpenWIDE();//claw open
+            sleep(100);
+            armUp();
             sleep(1200);
-            forward(-0.25,-20);
+            forward(-0.25,-5);
+            forward(0.25,5);
+
+            sRight(-0.25,-12);
+            forward(-0.25,-18);
+            ClawOpen();//so that it is not WIDE anymore
+
+            sleep(500);
+            sRight(0.25,5);
+
 
 
 //            sRight(.25,4);
@@ -527,8 +657,22 @@ public class Auto2 extends LinearOpMode {
                 forward(-.25, -53);
 
                 sleep(200);
-                //claw open
+
+                armDown();
+                sleep(1000);
+                ClawOpenWIDE();//claw open
+                sleep(100);
+                armUp();
                 sRight(-.25, -40);
+                forward(.25, 20);
+                turn(-0.25,91);
+                forward(-0.25, -8);
+                sRight(0.25, 4);
+                ClawOpen();//so that it is not WIDE anymore
+
+                sleep(100);
+
+
                 //turn(0.25,178);
 //                sRight(.25, 2);
 //
@@ -539,17 +683,35 @@ public class Auto2 extends LinearOpMode {
             } //end of yes statement
             else { //Put no statement here for detection of spike marker
                 //sRight(.25,2);
+
+
+
+
                 forward(-.25,-33);
                 turn(-0.25,91);
-                //sleep(30000);
-                //drop thing
+                forward(-0.25, -5);
+
+                armDown();
+                sleep(1000);
+                //forward(0.25, 5);
+                ClawOpen();//drop thing
+                sleep(100);
+                armUp();
                 forward(-0.25,-40);
+                sRight(0.25,5);
+
+
 //                sRight(.25,35);
 //                sleep(1000);
 //                //claw.setPosition(MaxClawPos);
             }
 
         }
+        ClawOpen();
+        FunnelOpen();
+        sleep(700);
+        armUp();//VERY IMPORTANT: line keeps the teleop from losing control of arm/stalling arm
+
 
 
     }
@@ -565,6 +727,9 @@ public class Auto2 extends LinearOpMode {
      //   Bsensor=hardwareMap.get(ColorSensor.class, "Bsensor");
         imu = hardwareMap.get(IMU.class, "imu");
         claw = hardwareMap.get(Servo.class, "claw");
+        arm = hardwareMap.get(DcMotor.class, "arm");
+        funnel = hardwareMap.get(Servo.class, "funnel");
+        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
         RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
 
@@ -578,6 +743,7 @@ public class Auto2 extends LinearOpMode {
         waitForStart();
         //autoScrimmageBF();
         CameraAutoScrimmageRF();
+
 //        turn(0.25,91);
 //        forward(0.25,11);
 
