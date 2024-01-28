@@ -522,31 +522,33 @@ public void sRight(double power,double distance) {
             forward(-0.25,-40);
             sRight(-0.25,-5);
 
+            public void CameraAutoScrimmageRB() {
+                //claw.setPosition(MinClawPos);
+                int spikemark = getSpikeMarkVision();
+                visionPortal.close();
+                sleep(1000);
+                ClawClose();
+                //boolean spike=GetColorB();
+                if(spikemark==1){ //Put yes statement here for detection of spike marker
+                    forward(-.25,-33);
+                    turn(0.25,91);
+                    forward(-0.25, -5);
+
+                    armDown();
+                    sleep(1000);
+                    //forward(0.25, 5);
+                    ClawOpen();//drop thing
+                    forward(-0.25,-40);
+                    sRight(-0.25,-5);
 
 
-//            sRight(.25,4);
-//            sleep(200);
-//            sRight(.25, 2);
-//            sRight(-.25,-7);
-//            turn(0.25,90);
-//            forward(-.25,-7);
-//            sRight(-.25,-2);
-//            sRight(.25, 45);
-//            sleep(1000);
-            //claw.setPosition(MaxClawPos);
+//
         } //end of yes statement
         else{ //Put no statement here for detection of spike marker
 
 
 
-//            sRight(.25,4);
-//            sleep(200);
-//            //sRight(-.25, -4);
-//            forward(-.25,-9);
-//            turn(0.25, 90);
-//            forward(-.25,-17);
-//            sRight(0.25,4);
-//            sleep(200);
+//
             if(spikemark==2){ //Put yes statement here for detection of spike marker
                 forward(-.25, -53);
 
@@ -555,20 +557,10 @@ public void sRight(double power,double distance) {
                 armDown();
                 sleep(1000);
                 ClawOpenWIDE();//claw open
-                sRight(.25, 40);
-                forward(.25, 20);
                 turn(0.25,91);
-                forward(-0.25, -5);
-                ClawOpen();//so that it is not WIDE anymore
-                sleep(100);
+                forward(-.25, -96);
 
 
-                //turn(0.25,178);
-//                sRight(.25, 2);
-//
-//                sRight(.25,14);
-//                sleep(1000);
-//                //claw.setPosition(MaxClawPos);
 
             } //end of yes statement
             else { //Put no statement here for detection of spike marker
@@ -711,8 +703,7 @@ public void sRight(double power,double distance) {
 //        sleep(10000);
 
 
-
-        CameraAutoScrimmageRF();
+                gCameraAutoScrimmageRF();
 
 
 //        FunnelClose();
