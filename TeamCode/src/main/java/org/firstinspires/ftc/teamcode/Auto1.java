@@ -516,7 +516,7 @@ public void sRight(double power,double distance) {
         sleep(2000);
         telearm.setPower(0);
         //boolean spike=GetColorB();
-        if(spikemark==1){ //Put yes statement here for detection of spike marker
+        if(spikemark==1){ //Put yes statement here for detection of spike marker// defaults here?
             forward(-.25,-33);
             turn(0.25,91);
             forward(-0.25, -3);
@@ -529,7 +529,7 @@ public void sRight(double power,double distance) {
 
 
             forward(-0.25,-43);
-            sRight(-0.25,-5);
+            sRight(-0.25,-25);
 
 
 
