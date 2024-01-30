@@ -512,6 +512,9 @@ public void sRight(double power,double distance) {
         visionPortal.close();
         sleep(1000);
         ClawClose();
+        telearm.setPower(1);
+        sleep(2000);
+        telearm.setPower(0);
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker
             forward(-.25,-33);
