@@ -575,6 +575,7 @@ public void sRight(double power,double distance) {
                 sleep(100);
                 FunnelOpen();
                 sleep(700);
+                forward(0.25, 3);
 
 
                 //turn(0.25,178);
