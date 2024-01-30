@@ -508,8 +508,9 @@ public void sRight(double power,double distance) {
 //    }
     public void CameraAutoScrimmageRF() {
         //claw.setPosition(MinClawPos);
-        int spikemark = getSpikeMarkVision();
-        visionPortal.close();
+//        int spikemark = getSpikeMarkVision();
+//        visionPortal.close();
+        int spikemark = 2;
         sleep(1000);
         ClawClose();
         telearm.setPower(1);
@@ -530,6 +531,8 @@ public void sRight(double power,double distance) {
 
             forward(-0.25,-43);
             sRight(-0.25,-5);
+            FunnelOpen();
+            sleep(700);
 
 
 
@@ -570,6 +573,8 @@ public void sRight(double power,double distance) {
                 forward(-0.25, -5);
                 ClawOpen();//so that it is not WIDE anymore
                 sleep(100);
+                FunnelOpen();
+                sleep(700);
 
 
                 //turn(0.25,178);
@@ -599,6 +604,8 @@ public void sRight(double power,double distance) {
                 ClawOpen();//so that it is not WIDE anymore
                 sleep(500);
                 sRight(-0.25,-5);
+                FunnelOpen();
+                sleep(700);
 
 
 
@@ -608,8 +615,7 @@ public void sRight(double power,double distance) {
             }
 
         }
-        FunnelOpen();
-        sleep(700);
+
         armUp();//VERY IMPORTANT: line keeps the teleop from losing control of arm/stalling arm
         forward(0.25, 2);
         sRight(0.25, 30);
