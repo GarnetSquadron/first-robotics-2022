@@ -510,7 +510,7 @@ public void sRight(double power,double distance) {
         //claw.setPosition(MinClawPos);
 //        int spikemark = getSpikeMarkVision();
 //        visionPortal.close();
-        int spikemark = 2;
+        int spikemark = 3;
         sleep(1000);
         ClawClose();
         telearm.setPower(1);
