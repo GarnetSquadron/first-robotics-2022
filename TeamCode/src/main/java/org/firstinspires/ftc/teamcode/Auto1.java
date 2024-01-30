@@ -571,7 +571,7 @@ public void sRight(double power,double distance) {
                 forward(.25, 20);
                 turn(0.25,91);
                 forward(-0.25, -5);
-                sRight(0.25, 10);
+                sRight(0.25, 5);
                 ClawOpen();//so that it is not WIDE anymore
                 sleep(100);
                 FunnelOpen();
