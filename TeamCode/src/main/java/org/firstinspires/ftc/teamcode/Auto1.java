@@ -529,7 +529,7 @@ public void sRight(double power,double distance) {
 
 
             forward(-0.25,-43);
-            sRight(-0.25,-25);
+            sRight(-0.25,-5);
 
 
 
@@ -612,7 +612,7 @@ public void sRight(double power,double distance) {
         sleep(700);
         armUp();//VERY IMPORTANT: line keeps the teleop from losing control of arm/stalling arm
         forward(0.25, 2);
-        sRight(0.25, 10);
+        sRight(0.25, 30);
 
 
 
