@@ -27,7 +27,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 import java.util.List;
 
-@Autonomous(name = "auto1(red)")
+@Autonomous(name = "RB")
 public class Auto1 extends LinearOpMode {
 
 
@@ -59,6 +59,7 @@ public class Auto1 extends LinearOpMode {
     private DcMotor lb;
     private DcMotor rb;
     private DcMotor arm;
+    private DcMotor telearm;
     private Servo claw;
     private Servo funnel;
     ColorSensor Fsensor;
@@ -149,10 +150,10 @@ public class Auto1 extends LinearOpMode {
         claw.setPosition(0);
     }
     public void ClawOpen(){
-        claw.setPosition(0);
+        claw.setPosition(0.45);
     }
     public void ClawClose(){
-        claw.setPosition(0.2);
+        claw.setPosition(0.9);
     }
     public void FunnelOpen(){
         funnel.setPosition(0);
@@ -177,6 +178,7 @@ public class Auto1 extends LinearOpMode {
         rb.setPower(power);
 
     }
+
 
 
     public void resetEncoders() {
@@ -226,6 +228,7 @@ public class Auto1 extends LinearOpMode {
         //-------------------------End While--------------------------------------------------------
         stop(); //stopping all motors
     }
+
 
     public void turn(double power){
         lf.setPower(-power);
@@ -513,13 +516,16 @@ public void sRight(double power,double distance) {
         if(spikemark==1){ //Put yes statement here for detection of spike marker
             forward(-.25,-33);
             turn(0.25,91);
-            forward(-0.25, -5);
+            forward(-0.25, -3);
 
             armDown();
             sleep(1000);
             //forward(0.25, 5);
             ClawOpen();//drop thing
-            forward(-0.25,-40);
+
+
+
+            forward(-0.25,-43);
             sRight(-0.25,-5);
 
 
@@ -602,6 +608,8 @@ public void sRight(double power,double distance) {
         FunnelOpen();
         sleep(700);
         armUp();//VERY IMPORTANT: line keeps the teleop from losing control of arm/stalling arm
+        forward(0.25, 2);
+        sRight(0.25, 10);
 
 
 
@@ -675,6 +683,7 @@ public void sRight(double power,double distance) {
         rb = hardwareMap.get(DcMotor.class, "rb");
         rf.setDirection(DcMotorSimple.Direction.REVERSE);
         rb.setDirection(DcMotorSimple.Direction.REVERSE);
+        telearm = hardwareMap.get(DcMotor.class, "teleArm");
         Fsensor=hardwareMap.get(ColorSensor.class, "Fsensor");
         //Bsensor=hardwareMap.get(ColorSensor.class, "Bsensor");
         imu = hardwareMap.get(IMU.class, "imu");

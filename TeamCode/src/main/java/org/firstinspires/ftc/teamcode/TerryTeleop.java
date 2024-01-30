@@ -34,8 +34,8 @@ public class TerryTeleop extends LinearOpMode {
     private Servo funnel;
     private DcMotor lift;
     private DistanceSensor sensor;
-    private double MaxClawPos = 0;
-    private double MinClawPos = 0.2;
+    private double MaxClawPos = 0.45;
+    private double MinClawPos = 0.9;
     private double MaxLiftPos = 6750;//DO NOt go over 7267
     private double MinLiftPos = 0;
     private double MaxArmPos = 515;
@@ -208,8 +208,10 @@ public class TerryTeleop extends LinearOpMode {
                 Lift(0,0);
                 liftUp=false;
             }
-            if(gamepad1.right_trigger<0){
+            if(gamepad1.right_trigger>0){
+                telemetry.addData("IMU:", true);
                 turn(0.25,90);
+
             }
             if(gamepad2.right_stick_y<0){
                 //arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -299,6 +301,8 @@ public class TerryTeleop extends LinearOpMode {
             telemetry.addData("arm busy?",arm.isBusy());
             telemetry.addData("telescoping encoder",telearm.getCurrentPosition());
             telemetry.addData("FunnelPos",funnel.getPosition());
+            telemetry.addData("left trigger", gamepad1.left_trigger);
+            telemetry.addData("right trigger", gamepad1.right_trigger);
             telemetry.update();
 
 
@@ -306,7 +310,7 @@ public class TerryTeleop extends LinearOpMode {
                 currentSensitivity = turboSensitivity;
             } else if (gamepad1.left_bumper) {
                 currentSensitivity = slowSensitivity;
-                if (sensor.getDistance(DistanceUnit.INCH)<=5.5){
+                if (sensor.getDistance(DistanceUnit.INCH)<=4){
                     currentSensitivity = 0;
                 }
             } else {

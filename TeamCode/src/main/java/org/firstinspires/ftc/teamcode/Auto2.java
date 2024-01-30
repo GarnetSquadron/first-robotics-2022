@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -23,7 +24,7 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import java.util.List;
 
 
-@Autonomous(name = "auto2(blue)")
+@Autonomous(name = "BB")
 public class Auto2 extends LinearOpMode {
 
 
@@ -54,9 +55,13 @@ public class Auto2 extends LinearOpMode {
     private DcMotor lb;
     private DcMotor rb;
     private DcMotor arm;
+    private DcMotor telearm;
     private Servo claw;
     private Servo funnel;
-    ColorSensor Fsensor;
+    private DistanceSensor sensor;
+
+    //ColorSensor Fsensor;
+
     //ColorSensor Bsensor;
     //private DcMotor arm;
     //private Servo claw;
@@ -85,6 +90,7 @@ public class Auto2 extends LinearOpMode {
     private double MinArmPos = 0;
     private double minRed=90;//under 90
     private double minBlue=50;
+
 //    private boolean GetColorBRed(){
 //
 //        return minRed<Bsensor.red();
@@ -209,6 +215,40 @@ public void armDown(){
             telemetry.addData("power: ",rf.getPower());
             telemetry.addData("lf encoder: ",lf.getCurrentPosition());
             telemetry.addData("power: ",lf.getPower());
+            telemetry.addData("distance: ",sensor.getDistance(DistanceUnit.INCH));
+//            telemetry.addData("Bsensor red: ",Bsensor.red());
+//            telemetry.addData("Bsensor blue: ",Bsensor.blue());
+            telemetry.update();
+            telemetry.update();
+        }
+        //-------------------------End While--------------------------------------------------------
+        stop(); //stopping all motors
+    }
+    public void forwardDistance(double power,double distance) {//forward(1);forward(-1)
+        resetEncoders();
+        lf.setTargetPosition((int) (distance*wheelOneInch));
+        rf.setTargetPosition((int) (distance*wheelOneInch));
+        lb.setTargetPosition((int) (distance*wheelOneInch));
+        rb.setTargetPosition((int) (distance*wheelOneInch));
+//--------------------------------------------------------------------------------------------------
+        runToPosition();
+//--------------------------------------------------------------------------------------------------
+        lf.setPower(power);
+        rf.setPower(power);
+        lb.setPower(power);
+        rb.setPower(power);
+
+        //--------------------------------Telematry, gives data about position----------------------
+        while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy() && sensor.getDistance(DistanceUnit.INCH)> 4) {
+            telemetry.addData("rb encoder: ",rb.getCurrentPosition());
+            telemetry.addData("power: ",rb.getPower());
+            telemetry.addData("lb encoder: ",lb.getCurrentPosition());
+            telemetry.addData("power: ",lb.getPower());
+            telemetry.addData("rf encoder: ",rf.getCurrentPosition());
+            telemetry.addData("power: ",rf.getPower());
+            telemetry.addData("lf encoder: ",lf.getCurrentPosition());
+            telemetry.addData("power: ",lf.getPower());
+            telemetry.addData("distance: ",sensor.getDistance(DistanceUnit.INCH));
 //            telemetry.addData("Bsensor red: ",Bsensor.red());
 //            telemetry.addData("Bsensor blue: ",Bsensor.blue());
             telemetry.update();
@@ -231,7 +271,7 @@ public void armDown(){
         //double initdirection = orientation.getYaw(AngleUnit.DEGREES);
         imu.resetYaw();
         YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
-        while (Math.abs (orientation.getYaw(AngleUnit.DEGREES)) <=degrees) {
+        while (Math.abs (orientation.getYaw(AngleUnit.DEGREES)) <degrees) {
 
 
             turn(power);
@@ -599,17 +639,23 @@ public void armDown(){
 //
 //
 //    }
+
     public void CameraAutoScrimmageRF() {
+
         //claw.setPosition(MinClawPos);
         int spikemark = getSpikeMarkVision();
         visionPortal.close();
         sleep(1000);
         ClawClose();
+        telearm.setPower(1);
+        sleep(2000);
+        telearm.setPower(0);
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker
+
             forward(-.25, -33);
             sleep(200);
-            turn(-0.25,91);
+            turn(-0.15,90);
             forward(-0.25,-25);
 
             armDown();
@@ -627,6 +673,16 @@ public void armDown(){
 
             sleep(500);
             sRight(0.25,5);
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -654,7 +710,7 @@ public void armDown(){
 //            sRight(0.25,4);
 //            sleep(200);
             if(spikemark==2){ //Put yes statement here for detection of spike marker
-                forward(-.25, -53);
+                forward(-.25, -54);
 
                 sleep(200);
 
@@ -665,9 +721,9 @@ public void armDown(){
                 armUp();
                 sRight(-.25, -40);
                 forward(.25, 20);
-                turn(-0.25,91);
-                forward(-0.25, -8);
-                sRight(0.25, 4);
+                turn(-0.15,90);
+                sRight(-0.25, -4);
+                forward(-0.25, -11);
                 ClawOpen();//so that it is not WIDE anymore
 
                 sleep(100);
@@ -684,11 +740,8 @@ public void armDown(){
             else { //Put no statement here for detection of spike marker
                 //sRight(.25,2);
 
-
-
-
                 forward(-.25,-33);
-                turn(-0.25,91);
+                turn(-0.15,90);
                 forward(-0.25, -5);
 
                 armDown();
@@ -701,12 +754,18 @@ public void armDown(){
                 sRight(0.25,5);
 
 
+
+
+
+
+
 //                sRight(.25,35);
 //                sleep(1000);
 //                //claw.setPosition(MaxClawPos);
             }
 
         }
+
         ClawOpen();
         FunnelOpen();
         sleep(700);
@@ -723,7 +782,9 @@ public void armDown(){
         rb = hardwareMap.get(DcMotor.class, "rb");
         rf.setDirection(DcMotorSimple.Direction.REVERSE);
         rb.setDirection(DcMotorSimple.Direction.REVERSE);
-        Fsensor=hardwareMap.get(ColorSensor.class, "Fsensor");
+        telearm = hardwareMap.get(DcMotor.class, "teleArm");
+        sensor=hardwareMap.get(DistanceSensor.class, "distance");
+        //Fsensor=hardwareMap.get(ColorSensor.class, "Fsensor");
      //   Bsensor=hardwareMap.get(ColorSensor.class, "Bsensor");
         imu = hardwareMap.get(IMU.class, "imu");
         claw = hardwareMap.get(Servo.class, "claw");
