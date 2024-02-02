@@ -27,8 +27,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 import java.util.List;
 
-@Autonomous(name = "auto1(red)")
-public class Auto1 extends LinearOpMode {
+@Autonomous(name = "RAUD")
+public class AutoAudiRF extends LinearOpMode {
 
 
 
@@ -86,13 +86,13 @@ public class Auto1 extends LinearOpMode {
     //the value can be multiplied by the amount of inches desired to make it more simple.
     final double wheelOneInch = (wheelRotation / wheelCircumference);
 
-    private double MaxClawPos = 0.3;
-    private double MinClawPos = 0.45;
+    private double MaxClawPos = 0.65;
+    private double MinClawPos = 0.9;
     private double MaxArmPos = 509;
     private double MinArmPos = 0;
     private double minRed=90;//under 90
     private double minBlue=50;
-//    private boolean GetColorBRed(){
+    //    private boolean GetColorBRed(){
 //
 //        return minRed<Bsensor.red();
 //    }
@@ -149,10 +149,10 @@ public class Auto1 extends LinearOpMode {
         claw.setPosition(0);
     }
     public void ClawOpen(){
-        claw.setPosition(0);
+        claw.setPosition(0.65);
     }
     public void ClawClose(){
-        claw.setPosition(0.2);
+        claw.setPosition(0.9);
     }
     public void FunnelOpen(){
         funnel.setPosition(0);
@@ -254,44 +254,44 @@ public class Auto1 extends LinearOpMode {
         turn(0);
 
     }
-//----------------------------------End of forward--------------------------------------------------
+    //----------------------------------End of forward--------------------------------------------------
     //sRight = straife right
     //right = ++ left = --
 //----------------------------sRight starts---------------------------------------------------------
-public void sRight(double power,double distance) {
-    resetEncoders();
-    lf.setTargetPosition((int) (-distance*wheelOneInch));
-    rf.setTargetPosition((int) (distance*wheelOneInch));
-    lb.setTargetPosition((int) (distance*wheelOneInch));
-    rb.setTargetPosition((int) (-distance*wheelOneInch));
+    public void sRight(double power,double distance) {
+        resetEncoders();
+        lf.setTargetPosition((int) (-distance*wheelOneInch));
+        rf.setTargetPosition((int) (distance*wheelOneInch));
+        lb.setTargetPosition((int) (distance*wheelOneInch));
+        rb.setTargetPosition((int) (-distance*wheelOneInch));
 //--------------------------------------------------------------------------------------------------
-    runToPosition();
+        runToPosition();
 //--------------------------------------------------------------------------------------------------
-    lf.setPower(-power);
-    rf.setPower(power);
-    lb.setPower(power);
-    rb.setPower(-power);
+        lf.setPower(-power);
+        rf.setPower(power);
+        lb.setPower(power);
+        rb.setPower(-power);
 
-    //--------------------------------Telematry, gives data about position--------------------------
-    while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()) {
-        telemetry.addData("rb encoder: ",rb.getCurrentPosition());
-        telemetry.addData("power: ",rb.getPower());
-        telemetry.addData("lb encoder: ",lb.getCurrentPosition());
-        telemetry.addData("power: ",lb.getPower());
-        telemetry.addData("rf encoder: ",rf.getCurrentPosition());
-        telemetry.addData("power: ",rf.getPower());
-        telemetry.addData("lf encoder: ",lf.getCurrentPosition());
-        telemetry.addData("power: ",lf.getPower());
-        //telemetry.addData("Bsensor red: ",Bsensor.red());
-        //telemetry.addData("Bsensor blue: ",Bsensor.blue());
-        telemetry.addData("claw: ",claw.getPosition());
-        telemetry.update();
+        //--------------------------------Telematry, gives data about position--------------------------
+        while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()) {
+            telemetry.addData("rb encoder: ",rb.getCurrentPosition());
+            telemetry.addData("power: ",rb.getPower());
+            telemetry.addData("lb encoder: ",lb.getCurrentPosition());
+            telemetry.addData("power: ",lb.getPower());
+            telemetry.addData("rf encoder: ",rf.getCurrentPosition());
+            telemetry.addData("power: ",rf.getPower());
+            telemetry.addData("lf encoder: ",lf.getCurrentPosition());
+            telemetry.addData("power: ",lf.getPower());
+            //telemetry.addData("Bsensor red: ",Bsensor.red());
+            //telemetry.addData("Bsensor blue: ",Bsensor.blue());
+            telemetry.addData("claw: ",claw.getPosition());
+            telemetry.update();
 
-        telemetry.update();
+            telemetry.update();
+        }
+        //-------------------------End While------------------------------------------------------------
+        stop(); //stopping all motors
     }
-    //-------------------------End While------------------------------------------------------------
-    stop(); //stopping all motors
-}
     //----------------------------------End of sRight----------------------------------------------
 
     public void Stop() {
@@ -453,7 +453,7 @@ public void sRight(double power,double distance) {
 
     //This is a new auto with the color sensor and straife
 
-//    public void autoScrimmageRF() {
+    //    public void autoScrimmageRF() {
 //        //claw.setPosition(MinClawPos);
 //        sRight(-.25, -40);
 //        sleep(200);
@@ -589,15 +589,16 @@ public void sRight(double power,double distance) {
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker
             forward(-.25,-33);
-            turn(0.25,91);
-            forward(-0.25, -5);
+            turn(-0.25,91);
+            forward(-0.25, -25);
 
             armDown();
             sleep(1000);
             //forward(0.25, 5);
             ClawOpen();//drop thing
-            forward(-0.25,-40);
-            sRight(-0.25,-5);
+            forward(-.25,-5);
+            sRight(0.25,17);
+            forward(.25,137);
 
 
 
@@ -626,21 +627,24 @@ public void sRight(double power,double distance) {
                 //sRight(.25,2);
                 forward(-.25, -33);
                 sleep(200);
-                turn(0.25,91);
-                forward(-0.25,-25);
+                turn(-0.25,91);
+                forward(-0.25,-5);
 
                 armDown();
                 sleep(1000);
                 ClawOpenWIDE();//claw open
                 sleep(1200);
-                forward(-0.25,-5);
-                forward(0.25,5);
+                forward(-.25,-5);
+                sRight(.25,15);
+                forward(.25,137);
+               // forward(-0.25,-5);
+               // forward(0.25,5);
 
-                sRight(0.25,12);
-                forward(-0.25,-18);
-                ClawOpen();//so that it is not WIDE anymore
-                sleep(500);
-                sRight(-0.25,-5);
+                //sRight(0.25,12);
+                //forward(-0.25,-18);
+                //ClawOpen();//so that it is not WIDE anymore
+                //sleep(500);
+                //sRight(-0.25,-5);
 
 
 
@@ -657,7 +661,7 @@ public void sRight(double power,double distance) {
 
 
     }
-//--------------------------------------------------------------------
+    //--------------------------------------------------------------------
     public void autoScrimmage2() {
         forward(-.25, -48);
         sleep(200);
@@ -762,7 +766,7 @@ public void sRight(double power,double distance) {
 //        sleep(10000);
 
 
-                CameraAutoScrimmageRF();
+        CameraAutoScrimmageRF();
 
 
 //        FunnelClose();
