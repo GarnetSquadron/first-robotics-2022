@@ -599,8 +599,8 @@ public class AutoAudiRF extends LinearOpMode {
             ClawOpen();//drop thing
             forward(-.25,-5);
             sRight(0.25,17);
-            forward(.25,140);
-            sRight(-0.25,-3);
+            forward(.35,133);
+            sRight(-0.25,-1);
 
 
 
