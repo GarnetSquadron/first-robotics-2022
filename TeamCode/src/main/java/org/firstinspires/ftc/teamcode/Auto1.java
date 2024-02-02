@@ -27,7 +27,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 import java.util.List;
 
-@Autonomous(name = "auto1(red)")
+@Autonomous(name = "RB")
 public class Auto1 extends LinearOpMode {
 
 
@@ -59,6 +59,7 @@ public class Auto1 extends LinearOpMode {
     private DcMotor lb;
     private DcMotor rb;
     private DcMotor arm;
+    private DcMotor telearm;
     private Servo claw;
     private Servo funnel;
     ColorSensor Fsensor;
@@ -149,10 +150,10 @@ public class Auto1 extends LinearOpMode {
         claw.setPosition(0);
     }
     public void ClawOpen(){
-        claw.setPosition(0);
+        claw.setPosition(0.45);
     }
     public void ClawClose(){
-        claw.setPosition(0.2);
+        claw.setPosition(0.9);
     }
     public void FunnelOpen(){
         funnel.setPosition(0);
@@ -177,6 +178,7 @@ public class Auto1 extends LinearOpMode {
         rb.setPower(power);
 
     }
+
 
 
     public void resetEncoders() {
@@ -226,6 +228,7 @@ public class Auto1 extends LinearOpMode {
         //-------------------------End While--------------------------------------------------------
         stop(); //stopping all motors
     }
+
 
     public void turn(double power){
         lf.setPower(-power);
@@ -503,111 +506,59 @@ public void sRight(double power,double distance) {
 //
 //
 //    }
-    public void CameraAutoScrimmageRB() {
-        //claw.setPosition(MinClawPos);
-        int spikemark = getSpikeMarkVision();
-        visionPortal.close();
-        sleep(1000);
-        ClawClose();
-        //boolean spike=GetColorB();
-        if(spikemark==1){ //Put yes statement here for detection of spike marker
-            forward(-.25,-33);
-            turn(0.25,91);
-            forward(-0.25, -5);
-
-            armDown();
-            sleep(1000);
-            //forward(0.25, 5);
-            ClawOpen();//drop thing
-            forward(-0.25,-40);
-            sRight(-0.25,-5);
-
-
-
-//
-        } //end of yes statement
-        else{ //Put no statement here for detection of spike marker
-
-
-
-//
-            if(spikemark==2){ //Put yes statement here for detection of spike marker
-                forward(-.25, -53);
-
-                sleep(200);
-
-                armDown();
-                sleep(1000);
-                ClawOpenWIDE();//claw open
-                turn(0.25,91);
-                forward(-.25, -96);
-
-
-
-            } //end of yes statement
-            else { //Put no statement here for detection of spike marker
-                //sRight(.25,2);
-                forward(-.25, -33);
-                sleep(200);
-                turn(0.25,91);
-                forward(-0.25,-25);
-
-                armDown();
-                sleep(1000);
-                ClawOpenWIDE();//claw open
-                sleep(1200);
-                forward(-0.25,-5);
-                forward(0.25,5);
-
-                sRight(0.25,12);
-                forward(-0.25,-18);
-                ClawOpen();//so that it is not WIDE anymore
-                sleep(500);
-                sRight(-0.25,-5);
-
-
-
-//                sRight(.25,35);
-//                sleep(1000);
-//                //claw.setPosition(MaxClawPos);
-            }
-
-        }
-        FunnelOpen();
-        sleep(700);
-        armUp();//VERY IMPORTANT: line keeps the teleop from losing control of arm/stalling arm
-
-
-
-    }
     public void CameraAutoScrimmageRF() {
         //claw.setPosition(MinClawPos);
-        int spikemark = getSpikeMarkVision();
-        visionPortal.close();
+//        int spikemark = getSpikeMarkVision();
+//        visionPortal.close();
+        int spikemark = 3;
         sleep(1000);
         ClawClose();
+        telearm.setPower(1);
+        sleep(2000);
+        telearm.setPower(0);
         //boolean spike=GetColorB();
-        if(spikemark==1){ //Put yes statement here for detection of spike marker
+        if(spikemark==1){ //Put yes statement here for detection of spike marker// defaults here?
             forward(-.25,-33);
             turn(0.25,91);
-            forward(-0.25, -5);
+            forward(-0.25, -3);
 
             armDown();
             sleep(1000);
             //forward(0.25, 5);
             ClawOpen();//drop thing
-            forward(-0.25,-40);
+
+
+
+            forward(-0.25,-43);
             sRight(-0.25,-5);
+            FunnelOpen();
+            sleep(700);
 
 
 
-//
+//            sRight(.25,4);
+//            sleep(200);
+//            sRight(.25, 2);
+//            sRight(-.25,-7);
+//            turn(0.25,90);
+//            forward(-.25,-7);
+//            sRight(-.25,-2);
+//            sRight(.25, 45);
+//            sleep(1000);
+            //claw.setPosition(MaxClawPos);
         } //end of yes statement
         else{ //Put no statement here for detection of spike marker
 
 
 
-//
+//            sRight(.25,4);
+//            sleep(200);
+//            //sRight(-.25, -4);
+//            forward(-.25,-9);
+//            turn(0.25, 90);
+//            forward(-.25,-17);
+//            sRight(0.25,4);
+//            sleep(200);
             if(spikemark==2){ //Put yes statement here for detection of spike marker
                 forward(-.25, -53);
 
@@ -616,10 +567,24 @@ public void sRight(double power,double distance) {
                 armDown();
                 sleep(1000);
                 ClawOpenWIDE();//claw open
+                sRight(.25, 40);
+                forward(.25, 20);
                 turn(0.25,91);
-                forward(-.25, -96);
+                forward(-0.25, -5);
+                sRight(0.25, 2);
+                ClawOpen();//so that it is not WIDE anymore
+                sleep(100);
+                FunnelOpen();
+                sleep(700);
+                forward(0.25, 3);
 
 
+                //turn(0.25,178);
+//                sRight(.25, 2);
+//
+//                sRight(.25,14);
+//                sleep(1000);
+//                //claw.setPosition(MaxClawPos);
 
             } //end of yes statement
             else { //Put no statement here for detection of spike marker
@@ -641,6 +606,8 @@ public void sRight(double power,double distance) {
                 ClawOpen();//so that it is not WIDE anymore
                 sleep(500);
                 sRight(-0.25,-5);
+                FunnelOpen();
+                sleep(700);
 
 
 
@@ -650,9 +617,10 @@ public void sRight(double power,double distance) {
             }
 
         }
-        FunnelOpen();
-        sleep(700);
+
         armUp();//VERY IMPORTANT: line keeps the teleop from losing control of arm/stalling arm
+        forward(0.25, 2);
+        sRight(0.25, 30);
 
 
 
@@ -726,6 +694,7 @@ public void sRight(double power,double distance) {
         rb = hardwareMap.get(DcMotor.class, "rb");
         rf.setDirection(DcMotorSimple.Direction.REVERSE);
         rb.setDirection(DcMotorSimple.Direction.REVERSE);
+        telearm = hardwareMap.get(DcMotor.class, "teleArm");
         Fsensor=hardwareMap.get(ColorSensor.class, "Fsensor");
         //Bsensor=hardwareMap.get(ColorSensor.class, "Bsensor");
         imu = hardwareMap.get(IMU.class, "imu");
@@ -762,7 +731,8 @@ public void sRight(double power,double distance) {
 //        sleep(10000);
 
 
-                CameraAutoScrimmageRF();
+
+        CameraAutoScrimmageRF();
 
 
 //        FunnelClose();

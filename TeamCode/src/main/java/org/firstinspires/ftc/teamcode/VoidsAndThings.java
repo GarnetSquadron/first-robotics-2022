@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -43,14 +45,15 @@ public class VoidsAndThings {
     private DcMotor lb;
     private DcMotor rb;
     private DistanceSensor sensor;
-    DcMotor lift;
-    Servo claw;
-    ColorSensor Fsensor;
+    private DcMotor lift;
+    private Servo claw;
+    private Servo Funnel;
+    //ColorSensor Fsensor;
     //ColorSensor Bsensor;
 
 
-    //private DcMotor arm;
-    //private Servo claw;
+    private DcMotor arm;
+
     //ColorSensor colorSensor;
     IMU imu;
     //Wheel encoders
@@ -90,6 +93,19 @@ public class VoidsAndThings {
         lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
+//    public void armDown(){
+//        sleep(200);
+//        arm(0.15, MaxArmPos);
+//        while(arm.isBusy()) {
+//            telemetry.addData("arm position", arm.getCurrentPosition());
+//            telemetry.update();
+//
+//        }
+//        sleep(200);
+//        arm.setPower(0);
+//        sleep(200);
+//
+//    }
     public void runWithoutEncoders() {
         lf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -116,6 +132,7 @@ public class VoidsAndThings {
         rb.setPower(power);
 
     }
+
     public void forward(double power,double distance) {//forward(1);forward(-1)
         resetEncoders();
         lf.setTargetPosition((int) (distance*wheelOneInch));
@@ -243,12 +260,12 @@ public class VoidsAndThings {
     }
     private double minRed=20;
     //minimum amount of red in a gamepiece
-    public boolean GetColorF(){
-        return minRed<Fsensor.red();
-    }
-//    public boolean GetColorB(){
-//        return minRed<Bsensor.red();
+//    public boolean GetColorF(){
+//        return minRed<Fsensor.red();
 //    }
+////    public boolean GetColorB(){
+////        return minRed<Bsensor.red();
+////    }
     public void turn(double power){
         lf.setPower(power);
         rf.setPower(power);
@@ -283,7 +300,7 @@ public class VoidsAndThings {
         rb.setDirection(DcMotorSimple.Direction.REVERSE);
         //DistanceSensor sensor;
         //sensor=hardwareMap.get(DistanceSensor.class, "distance");
-        Fsensor=hardwareMap.get(ColorSensor.class, "Fsensor");
+//        Fsensor=hardwareMap.get(ColorSensor.class, "Fsensor");
         //Bsensor=hardwareMap.get(ColorSensor.class, "Bsensor");
         imu = hardwareMap.get(IMU.class, "imu");
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
@@ -291,8 +308,8 @@ public class VoidsAndThings {
 
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         imu.initialize(new IMU.Parameters(orientationOnRobot));
-        //arm = robotHardware.get(DcMotor.class,"arm");
-        //claw = robotHardware.get(Servo.class, "claw");
+        arm = hardwareMap.get(DcMotor.class,"arm");
+        claw = hardwareMap.get(Servo.class, "claw");
         /*
         YOU MUST ADD THIS TO ANYTHING THAT USES ENCODERS AFTER DEFINING MOTORS
         lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -307,10 +324,10 @@ public class VoidsAndThings {
         //rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //sets all motors to run without encoders. remember to set a target before turning encoders on!
-        lf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        lb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        lf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        lb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        rb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         //lf.setDirection(DcMotor.Direction.REVERSE);
