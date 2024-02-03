@@ -144,10 +144,10 @@ public void armDown(){
         claw.setPosition(0);
     }
     public void ClawOpen(){
-        claw.setPosition(0);
+        claw.setPosition(0.45);
     }
     public void ClawClose(){
-        claw.setPosition(0.2);
+        claw.setPosition(0.9);
     }
     public void FunnelOpen(){
         funnel.setPosition(0);
@@ -647,9 +647,9 @@ public void armDown(){
         visionPortal.close();
         sleep(1000);
         ClawClose();
-        telearm.setPower(1);
-        sleep(2000);
-        telearm.setPower(0);
+//        telearm.setPower(1);
+//        sleep(2000);
+//        telearm.setPower(0);
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker
 
@@ -740,7 +740,9 @@ public void armDown(){
             else { //Put no statement here for detection of spike marker
                 //sRight(.25,2);
 
-                forward(-.25,-33);
+                forward(-.25,-30);
+                sRight(0.25,7);
+                sRight(-0.25,-7);
                 turn(-0.15,90);
                 forward(-0.25, -5);
 
@@ -796,6 +798,8 @@ public void armDown(){
 
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         imu.initialize(new IMU.Parameters(orientationOnRobot));
+
+        telearm.setDirection(DcMotorSimple.Direction.REVERSE);
 
         //arm = hardwareMap.get(DcMotor.class, "arm");
         //claw = hardwareMap.get(Servo.class, "claw");

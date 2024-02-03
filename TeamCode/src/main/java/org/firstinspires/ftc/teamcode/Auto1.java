@@ -157,6 +157,7 @@ public class Auto1 extends LinearOpMode {
     }
     public void FunnelOpen(){
         funnel.setPosition(0);
+
     }
     public void FunnelClose(){
         funnel.setPosition(0.4);
@@ -508,14 +509,14 @@ public void sRight(double power,double distance) {
 //    }
     public void CameraAutoScrimmageRF() {
         //claw.setPosition(MinClawPos);
-//        int spikemark = getSpikeMarkVision();
-//        visionPortal.close();
-        int spikemark = 3;
+        int spikemark = getSpikeMarkVision();
+        visionPortal.close();
+        //int spikemark = 3;
         sleep(1000);
         ClawClose();
-        telearm.setPower(1);
-        sleep(2000);
-        telearm.setPower(0);
+//        telearm.setPower(1);
+//        sleep(2000);
+//        telearm.setPower(0);
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker// defaults here?
             forward(-.25,-33);
@@ -531,7 +532,7 @@ public void sRight(double power,double distance) {
 
             forward(-0.25,-43);
             sRight(-0.25,-5);
-            FunnelOpen();
+            //FunnelOpen();
             sleep(700);
 
 
@@ -574,7 +575,7 @@ public void sRight(double power,double distance) {
                 sRight(0.25, 2);
                 ClawOpen();//so that it is not WIDE anymore
                 sleep(100);
-                FunnelOpen();
+                //FunnelOpen();
                 sleep(700);
                 forward(0.25, 3);
 
@@ -606,7 +607,7 @@ public void sRight(double power,double distance) {
                 ClawOpen();//so that it is not WIDE anymore
                 sleep(500);
                 sRight(-0.25,-5);
-                FunnelOpen();
+                //FunnelOpen();
                 sleep(700);
 
 
@@ -715,6 +716,7 @@ public void sRight(double power,double distance) {
 
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         imu.initialize(new IMU.Parameters(orientationOnRobot));
+        telearm.setDirection(DcMotorSimple.Direction.REVERSE);
 
         //arm = hardwareMap.get(DcMotor.class, "arm");
         //claw = hardwareMap.get(Servo.class, "claw");

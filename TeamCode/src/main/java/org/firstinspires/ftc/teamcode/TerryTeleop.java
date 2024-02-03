@@ -32,6 +32,7 @@ public class TerryTeleop extends LinearOpMode {
     private DcMotor telearm;
     private Servo claw;
     private Servo funnel;
+    private Servo launcher;
     private DcMotor lift;
     private DistanceSensor sensor;
     private double MaxClawPos = 0.45;
@@ -74,6 +75,7 @@ public class TerryTeleop extends LinearOpMode {
 //        //-------------------------End While--------------------------------------------------------
 //        stop(); //stopping all motors
     }
+
     public void arm(double power,double height) {//forward(1);forward(-1)
         //resetEncoders();   <--we dont want this
         arm.setTargetPosition((int) (height));
@@ -99,7 +101,7 @@ public class TerryTeleop extends LinearOpMode {
         //double initdirection = orientation.getYaw(AngleUnit.DEGREES);
         //imu.resetYaw();<-- again, we dont want this
         YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
-        while (Math.abs (orientation.getYaw(AngleUnit.DEGREES)) <=degrees) {
+        if (Math.abs (orientation.getYaw(AngleUnit.DEGREES)) <=degrees) {
 
 
             turn(power);
@@ -110,7 +112,20 @@ public class TerryTeleop extends LinearOpMode {
             telemetry.update();
             orientation = imu.getRobotYawPitchRollAngles();
         }
-        turn(0);
+        else if (Math.abs (orientation.getYaw(AngleUnit.DEGREES)) >=degrees) {
+
+
+            turn(-power);
+            telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", Math.abs(orientation.getYaw(AngleUnit.DEGREES)));
+//          telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", Math.abs(orientation.getYaw(AngleUnit.DEGREES)));
+            telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", Math.abs(orientation.getYaw(AngleUnit.DEGREES)));
+            telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", Math.abs(orientation.getYaw(AngleUnit.DEGREES)));
+            telemetry.update();
+            orientation = imu.getRobotYawPitchRollAngles();
+        }
+//        else {
+//            turn(0);
+//        }
 
     }
     public void tele(double power,double height) {//forward(1);forward(-1)
@@ -147,6 +162,7 @@ public class TerryTeleop extends LinearOpMode {
         sensor=hardwareMap.get(DistanceSensor.class, "distance");
 
         imu = hardwareMap.get(IMU.class, "imu");
+        launcher = hardwareMap.get(Servo.class, "launcher");
 
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
         RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
@@ -166,7 +182,7 @@ public class TerryTeleop extends LinearOpMode {
 
 
 
-
+        double time = 0;
         telemetry.addLine("running");
         while (opModeIsActive()) {
 
@@ -181,11 +197,11 @@ public class TerryTeleop extends LinearOpMode {
             if(gamepad2.right_bumper) {
                 //arm.setPower(-0.1);
             }
-            if(gamepad2.y){
+            if(gamepad2.dpad_down){
                 claw.setPosition(MaxClawPos);
                 clawUp=true;
             }
-            if(gamepad2.b){
+            if(gamepad2.dpad_up){
                 claw.setPosition(MinClawPos);
                 clawUp=false;
             }
@@ -210,14 +226,16 @@ public class TerryTeleop extends LinearOpMode {
             }
             if(gamepad1.right_trigger>0){
                 telemetry.addData("IMU:", true);
-                turn(0.25,90);
+                turn(0.25,0);
 
             }
+            
             if(gamepad2.right_stick_y<0){
                 //arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 //arm.setPower(-0.45);
                 arm(-0.35,MinArmPos);
                 armUp=false;
+                time = getRuntime();
             }
             else if(arm.getCurrentPosition()>510){
                 arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -225,11 +243,14 @@ public class TerryTeleop extends LinearOpMode {
                 //arm(0.15,MaxArmPos);
                 armUp=true;
             }
-            else {
+            else if (time+200>=getRuntime()){
                 //arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 //arm.setPower(0.25);
-                arm(0.15,MaxArmPos);
-                armUp=true;
+                
+                
+                
+                arm(0.15, MaxArmPos);
+                armUp = true;
             }
             if(gamepad2.left_stick_y<0){
                 telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -246,6 +267,10 @@ public class TerryTeleop extends LinearOpMode {
             else{
                 tele(0,0);
                 teleUp=false;
+            }
+
+            if (gamepad1.dpad_up){
+                launcher.setPosition(0.9);
             }
 //            if(gamepad2.left_stick_y<0){
 //                telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -310,9 +335,9 @@ public class TerryTeleop extends LinearOpMode {
                 currentSensitivity = turboSensitivity;
             } else if (gamepad1.left_bumper) {
                 currentSensitivity = slowSensitivity;
-                if (sensor.getDistance(DistanceUnit.INCH)<=4){
-                    currentSensitivity = 0;
-                }
+//                if (sensor.getDistance(DistanceUnit.INCH)<=4){
+//                    currentSensitivity = 0;
+//                }
             } else {
                 currentSensitivity = defaultSensitivity;
             }
