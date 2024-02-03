@@ -666,8 +666,8 @@ public void armDown(){
 
             forward(-.5, -33);
             sleep(200);
-            turn(-0.5,90);
-            forward(-0.25,-25);
+            turn(-0.25,90);
+            forward(-0.5,-25);
 
             armDown();
             sleep(1000);
@@ -675,15 +675,15 @@ public void armDown(){
             sleep(100);
             armUp();
             sleep(1200);
-            forward(-0.25,-5);
-            forward(0.25,5);
+            forward(-0.5,-5);
+            forward(0.5,5);
 
             sRight(-0.25,-12);
-            forward(-0.25,-18);
+            forward(-0.5,-18);
             ClawOpen();//so that it is not WIDE anymore
 
             sleep(500);
-            sRight(0.25,5);
+            sRight(0.5,5);
 
 
 
@@ -727,14 +727,14 @@ public void armDown(){
 
                 armDown();
                 sleep(1000);
-                ClawOpenWIDE();//claw open
+                ClawOpen();//claw open
                 sleep(100);
                 armUp();
                 sRight(-.25, -40);
                 forward(.25, 20);
-                turn(-0.15,90);
+                turn(-0.25,90);
                 sRight(-0.25, -4);
-                forward(-0.25, -11);
+                forward(-0.5, -11);
                 ClawOpen();//so that it is not WIDE anymore
 
                 sleep(100);

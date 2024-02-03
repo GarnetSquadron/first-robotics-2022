@@ -243,7 +243,7 @@ public class TerryTeleop extends LinearOpMode {
                 //arm(0.15,MaxArmPos);
                 armUp=true;
             }
-            else if (time+200>=getRuntime()){
+            else if (time+2000>=getRuntime()){
                 //arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 //arm.setPower(0.25);
                 
