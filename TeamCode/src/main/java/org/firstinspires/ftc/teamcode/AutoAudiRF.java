@@ -597,9 +597,9 @@ public class AutoAudiRF extends LinearOpMode {
             sleep(1000);
             //forward(0.25, 5);
             ClawOpen();//drop thing
-            forward(-.25,-5);
-            sRight(0.25,17);
-            forward(.35,133);
+            armUp();
+            sRight(0.25,19);
+            forward(.35,129);
             sRight(-0.25,-1);
 
 
@@ -631,15 +631,15 @@ public class AutoAudiRF extends LinearOpMode {
                 forward(-.25, -33);
                 sleep(200);
                 turn(-0.25,91);
-                forward(-0.25,-5);
+                forward(-0.25,-3);
 
                 armDown();
                 sleep(1000);
                 ClawOpenWIDE();//claw open
                 sleep(1200);
                 forward(-.25,-5);
-                sRight(.25,15);
-                forward(.25,137);
+                sRight(.25,20);
+                forward(.45,118);
                // forward(-0.25,-5);
                // forward(0.25,5);
 
@@ -657,8 +657,8 @@ public class AutoAudiRF extends LinearOpMode {
             }
 
         }
-        FunnelOpen();
-        sleep(700);
+        //FunnelOpen();
+        //sleep(700);
         armUp();//VERY IMPORTANT: line keeps the teleop from losing control of arm/stalling arm
 
 
