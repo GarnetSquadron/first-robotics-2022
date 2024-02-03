@@ -281,6 +281,17 @@ public void armDown(){
             telemetry.update();
             orientation = imu.getRobotYawPitchRollAngles();
         }
+//        while (Math.abs (orientation.getYaw(AngleUnit.DEGREES)) >degrees) {
+//
+//
+//            turn(-power/4);
+//            telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", Math.abs(orientation.getYaw(AngleUnit.DEGREES)));
+////            telemetry.addData("Pitch (X)", "%.2f Deg.", orientation.getPitch(AngleUnit.DEGREES));
+////            telemetry.addData("Roll (Y)", "%.2f Deg.\n", orientation.getRoll(AngleUnit.DEGREES));
+//            telemetry.update();
+//            orientation = imu.getRobotYawPitchRollAngles();
+//        }
+        turn(0);
     }
     //----------------------------------End of forward--------------------------------------------------
     //sRight = straife right
@@ -647,20 +658,20 @@ public void armDown(){
         visionPortal.close();
         sleep(1000);
         ClawClose();
-//        telearm.setPower(1);
-//        sleep(2000);
-//        telearm.setPower(0);
+        telearm.setPower(1);
+        sleep(2000);
+        telearm.setPower(0);
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker
 
-            forward(-.25, -33);
+            forward(-.5, -33);
             sleep(200);
-            turn(-0.15,90);
+            turn(-0.5,90);
             forward(-0.25,-25);
 
             armDown();
             sleep(1000);
-            ClawOpenWIDE();//claw open
+            ClawOpen();//claw open
             sleep(100);
             armUp();
             sleep(1200);
@@ -772,6 +783,7 @@ public void armDown(){
         FunnelOpen();
         sleep(700);
         armUp();//VERY IMPORTANT: line keeps the teleop from losing control of arm/stalling arm
+        sRight(-0.25,-28);
 
 
 

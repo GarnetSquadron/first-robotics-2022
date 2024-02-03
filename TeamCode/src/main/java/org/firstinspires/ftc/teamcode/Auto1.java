@@ -514,9 +514,9 @@ public void sRight(double power,double distance) {
         //int spikemark = 3;
         sleep(1000);
         ClawClose();
-//        telearm.setPower(1);
-//        sleep(2000);
-//        telearm.setPower(0);
+        telearm.setPower(1);
+        sleep(2000);
+        telearm.setPower(0);
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker// defaults here?
             forward(-.25,-33);
@@ -532,7 +532,7 @@ public void sRight(double power,double distance) {
 
             forward(-0.25,-43);
             sRight(-0.25,-5);
-            //FunnelOpen();
+            FunnelOpen();
             sleep(700);
 
 
@@ -567,7 +567,8 @@ public void sRight(double power,double distance) {
 
                 armDown();
                 sleep(1000);
-                ClawOpenWIDE();//claw open
+                ClawOpen();//claw open
+                armUp();
                 sRight(.25, 40);
                 forward(.25, 20);
                 turn(0.25,91);
@@ -575,7 +576,7 @@ public void sRight(double power,double distance) {
                 sRight(0.25, 2);
                 ClawOpen();//so that it is not WIDE anymore
                 sleep(100);
-                //FunnelOpen();
+                FunnelOpen();
                 sleep(700);
                 forward(0.25, 3);
 
@@ -603,11 +604,11 @@ public void sRight(double power,double distance) {
                 forward(0.25,5);
 
                 sRight(0.25,12);
-                forward(-0.25,-18);
+                forward(-0.25,-20);
                 ClawOpen();//so that it is not WIDE anymore
                 sleep(500);
                 sRight(-0.25,-5);
-                //FunnelOpen();
+                FunnelOpen();
                 sleep(700);
 
 
@@ -621,7 +622,7 @@ public void sRight(double power,double distance) {
 
         armUp();//VERY IMPORTANT: line keeps the teleop from losing control of arm/stalling arm
         forward(0.25, 2);
-        sRight(0.25, 30);
+        sRight(0.25, 28);
 
 
 

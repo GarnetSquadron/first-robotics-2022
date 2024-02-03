@@ -328,6 +328,8 @@ public class TerryTeleop extends LinearOpMode {
             telemetry.addData("FunnelPos",funnel.getPosition());
             telemetry.addData("left trigger", gamepad1.left_trigger);
             telemetry.addData("right trigger", gamepad1.right_trigger);
+            telemetry.addData("Time:",time);
+            telemetry.addData("RunTime:",getRuntime());
             telemetry.update();
 
 
