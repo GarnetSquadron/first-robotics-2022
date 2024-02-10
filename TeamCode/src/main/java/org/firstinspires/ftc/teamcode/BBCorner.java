@@ -3,8 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -24,8 +22,8 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import java.util.List;
 
 
-@Autonomous(name = "BB")
-public class Auto2 extends LinearOpMode {
+@Autonomous(name = "BBCorner")
+public class BBCorner extends LinearOpMode {
 
 
 
@@ -664,10 +662,10 @@ public void armDown(){
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker
 
-            forward(-.5, -33);
+            forward(-1, -33);
             sleep(200);
             turn(-0.25,90);
-            forward(-0.5,-25);
+            forward(-1,-25);
 
             armDown();
             sleep(1000);
@@ -675,11 +673,11 @@ public void armDown(){
             sleep(100);
             armUp();
             sleep(1200);
-            forward(-0.5,-5);
-            forward(0.5,5);
+            forward(-1,-5);
+            forward(1,5);
 
             sRight(-0.25,-12);
-            forward(-0.5,-18);
+            forward(-1,-18);
             ClawOpen();//so that it is not WIDE anymore
 
             sleep(500);
@@ -721,7 +719,7 @@ public void armDown(){
 //            sRight(0.25,4);
 //            sleep(200);
             if(spikemark==2){ //Put yes statement here for detection of spike marker
-                forward(-.25, -54);
+                forward(-1, -54);
 
                 sleep(200);
 
@@ -731,10 +729,10 @@ public void armDown(){
                 sleep(100);
                 armUp();
                 sRight(-.25, -40);
-                forward(.25, 20);
+                forward(1, 20);
                 turn(-0.25,90);
                 sRight(-0.25, -4);
-                forward(-0.5, -11);
+                forward(-1, -11);
                 ClawOpen();//so that it is not WIDE anymore
 
                 sleep(100);
@@ -751,11 +749,11 @@ public void armDown(){
             else { //Put no statement here for detection of spike marker
                 //sRight(.25,2);
 
-                forward(-.25,-30);
+                forward(-1,-30);
                 sRight(0.25,7);
                 sRight(-0.25,-7);
                 turn(-0.15,90);
-                forward(-0.25, -5);
+                forward(-1, -5);
 
                 armDown();
                 sleep(1000);

@@ -142,10 +142,7 @@ public class VoidsAndThings {
 //--------------------------------------------------------------------------------------------------
         runToPosition();
 //--------------------------------------------------------------------------------------------------
-        lf.setPower(power);
-        rf.setPower(power);
-        lb.setPower(power);
-        rb.setPower(power);
+        forward(power);
 
         //--------------------------------Telematry, gives data about position and makes sure it doesnt stop immediately.-----------------------
         while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()) {

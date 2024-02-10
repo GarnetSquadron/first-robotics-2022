@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -22,13 +21,12 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 import java.util.List;
 
-@Autonomous(name = "RB")
-public class Auto1 extends LinearOpMode {
+@Autonomous(name = "RBCorner")
+public class RBCorner extends LinearOpMode {
 
 
 
@@ -519,10 +517,10 @@ public void sRight(double power,double distance) {
         telearm.setPower(0);
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker// defaults here?
-            forward(-0.5,-27);
+            forward(-1,-27);
             turn(0.25,91);
-            forward(0.5, 8);
-            forward(-0.5,-10);
+            forward(1, 8);
+            forward(-1,-10);
 
             armDown();
             sleep(1000);
@@ -531,7 +529,7 @@ public void sRight(double power,double distance) {
 
 
 
-            forward(-0.5,-43);
+            forward(-1,-43);
             sRight(-0.25,-5);
             FunnelOpen();
             sleep(700);
@@ -562,7 +560,7 @@ public void sRight(double power,double distance) {
 //            sRight(0.25,4);
 //            sleep(200);
             if(spikemark==2){ //Put yes statement here for detection of spike marker
-                forward(-.5, -53);
+                forward(-1, -53);
 
                 sleep(200);
 
@@ -571,15 +569,15 @@ public void sRight(double power,double distance) {
                 ClawOpen();//claw open
                 armUp();
                 sRight(.25, 40);
-                forward(.5, 20);
+                forward(1, 20);
                 turn(0.25,91);
-                forward(-0.5, -10);
+                forward(-1, -10);
                 sRight(0.25, 2);
                 ClawOpen();//so that it is not WIDE anymore
                 sleep(100);
                 FunnelOpen();
                 sleep(700);
-                forward(0.25, 3);
+                forward(1, 3);
 
 
                 //turn(0.25,178);
@@ -592,22 +590,22 @@ public void sRight(double power,double distance) {
             } //end of yes statement
             else { //Put no statement here for detection of spike marker
                 //sRight(.25,2);
-                forward(-.5, -33);
+                forward(-1, -33);
                 sleep(200);
                 turn(0.25,91);
-                forward(0.5,5);
-                forward(-0.5,-30);
+                forward(1,5);
+                forward(-1,-30);
 
 
                 armDown();
                 sleep(1000);
                 ClawOpenWIDE();//claw open
                 sleep(1200);
-                forward(-0.5,-5);
-                forward(0.5,5);
+                forward(-1,-5);
+                forward(1,5);
 
                 sRight(0.25,12);
-                forward(-0.5,-20);
+                forward(-1,-20);
                 ClawOpen();//so that it is not WIDE anymore
                 sleep(500);
                 sRight(-0.5,-5);
