@@ -519,9 +519,10 @@ public void sRight(double power,double distance) {
         telearm.setPower(0);
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker// defaults here?
-            forward(-.25,-33);
+            forward(-0.5,-27);
             turn(0.25,91);
-            forward(-0.25, -3);
+            forward(0.5, 8);
+            forward(-0.5,-10);
 
             armDown();
             sleep(1000);
@@ -530,7 +531,7 @@ public void sRight(double power,double distance) {
 
 
 
-            forward(-0.25,-43);
+            forward(-0.5,-43);
             sRight(-0.25,-5);
             FunnelOpen();
             sleep(700);
@@ -561,7 +562,7 @@ public void sRight(double power,double distance) {
 //            sRight(0.25,4);
 //            sleep(200);
             if(spikemark==2){ //Put yes statement here for detection of spike marker
-                forward(-.25, -53);
+                forward(-.5, -53);
 
                 sleep(200);
 
@@ -570,9 +571,9 @@ public void sRight(double power,double distance) {
                 ClawOpen();//claw open
                 armUp();
                 sRight(.25, 40);
-                forward(.25, 20);
+                forward(.5, 20);
                 turn(0.25,91);
-                forward(-0.25, -5);
+                forward(-0.5, -10);
                 sRight(0.25, 2);
                 ClawOpen();//so that it is not WIDE anymore
                 sleep(100);
@@ -591,23 +592,25 @@ public void sRight(double power,double distance) {
             } //end of yes statement
             else { //Put no statement here for detection of spike marker
                 //sRight(.25,2);
-                forward(-.25, -33);
+                forward(-.5, -33);
                 sleep(200);
                 turn(0.25,91);
-                forward(-0.25,-25);
+                forward(0.5,5);
+                forward(-0.5,-30);
+
 
                 armDown();
                 sleep(1000);
                 ClawOpenWIDE();//claw open
                 sleep(1200);
-                forward(-0.25,-5);
-                forward(0.25,5);
+                forward(-0.5,-5);
+                forward(0.5,5);
 
                 sRight(0.25,12);
-                forward(-0.25,-20);
+                forward(-0.5,-20);
                 ClawOpen();//so that it is not WIDE anymore
                 sleep(500);
-                sRight(-0.25,-5);
+                sRight(-0.5,-5);
                 FunnelOpen();
                 sleep(700);
 
