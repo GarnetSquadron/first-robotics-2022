@@ -574,25 +574,30 @@ public class AutoAudiBF extends LinearOpMode {
 
 
     }
-    public void CameraAutoScrimmageRF() {
+    public void CameraAutoScrimmageBFPark() {
         //claw.setPosition(MinClawPos);
-        int spikemark = getSpikeMarkVision();
-        visionPortal.close();
+       // int spikemark = getSpikeMarkVision();
+        int spikemark = 3;
+        //visionPortal.close();
         sleep(1000);
         ClawClose();
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker
             forward(-.25,-33);
-            turn(-0.25,-91);
-            forward(-0.25, -25);
+            turn(0.25,89);
+            //turn(-0.25,-91);
+            //forward(-0.25, -25);
+            forward(-0.25, -6);
 
             armDown();
             sleep(1000);
+            forward(.25,4);
+
             //forward(0.25, 5);
             ClawOpen();//drop thing
-            forward(-.25,-5);
-            sRight(0.25,-17);
-            forward(.25,137);
+           // forward(-.25,-5);
+            //sRight(0.25,-17);
+           // forward(.25,137);
 
 
 
@@ -611,9 +616,9 @@ public class AutoAudiBF extends LinearOpMode {
                 armDown();
                 sleep(1000);
                 ClawOpenWIDE();//claw open
-                forward(-.25,-4);
-                turn(0.25,-89);
-                forward(-.25, -94);
+                //forward(-.25,-4);
+                //turn(0.25,-89);
+                //forward(-.25, -94);
 
 
 
@@ -622,16 +627,21 @@ public class AutoAudiBF extends LinearOpMode {
                 //sRight(.25,2);
                 forward(-.25, -33);
                 sleep(200);
-                turn(-0.25,-91);
-                forward(-0.25,-5);
+                sRight(.25,14);
+                forward(-.25,-10);
+                //turn(0.25,91);
+                //forward(-0.25,-26);
 
                 armDown();
                 sleep(1000);
                 ClawOpenWIDE();//claw open
                 sleep(1200);
-                forward(-.25,-5);
-                sRight(.25,-15);
-                forward(.25,137);
+                armUp();
+                sRight(-.25,-14);
+                //forward(-.25,-5);
+                //sRight(.25,-15);
+                //forward(.25,137);
+
                // forward(-0.25,-5);
                // forward(0.25,5);
 
@@ -649,8 +659,91 @@ public class AutoAudiBF extends LinearOpMode {
             }
 
         }
-        FunnelOpen();
+        //FunnelOpen();
         sleep(700);
+        armUp();//VERY IMPORTANT: line keeps the teleop from losing control of arm/stalling arm
+
+
+
+    }
+
+    public void CameraAutoScrimmageRF() {
+        //claw.setPosition(MinClawPos);
+        int spikemark = getSpikeMarkVision();
+        visionPortal.close();
+        sleep(1000);
+        ClawClose();
+        //boolean spike=GetColorB();
+        if(spikemark==1){ //Put yes statement here for detection of spike marker
+            forward(-.25,-33);
+            turn(-0.25,91);
+            forward(-0.25, -25);
+
+            armDown();
+            sleep(1000);
+            //forward(0.25, 5);
+            ClawOpen();//drop thing
+            //sRight(0.25,19);
+            //forward(.35,129);
+            //sRight(-0.25,-1);
+
+
+
+//
+        } //end of yes statement
+        else{ //Put no statement here for detection of spike marker
+
+
+
+//
+            if(spikemark==2){ //Put yes statement here for detection of spike marker
+                forward(-.25, -53);
+
+                sleep(200);
+
+                armDown();
+                sleep(1000);
+                ClawOpenWIDE();//claw open
+                //forward(-.25,-4);
+                // turn(0.25,89);
+                // forward(-.25, -94);
+
+
+
+            } //end of yes statement
+            else { //Put no statement here for detection of spike marker
+                //sRight(.25,2);
+                forward(-.25, -33);
+                sleep(200);
+                turn(-0.25,91);
+                forward(-0.25,-3);
+
+                armDown();
+                sleep(1000);
+                ClawOpenWIDE();//claw open
+                sleep(1200);
+                //forward(-.25,-5);
+                //sRight(.25,20);
+                //forward(.45,118);
+                // forward(-0.25,-5);
+                // forward(0.25,5);
+
+                //sRight(0.25,12);
+                //forward(-0.25,-18);
+                //ClawOpen();//so that it is not WIDE anymore
+                //sleep(500);
+                //sRight(-0.25,-5);
+
+
+
+//                sRight(.25,35);
+//                sleep(1000);
+//                //claw.setPosition(MaxClawPos);
+            }
+
+        }
+        //FunnelOpen();
+        //sleep(700);
         armUp();//VERY IMPORTANT: line keeps the teleop from losing control of arm/stalling arm
 
 
@@ -761,7 +854,7 @@ public class AutoAudiBF extends LinearOpMode {
 //        sleep(10000);
 
 
-        CameraAutoScrimmageRF();
+        CameraAutoScrimmageBFPark();
 
 
 //        FunnelClose();
