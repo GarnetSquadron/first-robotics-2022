@@ -186,9 +186,18 @@ public class TerryTeleop extends LinearOpMode {
         telemetry.addLine("running");
         while (opModeIsActive()) {
 
-            //drive robot according to sticks * sensitivity. I am very sensitive irl. Please don't bully me. aka yoink mcsploink
+
             //ftc judges please understand this is a inside joke
-            terryHardware.driveRobot(gamepad1.left_stick_y * currentSensitivity, -gamepad1.left_stick_x * currentSensitivity, gamepad1.right_stick_x * currentSensitivity);
+            if(gamepad1.right_trigger>0){
+                //align with backdrop if button pressed
+                telemetry.addData("IMU:", true);
+                turn(0.25,0);
+
+            }
+            else {
+                //otherwise drive robot according to sticks * sensitivity
+                terryHardware.driveRobot(gamepad1.left_stick_y * currentSensitivity, -gamepad1.left_stick_x * currentSensitivity, gamepad1.right_stick_x * currentSensitivity);
+            }
             //terryHardware.move(Math.atan2(-gamepad1.left_stick_y,gamepad1.left_stick_x),Math.hypot(gamepad1.left_stick_y,gamepad1.left_stick_x));
             //^working on this universal strafing function
 
@@ -224,11 +233,7 @@ public class TerryTeleop extends LinearOpMode {
                 Lift(0,0);
                 liftUp=false;
             }
-            if(gamepad1.right_trigger>0){
-                telemetry.addData("IMU:", true);
-                turn(0.25,0);
 
-            }
             
             if(gamepad2.right_stick_y<0){
                 //arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
