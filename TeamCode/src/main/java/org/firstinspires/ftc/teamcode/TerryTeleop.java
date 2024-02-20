@@ -36,7 +36,7 @@ public class TerryTeleop extends LinearOpMode {
     private DcMotor lift;
     private DistanceSensor sensor;
     private double MaxClawPos = 0.45;
-    private double MinClawPos = 0.9;
+    private double MinClawPos = 1;
     private double MaxLiftPos = 6750;//DO NOt go over 7267
     private double MinLiftPos = 0;
     private double MaxArmPos = 515;
@@ -130,12 +130,18 @@ public class TerryTeleop extends LinearOpMode {
     }
     public void tele(double power,double height) {//forward(1);forward(-1)
         //resetEncoders();   <--we dont want this
-        telearm.setTargetPosition((int) (height));
+        //telearm.setTargetPosition((int) (height));
 //--------------------------------------------------------------------------------------------------
-        telearm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //telearm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //--------------------------------------------------------------------------------------------------
-        telearm.setPower(power);
-
+        boolean inbound=Math.abs(power)*telearm.getCurrentPosition()<Math.abs(power)*height;
+        if (inbound) {
+            telearm.setPower(power);
+        }
+        else {
+            telearm.setPower(0);
+        }
+        telemetry.addData("in bounds: ",inbound);
         //--------------------------------Telemetry, gives data about position and makes sure it doesnt stop immediately.----------------------
 //        while (telearm.isBusy()) {
 //            telemetry.addData("lf encoder: ",arm.getCurrentPosition());
@@ -143,7 +149,7 @@ public class TerryTeleop extends LinearOpMode {
 //            telemetry.update();
 //        }
         //-------------------------End While--------------------------------------------------------
-        stop(); //stopping all motors
+         //stopping all motors
     }
     
 
@@ -260,13 +266,13 @@ public class TerryTeleop extends LinearOpMode {
             if(gamepad2.left_stick_y<0){
                 telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 telearm.setPower(-1);
-                //tele(-0.2,0);
+                //tele(-1,100);
                 teleUp=false;
             }
             else if(gamepad2.left_stick_y>0){
                 telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 telearm.setPower(1);
-                //tele(0.2,100);
+                //tele(1,0);
                 teleUp=true;
             }
             else{
@@ -319,7 +325,7 @@ public class TerryTeleop extends LinearOpMode {
 
             */
 
-
+            telemetry.addData("joystick:",gamepad2.left_stick_y);
             telemetry.addData("Lift:",liftUp);
             telemetry.addData("arm:",armUp);
             telemetry.addData("claw:",clawUp);

@@ -44,6 +44,7 @@ public class VoidsAndThings {
     private DcMotor rf;
     private DcMotor lb;
     private DcMotor rb;
+    private DcMotor telearm;
     private DistanceSensor sensor;
     private DcMotor lift;
     private Servo claw;
@@ -106,6 +107,26 @@ public class VoidsAndThings {
 //        sleep(200);
 //
 //    }
+
+
+
+    public void tele(double power,double height) {//forward(1);forward(-1)
+        //resetEncoders();   <--we dont want this
+        telearm.setTargetPosition((int) (height));
+//--------------------------------------------------------------------------------------------------
+        telearm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//--------------------------------------------------------------------------------------------------
+        telearm.setPower(1);
+        //--------------------------------Telemetry, gives data about position and makes sure it doesnt stop immediately.----------------------
+        while (telearm.isBusy()) {
+//            telemetry.addData("lf encoder: ",arm.getCurrentPosition());
+//            telemetry.addData("power: ",arm.getPower());
+//            telemetry.update();
+        }
+        //-------------------------End While--------------------------------------------------------
+        //stopping all motors
+        telearm.setPower(0);
+    }
     public void runWithoutEncoders() {
         lf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -307,6 +328,7 @@ public class VoidsAndThings {
         imu.initialize(new IMU.Parameters(orientationOnRobot));
         arm = hardwareMap.get(DcMotor.class,"arm");
         claw = hardwareMap.get(Servo.class, "claw");
+        telearm = hardwareMap.get(DcMotor.class, "teleArm");
         /*
         YOU MUST ADD THIS TO ANYTHING THAT USES ENCODERS AFTER DEFINING MOTORS
         lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);

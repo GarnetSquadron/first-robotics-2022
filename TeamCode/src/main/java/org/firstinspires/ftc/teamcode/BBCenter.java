@@ -30,7 +30,7 @@ public class BBCenter extends LinearOpMode {
 
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
     // this is only used for Android Studio when using models in Assets.
-    private static final String TFOD_MODEL_ASSET = "BlueCubeActuallyWorks.tflite";
+    private static final String TFOD_MODEL_ASSET = "ShinyBlue.tflite";
     private static final String[] LABELS = {
             "BlueCube",
     };
@@ -160,6 +160,24 @@ public void armDown(){
         rf.setPower(Math.sin(direction + Math.PI / 4) * power);
         lb.setPower(Math.sin(direction - Math.PI / 4) * power);
         rb.setPower(Math.sin(direction + Math.PI / 4) * power);
+    }
+
+    public void tele(double power,double height) {//forward(1);forward(-1)
+        //resetEncoders();   <--we dont want this
+        telearm.setTargetPosition((int) (height));
+//--------------------------------------------------------------------------------------------------
+        telearm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//--------------------------------------------------------------------------------------------------
+        telearm.setPower(1);
+        //--------------------------------Telemetry, gives data about position and makes sure it doesnt stop immediately.----------------------
+        while (telearm.isBusy()) {
+            telemetry.addData("lf encoder: ",arm.getCurrentPosition());
+            telemetry.addData("power: ",arm.getPower());
+            telemetry.update();
+        }
+        //-------------------------End While--------------------------------------------------------
+        //stopping all motors
+        telearm.setPower(0);
     }
 //hello
 
@@ -655,9 +673,10 @@ public void armDown(){
         visionPortal.close();
         sleep(1000);
         ClawClose();
-        telearm.setPower(1);
-        sleep(2000);
-        telearm.setPower(0);
+//        telearm.setPower(1);
+//        sleep(2000);
+//        telearm.setPower(0);
+        tele(1,1000);
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker
 
@@ -681,6 +700,8 @@ public void armDown(){
 
             sleep(500);
             sRight(0.5,4);
+
+
 
 
 
