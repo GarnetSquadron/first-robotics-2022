@@ -578,16 +578,18 @@ public class AutoAudiRFPark extends LinearOpMode {
         ClawClose();
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker
-            forward(-.25,-33);
-            turn(-0.25,91);
-            forward(-0.25, -25);
+            forward(-.40,-33);
+            turn(-0.25,89);
+            forward(-0.40, -25);
 
             armDown();
             sleep(1000);
             //forward(0.25, 5);
             ClawOpen();//drop thing
-            sRight(0.25,18);
-            forward(.35,112);
+            armUp();
+            sRight(-0.25,-34);
+            armDown();
+            forward(.40,110);
             //sRight(-0.25,-1);
 
 
@@ -606,12 +608,12 @@ public class AutoAudiRFPark extends LinearOpMode {
 
                 armDown();
                 sleep(1000);
-                ClawOpen();//claw open
+                //ClawOpen();//claw open
                 armUp();
-                forward(.25,46);
-                turn(-0.25,89);
+                forward(.40,46);
+                turn(-0.25,91);
                 armDown();
-                forward(-.25,110);
+                forward(-.40,92);
                 //forward(-.25,-4);
                 //turn(0.25,89);
                 //forward(-.25, -94);
@@ -623,13 +625,17 @@ public class AutoAudiRFPark extends LinearOpMode {
                 //sRight(.25,2);
                 forward(-.25, -33);
                 sleep(200);
-                turn(-0.25,91);
-                forward(-0.25,-3);
+                turn(-0.25,89);
+                forward(-0.25,-2);
 
                 armDown();
                 sleep(1000);
                 ClawOpen();//claw open
+                armUp();
                 sleep(1200);
+                sRight(-.25,-35);
+                armDown();
+                forward(.25,90);
                 //forward(-.25,-5);
                 //sRight(.25,20);
                 //forward(.45,118);
