@@ -88,6 +88,7 @@ public class BBCorner extends LinearOpMode {
     private double MinArmPos = 0;
     private double minRed=90;//under 90
     private double minBlue=50;
+    private VoidsAndThings voidsAndThings;
 
 //    private boolean GetColorBRed(){
 //
@@ -329,6 +330,24 @@ public void armDown(){
         stop(); //stopping all motors
     }
     //----------------------------------End of sRight----------------------------------------------
+
+    public void tele(double power,double height) {//forward(1);forward(-1)
+        //resetEncoders();   <--we dont want this
+        telearm.setTargetPosition((int) (height));
+//--------------------------------------------------------------------------------------------------
+        telearm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//--------------------------------------------------------------------------------------------------
+        telearm.setPower(1);
+        //--------------------------------Telemetry, gives data about position and makes sure it doesnt stop immediately.----------------------
+        while (telearm.isBusy()) {
+//            telemetry.addData("lf encoder: ",arm.getCurrentPosition());
+//            telemetry.addData("power: ",arm.getPower());
+//            telemetry.update();
+        }
+        //-------------------------End While--------------------------------------------------------
+        //stopping all motors
+        telearm.setPower(0);
+    }
 
     public void Stop() {
         lf.setPower(0);
@@ -656,9 +675,7 @@ public void armDown(){
         visionPortal.close();
         sleep(1000);
         ClawClose();
-        telearm.setPower(1);
-        sleep(2000);
-        telearm.setPower(0);
+        tele(1,1000);
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker
 
@@ -779,6 +796,7 @@ public void armDown(){
 
         ClawOpen();
         FunnelOpen();
+        tele(1,1000);
         sleep(700);
         armUp();//VERY IMPORTANT: line keeps the teleop from losing control of arm/stalling arm
         sRight(-0.25,-28);
@@ -786,6 +804,7 @@ public void armDown(){
 
 
     }
+
     @Override
     public void runOpMode() throws InterruptedException {
         lf = hardwareMap.get(DcMotor.class, "lf");
@@ -810,6 +829,12 @@ public void armDown(){
         imu.initialize(new IMU.Parameters(orientationOnRobot));
 
         telearm.setDirection(DcMotorSimple.Direction.REVERSE);
+
+
+
+        voidsAndThings = new VoidsAndThings(hardwareMap);
+        voidsAndThings.initHardware();
+
 
         //arm = hardwareMap.get(DcMotor.class, "arm");
         //claw = hardwareMap.get(Servo.class, "claw");

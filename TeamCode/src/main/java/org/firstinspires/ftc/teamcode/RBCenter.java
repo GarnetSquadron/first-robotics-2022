@@ -140,13 +140,16 @@ public class RBCenter extends LinearOpMode {
         arm.setPower(0);
     }
     public void ClawOpenWIDE(){
-        claw.setPosition(0);
+
+        //claw.setPosition(0);
     }
     public void ClawOpen(){
-        claw.setPosition(0.45);
+
+        //claw.setPosition(0.45);
     }
     public void ClawClose(){
-        claw.setPosition(0.9);
+
+        //claw.setPosition(0.9);
     }
     public void FunnelOpen(){
         funnel.setPosition(0);
@@ -221,6 +224,23 @@ public class RBCenter extends LinearOpMode {
         }
         //-------------------------End While--------------------------------------------------------
         stop(); //stopping all motors
+    }
+    public void tele(double power,double height) {//forward(1);forward(-1)
+        //resetEncoders();   <--we dont want this
+        telearm.setTargetPosition((int) (height));
+//--------------------------------------------------------------------------------------------------
+        telearm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//--------------------------------------------------------------------------------------------------
+        telearm.setPower(1);
+        //--------------------------------Telemetry, gives data about position and makes sure it doesnt stop immediately.----------------------
+        while (telearm.isBusy()) {
+//            telemetry.addData("lf encoder: ",arm.getCurrentPosition());
+//            telemetry.addData("power: ",arm.getPower());
+//            telemetry.update();
+        }
+        //-------------------------End While--------------------------------------------------------
+        //stopping all motors
+        telearm.setPower(0);
     }
 
 
@@ -502,31 +522,37 @@ public void sRight(double power,double distance) {
 //    }
     public void CameraAutoScrimmageRF() {
         //claw.setPosition(MinClawPos);
-        int spikemark = getSpikeMarkVision();
-        visionPortal.close();
-        //int spikemark = 3;
+//        int spikemark = getSpikeMarkVision();
+//        visionPortal.close();
+        int spikemark = 3;
         sleep(1000);
         ClawClose();
-        telearm.setPower(1);
-        sleep(2000);
-        telearm.setPower(0);
+//        telearm.setPower(1);
+//        sleep(2000);
+//        telearm.setPower(0);
+        tele(1,1000);
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker// defaults here?
-            forward(-0.75,-27);
-            turn(0.25,91);
-            forward(1, 8);
-            forward(-1,-10);
-
+            forward(-0.4,-30);
+            turn(0.25,90);
+            forward(-0.4,-10);
             armDown();
-            sleep(1000);
+
+            forward(0.4, 8);
+
+
+
+
+            //sleep(1000);
             //forward(0.25, 5);
             ClawOpen();//drop thing
 
 
 
-            forward(-1,-38);
-            sRight(-0.25,-10);
+            forward(-0.4,-43);
+            sRight(-0.25,-5);
             FunnelOpen();
+            sleep(500);
             sRight(0.25,5);
             sleep(700);
 
@@ -556,7 +582,7 @@ public void sRight(double power,double distance) {
 //            sRight(0.25,4);
 //            sleep(200);
             if(spikemark==2){ //Put yes statement here for detection of spike marker
-                forward(-1, -53);
+                forward(-0.4, -53);
 
                 sleep(200);
 
@@ -565,7 +591,7 @@ public void sRight(double power,double distance) {
                 ClawOpen();//claw open
                 armUp();
                 sRight(.25, 40);
-                forward(1, 20);
+                forward(0.4, 20);
                 turn(0.25,91);
                 forward(-1, -10);
                 sRight(0.25, 2);
@@ -586,22 +612,22 @@ public void sRight(double power,double distance) {
             } //end of yes statement
             else { //Put no statement here for detection of spike marker
                 //sRight(.25,2);
-                forward(-1, -33);
+                forward(-0.4, -33);
                 sleep(200);
                 turn(0.25,91);
-                forward(1,5);
-                forward(-1,-30);
+                forward(0.4,5);
+                forward(-0.4,-30);
 
 
                 armDown();
                 sleep(1000);
-                ClawOpenWIDE();//claw open
+                //ClawOpenWIDE();//claw open
                 sleep(1200);
-                forward(-1,-5);
-                forward(1,5);
+                forward(-0.4,-5);
+                forward(0.4,5);
 
                 sRight(0.25,12);
-                forward(-1,-28);
+                forward(-0.4,-20);
                 ClawOpen();//so that it is not WIDE anymore
                 sleep(500);
                 sRight(-0.5,-5);
@@ -618,6 +644,8 @@ public void sRight(double power,double distance) {
         }
 
         armUp();//VERY IMPORTANT: line keeps the teleop from losing control of arm/stalling arm
+        tele(1,0);
+        sleep(200);
         forward(0.25, 2);
         sRight(-0.25, -25);
 

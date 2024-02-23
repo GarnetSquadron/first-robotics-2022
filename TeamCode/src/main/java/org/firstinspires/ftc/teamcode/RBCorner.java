@@ -135,6 +135,23 @@ public class RBCorner extends LinearOpMode {
         sleep(200);
 
     }
+    public void tele(double power,double height) {//forward(1);forward(-1)
+        //resetEncoders();   <--we dont want this
+        telearm.setTargetPosition((int) (height));
+//--------------------------------------------------------------------------------------------------
+        telearm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//--------------------------------------------------------------------------------------------------
+        telearm.setPower(1);
+        //--------------------------------Telemetry, gives data about position and makes sure it doesnt stop immediately.----------------------
+        while (telearm.isBusy()) {
+//            telemetry.addData("lf encoder: ",arm.getCurrentPosition());
+//            telemetry.addData("power: ",arm.getPower());
+//            telemetry.update();
+        }
+        //-------------------------End While--------------------------------------------------------
+        //stopping all motors
+        telearm.setPower(0);
+    }
     public void armUp(){
         arm(-0.35, MinArmPos);
         while(arm.isBusy()){
@@ -148,10 +165,12 @@ public class RBCorner extends LinearOpMode {
         claw.setPosition(0);
     }
     public void ClawOpen(){
-        claw.setPosition(0.45);
+
+        //claw.setPosition(0.45);
     }
     public void ClawClose(){
-        claw.setPosition(0.9);
+
+        //claw.setPosition(0.9);
     }
     public void FunnelOpen(){
         funnel.setPosition(0);
@@ -406,6 +425,10 @@ public void sRight(double power,double distance) {
         //visionPortal.setProcessorEnabled(tfod, true);
 
     }   // end method initTfod()
+    private int getBeforeStartVision() {
+        return 1;
+    }
+
     private int getSpikeMarkVision() {
 
         List<Recognition> currentRecognitions = tfod.getRecognitions();
@@ -419,7 +442,7 @@ public void sRight(double power,double distance) {
             counter++;
             telemetry.addData("counter", counter);
             telemetry.update();
-            if (counter>40){
+            if (counter>10){
                 x=0;//to get spikemark 1
                 break;
             }
@@ -443,7 +466,6 @@ public void sRight(double power,double distance) {
         telemetry.addData("position",x);
         telemetry.addData("spikemark",Math.round(x/200+1));
         telemetry.update();
-        sleep(500);
         return (int) Math.round(x/200+1);
     }
 
@@ -505,34 +527,42 @@ public void sRight(double power,double distance) {
 //
 //
 //    }
-    public void CameraAutoScrimmageRF() {
+    public void CameraAutoScrimmageRF(int spikemark, int counter) {
         //claw.setPosition(MinClawPos);
-        int spikemark = getSpikeMarkVision();
-        visionPortal.close();
+        if (spikemark==0&&counter<100000) {
+            spikemark = getSpikeMarkVision();
+            visionPortal.close();
+        }
         //int spikemark = 3;
         sleep(1000);
         ClawClose();
-        telearm.setPower(1);
-        sleep(2000);
-        telearm.setPower(0);
+//        telearm.setPower(1);
+//        sleep(2000);
+//        telearm.setPower(0);
+        tele(1,1000);
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker// defaults here?
-            forward(-1,-27);
+            forward(-0.4,-30);
             turn(0.25,91);
-            forward(1, 8);
-            forward(-1,-10);
-
+            forward(-0.4,-10);
             armDown();
+
+            forward(0.4, 8);
+
+
+
+
             sleep(1000);
             //forward(0.25, 5);
             ClawOpen();//drop thing
 
 
 
-            forward(-1,-43);
+            forward(-0.4,-43);
             sRight(-0.25,-5);
             FunnelOpen();
             sleep(700);
+            sRight(-0.25,5);
 
 
 
@@ -560,7 +590,7 @@ public void sRight(double power,double distance) {
 //            sRight(0.25,4);
 //            sleep(200);
             if(spikemark==2){ //Put yes statement here for detection of spike marker
-                forward(-1, -53);
+                forward(-0.4, -53);
 
                 sleep(200);
 
@@ -569,15 +599,15 @@ public void sRight(double power,double distance) {
                 ClawOpen();//claw open
                 armUp();
                 sRight(.25, 40);
-                forward(1, 20);
+                forward(0.4, 20);
                 turn(0.25,91);
-                forward(-1, -10);
+                forward(-0.4, -10);
                 sRight(0.25, 2);
                 ClawOpen();//so that it is not WIDE anymore
                 sleep(100);
                 FunnelOpen();
                 sleep(700);
-                forward(1, 3);
+                forward(0.4, 3);
 
 
                 //turn(0.25,178);
@@ -590,22 +620,22 @@ public void sRight(double power,double distance) {
             } //end of yes statement
             else { //Put no statement here for detection of spike marker
                 //sRight(.25,2);
-                forward(-1, -33);
+                forward(-0.4, -33);
                 sleep(200);
                 turn(0.25,91);
-                forward(1,5);
-                forward(-1,-30);
+                forward(0.4,5);
+                forward(-0.4,-30);
 
 
                 armDown();
                 sleep(1000);
-                ClawOpenWIDE();//claw open
+                //ClawOpenWIDE();//claw open
                 sleep(1200);
-                forward(-1,-5);
-                forward(1,5);
+                forward(-0.4,-5);
+                forward(0.4,5);
 
                 sRight(0.25,12);
-                forward(-1,-20);
+                forward(-0.4,-20);
                 ClawOpen();//so that it is not WIDE anymore
                 sleep(500);
                 sRight(-0.5,-5);
@@ -622,12 +652,15 @@ public void sRight(double power,double distance) {
         }
 
         armUp();//VERY IMPORTANT: line keeps the teleop from losing control of arm/stalling arm
+        tele(-1,0);
+        sleep(200);
         forward(0.25, 2);
-        sRight(0.25, 28);
+        sRight(0.25, 29);
 
 
 
     }
+
 //--------------------------------------------------------------------
     public void autoScrimmage2() {
         forward(-.25, -48);
@@ -724,6 +757,45 @@ public void sRight(double power,double distance) {
         //claw = hardwareMap.get(Servo.class, "claw");
         //colorSensor = hardwareMap.colorSensor.get("color");
         initTfod();
+
+        //int spikemark = getSpikeMarkVision();
+
+        List<Recognition> currentRecognitions = tfod.getRecognitions();
+        //telemetry.addData("# Objects Detected", currentRecognitions.size());
+
+//        double confidence=0;
+//        double x=100;
+        int counter=0;
+        int x=-100;
+        double confidence=0;
+        int SpikeMark=0;
+        while ((currentRecognitions.size()==0) && !(isStarted()) ) {
+            currentRecognitions = tfod.getRecognitions();
+            counter++;
+            telemetry.addData("counter", counter);
+            telemetry.update();
+            //sleep(200);
+            if(currentRecognitions.size()>0){
+                for (Recognition recognition : currentRecognitions) {
+                    if (confidence < recognition.getConfidence()) {
+                        x = Math.round((recognition.getLeft() + recognition.getRight()) / 2);
+                        confidence = recognition.getConfidence();
+                    }
+
+                    //            telemetry.addData(""," ");
+                    //            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
+                    //            telemetry.addData("- Position", "%.0f / %.0f", x, y);
+                    //            telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
+                    //telemetry.addData("- spikemark?","%.0f x %.0f", Math.round(x/200));
+                }   // end for() loop
+                SpikeMark=(int) Math.round(x/200+1);
+            }
+        }
+        telemetry.addData("position",x);
+        telemetry.addData("spikemark",SpikeMark);
+        telemetry.update();
+        //sleep(500);
+
         waitForStart();
 
 
@@ -736,7 +808,8 @@ public void sRight(double power,double distance) {
 
 
 
-        CameraAutoScrimmageRF();
+
+        CameraAutoScrimmageRF(SpikeMark, counter);
 
 
 //        FunnelClose();

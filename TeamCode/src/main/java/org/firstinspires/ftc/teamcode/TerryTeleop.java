@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -36,11 +37,13 @@ public class TerryTeleop extends LinearOpMode {
     private DcMotor lift;
     private DistanceSensor sensor;
     private double MaxClawPos = 0.45;
-    private double MinClawPos = 1;
+    private double MinClawPos = 0.9;
     private double MaxLiftPos = 6750;//DO NOt go over 7267
     private double MinLiftPos = 0;
     private double MaxArmPos = 515;
     private double MinArmPos = 0;
+    private CRServo funnelWheel;
+
 
     public void resetEncoders() {
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);//WHY DOES THIS GIVE ERROR :(
@@ -92,6 +95,10 @@ public class TerryTeleop extends LinearOpMode {
 //        }
         //-------------------------End While--------------------------------------------------------
         stop(); //stopping all motors
+    }
+    public void FunnelWheel(){
+        funnelWheel.setPower(-1);
+
     }
     public void turn(double power){
         terryHardware.driveRobot(0, 0, power);
@@ -163,12 +170,14 @@ public class TerryTeleop extends LinearOpMode {
         arm = hardwareMap.get(DcMotor.class, "arm");
         lift = hardwareMap.get(DcMotor.class, "lift");
         claw = hardwareMap.get(Servo.class, "claw");
-        funnel = hardwareMap.get(Servo.class, "funnel");
+        //funnel = hardwareMap.get(Servo.class, "funnel");
+        funnelWheel = hardwareMap.get(CRServo.class, "funnel");
         telearm = hardwareMap.get(DcMotor.class, "teleArm");
         sensor=hardwareMap.get(DistanceSensor.class, "distance");
 
         imu = hardwareMap.get(IMU.class, "imu");
         launcher = hardwareMap.get(Servo.class, "launcher");
+
 
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
         RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
@@ -189,6 +198,8 @@ public class TerryTeleop extends LinearOpMode {
 
 
         double time = 0;
+        double funnelTime = 0;
+        boolean funnelTimeBegin=false;
         telemetry.addLine("running");
         while (opModeIsActive()) {
 
@@ -221,11 +232,23 @@ public class TerryTeleop extends LinearOpMode {
                 clawUp=false;
             }
             if(gamepad2.x){
-                funnel.setPosition(0);
+                //funnel.setPosition(0);
+                //Uncomment below for cont servo
+                funnelWheel.setPower(-1);
+                if(!funnelTimeBegin) {
+                    funnelTime = getRuntime();
+                    funnelTimeBegin = true;
+                }
             }
-            else if(funnel.getPosition()<0.4){
-                funnel.setPosition(0.4);
+            if(funnelTime+1.6<=getRuntime()){
+                //Uncomment below for cont servo
+                funnelWheel.setPower(0);
+                funnelTimeBegin = false;
+                //funnelTime=getRuntime();
             }
+//            else if(funnel.getPosition()<0.4){
+//                //funnel.setPosition(0.4);
+//            }
             if(gamepad1.a){
                 Lift(-0.75,MinLiftPos);
                 liftUp=false;
@@ -336,11 +359,13 @@ public class TerryTeleop extends LinearOpMode {
             telemetry.addData("direction: ",claw.getDirection());
             telemetry.addData("arm busy?",arm.isBusy());
             telemetry.addData("telescoping encoder",telearm.getCurrentPosition());
-            telemetry.addData("FunnelPos",funnel.getPosition());
+            //telemetry.addData("FunnelPos",funnel.getPosition());
             telemetry.addData("left trigger", gamepad1.left_trigger);
             telemetry.addData("right trigger", gamepad1.right_trigger);
             telemetry.addData("Time:",time);
             telemetry.addData("RunTime:",getRuntime());
+            telemetry.addData("FunnelBegin:",funnelTimeBegin);
+
             telemetry.update();
 
 
