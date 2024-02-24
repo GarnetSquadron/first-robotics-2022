@@ -23,11 +23,8 @@ import java.util.List;
 
 @Autonomous(name = "RAUDBackdrop")
 public class AutoAudiRFBackdrop extends LinearOpMode {
-    //We are defining all motors here, as to manually control each motor rather than use terry hardware.
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
-    // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
-    // this is only used for Android Studio when using models in Assets.
     private static final String TFOD_MODEL_ASSET = "model_20240104_203329.tflite";
     private static final String[] LABELS = {
             "RedCube",
@@ -51,15 +48,8 @@ public class AutoAudiRFBackdrop extends LinearOpMode {
     private DcMotor arm;
     private DcMotor telearm;
     private Servo claw;
-   // private Servo funnel;
     private CRServo funnelWheel;
     ColorSensor Fsensor;
-    //ColorSensor Bsensor;
-    //private DcMotor arm;
-    //private Servo claw;
-    //ColorSensor colorSensor;
-    //Wheel encoders
-    //This is the gobilda encoder value that is used
 
     private VoidsAndThings voidsAndThings;
     final double wheelUnitTicks = 537.7;
@@ -84,14 +74,7 @@ public class AutoAudiRFBackdrop extends LinearOpMode {
     private double MinArmPos = 0;
     private double minRed=90;//under 90
     private double minBlue=50;
-    //    private boolean GetColorBRed(){
-//
-//        return minRed<Bsensor.red();
-//    }
-//    private boolean GetColorBBlue(){
-//
-//        return minBlue<Bsensor.blue();//under
-//    }
+
     public void runWithoutEncoders() {
         lf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -106,13 +89,6 @@ public class AutoAudiRFBackdrop extends LinearOpMode {
 //--------------------------------------------------------------------------------------------------
         arm.setPower(power);
 
-        //--------------------------------Telemetry, gives data about position and makes sure it doesnt stop immediately.----------------------
-//        while (arm.isBusy()) {
-//            telemetry.addData("lf encoder: ",arm.getCurrentPosition());
-//            telemetry.addData("power: ",arm.getPower());
-//            telemetry.update();
-//        }
-        //-------------------------End While--------------------------------------------------------
         stop(); //stopping all motors
     }
     public void armDown(){
@@ -150,19 +126,15 @@ public class AutoAudiRFBackdrop extends LinearOpMode {
         funnelWheel.setPower(1);
         sleep(1600);
         funnelWheel.setPower(0);
-        //funnel.setPosition(0);
     }
-    public void FunnelClose(){
 
-        //funnel.setPosition(0.4);
-    }
     public void move(double direction, double power) {
         lf.setPower(Math.sin(direction - Math.PI / 4) * power);
         rf.setPower(Math.sin(direction + Math.PI / 4) * power);
         lb.setPower(Math.sin(direction - Math.PI / 4) * power);
         rb.setPower(Math.sin(direction + Math.PI / 4) * power);
     }
-//hello
+
 
 
 
@@ -174,7 +146,6 @@ public class AutoAudiRFBackdrop extends LinearOpMode {
 
     }
     public void tele(double power,double height) {//forward(1);forward(-1)
-        //resetEncoders();   <--we dont want this
         telearm.setTargetPosition((int) (height));
 //--------------------------------------------------------------------------------------------------
         telearm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -182,9 +153,7 @@ public class AutoAudiRFBackdrop extends LinearOpMode {
         telearm.setPower(1);
         //--------------------------------Telemetry, gives data about position and makes sure it doesnt stop immediately.----------------------
         while (telearm.isBusy()) {
-//            telemetry.addData("lf encoder: ",arm.getCurrentPosition());
-//            telemetry.addData("power: ",arm.getPower());
-//            telemetry.update();
+//
         }
         //-------------------------End While--------------------------------------------------------
         //stopping all motors
@@ -206,7 +175,7 @@ public class AutoAudiRFBackdrop extends LinearOpMode {
         //arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     //----------------------------Forward starts----------------------------------------------------
-    public void forward(double power,double distance) {//forward(1);forward(-1)
+    public void forward(double power,double distance) { //forward(1);forward(-1)
         resetEncoders();
         lf.setTargetPosition((int) (distance*wheelOneInch));
         rf.setTargetPosition((int) (distance*wheelOneInch));
@@ -222,19 +191,6 @@ public class AutoAudiRFBackdrop extends LinearOpMode {
 
         //--------------------------------Telematry, gives data about position----------------------
         while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()) {
-//            telemetry.addData("rb encoder: ",rb.getCurrentPosition());
-//            telemetry.addData("power: ",rb.getPower());
-//            telemetry.addData("lb encoder: ",lb.getCurrentPosition());
-//            telemetry.addData("power: ",lb.getPower());
-//            telemetry.addData("rf encoder: ",rf.getCurrentPosition());
-//            telemetry.addData("power: ",rf.getPower());
-//            telemetry.addData("lf encoder: ",lf.getCurrentPosition());
-//            telemetry.addData("power: ",lf.getPower());
-//            telemetry.addData("Bsensor red: ",Bsensor.red());
-//            telemetry.addData("Bsensor blue: ",Bsensor.blue());
-//            telemetry.addData("claw: ",claw.getPosition());
-//            telemetry.update();
-//            telemetry.update();
         }
         //-------------------------End While--------------------------------------------------------
         stop(); //stopping all motors
@@ -249,8 +205,6 @@ public class AutoAudiRFBackdrop extends LinearOpMode {
     IMU imu;
     public void turn(double power, double degrees){
         runWithoutEncoders();
-        //YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
-        //double initdirection = orientation.getYaw(AngleUnit.DEGREES);
         imu.resetYaw();
         YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
         while (Math.abs (orientation.getYaw(AngleUnit.DEGREES)) <=degrees) {
@@ -295,8 +249,6 @@ public class AutoAudiRFBackdrop extends LinearOpMode {
             telemetry.addData("power: ",rf.getPower());
             telemetry.addData("lf encoder: ",lf.getCurrentPosition());
             telemetry.addData("power: ",lf.getPower());
-            //telemetry.addData("Bsensor red: ",Bsensor.red());
-            //telemetry.addData("Bsensor blue: ",Bsensor.blue());
             telemetry.addData("claw: ",claw.getPosition());
             telemetry.update();
 
@@ -330,28 +282,7 @@ public class AutoAudiRFBackdrop extends LinearOpMode {
         rb.setPower(-power);
 
     }
-//    public int SpikeCheck() {
-//        int max1= 10;
-//        int max2= 20;
-//        int spike;
-//        int i=0;
-//        forward(0.25,1);
-//        left(0.25,-2);
-//        while(sensor.getDistance(DistanceUnit.INCH)>=30) {
-//            right(0.25, 2);
-//            i+=2;
-//        }
-//        if (i<max1)
-//            spike=1;
-//        else if (i<max2)
-//            spike=2;
-//        else
-//            spike=3;
-//        left(0.25, 2*i);
-//
-//        return spike;
-//
-//    }
+
 
     private void initTfod() {
 
@@ -359,25 +290,11 @@ public class AutoAudiRFBackdrop extends LinearOpMode {
         tfod = new TfodProcessor.Builder()
 
 
-                // With the following lines commented out, the default TfodProcessor Builder
-                // will load the default model for the season. To define a custom model to load,
-                // choose one of the following:
-                //   Use setModelAssetName() if the custom TF Model is built in as an asset (AS only).
-                //   Use setModelFileName() if you have downloaded a custom team model to the Robot Controller.
-                .setModelAssetName(TFOD_MODEL_ASSET)
-                //.setModelFileName(TFOD_MODEL_FILE)
 
-                // The following default settings are available to un-comment and edit as needed to
-                // set parameters for custom models.
+                .setModelAssetName(TFOD_MODEL_ASSET)
                 .setModelLabels(LABELS)
-                //.setIsModelTensorFlow2(true)
-                //.setIsModelQuantized(true)
-                //.setModelInputSize(300)
-                //.setModelAspectRatio(16.0 / 9.0)
 
                 .build();
-        //time for tfod 2!
-        //tfod2 = new TfodProcessor.Builder().setModelAssetName(TFOD_MODEL_ASSET2).setModelLabels(LABELS2).build();
 
         // Create the vision portal by using a builder.
         VisionPortal.Builder builder = new VisionPortal.Builder();
@@ -420,7 +337,6 @@ public class AutoAudiRFBackdrop extends LinearOpMode {
     private int getSpikeMarkVision() {
 
         List<Recognition> currentRecognitions = tfod.getRecognitions();
-        //telemetry.addData("# Objects Detected", currentRecognitions.size());
 
         double confidence=0;
         double x=100;
@@ -445,11 +361,6 @@ public class AutoAudiRFBackdrop extends LinearOpMode {
                 confidence = recognition.getConfidence();
             }
 
-            //            telemetry.addData(""," ");
-            //            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
-            //            telemetry.addData("- Position", "%.0f / %.0f", x, y);
-            //            telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
-            //telemetry.addData("- spikemark?","%.0f x %.0f", Math.round(x/200));
         }   // end for() loop
         telemetry.addData("position",x);
         telemetry.addData("spikemark",Math.round(x/200+1));
@@ -459,140 +370,6 @@ public class AutoAudiRFBackdrop extends LinearOpMode {
     }
 
 
-
-
-
-
-
-    //This is a new auto with the color sensor and straife
-
-    //    public void autoScrimmageRF() {
-//        //claw.setPosition(MinClawPos);
-//        sRight(-.25, -40);
-//        sleep(200);
-//        forward(.25,4);
-//        sleep(200);
-//        //boolean spike=GetColorB();
-//        if(GetColorBRed()){ //Put yes statement here for detection of spike marker
-//            forward(.25, 2);
-//            forward(-.25,-7);
-//            turn(0.25,179);
-//            sRight(-.25,-7);
-//            forward(-.25,-2);
-//            forward(.25, 45);
-//            sleep(1000);
-//            //claw.setPosition(MaxClawPos);
-//        } //end of yes statement
-//        else{ //Put no statement here for detection of spike marker
-//                forward(-.25, -4);
-//                sRight(-.25,-6);;
-//                turn(0.25, 176);
-//                sRight(-.25,-17);
-//                forward(0.25,4);
-//                sleep(200);
-//            if(GetColorBRed()){ //Put yes statement here for detection of spike marker
-//                forward(.25, 2);
-//                //drop piece here
-//
-//
-//
-//
-//
-//                forward(.25,14);
-//                sleep(1000);
-//                //claw.setPosition(MaxClawPos);
-//
-//           } //end of yes statement
-//            else { //Put no statement here for detection of spike marker
-//                forward(.25,2);
-//                sRight(-.25,-6);
-//                //drop thing
-//                forward(.25,35);
-//                sleep(1000);
-//                //claw.setPosition(MaxClawPos);
-//            }
-//
-//        }
-//
-//
-//    }
-    public void CameraAutoScrimmageRB() {
-        //claw.setPosition(MinClawPos);
-        int spikemark = getSpikeMarkVision();
-        visionPortal.close();
-        sleep(1000);
-        ClawClose();
-        //boolean spike=GetColorB();
-        if(spikemark==1){ //Put yes statement here for detection of spike marker
-            forward(-.25,-33);
-            turn(0.25,91);
-            forward(-0.25, -5);
-
-            armDown();
-            sleep(1000);
-            //forward(0.25, 5);
-            ClawOpen();//drop thing
-            forward(-0.25,-40);
-            sRight(-0.25,-5);
-
-
-
-//
-        } //end of yes statement
-        else{ //Put no statement here for detection of spike marker
-
-
-
-//
-            if(spikemark==2){ //Put yes statement here for detection of spike marker
-                forward(-.25, -53);
-
-                sleep(200);
-
-                armDown();
-                sleep(1000);
-                ClawOpenWIDE();//claw open
-                turn(0.25,91);
-                forward(-.25, -96);
-
-
-
-            } //end of yes statement
-            else { //Put no statement here for detection of spike marker
-                //sRight(.25,2);
-                forward(-.25, -33);
-                sleep(200);
-                turn(0.25,91);
-                forward(-0.25,-25);
-
-                armDown();
-                sleep(1000);
-                ClawOpenWIDE();//claw open
-                sleep(1200);
-                forward(-0.25,-5);
-                forward(0.25,5);
-
-                sRight(0.25,12);
-                forward(-0.25,-18);
-                ClawOpen();//so that it is not WIDE anymore
-                sleep(500);
-                sRight(-0.25,-5);
-
-
-
-//                sRight(.25,35);
-//                sleep(1000);
-//                //claw.setPosition(MaxClawPos);
-            }
-
-        }
-        FunnelOpen();
-        sleep(700);
-        armUp();//VERY IMPORTANT: line keeps the teleop from losing control of arm/stalling arm
-
-
-
-    }
     public void CameraAutoScrimmageRFBackdrop() {
         //claw.setPosition(MinClawPos);
         // int spikemark = getSpikeMarkVision();
@@ -647,7 +424,14 @@ public class AutoAudiRFBackdrop extends LinearOpMode {
                 forward(.40,46);
                 turn(-0.25,89);
                 armDown();
-                forward(-.40,87);
+                forward(-.40,72);
+                turn(-0.25,89);
+                turn(-0.25,89);
+                sRight(-.40,-24);
+                forward(-.40,-15);
+                tele(1,1000);
+                //.setPower();
+                FunnelOpen();
                 //forward(-.25,-4);
                 //turn(0.25,89);
                 //forward(-.25, -94);
@@ -670,24 +454,15 @@ public class AutoAudiRFBackdrop extends LinearOpMode {
                 sleep(1200);
                 sRight(-.40,-37);
                 armDown();
-                forward(.40,90);
-                //forward(-.25,-5);
-                //sRight(.25,20);
-                //forward(.45,118);
-                // forward(-0.25,-5);
-                // forward(0.25,5);
+                forward(.40,75);
+                turn(-0.25,89);
+                turn(-0.25,89);
+                sRight(-.40,-24);
+                forward(-.40,-15);
+                tele(1,1000);
+                //.setPower();
+                FunnelOpen();
 
-                //sRight(0.25,12);
-                //forward(-0.25,-18);
-                //ClawOpen();//so that it is not WIDE anymore
-                //sleep(500);
-                //sRight(-0.25,-5);
-
-
-
-//                sRight(.25,35);
-//                sleep(1000);
-//                //claw.setPosition(MaxClawPos);
             }
 
         }
@@ -789,51 +564,11 @@ public class AutoAudiRFBackdrop extends LinearOpMode {
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         imu.initialize(new IMU.Parameters(orientationOnRobot));
 
-        //arm = hardwareMap.get(DcMotor.class, "arm");
-        //claw = hardwareMap.get(Servo.class, "claw");
-        //colorSensor = hardwareMap.colorSensor.get("color");
         initTfod();
         waitForStart();
 
 
-        //  below is a test of the tensor flow; uncomment to test
-//        int x=100;
-//        x=getSpikeMarkVision();
-//        telemetry.addData("spikemark", x);
-//        telemetry.update();
-//        sleep(10000);
-
-
         CameraAutoScrimmageRFBackdrop();
-
-
-//        FunnelClose();
-//        telemetry.addData("funnel",funnel.getPosition());
-//        telemetry.update();
-//        sleep(300);
-//        FunnelOpen();
-//        telemetry.addData("funnel",funnel.getPosition());
-//        telemetry.update();
-//        sleep(300);
-
-
-
-        //voidsAndThings.turn(0.25, 180);
-//        claw.setPosition(MinClawPos);
-//        telemetry.addData("claw", claw.getPosition());
-//        telemetry.update();
-//        sleep(1000);
-//        claw.setPosition(MaxClawPos);
-//        telemetry.addData("claw", claw.getPosition());
-//        telemetry.update();
-//
-//        sleep(1000);
-//        claw.setPosition(MinClawPos);
-//        telemetry.addData("claw", claw.getPosition());
-//        telemetry.update();
-
-
-
 
     }
 

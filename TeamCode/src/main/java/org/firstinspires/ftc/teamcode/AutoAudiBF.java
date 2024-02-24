@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -54,7 +55,7 @@ public class AutoAudiBF extends LinearOpMode {
     private DcMotor rb;
     private DcMotor arm;
     private Servo claw;
-    private Servo funnel;
+    private CRServo funnelWheel;
     ColorSensor Fsensor;
     //ColorSensor Bsensor;
     //private DcMotor arm;
@@ -148,12 +149,7 @@ public class AutoAudiBF extends LinearOpMode {
     public void ClawClose(){
         claw.setPosition(0.9);
     }
-    public void FunnelOpen(){
-        funnel.setPosition(0);
-    }
-    public void FunnelClose(){
-        funnel.setPosition(0.4);
-    }
+
     public void move(double direction, double power) {
         lf.setPower(Math.sin(direction - Math.PI / 4) * power);
         rf.setPower(Math.sin(direction + Math.PI / 4) * power);
@@ -567,7 +563,7 @@ public class AutoAudiBF extends LinearOpMode {
             }
 
         }
-        FunnelOpen();
+        //FunnelOpen();
         sleep(700);
         armUp();//VERY IMPORTANT: line keeps the teleop from losing control of arm/stalling arm
 
@@ -823,7 +819,7 @@ public class AutoAudiBF extends LinearOpMode {
         imu = hardwareMap.get(IMU.class, "imu");
         claw = hardwareMap.get(Servo.class, "claw");
         arm = hardwareMap.get(DcMotor.class, "arm");
-        funnel = hardwareMap.get(Servo.class, "funnel");
+        //funnel = hardwareMap.get(Servo.class, "funnel");
 
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
