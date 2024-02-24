@@ -470,8 +470,6 @@ public class AutoAudiRFBackdrop extends LinearOpMode {
         //sleep(700);
         armUp();//VERY IMPORTANT: line keeps the teleop from losing control of arm/stalling arm
 
-
-
     }
     //--------------------------------------------------------------------
     public void autoScrimmage2() {
