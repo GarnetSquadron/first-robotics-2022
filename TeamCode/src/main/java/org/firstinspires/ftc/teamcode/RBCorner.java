@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -60,6 +61,7 @@ public class RBCorner extends LinearOpMode {
     private DcMotor telearm;
     private Servo claw;
     private Servo funnel;
+    private CRServo funnelWheel;
     ColorSensor Fsensor;
     //ColorSensor Bsensor;
     //private DcMotor arm;
@@ -166,18 +168,24 @@ public class RBCorner extends LinearOpMode {
     }
     public void ClawOpen(){
 
-        //claw.setPosition(0.45);
+        claw.setPosition(0.45);
     }
     public void ClawClose(){
 
-        //claw.setPosition(0.9);
+        claw.setPosition(0.9);
     }
     public void FunnelOpen(){
-        funnel.setPosition(0);
+        funnelWheel.setPower(1);
+        sleep(1600);
+        funnelWheel.setPower(0);
+        //funnel.setPosition(0);
 
     }
     public void FunnelClose(){
-        funnel.setPosition(0.4);
+
+
+
+        //funnel.setPosition(0.4);
     }
     public void move(double direction, double power) {
         lf.setPower(Math.sin(direction - Math.PI / 4) * power);
@@ -431,6 +439,7 @@ public void sRight(double power,double distance) {
 
     private int getSpikeMarkVision() {
 
+
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         //telemetry.addData("# Objects Detected", currentRecognitions.size());
 
@@ -456,6 +465,9 @@ public void sRight(double power,double distance) {
                 x = (recognition.getLeft() + recognition.getRight()) / 2;
                 confidence = recognition.getConfidence();
             }
+            if(Math.round(x/200+1)==1){
+                x+=200;
+            }
 
             //            telemetry.addData(""," ");
             //            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
@@ -466,6 +478,7 @@ public void sRight(double power,double distance) {
         telemetry.addData("position",x);
         telemetry.addData("spikemark",Math.round(x/200+1));
         telemetry.update();
+
         return (int) Math.round(x/200+1);
     }
 
@@ -529,10 +542,11 @@ public void sRight(double power,double distance) {
 //    }
     public void CameraAutoScrimmageRF(int spikemark, int counter) {
         //claw.setPosition(MinClawPos);
-        if (spikemark==0&&counter<100000) {
+        if (spikemark==0&&counter/100000<10000) {
             spikemark = getSpikeMarkVision();
             visionPortal.close();
         }
+
         //int spikemark = 3;
         sleep(1000);
         ClawClose();
@@ -736,7 +750,8 @@ public void sRight(double power,double distance) {
         imu = hardwareMap.get(IMU.class, "imu");
         claw = hardwareMap.get(Servo.class, "claw");
         arm = hardwareMap.get(DcMotor.class, "arm");
-        funnel = hardwareMap.get(Servo.class, "funnel");
+        //funnel = hardwareMap.get(Servo.class, "funnel");
+        funnelWheel = hardwareMap.get(CRServo.class,"funnel");
 
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -766,7 +781,7 @@ public void sRight(double power,double distance) {
 //        double confidence=0;
 //        double x=100;
         int counter=0;
-        int x=-100;
+        double x=-100;
         double confidence=0;
         int SpikeMark=0;
         while ((currentRecognitions.size()==0) && !(isStarted()) ) {
@@ -778,7 +793,7 @@ public void sRight(double power,double distance) {
             if(currentRecognitions.size()>0){
                 for (Recognition recognition : currentRecognitions) {
                     if (confidence < recognition.getConfidence()) {
-                        x = Math.round((recognition.getLeft() + recognition.getRight()) / 2);
+                        x = (recognition.getLeft() + recognition.getRight()) / 2;
                         confidence = recognition.getConfidence();
                     }
 
@@ -789,7 +804,11 @@ public void sRight(double power,double distance) {
                     //telemetry.addData("- spikemark?","%.0f x %.0f", Math.round(x/200));
                 }   // end for() loop
                 SpikeMark=(int) Math.round(x/200+1);
+                if (SpikeMark==1){
+                    SpikeMark=2;
+                }
             }
+            sleep(1600);
         }
         telemetry.addData("position",x);
         telemetry.addData("spikemark",SpikeMark);

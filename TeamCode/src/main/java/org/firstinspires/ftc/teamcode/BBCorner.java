@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -56,6 +57,7 @@ public class BBCorner extends LinearOpMode {
     private DcMotor telearm;
     private Servo claw;
     private Servo funnel;
+    private CRServo funnelWheel;
     private DistanceSensor sensor;
 
     //ColorSensor Fsensor;
@@ -820,7 +822,8 @@ public void armDown(){
         imu = hardwareMap.get(IMU.class, "imu");
         claw = hardwareMap.get(Servo.class, "claw");
         arm = hardwareMap.get(DcMotor.class, "arm");
-        funnel = hardwareMap.get(Servo.class, "funnel");
+        //funnel = hardwareMap.get(Servo.class, "funnel");
+        funnelWheel = hardwareMap.get(CRServo.class, "funnel");
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
         RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;

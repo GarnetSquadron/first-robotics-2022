@@ -97,7 +97,7 @@ public class TerryTeleop extends LinearOpMode {
         stop(); //stopping all motors
     }
     public void FunnelWheel(){
-        funnelWheel.setPower(-1);
+        funnelWheel.setPower(1);
 
     }
     public void turn(double power){
@@ -141,7 +141,7 @@ public class TerryTeleop extends LinearOpMode {
 //--------------------------------------------------------------------------------------------------
         //telearm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //--------------------------------------------------------------------------------------------------
-        boolean inbound=Math.abs(power)*telearm.getCurrentPosition()<Math.abs(power)*height;
+        boolean inbound=Math.signum(power)*telearm.getCurrentPosition()<Math.signum(power)*height;
         if (inbound) {
             telearm.setPower(power);
         }
@@ -221,8 +221,16 @@ public class TerryTeleop extends LinearOpMode {
             //arm.setPower(gamepad2.left_stick_y * 0.75);
 
             if(gamepad2.right_bumper) {
-                //arm.setPower(-0.1);
+                telearm.setPower(1);
             }
+            if(gamepad2.left_bumper){
+                arm.setPower(-0.35);
+            }
+            if(gamepad2.right_trigger>0){
+                arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            }
+
             if(gamepad2.dpad_down){
                 claw.setPosition(MaxClawPos);
                 clawUp=true;
@@ -234,7 +242,7 @@ public class TerryTeleop extends LinearOpMode {
             if(gamepad2.x){
                 //funnel.setPosition(0);
                 //Uncomment below for cont servo
-                funnelWheel.setPower(-1);
+                funnelWheel.setPower(1);
                 if(!funnelTimeBegin) {
                     funnelTime = getRuntime();
                     funnelTimeBegin = true;
@@ -294,8 +302,8 @@ public class TerryTeleop extends LinearOpMode {
             }
             else if(gamepad2.left_stick_y>0){
                 telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                telearm.setPower(1);
-                //tele(1,0);
+                //telearm.setPower(1);
+                tele(1,0);
                 teleUp=true;
             }
             else{

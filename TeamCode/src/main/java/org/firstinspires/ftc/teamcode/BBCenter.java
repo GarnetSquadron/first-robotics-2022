@@ -55,6 +55,7 @@ public class BBCenter extends LinearOpMode {
     private DcMotor telearm;
     private Servo claw;
     private Servo funnel;
+    private Servo funnelWheel;
     private DistanceSensor sensor;
 
     //ColorSensor Fsensor;
@@ -821,7 +822,8 @@ public void armDown(){
         imu = hardwareMap.get(IMU.class, "imu");
         claw = hardwareMap.get(Servo.class, "claw");
         arm = hardwareMap.get(DcMotor.class, "arm");
-        funnel = hardwareMap.get(Servo.class, "funnel");
+        //funnel = hardwareMap.get(Servo.class, "funnel");
+        funnelWheel = hardwareMap.get(Servo.class, "funnel");
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
         RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
@@ -834,8 +836,47 @@ public void armDown(){
         //arm = hardwareMap.get(DcMotor.class, "arm");
         //claw = hardwareMap.get(Servo.class, "claw");
         //colorSensor = hardwareMap.colorSensor.get("color");
+        List<Recognition> currentRecognitions = tfod.getRecognitions();
+        //telemetry.addData("# Objects Detected", currentRecognitions.size());
+
+//        double confidence=0;
+//        double x=100;
         initTfod();
+        int counter=0;
+        double x=-100;
+        double confidence=0;
+        int SpikeMark=0;
+        while ((currentRecognitions.size()==0) && !(isStarted()) ) {
+            currentRecognitions = tfod.getRecognitions();
+            counter++;
+            telemetry.addData("counter", counter);
+            telemetry.update();
+            //sleep(200);
+            if(currentRecognitions.size()>0){
+                for (Recognition recognition : currentRecognitions) {
+                    if (confidence < recognition.getConfidence()) {
+                        x = (recognition.getLeft() + recognition.getRight()) / 2;
+                        confidence = recognition.getConfidence();
+                    }
+
+                    //            telemetry.addData(""," ");
+                    //            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
+                    //            telemetry.addData("- Position", "%.0f / %.0f", x, y);
+                    //            telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
+                    //telemetry.addData("- spikemark?","%.0f x %.0f", Math.round(x/200));
+                }   // end for() loop
+                SpikeMark=(int) Math.round(x/200+1);
+                if (SpikeMark==1){
+                    SpikeMark=2;
+                }
+            }
+        }
+        telemetry.addData("position",x);
+        telemetry.addData("spikemark",SpikeMark);
+        telemetry.update();
+        //sleep(500);
         waitForStart();
+
         //autoScrimmageBF();
         CameraAutoScrimmageRF();
 
