@@ -439,7 +439,6 @@ public void sRight(double power,double distance) {
 
     private int getSpikeMarkVision() {
 
-
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         //telemetry.addData("# Objects Detected", currentRecognitions.size());
 
@@ -451,7 +450,7 @@ public void sRight(double power,double distance) {
             counter++;
             telemetry.addData("counter", counter);
             telemetry.update();
-            if (counter>10){
+            if (counter>40){
                 x=0;//to get spikemark 1
                 break;
             }
@@ -465,9 +464,6 @@ public void sRight(double power,double distance) {
                 x = (recognition.getLeft() + recognition.getRight()) / 2;
                 confidence = recognition.getConfidence();
             }
-            if(Math.round(x/200+1)==1){
-                x+=200;
-            }
 
             //            telemetry.addData(""," ");
             //            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
@@ -478,7 +474,7 @@ public void sRight(double power,double distance) {
         telemetry.addData("position",x);
         telemetry.addData("spikemark",Math.round(x/200+1));
         telemetry.update();
-
+        sleep(500);
         return (int) Math.round(x/200+1);
     }
 
@@ -540,12 +536,15 @@ public void sRight(double power,double distance) {
 //
 //
 //    }
-    public void CameraAutoScrimmageRF(int spikemark, int counter) {
+    public void CameraAutoScrimmageRF(
+            //int spikemark, int counter
+    ) {
         //claw.setPosition(MinClawPos);
-        if (spikemark==0&&counter/100000<10000) {
-            spikemark = getSpikeMarkVision();
-            visionPortal.close();
-        }
+        //if (spikemark==0&&counter/100000<10000) {
+        int spikemark = getSpikeMarkVision();
+
+        visionPortal.close();
+        //}
 
         //int spikemark = 3;
         sleep(1000);
@@ -643,7 +642,7 @@ public void sRight(double power,double distance) {
 
                 armDown();
                 sleep(1000);
-                //ClawOpenWIDE();//claw open
+                ClawOpen();//claw open
                 sleep(1200);
                 forward(-0.4,-5);
                 forward(0.4,5);
@@ -774,46 +773,46 @@ public void sRight(double power,double distance) {
         initTfod();
 
         //int spikemark = getSpikeMarkVision();
-
-        List<Recognition> currentRecognitions = tfod.getRecognitions();
-        //telemetry.addData("# Objects Detected", currentRecognitions.size());
-
+//DO NOT DELETE COMEnt
+//        List<Recognition> currentRecognitions = tfod.getRecognitions();
+//        //telemetry.addData("# Objects Detected", currentRecognitions.size());
+//
+////        double confidence=0;
+////        double x=100;
+//        int counter=0;
+//        double x=-100;
 //        double confidence=0;
-//        double x=100;
-        int counter=0;
-        double x=-100;
-        double confidence=0;
-        int SpikeMark=0;
-        while ((currentRecognitions.size()==0) && !(isStarted()) ) {
-            currentRecognitions = tfod.getRecognitions();
-            counter++;
-            telemetry.addData("counter", counter);
-            telemetry.update();
-            //sleep(200);
-            if(currentRecognitions.size()>0){
-                for (Recognition recognition : currentRecognitions) {
-                    if (confidence < recognition.getConfidence()) {
-                        x = (recognition.getLeft() + recognition.getRight()) / 2;
-                        confidence = recognition.getConfidence();
-                    }
-
-                    //            telemetry.addData(""," ");
-                    //            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
-                    //            telemetry.addData("- Position", "%.0f / %.0f", x, y);
-                    //            telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
-                    //telemetry.addData("- spikemark?","%.0f x %.0f", Math.round(x/200));
-                }   // end for() loop
-                SpikeMark=(int) Math.round(x/200+1);
-                if (SpikeMark==1){
-                    SpikeMark=2;
-                }
-            }
-            sleep(1600);
-        }
-        telemetry.addData("position",x);
-        telemetry.addData("spikemark",SpikeMark);
-        telemetry.update();
-        //sleep(500);
+//        int SpikeMark=0;
+//        while ((currentRecognitions.size()==0) && !(isStarted()) ) {
+//            currentRecognitions = tfod.getRecognitions();
+//            counter++;
+//            telemetry.addData("counter", counter);
+//            telemetry.update();
+//            //sleep(200);
+//            if(currentRecognitions.size()>0){
+//                for (Recognition recognition : currentRecognitions) {
+//                    if (confidence < recognition.getConfidence()) {
+//                        x = (recognition.getLeft() + recognition.getRight()) / 2;
+//                        confidence = recognition.getConfidence();
+//                    }
+//
+//                    //            telemetry.addData(""," ");
+//                    //            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
+//                    //            telemetry.addData("- Position", "%.0f / %.0f", x, y);
+//                    //            telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
+//                    //telemetry.addData("- spikemark?","%.0f x %.0f", Math.round(x/200));
+//                }   // end for() loop
+//                SpikeMark=(int) Math.round(x/200+1);
+//                if (SpikeMark==1){
+//                    SpikeMark=2;
+//                }
+//            }
+//            sleep(1600);
+//        }
+//        telemetry.addData("position",x);
+//        telemetry.addData("spikemark",SpikeMark);
+//        telemetry.update();
+//        //sleep(500);
 
         waitForStart();
 
@@ -828,7 +827,9 @@ public void sRight(double power,double distance) {
 
 
 
-        CameraAutoScrimmageRF(SpikeMark, counter);
+        CameraAutoScrimmageRF(
+                //SpikeMark, counter
+        );
 
 
 //        FunnelClose();

@@ -609,7 +609,7 @@ public void sRight(double power,double distance) {
                 sleep(100);
                 FunnelOpen();
                 sleep(700);
-                forward(1, 3);
+                forward(0.4, 3);
 
 
                 //turn(0.25,178);
@@ -631,7 +631,7 @@ public void sRight(double power,double distance) {
 
                 armDown();
                 sleep(1000);
-                //ClawOpenWIDE();//claw open
+                ClawOpen();//claw open
                 sleep(1200);
                 forward(-0.4,-5);
                 forward(0.4,5);

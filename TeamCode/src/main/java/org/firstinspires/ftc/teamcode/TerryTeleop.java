@@ -221,14 +221,15 @@ public class TerryTeleop extends LinearOpMode {
             //arm.setPower(gamepad2.left_stick_y * 0.75);
 
             if(gamepad2.right_bumper) {
+                telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 telearm.setPower(1);
             }
             if(gamepad2.left_bumper){
                 arm.setPower(-0.35);
             }
             if(gamepad2.right_trigger>0){
-                arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//                arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//                arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             }
 
             if(gamepad2.dpad_down){
@@ -302,8 +303,8 @@ public class TerryTeleop extends LinearOpMode {
             }
             else if(gamepad2.left_stick_y>0){
                 telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                //telearm.setPower(1);
-                tele(1,0);
+                telearm.setPower(1);
+                //tele(1,0);
                 teleUp=true;
             }
             else{

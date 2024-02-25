@@ -32,7 +32,7 @@ public class BBCorner extends LinearOpMode {
 
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
     // this is only used for Android Studio when using models in Assets.
-    private static final String TFOD_MODEL_ASSET = "BlueCubeActuallyWorks.tflite";
+    private static final String TFOD_MODEL_ASSET = "ShinyBlueBox.tflite";
     private static final String[] LABELS = {
             "BlueCube",
     };
@@ -151,7 +151,10 @@ public void armDown(){
         claw.setPosition(0.9);
     }
     public void FunnelOpen(){
-        funnel.setPosition(0);
+        funnelWheel.setPower(1);
+        sleep(1600);
+        funnelWheel.setPower(0);
+        //funnel.setPosition(0);
     }
     public void runWithoutEncoders() {
         lf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -681,10 +684,10 @@ public void armDown(){
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker
 
-            forward(-1, -33);
+            forward(-0.4, -33);
             sleep(200);
             turn(-0.25,90);
-            forward(-1,-25);
+            forward(-0.4,-25);
 
             armDown();
             sleep(1000);
@@ -692,15 +695,15 @@ public void armDown(){
             sleep(100);
             armUp();
             sleep(1200);
-            forward(-1,-5);
-            forward(1,5);
+            forward(-0.4,-5);
+            forward(0.4,5);
 
             sRight(-0.25,-12);
-            forward(-1,-18);
+            forward(-0.4,-23);
             ClawOpen();//so that it is not WIDE anymore
 
             sleep(500);
-            sRight(0.5,5);
+            //sRight(0.5,5);
 
 
 
@@ -738,7 +741,7 @@ public void armDown(){
 //            sRight(0.25,4);
 //            sleep(200);
             if(spikemark==2){ //Put yes statement here for detection of spike marker
-                forward(-1, -54);
+                forward(-0.4, -54);
 
                 sleep(200);
 
@@ -748,10 +751,10 @@ public void armDown(){
                 sleep(100);
                 armUp();
                 sRight(-.25, -40);
-                forward(1, 20);
+                forward(0.4, 20);
                 turn(-0.25,90);
                 sRight(-0.25, -4);
-                forward(-1, -11);
+                forward(-0.4, -11);
                 ClawOpen();//so that it is not WIDE anymore
 
                 sleep(100);
@@ -768,19 +771,19 @@ public void armDown(){
             else { //Put no statement here for detection of spike marker
                 //sRight(.25,2);
 
-                forward(-1,-30);
+                forward(-0.4,-30);
                 sRight(0.25,7);
                 sRight(-0.25,-7);
-                turn(-0.15,90);
-                forward(-1, -5);
+                turn(-0.25,90);
+                forward(-0.4, -5);
 
                 armDown();
                 sleep(1000);
-                //forward(0.25, 5);
+                forward(0.25, 3);
                 ClawOpen();//drop thing
                 sleep(100);
                 armUp();
-                forward(-0.25,-40);
+                forward(-0.25,-44);
                 sRight(0.25,5);
 
 
@@ -798,7 +801,7 @@ public void armDown(){
 
         ClawOpen();
         FunnelOpen();
-        tele(1,1000);
+        tele(1,0);
         sleep(700);
         armUp();//VERY IMPORTANT: line keeps the teleop from losing control of arm/stalling arm
         sRight(-0.25,-28);

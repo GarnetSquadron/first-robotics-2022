@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -30,7 +31,7 @@ public class BBCenter extends LinearOpMode {
 
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
     // this is only used for Android Studio when using models in Assets.
-    private static final String TFOD_MODEL_ASSET = "ShinyBlue.tflite";
+    private static final String TFOD_MODEL_ASSET = "ShinyBlueBox.tflite";
     private static final String[] LABELS = {
             "BlueCube",
     };
@@ -55,7 +56,7 @@ public class BBCenter extends LinearOpMode {
     private DcMotor telearm;
     private Servo claw;
     private Servo funnel;
-    private Servo funnelWheel;
+    private CRServo funnelWheel;
     private DistanceSensor sensor;
 
     //ColorSensor Fsensor;
@@ -148,7 +149,10 @@ public void armDown(){
         claw.setPosition(0.9);
     }
     public void FunnelOpen(){
-        funnel.setPosition(0);
+        funnelWheel.setPower(1);
+        sleep(1600);
+        funnelWheel.setPower(0);
+    //funnel.setPosition(0);
     }
     public void runWithoutEncoders() {
         lf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -681,10 +685,10 @@ public void armDown(){
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker
 
-            forward(-1, -33);
+            forward(-0.4, -33);
             sleep(200);
             turn(-0.25,90);
-            forward(-1,-25);
+            forward(-0.4,-25);
 
             armDown();
             sleep(1000);
@@ -692,11 +696,11 @@ public void armDown(){
             sleep(100);
             armUp();
             sleep(1200);
-            forward(-1,-5);
-            forward(1,5);
+            forward(-0.4,-5);
+            forward(0.4,5);
 
             sRight(-0.25,-12);
-            forward(-1,-18);
+            forward(-0.4,-18);
             ClawOpen();//so that it is not WIDE anymore
 
             sleep(500);
@@ -740,7 +744,7 @@ public void armDown(){
 //            sRight(0.25,4);
 //            sleep(200);
             if(spikemark==2){ //Put yes statement here for detection of spike marker
-                forward(-1, -54);
+                forward(-0.4, -54);
 
                 sleep(200);
 
@@ -750,10 +754,10 @@ public void armDown(){
                 sleep(100);
                 armUp();
                 sRight(-.25, -40);
-                forward(1, 20);
+                forward(0.4, 20);
                 turn(-0.25,90);
                 sRight(-0.25, -4);
-                forward(-1, -11);
+                forward(-0.4, -11);
                 ClawOpen();//so that it is not WIDE anymore
 
                 sleep(100);
@@ -770,19 +774,19 @@ public void armDown(){
             else { //Put no statement here for detection of spike marker
                 //sRight(.25,2);
 
-                forward(-1,-30);
+                forward(-0.4,-30);
                 sRight(0.25,7);
                 sRight(-0.25,-7);
-                turn(-0.15,90);
-                forward(-1, -5);
+                turn(-0.25,90);
+                forward(-0.4, -5);
 
                 armDown();
                 sleep(1000);
-                //forward(0.25, 5);
+                forward(0.25, 5);
                 ClawOpen();//drop thing
                 sleep(100);
                 armUp();
-                forward(-0.25,-40);
+                forward(-0.25,-45);
                 sRight(0.25,5);
 
 
@@ -801,6 +805,7 @@ public void armDown(){
         ClawOpen();
         FunnelOpen();
         sleep(700);
+        tele(1,0);
         armUp();//VERY IMPORTANT: line keeps the teleop from losing control of arm/stalling arm
         sRight(0.25,28);
 
@@ -823,7 +828,7 @@ public void armDown(){
         claw = hardwareMap.get(Servo.class, "claw");
         arm = hardwareMap.get(DcMotor.class, "arm");
         //funnel = hardwareMap.get(Servo.class, "funnel");
-        funnelWheel = hardwareMap.get(Servo.class, "funnel");
+        funnelWheel = hardwareMap.get(CRServo.class, "funnel");
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
         RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
@@ -836,45 +841,45 @@ public void armDown(){
         //arm = hardwareMap.get(DcMotor.class, "arm");
         //claw = hardwareMap.get(Servo.class, "claw");
         //colorSensor = hardwareMap.colorSensor.get("color");
-        List<Recognition> currentRecognitions = tfod.getRecognitions();
+        //List<Recognition> currentRecognitions = tfod.getRecognitions();
         //telemetry.addData("# Objects Detected", currentRecognitions.size());
 
 //        double confidence=0;
 //        double x=100;
         initTfod();
-        int counter=0;
-        double x=-100;
-        double confidence=0;
-        int SpikeMark=0;
-        while ((currentRecognitions.size()==0) && !(isStarted()) ) {
-            currentRecognitions = tfod.getRecognitions();
-            counter++;
-            telemetry.addData("counter", counter);
-            telemetry.update();
-            //sleep(200);
-            if(currentRecognitions.size()>0){
-                for (Recognition recognition : currentRecognitions) {
-                    if (confidence < recognition.getConfidence()) {
-                        x = (recognition.getLeft() + recognition.getRight()) / 2;
-                        confidence = recognition.getConfidence();
-                    }
-
-                    //            telemetry.addData(""," ");
-                    //            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
-                    //            telemetry.addData("- Position", "%.0f / %.0f", x, y);
-                    //            telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
-                    //telemetry.addData("- spikemark?","%.0f x %.0f", Math.round(x/200));
-                }   // end for() loop
-                SpikeMark=(int) Math.round(x/200+1);
-                if (SpikeMark==1){
-                    SpikeMark=2;
-                }
-            }
-        }
-        telemetry.addData("position",x);
-        telemetry.addData("spikemark",SpikeMark);
-        telemetry.update();
-        //sleep(500);
+//        int counter=0;
+//        double x=-100;
+//        double confidence=0;
+//        int SpikeMark=0;
+//        while ((currentRecognitions.size()==0) && !(isStarted()) ) {
+//            currentRecognitions = tfod.getRecognitions();
+//            counter++;
+//            telemetry.addData("counter", counter);
+//            telemetry.update();
+//            //sleep(200);
+//            if(currentRecognitions.size()>0){
+//                for (Recognition recognition : currentRecognitions) {
+//                    if (confidence < recognition.getConfidence()) {
+//                        x = (recognition.getLeft() + recognition.getRight()) / 2;
+//                        confidence = recognition.getConfidence();
+//                    }
+//
+//                    //            telemetry.addData(""," ");
+//                    //            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
+//                    //            telemetry.addData("- Position", "%.0f / %.0f", x, y);
+//                    //            telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
+//                    //telemetry.addData("- spikemark?","%.0f x %.0f", Math.round(x/200));
+//                }   // end for() loop
+//                SpikeMark=(int) Math.round(x/200+1);
+//                if (SpikeMark==1){
+//                    SpikeMark=2;
+//                }
+//            }
+//        }
+//        telemetry.addData("position",x);
+//        telemetry.addData("spikemark",SpikeMark);
+//        telemetry.update();
+//        //sleep(500);
         waitForStart();
 
         //autoScrimmageBF();
