@@ -1,21 +1,16 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
-//IMU imports
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.Servo;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-
-
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 
 @TeleOp(name = "\uD83C\uDF56") // ham emoji
@@ -225,11 +220,15 @@ public class TerryTeleop extends LinearOpMode {
                 telearm.setPower(1);
             }
             if(gamepad2.left_bumper){
-                arm.setPower(-0.35);
+                arm.setPower(0.35);
             }
             if(gamepad2.right_trigger>0){
 //                arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //                arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            }
+            if(gamepad2.right_trigger>0){
+                telearm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             }
 
             if(gamepad2.dpad_down){
