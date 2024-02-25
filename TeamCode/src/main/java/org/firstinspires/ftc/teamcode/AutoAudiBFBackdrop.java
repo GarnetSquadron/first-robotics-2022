@@ -590,9 +590,9 @@ public class AutoAudiBFBackdrop extends LinearOpMode {
 
     public void CameraAutoScrimmageBFBackdrop() {
         //claw.setPosition(MinClawPos);
-        // int spikemark = getSpikeMarkVision();
-        int spikemark = 1;
-        //visionPortal.close();
+        int spikemark = getSpikeMarkVision();
+        //int spikemark = 1;
+        visionPortal.close();
         sleep(1000);
         ClawClose();
         //boolean spike=GetColorB();

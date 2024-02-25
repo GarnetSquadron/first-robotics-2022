@@ -220,7 +220,7 @@ public class TerryTeleop extends LinearOpMode {
                 telearm.setPower(1);
             }
             if(gamepad2.left_bumper){
-                arm.setPower(0.35);
+                arm.setPower(-0.35);
             }
             if(gamepad2.right_trigger>0){
 //                arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
