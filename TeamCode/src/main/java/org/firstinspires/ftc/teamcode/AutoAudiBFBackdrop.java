@@ -29,7 +29,7 @@ public class AutoAudiBFBackdrop extends LinearOpMode {
 
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
     // this is only used for Android Studio when using models in Assets.
-    private static final String TFOD_MODEL_ASSET = "model_20240104_203329.tflite";
+    private static final String TFOD_MODEL_ASSET = "ShinyBlueBox.tflite";
     private static final String[] LABELS = {
             "RedCube",
     };
@@ -590,9 +590,9 @@ public class AutoAudiBFBackdrop extends LinearOpMode {
 
     public void CameraAutoScrimmageBFBackdrop() {
         //claw.setPosition(MinClawPos);
-        int spikemark = getSpikeMarkVision();
-        //int spikemark = 1;
-        visionPortal.close();
+        //int spikemark = getSpikeMarkVision();
+        int spikemark = 2;
+        //visionPortal.close();
         sleep(1000);
         ClawClose();
         //boolean spike=GetColorB();

@@ -150,10 +150,11 @@ public class AutoAudiRFBackdrop extends LinearOpMode {
 //--------------------------------------------------------------------------------------------------
         telearm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //--------------------------------------------------------------------------------------------------
-        telearm.setPower(1);
+        telearm.setPower(power);
         //--------------------------------Telemetry, gives data about position and makes sure it doesnt stop immediately.----------------------
         while (telearm.isBusy()) {
-//
+            telemetry.addData("telearm position", telearm.getCurrentPosition());
+            telemetry.update();
         }
         //-------------------------End While--------------------------------------------------------
         //stopping all motors
@@ -372,11 +373,12 @@ public class AutoAudiRFBackdrop extends LinearOpMode {
 
     public void CameraAutoScrimmageRFBackdrop() {
         //claw.setPosition(MinClawPos);
-        // int spikemark = getSpikeMarkVision();
-        int spikemark = 1;
-        //visionPortal.close();
+        int spikemark = getSpikeMarkVision();
+        //int spikemark = 1;
+        visionPortal.close();
         sleep(1000);
         ClawClose();
+        telearm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker
             forward(-.40,-33);
@@ -394,9 +396,9 @@ public class AutoAudiRFBackdrop extends LinearOpMode {
             forward(.40,76);
             turn(-0.25,89);
             turn(-0.25,89);
-            sRight(-.40,-24);
-            forward(-.40,-15);
-            tele(1,1000);
+            sRight(-.40,-15);
+            forward(-.40,-20);
+            tele(.2,1000);
             //.setPower();
             FunnelOpen();
            // forward(.40,6);
@@ -413,7 +415,7 @@ public class AutoAudiRFBackdrop extends LinearOpMode {
 
 //
             if(spikemark==2){ //Put yes statement here for detection of spike marker
-                forward(-.25, -53);
+                forward(-.50, -53);
 
                 sleep(200);
 
@@ -421,17 +423,17 @@ public class AutoAudiRFBackdrop extends LinearOpMode {
                 sleep(1000);
                 ClawOpen();//claw open
                 armUp();
-                forward(.40,46);
-                turn(-0.25,89);
+                forward(.50,45);
+                turn(0.25,89);
                 armDown();
-                forward(-.40,72);
-                turn(-0.25,89);
-                turn(-0.25,89);
-                sRight(-.40,-24);
-                forward(-.40,-15);
-                tele(1,1000);
+                forward(-.60,-80);
+                sRight(-.40,-30);
+                tele(1,-1500);
+                forward(-.3,-12);
                 //.setPower();
                 FunnelOpen();
+                forward(1,7);
+                tele(1,0);
                 //forward(-.25,-4);
                 //turn(0.25,89);
                 //forward(-.25, -94);
@@ -548,7 +550,7 @@ public class AutoAudiRFBackdrop extends LinearOpMode {
         //funnel = hardwareMap.get(Servo.class, "funnel");
         funnelWheel = hardwareMap.get(CRServo.class, "funnel");
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        telearm = hardwareMap.get(DcMotor.class, "funnel");
+        telearm = hardwareMap.get(DcMotor.class, "teleArm");
 
 
         voidsAndThings = new VoidsAndThings(hardwareMap);
@@ -567,7 +569,6 @@ public class AutoAudiRFBackdrop extends LinearOpMode {
 
 
         CameraAutoScrimmageRFBackdrop();
-
     }
 
 
