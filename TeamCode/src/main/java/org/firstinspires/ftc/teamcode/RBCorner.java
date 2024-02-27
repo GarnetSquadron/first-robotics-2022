@@ -26,6 +26,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 import java.util.List;
 
+//welcome to my mess :)
 @Autonomous(name = "RBCorner")
 public class RBCorner extends LinearOpMode {
 
@@ -143,7 +144,7 @@ public class RBCorner extends LinearOpMode {
 //--------------------------------------------------------------------------------------------------
         telearm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //--------------------------------------------------------------------------------------------------
-        telearm.setPower(1);
+        telearm.setPower(power);
         //--------------------------------Telemetry, gives data about position and makes sure it doesnt stop immediately.----------------------
         while (telearm.isBusy()) {
 //            telemetry.addData("lf encoder: ",arm.getCurrentPosition());
@@ -552,8 +553,9 @@ public void sRight(double power,double distance) {
 //        telearm.setPower(1);
 //        sleep(2000);
 //        telearm.setPower(0);
-        tele(1,1000);
+        tele(1,1500);
         //boolean spike=GetColorB();
+        telearm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         if(spikemark==1){ //Put yes statement here for detection of spike marker// defaults here?
             forward(-0.4,-30);
             turn(0.25,91);

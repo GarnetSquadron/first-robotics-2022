@@ -29,7 +29,7 @@ public class AutoAudiBFBackdrop extends LinearOpMode {
 
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
     // this is only used for Android Studio when using models in Assets.
-    private static final String TFOD_MODEL_ASSET = "ShinyBlueBox.tflite";
+    private static final String TFOD_MODEL_ASSET = "ShinyLowLightCube.tflite";
     private static final String[] LABELS = {
             "RedCube",
     };
@@ -180,7 +180,7 @@ public class AutoAudiBFBackdrop extends LinearOpMode {
 //--------------------------------------------------------------------------------------------------
         telearm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //--------------------------------------------------------------------------------------------------
-        telearm.setPower(1);
+        telearm.setPower(power);
         //--------------------------------Telemetry, gives data about position and makes sure it doesnt stop immediately.----------------------
         while (telearm.isBusy()) {
 //
@@ -595,6 +595,7 @@ public class AutoAudiBFBackdrop extends LinearOpMode {
         //visionPortal.close();
         sleep(1000);
         ClawClose();
+        telearm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //boolean spike=GetColorB();
         if (spikemark == 1) { //Put yes statement here for
             // detection of spike marker
@@ -618,7 +619,7 @@ public class AutoAudiBFBackdrop extends LinearOpMode {
             turn(0.25,89);
             sRight(.40,24);
             forward(-.40,-15);
-            tele(1,1000);
+            tele(1,-1500);
             //.setPower();
             openFunnel();
             // forward(-.25,-5);
@@ -649,7 +650,7 @@ public class AutoAudiBFBackdrop extends LinearOpMode {
                 turn(0.25,89);
                 sRight(.40,24);
                 forward(-.40,-15);
-                tele(1,1000);
+                tele(1,1500);
                 //.setPower();
                 openFunnel();
                 //forward(-.25,-4);

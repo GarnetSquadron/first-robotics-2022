@@ -342,7 +342,7 @@ public void armDown(){
 //--------------------------------------------------------------------------------------------------
         telearm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //--------------------------------------------------------------------------------------------------
-        telearm.setPower(1);
+        telearm.setPower(power);
         //--------------------------------Telemetry, gives data about position and makes sure it doesnt stop immediately.----------------------
         while (telearm.isBusy()) {
 //            telemetry.addData("lf encoder: ",arm.getCurrentPosition());
@@ -680,8 +680,9 @@ public void armDown(){
         visionPortal.close();
         sleep(1000);
         ClawClose();
-        tele(1,1000);
+        tele(1,1500);
         //boolean spike=GetColorB();
+        telearm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         if(spikemark==1){ //Put yes statement here for detection of spike marker
 
             forward(-0.4, -33);

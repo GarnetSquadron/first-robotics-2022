@@ -194,6 +194,7 @@ public class TerryTeleop extends LinearOpMode {
 
         double time = 0;
         double funnelTime = 0;
+        double teleTime = 0;
         boolean funnelTimeBegin=false;
         telemetry.addLine("running");
         while (opModeIsActive()) {
@@ -223,13 +224,14 @@ public class TerryTeleop extends LinearOpMode {
                 arm.setPower(-0.35);
             }
             if(gamepad2.right_trigger>0){
-//                arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//                arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             }
-            if(gamepad2.right_trigger>0){
-                telearm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            }
+//            if(gamepad2.right_trigger>0){
+//                telearm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//                telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//            }
+
 
             if(gamepad2.dpad_down){
                 claw.setPosition(MaxClawPos);
@@ -285,7 +287,7 @@ public class TerryTeleop extends LinearOpMode {
                 //arm(0.15,MaxArmPos);
                 armUp=true;
             }
-            else if (time+2000>=getRuntime()){
+            else if (time+3<=getRuntime()){
                 //arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 //arm.setPower(0.25);
                 
@@ -297,19 +299,20 @@ public class TerryTeleop extends LinearOpMode {
             if(gamepad2.left_stick_y<0){
                 telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 telearm.setPower(-1);
-                //tele(-1,100);
+                //tele(1,3500);
+                teleTime = getRuntime();
                 teleUp=false;
             }
-            else if(gamepad2.left_stick_y>0){
+            else if(teleTime+3<=getRuntime()){
                 telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 telearm.setPower(1);
-                //tele(1,0);
+                //tele(-1,0);
                 teleUp=true;
             }
-            else{
-                tele(0,0);
-                teleUp=false;
-            }
+//            else{
+//                tele(0,0);
+//                teleUp=false;
+//            }
 
             if (gamepad1.dpad_up){
                 launcher.setPosition(0.9);

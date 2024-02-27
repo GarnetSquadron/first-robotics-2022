@@ -237,7 +237,7 @@ public class RBCenter extends LinearOpMode {
 //--------------------------------------------------------------------------------------------------
         telearm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //--------------------------------------------------------------------------------------------------
-        telearm.setPower(1);
+        telearm.setPower(power);
         //--------------------------------Telemetry, gives data about position and makes sure it doesnt stop immediately.----------------------
         while (telearm.isBusy()) {
 //            telemetry.addData("lf encoder: ",arm.getCurrentPosition());
@@ -540,7 +540,8 @@ public void sRight(double power,double distance) {
 //        telearm.setPower(1);
 //        sleep(2000);
 //        telearm.setPower(0);
-        tele(1,1000);
+        tele(1,1500);
+        telearm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker// defaults here?
             forward(-0.4,-30);

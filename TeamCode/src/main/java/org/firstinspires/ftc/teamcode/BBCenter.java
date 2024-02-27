@@ -173,7 +173,7 @@ public void armDown(){
 //--------------------------------------------------------------------------------------------------
         telearm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 //--------------------------------------------------------------------------------------------------
-        telearm.setPower(1);
+        telearm.setPower(power);
         //--------------------------------Telemetry, gives data about position and makes sure it doesnt stop immediately.----------------------
         while (telearm.isBusy()) {
             telemetry.addData("lf encoder: ",arm.getCurrentPosition());
@@ -681,7 +681,8 @@ public void armDown(){
 //        telearm.setPower(1);
 //        sleep(2000);
 //        telearm.setPower(0);
-        tele(1,1000);
+        tele(1,1500);
+        telearm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker
 
@@ -805,7 +806,7 @@ public void armDown(){
         ClawOpen();
         FunnelOpen();
         sleep(700);
-        tele(1,0);
+        tele(-1,0);
         armUp();//VERY IMPORTANT: line keeps the teleop from losing control of arm/stalling arm
         sRight(0.25,28);
 

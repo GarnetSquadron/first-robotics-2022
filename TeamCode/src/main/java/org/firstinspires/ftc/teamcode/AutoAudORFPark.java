@@ -495,6 +495,7 @@ public class AutoAudORFPark extends LinearOpMode {
         sleep(1000);
         ClawClose();
         //boolean spike=GetColorB();
+
         if(spikemark==1){ //Put yes statement here for detection of spike marker
             forward(-.25,-33);
             turn(0.25,91);
@@ -572,6 +573,7 @@ public class AutoAudORFPark extends LinearOpMode {
         //visionPortal.close();
         sleep(1000);
         ClawClose();
+
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker
             forward(-.40,-33);
