@@ -568,9 +568,9 @@ public class AutoAudORFPark extends LinearOpMode {
     }
     public void CameraAutoScrimmageRFPark() {
         //claw.setPosition(MinClawPos);
-        // int spikemark = getSpikeMarkVision();
-        int spikemark = 3;
-        //visionPortal.close();
+        int spikemark = getSpikeMarkVision();
+        //int spikemark = 3;
+        visionPortal.close();
         sleep(1000);
         ClawClose();
 

@@ -572,9 +572,9 @@ public class AutoAudiBFPark extends LinearOpMode {
 
     public void CameraAutoScrimmageBFPark() {
         //claw.setPosition(MinClawPos);
-        // int spikemark = getSpikeMarkVision();
-        int spikemark = 2;
-        //visionPortal.close();
+         int spikemark = getSpikeMarkVision();
+        //int spikemark = 2;
+        visionPortal.close();
         sleep(1000);
         ClawClose();
         //boolean spike=GetColorB();
