@@ -35,7 +35,7 @@ public class TerryTeleop extends LinearOpMode {
     private double MinClawPos = 0.9;
     private double MaxLiftPos = 6750;//DO NOt go over 7267
     private double MinLiftPos = 0;
-    private double MaxArmPos = 515;
+    private double MaxArmPos = 627;
     private double MinArmPos = 0;
     private CRServo funnelWheel;
 
@@ -136,7 +136,7 @@ public class TerryTeleop extends LinearOpMode {
 ////--------------------------------------------------------------------------------------------------
 //        //telearm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 ////--------------------------------------------------------------------------------------------------
-//        boolean inbound=Math.signum(power)*telearm.getCurrentPosition()<Math.signum(power)*height;
+//        boolean inbound=Math.signum(power)*telearm.getCurrentPosition()<Math.signum(power)*height;//
 //        if (inbound) {
 //            telearm.setPower(power);
 //        }
@@ -155,30 +155,45 @@ public class TerryTeleop extends LinearOpMode {
 //    }
 
     public void tele() {
-        if (telearm.getCurrentPosition()<0){
-            if(gamepad2.left_stick_y<-0.1){
-                telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                telearm.setPower(0);
-            }
-            else if(gamepad2.left_stick_y>0.1){
-                telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                telearm.setPower(1);
-            }
-            else
-                telearm.setPower(0);
-    }
+        if(gamepad2.left_stick_y<-0.1){
+            telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            telearm.setPower(-1);
+        }
+        else if(gamepad2.left_stick_y>0.1){
+            telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            telearm.setPower(1);
+        }
         else{
-            if(gamepad2.left_stick_y<-0.1){
-                telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                telearm.setPower(-1);
-            }
-            else if(gamepad2.left_stick_y>0.1){
-                telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                telearm.setPower(1);
-            }
-            else
+            telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             telearm.setPower(0);
         }
+
+
+
+//        if (telearm.getCurrentPosition()<0){
+//            if(gamepad2.left_stick_y<-0.1){
+//                telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//                telearm.setPower(0);
+//            }
+//            else if(gamepad2.left_stick_y>0.1){
+//                telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//                telearm.setPower(1);
+//            }
+//            else
+//                telearm.setPower(0);
+//    }
+//        else{
+//            if(gamepad2.left_stick_y<-0.1){
+//                telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//                telearm.setPower(-1);
+//            }
+//            else if(gamepad2.left_stick_y>0.1){
+//                telearm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//                telearm.setPower(1);
+//            }
+//            else
+//            telearm.setPower(0);
+//        }
     }
     @Override
     public void runOpMode() {
@@ -299,22 +314,25 @@ public class TerryTeleop extends LinearOpMode {
             }
 
             //*****Finish tommorow***********
-            if(gamepad2.right_stick_y<.1){
+            if(gamepad2.right_stick_y<-.1){
                 //arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 //arm.setPower(-0.45);
                 arm(-0.35,MinArmPos);
                 armUp=false;
                 time = getRuntime();
             }
-            else if(gamepad2.right_stick_y>-.1) {
+            else if(gamepad2.right_stick_y>.1) {
+                arm(0.15,MaxArmPos);
+                armUp=false;
+                time = getRuntime();
             }
-            else if(arm.getCurrentPosition()>510){
+            else if(arm.getCurrentPosition()>626){
                 arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 arm.setPower(0);
                 //arm(0.15,MaxArmPos);
                 armUp=true;
             }
-            else if (time+3<=getRuntime()){
+            else if (time+1<=getRuntime()){
                 //arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 //arm.setPower(0.25);
                 

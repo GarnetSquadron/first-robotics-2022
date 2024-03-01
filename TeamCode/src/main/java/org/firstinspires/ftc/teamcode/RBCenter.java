@@ -540,8 +540,9 @@ public void sRight(double power,double distance) {
 //        telearm.setPower(1);
 //        sleep(2000);
 //        telearm.setPower(0);
-        tele(1,1500);
         telearm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        tele(1,1000);
+
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker// defaults here?
             forward(-0.4,-30);
@@ -563,9 +564,10 @@ public void sRight(double power,double distance) {
             forward(-0.4,-43);
             sRight(-0.25,-5);
             FunnelOpen();
-            sleep(500);
-            sRight(0.25,5);
-            sleep(700);
+            //sleep(500);
+
+            //sRight(0.25,5);
+            //sleep(700);
 
 
 
@@ -604,12 +606,12 @@ public void sRight(double power,double distance) {
                 sRight(.25, 40);
                 forward(0.4, 20);
                 turn(0.25,91);
-                forward(-1, -10);
+                forward(-0.5, -10);
                 sRight(0.25, 2);
                 ClawOpen();//so that it is not WIDE anymore
                 sleep(100);
                 FunnelOpen();
-                sleep(700);
+                //sleep(700);
                 forward(0.4, 3);
 
 
@@ -640,10 +642,10 @@ public void sRight(double power,double distance) {
                 sRight(0.25,12);
                 forward(-0.4,-20);
                 ClawOpen();//so that it is not WIDE anymore
-                sleep(500);
+                //sleep(500);
                 sRight(-0.5,-5);
                 FunnelOpen();
-                sleep(700);
+                //sleep(700);
 
 
 

@@ -680,7 +680,7 @@ public void armDown(){
         visionPortal.close();
         sleep(1000);
         ClawClose();
-        tele(1,1500);
+        tele(1,1000);
         //boolean spike=GetColorB();
         telearm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         if(spikemark==1){ //Put yes statement here for detection of spike marker

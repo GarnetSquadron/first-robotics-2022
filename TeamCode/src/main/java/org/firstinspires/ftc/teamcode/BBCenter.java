@@ -681,8 +681,9 @@ public void armDown(){
 //        telearm.setPower(1);
 //        sleep(2000);
 //        telearm.setPower(0);
-        tele(1,1500);
+
         telearm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        tele(1,1000);
         //boolean spike=GetColorB();
         if(spikemark==1){ //Put yes statement here for detection of spike marker
 
@@ -705,7 +706,7 @@ public void armDown(){
             ClawOpen();//so that it is not WIDE anymore
 
             sleep(500);
-            sRight(0.5,4);
+            //sRight(0.5,15);
 
 
 
@@ -745,7 +746,7 @@ public void armDown(){
 //            sRight(0.25,4);
 //            sleep(200);
             if(spikemark==2){ //Put yes statement here for detection of spike marker
-                forward(-0.4, -54);
+                forward(-0.4, -53);
 
                 sleep(200);
 
@@ -788,7 +789,7 @@ public void armDown(){
                 sleep(100);
                 armUp();
                 forward(-0.25,-45);
-                sRight(0.25,5);
+                sRight(0.25,10);
 
 
 
@@ -805,7 +806,7 @@ public void armDown(){
 
         ClawOpen();
         FunnelOpen();
-        sleep(700);
+        //sleep(700);
         tele(-1,0);
         armUp();//VERY IMPORTANT: line keeps the teleop from losing control of arm/stalling arm
         sRight(0.25,28);

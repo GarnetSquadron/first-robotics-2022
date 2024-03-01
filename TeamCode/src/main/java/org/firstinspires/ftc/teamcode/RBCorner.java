@@ -553,9 +553,10 @@ public void sRight(double power,double distance) {
 //        telearm.setPower(1);
 //        sleep(2000);
 //        telearm.setPower(0);
-        tele(1,1500);
-        //boolean spike=GetColorB();
         telearm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        tele(1,1000);
+        //boolean spike=GetColorB();
+
         if(spikemark==1){ //Put yes statement here for detection of spike marker// defaults here?
             forward(-0.4,-30);
             turn(0.25,91);
@@ -576,8 +577,8 @@ public void sRight(double power,double distance) {
             forward(-0.4,-43);
             sRight(-0.25,-5);
             FunnelOpen();
-            sleep(700);
-            sRight(-0.25,5);
+            //sleep(700);
+            //sRight(-0.25,5);
 
 
 
@@ -614,14 +615,14 @@ public void sRight(double power,double distance) {
                 ClawOpen();//claw open
                 armUp();
                 sRight(.25, 40);
-                forward(0.4, 20);
+                forward(0.4, 19);
                 turn(0.25,91);
-                forward(-0.4, -10);
+                forward(-0.4, -11);
                 sRight(0.25, 2);
-                ClawOpen();//so that it is not WIDE anymore
-                sleep(100);
+                //so that it is not WIDE anymore
+                //sleep(100);
                 FunnelOpen();
-                sleep(700);
+                //sleep(700);
                 forward(0.4, 3);
 
 
@@ -639,7 +640,7 @@ public void sRight(double power,double distance) {
                 sleep(200);
                 turn(0.25,91);
                 forward(0.4,5);
-                forward(-0.4,-30);
+                forward(-0.4,-29);
 
 
                 armDown();
@@ -650,12 +651,12 @@ public void sRight(double power,double distance) {
                 forward(0.4,5);
 
                 sRight(0.25,12);
-                forward(-0.4,-20);
+                forward(-0.4,-24);
                 ClawOpen();//so that it is not WIDE anymore
                 sleep(500);
-                sRight(-0.5,-5);
+                //sRight(-0.5,-5);
                 FunnelOpen();
-                sleep(700);
+                //sleep(700);
 
 
 
