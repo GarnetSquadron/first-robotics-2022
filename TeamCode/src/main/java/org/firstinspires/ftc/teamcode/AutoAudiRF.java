@@ -622,6 +622,7 @@ public class AutoAudiRF extends LinearOpMode {
                 forward(-0.25,-3);
 
                 armDown();
+                forward(-0.25,1);
                 sleep(1000);
                 ClawOpenWIDE();//claw open
                 sleep(1200);

@@ -578,7 +578,7 @@ public class AutoAudORFPark extends LinearOpMode {
         if(spikemark==1){ //Put yes statement here for detection of spike marker
             forward(-.40,-33);
             turn(-0.25,89);
-            forward(-0.40, -25);
+            forward(-0.40, -26);
 
             armDown();
             sleep(1000);
@@ -609,7 +609,7 @@ public class AutoAudORFPark extends LinearOpMode {
                 sleep(1000);
                 ClawOpen();//claw open
                 armUp();
-                forward(.40,46);
+                forward(.40,47);
                 turn(-0.25,89);
                 armDown();
                 forward(-.40,87);
