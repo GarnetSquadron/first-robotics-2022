@@ -141,7 +141,7 @@ public class AutoAudiBF extends LinearOpMode {
         arm.setPower(0);
     }
     public void ClawOpenWIDE(){
-        claw.setPosition(0);
+        claw.setPosition(0.65);
     }
     public void ClawOpen(){
         claw.setPosition(0.65);
