@@ -611,7 +611,7 @@ public class AutoAudiBF extends LinearOpMode {
 
                 armDown();
                 sleep(1000);
-                ClawOpenWIDE();//claw open
+                ClawOpen();//claw open
                 //forward(-.25,-4);
                 //turn(0.25,-89);
                 //forward(-.25, -94);

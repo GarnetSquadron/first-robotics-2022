@@ -313,7 +313,7 @@ public class TerryTeleop extends LinearOpMode {
                 liftUp=false;
             }
 
-            //*****Finish tommorow***********
+            //**********Finish tommorow***********
             if(gamepad2.right_stick_y<-.1){
                 //arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 //arm.setPower(-0.45);
