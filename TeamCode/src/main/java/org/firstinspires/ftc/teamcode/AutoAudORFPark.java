@@ -536,7 +536,7 @@ public class AutoAudORFPark extends LinearOpMode {
                 forward(-.25, -33);
                 sleep(200);
                 turn(0.25,91);
-                forward(-0.25,-25);
+                forward(-0.25,-26);
 
                 armDown();
                 sleep(1000);
