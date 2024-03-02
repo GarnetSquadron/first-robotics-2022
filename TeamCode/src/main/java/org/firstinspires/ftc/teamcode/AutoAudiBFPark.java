@@ -587,7 +587,7 @@ public class AutoAudiBFPark extends LinearOpMode {
 
             armDown();
             sleep(1000);
-            forward(.40, 6);
+            forward(.40, 5);
 
             //forward(0.25, 5);
             ClawOpen();//drop thing
