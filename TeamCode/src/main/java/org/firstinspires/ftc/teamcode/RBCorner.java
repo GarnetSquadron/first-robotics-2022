@@ -618,7 +618,7 @@ public void sRight(double power,double distance) {
                 forward(0.4, 19);
                 turn(0.25,91);
                 forward(-0.4, -11);
-                sRight(0.25, 2);
+                sRight(0.25, 3);
                 //so that it is not WIDE anymore
                 //sleep(100);
                 FunnelOpen();
@@ -639,7 +639,7 @@ public void sRight(double power,double distance) {
                 forward(-0.4, -33);
                 sleep(200);
                 turn(0.25,91);
-                forward(0.4,5);
+                //forward(0.4,5);
                 forward(-0.4,-29);
 
 

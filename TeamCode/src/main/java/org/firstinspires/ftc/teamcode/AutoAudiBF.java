@@ -33,7 +33,7 @@ public class AutoAudiBF extends LinearOpMode {
 
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
     // this is only used for Android Studio when using models in Assets.
-    private static final String TFOD_MODEL_ASSET = "model_20240104_203329.tflite";
+    private static final String TFOD_MODEL_ASSET = "ShinyLowLightCube.tflite";
     private static final String[] LABELS = {
             "RedCube",
     };
