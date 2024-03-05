@@ -628,8 +628,9 @@ public void sRight(double power,double distance) {
                 forward(-0.4, -33);
                 sleep(200);
                 turn(0.25,91);
-                forward(0.4,5);
+
                 forward(-0.4,-30);
+                forward(0.4,5);
 
 
                 armDown();
