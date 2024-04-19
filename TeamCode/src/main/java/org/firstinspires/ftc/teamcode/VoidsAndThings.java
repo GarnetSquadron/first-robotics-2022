@@ -12,6 +12,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.RobotHardware;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
@@ -26,18 +29,46 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 //import com.google.blocks.ftcrobotcontroller.runtime.ColorRangeSensorAccess;
 
-
+/**
+* hi
+ * this is cool
+ * so um yeah use this thing for stuff.
+*
+*
+*
+*
+*
+* */
 public class VoidsAndThings {
-
-
     private HardwareMap hardwareMap;
 
     // Define a constructor that allows the OpMode to pass a reference to itself.
-    public VoidsAndThings(HardwareMap voidsAndThings) {
-        hardwareMap = voidsAndThings;
-    }
+//    public VoidsAndThings(HardwareMap voidsAndThings) {
+//        hardwareMap = voidsAndThings;
+//    }
+    /* Declare OpMode members. */
+
+
+    private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
+
+    // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
+    // this is only used for Android Studio when using models in Assets.
+    private static final String TFOD_MODEL_ASSET = "ShinyBlueBox.tflite";
+    private static final String[] LABELS = {
+            "BlueCube",
+    };
+    /**
+     * The variable to store our instance of the TensorFlow Object Detection processor.
+     */
+    private TfodProcessor tfod;
+    /**
+     * The variable to store our instance of the vision portal.
+     */
+    private VisionPortal visionPortal;
 
     //We are defining all motors here, as to manually control each motor rather than use terry hardware.
     private DcMotor lf;
@@ -74,12 +105,18 @@ public class VoidsAndThings {
     //makes it so we can just call on this value instead of pasting the number each time in code, as well as
     //the value can be multiplied by the amount of inches desired to make it more simple.
     final double wheelOneInch = (wheelRotation / wheelCircumference);
+    private HardwareMap robotHardware; // gain access to methods in the calling OpMode.
+
+    // Define a constructor that allows the OpMode to pass a reference to itself.
+    public VoidsAndThings(HardwareMap voidsAndThings) {
+        robotHardware = voidsAndThings;
+    }
 
     public void move(double direction, double power) {
-        lf.setPower(Math.sin(direction - Math.PI / 4) * power);
-        rf.setPower(Math.sin(direction + Math.PI / 4) * power);
-        lb.setPower(Math.sin(direction - Math.PI / 4) * power);
-        rb.setPower(Math.sin(direction + Math.PI / 4) * power);
+        lf.setPower(Math.sin(direction + Math.PI / 4) * power);
+        rf.setPower(Math.cos(direction - Math.PI / 4) * power);
+        lb.setPower(Math.sin(direction + Math.PI / 4) * power);
+        rb.setPower(Math.cos(direction - Math.PI / 4) * power);
     }
 //hello
 
@@ -307,9 +344,72 @@ public class VoidsAndThings {
             orientation = imu.getRobotYawPitchRollAngles();
         }
     }
+    private void initTfod() {
+
+        // Create the TensorFlow processor by using a builder.
+        tfod = new TfodProcessor.Builder()
+
+
+                // With the following lines commented out, the default TfodProcessor Builder
+                // will load the default model for the season. To define a custom model to load,
+                // choose one of the following:
+                //   Use setModelAssetName() if the custom TF Model is built in as an asset (AS only).
+                //   Use setModelFileName() if you have downloaded a custom team model to the Robot Controller.
+                .setModelAssetName(TFOD_MODEL_ASSET)
+                //.setModelFileName(TFOD_MODEL_FILE)
+
+                // The following default settings are available to un-comment and edit as needed to
+                // set parameters for custom models.
+                .setModelLabels(LABELS)
+                //.setIsModelTensorFlow2(true)
+                //.setIsModelQuantized(true)
+                //.setModelInputSize(300)
+                //.setModelAspectRatio(16.0 / 9.0)
+
+                .build();
+        //time for tfod 2!
+        //tfod2 = new TfodProcessor.Builder().setModelAssetName(TFOD_MODEL_ASSET2).setModelLabels(LABELS2).build();
+
+        // Create the vision portal by using a builder.
+        VisionPortal.Builder builder = new VisionPortal.Builder();
+
+        // Set the camera (webcam vs. built-in RC phone camera).
+        if (USE_WEBCAM) {
+            builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"));
+        } else {
+            builder.setCamera(BuiltinCameraDirection.BACK);
+        }
+
+        // Choose a camera resolution. Not all cameras support all resolutions.
+        //builder.setCameraResolution(new Size(640, 480));
+
+        // Enable the RC preview (LiveView).  Set "false" to omit camera monitoring.
+        //builder.enableLiveView(true);
+
+        // Set the stream format; MJPEG uses less bandwidth than default YUY2.
+        //builder.setStreamFormat(VisionPortal.StreamFormat.YUY2);
+
+        // Choose whether or not LiveView stops if no processors are enabled.
+        // If set "true", monitor shows solid orange screen if no processors enabled.
+        // If set "false", monitor shows camera view without annotations.
+        //builder.setAutoStopLiveView(false);
+
+        // Set and enable the processor.
+        builder.addProcessor(tfod);
+        //builder.addProcessor(tfod2);
+
+        // Build the Vision Portal, using the above settings.
+        visionPortal = builder.build();
+
+        // Set confidence threshold for TFOD recognitions, at any time.
+        //tfod.setMinResultConfidence(0.75f);
+
+        // Disable or re-enable the TFOD processor at any time.
+        //visionPortal.setProcessorEnabled(tfod, true);
+
+    }
 
     public void initHardware()    {
-
         lf = hardwareMap.get(DcMotor.class, "lf");
         rf = hardwareMap.get(DcMotor.class, "rf");
         lb = hardwareMap.get(DcMotor.class, "lb");
@@ -387,6 +487,3 @@ public class VoidsAndThings {
 */
 
 }
-
-
-

@@ -25,7 +25,7 @@ import java.util.List;
 @Autonomous(name = "BBCenter")
 public class BBCenter extends LinearOpMode {
 
-
+    private VoidsAndThings voidsAndThings;
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
@@ -48,6 +48,7 @@ public class BBCenter extends LinearOpMode {
 
 
     //We are defining all motors here, as to manually control each motor rather than use terry hardware.
+
     private DcMotor lf;
     private DcMotor rf;
     private DcMotor lb;
@@ -816,6 +817,8 @@ public void armDown(){
     }
     @Override
     public void runOpMode() throws InterruptedException {
+        voidsAndThings = new VoidsAndThings(hardwareMap);
+        voidsAndThings.initHardware();
         lf = hardwareMap.get(DcMotor.class, "lf");
         rf = hardwareMap.get(DcMotor.class, "rf");
         lb = hardwareMap.get(DcMotor.class, "lb");
@@ -882,6 +885,7 @@ public void armDown(){
 //        telemetry.addData("spikemark",SpikeMark);
 //        telemetry.update();
 //        //sleep(500);
+        voidsAndThings.turn(1,90);
         waitForStart();
 
         //autoScrimmageBF();
