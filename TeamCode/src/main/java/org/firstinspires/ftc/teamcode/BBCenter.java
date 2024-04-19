@@ -851,7 +851,7 @@ public void armDown(){
 
 //        double confidence=0;
 //        double x=100;
-        initTfod();
+        //initTfod();
 //        int counter=0;
 //        double x=-100;
 //        double confidence=0;
