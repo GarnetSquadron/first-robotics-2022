@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.AccelerationSensor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -69,6 +70,7 @@ public class Autowhy extends LinearOpMode {
     //This is the gobilda encoder value that is used
 
     private VoidsAndThings voidsAndThings;
+
     final double wheelUnitTicks = 537.7;
 
     //this is the gear ratio (this is to make it looks consistent with the arm encoders)
@@ -91,6 +93,9 @@ public class Autowhy extends LinearOpMode {
     private double MinArmPos = 0;
     private double minRed=90;//under 90
     private double minBlue=50;
+
+
+
     //    private boolean GetColorBRed(){
 //
 //        return minRed<Bsensor.red();
@@ -636,6 +641,8 @@ public class Autowhy extends LinearOpMode {
 
         voidsAndThings = new VoidsAndThings(hardwareMap);
         voidsAndThings.initHardware();
+
+
 
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
         RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;

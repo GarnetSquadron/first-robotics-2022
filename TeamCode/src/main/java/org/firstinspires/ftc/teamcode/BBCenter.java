@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -673,9 +674,151 @@ public void armDown(){
 //    }
 
     public void CameraAutoScrimmageRF() {
-
         //claw.setPosition(MinClawPos);
         int spikemark = getSpikeMarkVision();
+        visionPortal.close();
+        sleep(1000);
+        ClawClose();
+//        telearm.setPower(1);
+//        sleep(2000);
+//        telearm.setPower(0);
+
+        telearm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        tele(1,1000);
+        //boolean spike=GetColorB();
+        if(spikemark==1){ //Put yes statement here for detection of spike marker
+
+            forward(-0.4, -33);
+            sleep(200);
+            turn(-0.25,90);
+            forward(-0.4,-25);
+
+            armDown();
+            sleep(1000);
+            ClawOpen();//claw open
+            sleep(100);
+            armUp();
+            sleep(1200);
+            forward(-0.4,-5);
+            forward(0.4,5);
+
+            sRight(-0.25,-12);
+            forward(-0.4,-18);
+            ClawOpen();//so that it is not WIDE anymore
+
+            sleep(500);
+            //sRight(0.5,15);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//            sRight(.25,4);
+//            sleep(200);
+//            sRight(.25, 2);
+//            sRight(-.25,-7);
+//            turn(0.25,90);
+//            forward(-.25,-7);
+//            sRight(-.25,-2);
+//            sRight(.25, 45);
+//            sleep(1000);
+            //claw.setPosition(MaxClawPos);
+        } //end of yes statement
+        else{ //Put no statement here for detection of spike marker
+
+
+
+//            sRight(.25,4);
+//            sleep(200);
+//            //sRight(-.25, -4);
+//            forward(-.25,-9);
+//            turn(0.25, 90);
+//            forward(-.25,-17);
+//            sRight(0.25,4);
+//            sleep(200);
+            if(spikemark==2){ //Put yes statement here for detection of spike marker
+                forward(-0.4, -53);
+
+                sleep(200);
+
+                armDown();
+                sleep(1000);
+                ClawOpen();//claw open
+                sleep(100);
+                armUp();
+                sRight(-.25, -40);
+                forward(0.4, 20);
+                turn(-0.25,90);
+                sRight(-0.25, -4);
+                forward(-0.4, -11);
+                ClawOpen();//so that it is not WIDE anymore
+
+                sleep(100);
+
+
+                //turn(0.25,178);
+//                sRight(.25, 2);
+//
+//                sRight(.25,14);
+//                sleep(1000);
+//                //claw.setPosition(MaxClawPos);
+
+            } //end of yes statement
+            else { //Put no statement here for detection of spike marker
+                //sRight(.25,2);
+
+                forward(-0.4,-30);
+                sRight(0.25,7);
+                sRight(-0.25,-7);
+                turn(-0.25,90);
+                forward(-0.4, -5);
+
+                armDown();
+                sleep(1000);
+                forward(0.25, 5);
+                ClawOpen();//drop thing
+                sleep(100);
+                armUp();
+                forward(-0.25,-45);
+                sRight(0.25,10);
+
+
+
+
+
+
+
+//                sRight(.25,35);
+//                sleep(1000);
+//                //claw.setPosition(MaxClawPos);
+            }
+
+        }
+
+        ClawOpen();
+        FunnelOpen();
+        //sleep(700);
+        tele(-1,0);
+        armUp();//VERY IMPORTANT: line keeps the teleop from losing control of arm/stalling arm
+        sRight(0.25,28);
+
+
+
+    }
+    public void TestingCameraAutoScrimmageRFWithOOP() {
+
+        //claw.setPosition(MinClawPos);
+        int spikemark = voidsAndThings.getSpikeMarkVision();
         visionPortal.close();
         sleep(1000);
         ClawClose();
@@ -851,7 +994,7 @@ public void armDown(){
 
 //        double confidence=0;
 //        double x=100;
-        //initTfod();
+        initTfod();
 //        int counter=0;
 //        double x=-100;
 //        double confidence=0;
@@ -885,8 +1028,9 @@ public void armDown(){
 //        telemetry.addData("spikemark",SpikeMark);
 //        telemetry.update();
 //        //sleep(500);
-        voidsAndThings.turn(1,90);
         waitForStart();
+        //voidsAndThings.turn(0.25,90);
+
 
         //autoScrimmageBF();
         CameraAutoScrimmageRF();

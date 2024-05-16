@@ -758,8 +758,8 @@ public void sRight(double power,double distance) {
         arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
-        voidsAndThings = new VoidsAndThings(hardwareMap);
-        voidsAndThings.initHardware();
+//        voidsAndThings = new VoidsAndThings(hardwareMap);
+//        voidsAndThings.initHardware();
 
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
         RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;

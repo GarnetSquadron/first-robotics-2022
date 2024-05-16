@@ -4,33 +4,26 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
 
-import org.firstinspires.ftc.robotcontroller.external.samples.RobotHardware;
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AngularVelocity;
-import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.DcMotor;
+
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
+
+import java.util.List;
 //import com.google.blocks.ftcrobotcontroller.runtime.ColorRangeSensorAccess;
 
 /**
@@ -43,8 +36,9 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 *
 *
 * */
-public class VoidsAndThings {
-    private HardwareMap hardwareMap;
+
+//@TeleOp(name="Dont touch this plz", group=":p")
+public class VoidsAndThings extends LinearOpMode{
 
     // Define a constructor that allows the OpMode to pass a reference to itself.
 //    public VoidsAndThings(HardwareMap voidsAndThings) {
@@ -71,23 +65,47 @@ public class VoidsAndThings {
     private VisionPortal visionPortal;
 
     //We are defining all motors here, as to manually control each motor rather than use terry hardware.
-    private DcMotor lf;
-    private DcMotor rf;
-    private DcMotor lb;
-    private DcMotor rb;
-    private DcMotor telearm;
-    private DistanceSensor sensor;
-    private DcMotor lift;
-    private Servo claw;
-    private Servo Funnel;
+    //Above comment is out dated i believe fyi. dont wana delete jus in case
+    private DcMotor Test = null;
+    private NullableHardware test;
+    private DcMotor lf = null;
+    private DcMotor rf = null;
+    private DcMotor lb = null;
+    private DcMotor rb = null;
+    private DcMotor telearm = null;
+    private DistanceSensor sensor = null;
+    private DcMotor lift = null;
+    private Servo claw = null;
+    private Servo Funnel = null;
+    /*
+    private DcMotor LF = null;
+    private DcMotor RF = null;
+    private DcMotor LB = null;
+    private DcMotor RB = null;
+    private DcMotor Telearm = null;
+    private DistanceSensor Sensor = null;
+    private DcMotor Lift = null;
+    private Servo Claw = null;
+    private Servo Funnel = null;
+
+    private NullableHardware lf;
+    private NullableHardware rf;
+    private NullableHardware lb;
+    private NullableHardware rb;
+    private NullableHardware telearm;
+    private NullableHardware sensor;
+    private NullableHardware;
+    private NullableHardware;
+    private NullableHardware;
+     */
     //ColorSensor Fsensor;
     //ColorSensor Bsensor;
 
 
-    private DcMotor arm;
+    private DcMotor arm = null;
 
     //ColorSensor colorSensor;
-    IMU imu;
+    IMU imu = null;
     //Wheel encoders
     //This is the gobilda encoder value that is used
     final double wheelUnitTicks = 537.7;
@@ -105,26 +123,223 @@ public class VoidsAndThings {
     //makes it so we can just call on this value instead of pasting the number each time in code, as well as
     //the value can be multiplied by the amount of inches desired to make it more simple.
     final double wheelOneInch = (wheelRotation / wheelCircumference);
-    private HardwareMap robotHardware; // gain access to methods in the calling OpMode.
+    //private HardwareMap robotHardware; // gain access to methods in the calling OpMode.
+    private HardwareMap hardwareMap;
+
+
 
     // Define a constructor that allows the OpMode to pass a reference to itself.
     public VoidsAndThings(HardwareMap voidsAndThings) {
-        robotHardware = voidsAndThings;
+        hardwareMap = voidsAndThings;
     }
 
-    public void move(double direction, double power) {
-        lf.setPower(Math.sin(direction + Math.PI / 4) * power);
-        rf.setPower(Math.cos(direction - Math.PI / 4) * power);
-        lb.setPower(Math.sin(direction + Math.PI / 4) * power);
-        rb.setPower(Math.cos(direction - Math.PI / 4) * power);
+    /**
+     *this tries to find a part, but doesnt stop the entire program if it cannot find a part.
+     *that way, we can take off parts and not worry as much as possible.
+     *It might not be possible to get this to work fyi
+     */
+//    private <T extends HardwareDevice> T GetHardwareCatchError(Class<T> Part, String name) {
+//
+//        try {
+//            return hardwareMap.get(Part, name);
+//        } catch (Exception e) {
+//            System.out.print("could not find " + Part + ".");
+//            return null;
+//        }
+//    }
+//    private <T extends HardwareDevice> void testMoveMotor(Class<T> part, ){
+//        DcMotor H = null;
+//        H.setPower(9);
+//
+//    }
+
+    public void TestTheTest(){
+        test.Run("setPower",0.5);
+    }
+
+    /**
+     * moves as a sum of two diagonal(since mechanum wheels apply a diagonal force) components, l and r.
+     * @param l the left diagonal component
+     * @param r the right diagonal component
+     */
+    public void moveLinearly(double l, double r){
+        lf.setPower(r);
+        rf.setPower(l);
+        lb.setPower(l);
+        rb.setPower(r);
+    }
+
+    /**
+     * turns with a given power, clockwise for positive power and counter clockwise for nevgative power
+     * @param power power of the motors, must be between 1 and -1
+     */
+    public void turn(double power){
+        lf.setPower(-power);
+        rf.setPower(power);
+        lb.setPower(-power);
+        rb.setPower(power);
+    }
+
+    /**
+     * turns with the imu to a given degrees and power
+     * @param power sign determines counterclockwise or clockwise
+     * @param degrees sign doesn't matter
+     */
+    public void turn(double power, double degrees){
+        runWithoutEncoders();
+        //YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
+        //double initdirection = orientation.getYaw(AngleUnit.DEGREES);
+        imu.resetYaw();
+        double orientation = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+        double oldOrientation = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+        while (orientation-degrees!=0) {
+
+
+            turn(power*Math.signum(orientation-degrees));
+//            telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", orientation.getYaw(AngleUnit.DEGREES));
+//            telemetry.addData("Pitch (X)", "%.2f Deg.", orientation.getPitch(AngleUnit.DEGREES));
+//            telemetry.addData("Roll (Y)", "%.2f Deg.\n", orientation.getRoll(AngleUnit.DEGREES));
+//            telemetry.update();
+//            oldOrientation = orientation;
+//            orientation = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+        }
+    }
+    /**
+     * Uses encoders to move linearly a specific distance
+     * @param l
+     * @param r
+     * @param distance
+     */
+    public void MoveLinearlyEncoders(double l, double r, double distance, boolean rescale) {//forward(1);forward(-1)
+        resetEncoders();
+        double rScaled;
+        double lScaled;
+        if(rescale) {
+            rScaled = r / Math.hypot(l, r);
+            lScaled = l / Math.hypot(l, r);
+        }
+        else{
+            rScaled = r;
+            lScaled = l;
+        }
+        lf.setTargetPosition((int) (rScaled*distance*wheelOneInch));
+        rf.setTargetPosition((int) (lScaled*distance*wheelOneInch));
+        lb.setTargetPosition((int) (lScaled*distance*wheelOneInch));
+        rb.setTargetPosition((int) (rScaled*distance*wheelOneInch));
+//--------------------------------------------------------------------------------------------------
+        runToPosition();
+//--------------------------------------------------------------------------------------------------
+        moveLinearly(l,r);
+
+        //--------------------------------Telematry, gives data about position and makes sure it doesnt stop immediately.-----------------------
+        while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()) {
+
+        }
+        //-------------------------End While--------------------------------------------------------
+        moveLinearly(0,0); //stopping all motors
+    }
+
+    /**
+     * moves linearly a given distance
+     * @param l the left diagonal vector
+     * @param r the right diagonal vector
+     * @param distance the distance it travels
+     */
+    public void MoveLinearlyEncoders(double l, double r, double distance) {//forward(1);forward(-1)
+        resetEncoders();
+        setTgPos(
+                getUnitXComponentWithRatio(l,r)*distance,
+                getUnitXComponentWithRatio(r,l)*distance,
+                getUnitXComponentWithRatio(r,l)*distance,
+                getUnitXComponentWithRatio(l,r)*distance);
+//--------------------------------------------------------------------------------------------------
+        runToPosition();
+//--------------------------------------------------------------------------------------------------
+        moveLinearly(l,r);
+
+        //--------------------------------Telematry, gives data about position and makes sure it doesnt stop immediately.-----------------------
+        while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()) {
+
+        }
+        //-------------------------End While--------------------------------------------------------
+        moveLinearly(0,0); //stopping all motors
+    }
+
+    /**
+     * given an x component and a y component of a vector, it computes the x component of the parralel unit vector pointing in the same direction.
+     * @param x the x component of the unscaled vector
+     * @param y the y component of the unscaled vector
+     * @return the x component of the scaled (unit) vector
+     */
+
+    private double getUnitXComponentWithRatio(double x,double y){
+        /*
+        The Math:
+        X^2+Y^2 = 1,
+        Y = Xy/x,
+        X^2+X^2(y/x)^2=1,
+        X^2(1+(y/x)^2) = 1,
+        X = sqrt(1/(1+(y/x)^2))
+        QED
+        */
+        return Math.sqrt(1/(1+Math.pow((y/x),2)));
+    }
+    /**
+     * this makes the robot straife with a velocity vector with an angle(the angle from the forward facing line (the line that divides
+     * the robot into two halves(yes I am using nested parentheses in a sentence(fight me ):-) )))) and magnitude as direction and power.
+     * In other words, it takes the circle with a radius power and moves with a velocity vector on a radius that points in the direction.
+     * Note that this means that it cant always go full speed.
+     * @param direction the direction counterclockwise i think
+     * @param power the power duh
+     */
+    public void moveCircle(double direction, double power) {
+        double direction2 = direction+Math.PI/4;
+        moveLinearly(Math.cos(direction2) * power,Math.sin(direction2) * power);
+    }
+    /**
+     * this is like moveCircle(), with a direction and power, but the corresponding vector is on a square which is scaled by power, not a circle. This way it can go full speed.
+     * @param direction
+     * @param power
+     */
+    public void moveSquare(double direction, double power){
+        double direction2 = direction+Math.PI/4;
+        double l = Math.max(1,Math.tan(direction2));
+        double r = Math.max(1,1/Math.tan(direction2));
+        moveLinearly(SquareCoordinate(direction2)*power,SquareCoordinate(direction2-Math.PI/2)*power);//this line is a formula I made to replace the commented code below. That way its less redundant lol. Have fun decoding it :p
+//        if(direction%(2*Math.PI)>=0 && direction%(2*Math.PI)<Math.PI/2) {
+//            moveLinearly(Math.tan(direction2) * power,power);
+//        }
+//        if(direction%(2*Math.PI)>=Math.PI/2 && direction%(2*Math.PI)<Math.PI) {
+//            moveLinearly(power,Math.tan(direction2) * power);
+//        }
+//        if(direction%(2*Math.PI)>=Math.PI && direction%(2*Math.PI)<3*Math.PI/2) {
+//            moveLinearly(Math.tan(direction2) * power,-power);
+//        }
+//        if(direction%(2*Math.PI)>=3*Math.PI/2 && direction%(2*Math.PI)<2*Math.PI) {
+//            moveLinearly(-power,Math.tan(direction2) * power);
+//        }
+    }
+    /**
+     * this line is a formula I made to replace the commented code below. That way its less redundant lol.
+     * here's the breakdown: Take the perpendicular bisector to the side of the square that the vector is on. call the angle between that bisector and the
+     * vector theta. Then the length from the midpoint of the side to the tip of the vector is tan(theta). The vector is of course made of the two
+     * perpendicular components corresponding to the forces of the individual wheels (two wheels have one component and two have the other). Whenever
+     * one component is tan(theta), the other must be 1. This function figures out which one is which.
+     * it def works, i tried it on desmos and it works like a charm
+     * @param theta the angle counterclockwise i think
+     * */
+    public double SquareCoordinate(double theta){
+        if (Double.isNaN(Math.tan(theta))){//check for when the tangent is undefined
+            return Math.signum(Math.sin(theta));//returns the sign of the sine lol. This is always the correct number cause' infinity > 1
+        }
+        return Math.max(Math.min(Math.min(Math.signum(Math.sin(theta)),Math.abs(Math.tan(theta))),1),-1);//this line is a beautiful formula I made in desmos
     }
 //hello
 
 
-
-
-
-
+    /**
+     * It resets the encoders SPECIFICALLY in the wheels
+     */
     public void resetEncoders() {
         lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -146,7 +361,11 @@ public class VoidsAndThings {
 //    }
 
 
-
+    /**
+     * moves the telearm
+     * @param power the desired power (1 to -1 of course)
+     * @param height the desired height
+     */
     public void tele(double power,double height) {//forward(1);forward(-1)
         //resetEncoders();   <--we dont want this
         telearm.setTargetPosition((int) (height));
@@ -164,12 +383,20 @@ public class VoidsAndThings {
         //stopping all motors
         telearm.setPower(0);
     }
+
+    /**
+     * set the wheel's runmode to run without encoder
+     */
     public void runWithoutEncoders() {
         lf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rf.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
+
+    /**
+     * set the wheel's runmode to run to position
+     */
     public void runToPosition()  {
         lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -177,26 +404,28 @@ public class VoidsAndThings {
         rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         //arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
-    public void setTgPos(double distance1, double distance2, double distance3, double distance4){
-        lf.setTargetPosition((int) (distance1*wheelOneInch));
-        rf.setTargetPosition((int) (distance2*wheelOneInch));
-        lb.setTargetPosition((int) (distance3*wheelOneInch));
-        rb.setTargetPosition((int) (distance4*wheelOneInch));
+
+    /**
+     * make the wheels turn a given distance. note that this is just the distance the encoders count, not necisarily the distance the wheels move that part of the bot.
+     * @param lfDistance the distance lf moves
+     * @param rfDistance the distance rf moves
+     * @param lbDistance the distance lb moves
+     * @param rbDistance the distance rb moves
+     */
+    public void setTgPos(double lfDistance, double rfDistance, double lbDistance, double rbDistance){
+        lf.setTargetPosition((int) (lfDistance*wheelOneInch));
+        rf.setTargetPosition((int) (rfDistance*wheelOneInch));
+        lb.setTargetPosition((int) (lbDistance*wheelOneInch));
+        rb.setTargetPosition((int) (rbDistance*wheelOneInch));
     }
     public void forward(double power) {//forward(1);forward(-1);
-        lf.setPower(power);
-        rf.setPower(power);
-        lb.setPower(power);
-        rb.setPower(power);
+        moveLinearly(power,power);
 
     }
 
     public void forward(double power,double distance) {//forward(1);forward(-1)
         resetEncoders();
-        lf.setTargetPosition((int) (distance*wheelOneInch));
-        rf.setTargetPosition((int) (distance*wheelOneInch));
-        lb.setTargetPosition((int) (distance*wheelOneInch));
-        rb.setTargetPosition((int) (distance*wheelOneInch));
+        setTgPos(distance,distance,distance,distance);
 //--------------------------------------------------------------------------------------------------
         runToPosition();
 //--------------------------------------------------------------------------------------------------
@@ -211,15 +440,24 @@ public class VoidsAndThings {
     }
 //----------------------------------End of forward--------------------------------------------------
 
-
-    public void right(double power) {
+    /**
+     * strafes sideways with mechanum wheels with a given power
+     * @param power positive to move right, negative to move left, ranges from 1 to -1 of course
+     */
+    public void strafe(double power) {
         lf.setPower(power);
         rf.setPower(-power);
         lb.setPower(-power);
         rb.setPower(power);
 
     }
-    public void right(double power,double distance) {//forward(1);forward(-1);
+
+    /**
+     * trafes sideways with mechanum wheels with a given power and distance
+     * @param power positive to move right, negative to move left, ranges from 1 to -1 of course
+     * @param distance however far you are going to strafe, not so accurate in strafe for whatever reason
+     */
+    public void strafe(double power, double distance) {//forward(1);forward(-1);
         //rb.resetDeviceConfigurationForOpMode();
         resetEncoders();
         setTgPos(distance, -distance, -distance, distance);
@@ -230,89 +468,105 @@ public class VoidsAndThings {
 //        lb.setTargetPosition((int) (distance*wheelOneInch));
 //        rb.setTargetPosition((int) (-distance*wheelOneInch));
 
-        right(power);
+        strafe(power);
     }
 
-    public void left(double power) {
-        lf.setPower(-power);
-        rf.setPower(power);
-        lb.setPower(power);
-        rb.setPower(-power);
+//    public void left(double power) {
+//        lf.setPower(-power);
+//        rf.setPower(power);
+//        lb.setPower(power);
+//        rb.setPower(-power);
+//
+//    }
+//    public void left(double power,double distance) {//forward(1);forward(-1);
+//        //rb.resetDeviceConfigurationForOpMode();
+//        resetEncoders();
+//        setTgPos(-distance, distance, distance, -distance);
+//
+//        runToPosition();
+////        lf.setTargetPosition((int) (distance*wheelOneInch));
+////        rf.setTargetPosition((int) (-distance*wheelOneInch));
+////        lb.setTargetPosition((int) (distance*wheelOneInch));
+////        rb.setTargetPosition((int) (-distance*wheelOneInch));
+//
+//        left(power);
+//    }
 
-    }
-    public void left(double power,double distance) {//forward(1);forward(-1);
-        //rb.resetDeviceConfigurationForOpMode();
-        resetEncoders();
-        setTgPos(-distance, distance, distance, -distance);
 
-        runToPosition();
-//        lf.setTargetPosition((int) (distance*wheelOneInch));
-//        rf.setTargetPosition((int) (-distance*wheelOneInch));
-//        lb.setTargetPosition((int) (distance*wheelOneInch));
-//        rb.setTargetPosition((int) (-distance*wheelOneInch));
+    /**
+     * for recognizing things with computer vision in 2023-2024 season;)
+     * @return the spike number
+     */
+    public int getSpikeMarkVision() {
 
-        left(power);
-    }
+        List<Recognition> currentRecognitions = tfod.getRecognitions();
+        //telemetry.addData("# Objects Detected", currentRecognitions.size());
 
-    public void Stop() {
-        lf.setPower(0);
-        rf.setPower(0);
-        lb.setPower(0);
-        rb.setPower(0);
+        double confidence=0;
+        double x=100;
+        double counter=0;
+        while ((currentRecognitions.size()==0) && opModeIsActive() ) {
+            currentRecognitions = tfod.getRecognitions();
+            counter++;
+            telemetry.addData("counter", counter);
+            telemetry.update();
+            if (counter>40){
+                x=0;//to get spikemark 1
+                break;
+            }
+            sleep(200);
 
-    }
 
-    public int SpikeCheck() {
-        int max1= 10;
-        int max2= 20;
-        int spike;
-        int i=0;
-        forward(0.25,1);
-        left(0.25,-2);
-        while(sensor.getDistance(DistanceUnit.INCH)>=30) {
-            right(0.25, 2);
-            i+=2;
         }
-        if (i<max1)
-            spike=1;
-        else if (i<max2)
-            spike=2;
-        else
-            spike=3;
-        left(0.25, 2*i);
+        // Step through the list of recognitions and display info for each one.
+        for (Recognition recognition : currentRecognitions) {
+            if (confidence < recognition.getConfidence()) {
+                x = (recognition.getLeft() + recognition.getRight()) / 2;
+                confidence = recognition.getConfidence();
+            }
 
-        return spike;
-
+            //            telemetry.addData(""," ");
+            //            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
+            //            telemetry.addData("- Position", "%.0f / %.0f", x, y);
+            //            telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
+            //telemetry.addData("- spikemark?","%.0f x %.0f", Math.round(x/200));
+        }   // end for() loop
+        telemetry.addData("position",x);
+        telemetry.addData("spikemark",Math.round(x/200+1));
+        telemetry.update();
+        sleep(500);
+        return (int) Math.round(x/200+1);
     }
 
     //this is test for the first scrimmage
-    public void autoScrimmage() {
+//    public void autoScrimmage() {
+//
+//        forward(-.25, -28);
+//        //sleep(200);
+//        int spike=SpikeCheck();
+//        if(spike==1){ //Put yes statement here for detection of spike marker
+//            forward(-.25, -9);
+//            forward(.25, 9);
+//        } //end of yes statement
+//        else{ //Put no statement here for detection of spike marker
+//            right(.25,3);
+//            if(spike==2){ //Put yes statement here for detection of spike marker
+//                forward(-.25, -4);
+//                forward(.25, 4);
+//                right(-.25,-3);
+//            } //end of yes statement
+//            else { //Put no statement here for detection of spike marker
+//                right(-.25, -6);
+//                forward(-.25, -4);
+//                forward(.25, 4);
+//                right(.25, 3);
+//            }
+//
+//        }
+//        //forward(.25, 28);
+//
+//    }
 
-        forward(-.25, -28);
-        //sleep(200);
-        int spike=SpikeCheck();
-        if(spike==1){ //Put yes statement here for detection of spike marker
-            forward(-.25, -9);
-            forward(.25, 9);
-        } //end of yes statement
-        else{ //Put no statement here for detection of spike marker
-            right(.25,3);
-            if(spike==2){ //Put yes statement here for detection of spike marker
-                forward(-.25, -4);
-                forward(.25, 4);
-                right(-.25,-3);
-            } //end of yes statement
-            else { //Put no statement here for detection of spike marker
-                right(-.25, -6);
-                forward(-.25, -4);
-                forward(.25, 4);
-                right(.25, 3);
-            }
-
-        }
-        //forward(.25, 28);
-
-    }
     private double minRed=20;
     //minimum amount of red in a gamepiece
 //    public boolean GetColorF(){
@@ -321,29 +575,10 @@ public class VoidsAndThings {
 ////    public boolean GetColorB(){
 ////        return minRed<Bsensor.red();
 ////    }
-    public void turn(double power){
-        lf.setPower(power);
-        rf.setPower(power);
-        lb.setPower(power);
-        rb.setPower(power);
-    }
-    public void turn(double power, double degrees){
-        runWithoutEncoders();
-        //YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
-        //double initdirection = orientation.getYaw(AngleUnit.DEGREES);
-        imu.resetYaw();
-        YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
-        while (Math.abs (orientation.getYaw(AngleUnit.DEGREES)) <=degrees-3) {
 
-
-            turn(power);
-//            telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", orientation.getYaw(AngleUnit.DEGREES));
-//            telemetry.addData("Pitch (X)", "%.2f Deg.", orientation.getPitch(AngleUnit.DEGREES));
-//            telemetry.addData("Roll (Y)", "%.2f Deg.\n", orientation.getRoll(AngleUnit.DEGREES));
-//            telemetry.update();
-            orientation = imu.getRobotYawPitchRollAngles();
-        }
-    }
+    /**
+     * initializes the computer vision. plz delete it after using to save memory during the program
+     */
     private void initTfod() {
 
         // Create the TensorFlow processor by using a builder.
@@ -409,7 +644,11 @@ public class VoidsAndThings {
 
     }
 
+    /**
+     * initialize all that good hardware
+     */
     public void initHardware()    {
+        //lf = GetHardwareCatchError(DcMotor.class, "lf");
         lf = hardwareMap.get(DcMotor.class, "lf");
         rf = hardwareMap.get(DcMotor.class, "rf");
         lb = hardwareMap.get(DcMotor.class, "lb");
@@ -423,7 +662,6 @@ public class VoidsAndThings {
         imu = hardwareMap.get(IMU.class, "imu");
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
         RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
-
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         imu.initialize(new IMU.Parameters(orientationOnRobot));
         arm = hardwareMap.get(DcMotor.class,"arm");
@@ -449,6 +687,8 @@ public class VoidsAndThings {
 //        rb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        test = new NullableHardware(Test);
+        test.InitializeHardwareCatchError("test", hardwareMap);
         //lf.setDirection(DcMotor.Direction.REVERSE);
         lf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -484,6 +724,10 @@ public class VoidsAndThings {
                         - GAIN_TURN * turn * currentSensitivity
         );
    }
+
 */
+
+    @Override
+    public void runOpMode() {}
 
 }
