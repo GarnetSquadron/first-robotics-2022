@@ -3,25 +3,36 @@ package org.firstinspires.ftc.teamcode.OpModes.teleops;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.acmerobotics.roadrunner.MecanumKinematics;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Drawing;
-import org.firstinspires.ftc.teamcode.Localizer;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.TankDrive;
 import org.firstinspires.ftc.teamcode.tuning.TuningOpModes;
 
+
 @TeleOp(name = "Headless Drive")
 public class HeadlessDrive extends LinearOpMode {
+    /**
+     * put this in a loop so that it updates the position
+     * @param drive the MecanumDrive instance
+     * @param gamepad the gamepad you want to use for driving
+     */
+    public static void RunHeadlessDrive(MecanumDrive drive, Gamepad gamepad){
+        double direction = drive.pose.heading.toDouble();
+        drive.setDrivePowers(new PoseVelocity2d(
+                new Vector2d(
+                        -Math.sin(drive.pose.heading.toDouble())*gamepad.left_stick_x-Math.cos(drive.pose.heading.toDouble())*gamepad.left_stick_y,
+                        -Math.cos(drive.pose.heading.toDouble())*gamepad.left_stick_x+Math.sin(drive.pose.heading.toDouble())*gamepad.left_stick_y
+                ),
+                -gamepad.right_stick_x
+        ));
+    }
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -33,16 +44,7 @@ public class HeadlessDrive extends LinearOpMode {
 
             while (opModeIsActive()) {
                 drive.updatePoseEstimate();
-                double direction = drive.pose.heading.toDouble();
-                drive.setDrivePowers(new PoseVelocity2d(
-                        new Vector2d(
-                                -Math.sin(drive.pose.heading.toDouble())*gamepad1.left_stick_x-Math.cos(drive.pose.heading.toDouble())*gamepad1.left_stick_y,
-                                -Math.cos(drive.pose.heading.toDouble())*gamepad1.left_stick_x+Math.sin(drive.pose.heading.toDouble())*gamepad1.left_stick_y
-                        ),
-                        -gamepad1.right_stick_x
-                ));
-
-
+                RunHeadlessDrive(drive, gamepad1);
 
                 telemetry.addData("x", drive.pose.position.x);
                 telemetry.addData("y", drive.pose.position.y);
