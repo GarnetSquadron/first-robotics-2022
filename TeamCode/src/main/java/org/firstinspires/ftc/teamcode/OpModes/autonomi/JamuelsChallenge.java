@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ftc.Actions;
@@ -9,6 +9,9 @@ import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.teamcode.NonDriveHardware;
 
 @TeleOp(name = "JAMANUELS CHALLENGE")
 public class JamuelsChallenge extends LinearOpMode {
@@ -25,6 +28,7 @@ public class JamuelsChallenge extends LinearOpMode {
         Action path1 = drive.actionBuilder(beginPose).splineToConstantHeading(new Vector2d(48,24),0).build();
         Action path2 = drive.actionBuilder(beginPose).splineToConstantHeading(new Vector2d(0,24), 0).build();
         Action path3 = drive.actionBuilder(beginPose).splineToConstantHeading(new Vector2d(48,0), 0).build();
+        Action path4 = drive.actionBuilder(beginPose).splineToSplineHeading(new Pose2d(48,0,0), 0).build();
         Actions.runBlocking(
 
                 new ParallelAction(

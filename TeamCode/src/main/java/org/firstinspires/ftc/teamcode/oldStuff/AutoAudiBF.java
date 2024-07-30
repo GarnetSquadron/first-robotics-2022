@@ -23,7 +23,7 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import java.util.List;
 
 @Autonomous(name = "BAUD")
-
+@Disabled
 public class AutoAudiBF extends LinearOpMode {
 
 

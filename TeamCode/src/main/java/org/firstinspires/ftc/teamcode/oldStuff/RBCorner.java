@@ -2,7 +2,9 @@ package org.firstinspires.ftc.teamcode.oldStuff;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -28,6 +30,7 @@ import java.util.List;
 
 //welcome to my mess :)
 @Autonomous(name = "RBCorner")
+@Disabled
 public class RBCorner extends LinearOpMode {
 
 

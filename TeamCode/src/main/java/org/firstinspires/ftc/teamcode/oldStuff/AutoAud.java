@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.oldStuff;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -25,6 +26,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 import java.util.List;
 
+@Disabled
 @Autonomous(name = "auto3(red back)")
 public class AutoAud extends LinearOpMode {
 

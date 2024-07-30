@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.oldStuff;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -23,6 +24,7 @@ import java.util.List;
 
 
 @Autonomous(name = "BBCenter")
+@Disabled
 public class BBCenter extends LinearOpMode {
 
     private VoidsAndThings voidsAndThings;

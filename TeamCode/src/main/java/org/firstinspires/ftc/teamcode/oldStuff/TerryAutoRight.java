@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.oldStuff;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -11,6 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.JavaUtil;
 
 @Autonomous(name = "RIGHT INTO 3 TRAFFIC POLES")
+@Disabled
 public class TerryAutoRight extends LinearOpMode {
     //We are defining all motors here, as to manually control each motor rather than use terry hardware.
     private DcMotor lf;

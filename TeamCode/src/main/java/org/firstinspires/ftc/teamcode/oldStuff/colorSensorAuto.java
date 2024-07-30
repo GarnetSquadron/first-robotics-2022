@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.oldStuff;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -7,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.JavaUtil;
 
 @Autonomous(name="ColorSensor")
+@Disabled
 //todo: I, Bass, want this to score one cone. This is a stretch goal, but a important one. After color sensors
 public class colorSensorAuto extends LinearOpMode {
     private TerryHardware terryHardware;

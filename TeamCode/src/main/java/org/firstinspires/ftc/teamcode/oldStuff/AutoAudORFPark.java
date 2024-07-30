@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.oldStuff;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -22,6 +23,7 @@ import java.util.List;
 
 
 @Autonomous(name = "RAUDPark1")
+@Disabled
 public class AutoAudORFPark extends LinearOpMode {
     //We are defining all motors here, as to manually control each motor rather than use terry hardware.
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera

@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.oldStuff;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @TeleOp(name = "\uD83E\uDD5A")
+@Disabled
 public class BobOmni extends LinearOpMode {
     private BobHardware bobHardware;
     private double defaultSensitivity = 1.0;

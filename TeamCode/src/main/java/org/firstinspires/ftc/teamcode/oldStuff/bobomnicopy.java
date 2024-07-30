@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.oldStuff;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -9,6 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 //This is a modified version of BobOmni. This includes a slow mode, but I don't know if it was up to
 //standards. Thus, this copy was created.
 @TeleOp(name = "test egg")
+@Disabled
 public class bobomnicopy extends LinearOpMode {
     //omni/mechanum wheels variable definition
     private static final double GAIN_DRIVE = 0.8;

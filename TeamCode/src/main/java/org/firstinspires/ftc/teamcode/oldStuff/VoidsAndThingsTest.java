@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.oldStuff;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 @Autonomous(name = "\uD83D\uDE08 \uD83D\uDE08 JAMANUEL PLZ\uD83D\uDE08 \uD83D\uDE08")
+@Disabled
 public class VoidsAndThingsTest extends LinearOpMode {
     VoidsAndThings voidsAndThings;
 

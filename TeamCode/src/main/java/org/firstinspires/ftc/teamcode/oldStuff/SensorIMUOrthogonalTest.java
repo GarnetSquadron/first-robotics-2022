@@ -30,6 +30,7 @@ package org.firstinspires.ftc.teamcode.oldStuff;/* Copyright (c) 2022 FIRST. All
 //package org.firstinspires.ftc.robotcontroller.external.samples;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -77,6 +78,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
  * to use those parameters.
  */
 @TeleOp(name = "Sensor: IMU OrthogonalTest", group="sensor")
+@Disabled
 //@Disabled   // Comment this out to add to the OpMode list
 public class SensorIMUOrthogonalTest extends LinearOpMode
 {

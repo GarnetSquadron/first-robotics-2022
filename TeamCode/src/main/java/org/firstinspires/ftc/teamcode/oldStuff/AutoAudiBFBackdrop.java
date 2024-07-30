@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.oldStuff;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -21,6 +22,7 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import java.util.List;
 
 @Autonomous(name = "BAUDBackdrop")
+@Disabled
 public class AutoAudiBFBackdrop extends LinearOpMode {
 
 
