@@ -14,6 +14,7 @@ import java.util.Objects;
 /**
  * set ShowOldStuff to true to show the old stuff on the opmode list,
  * I made this to keep the opmode list uncluttered with unnecessary stuff
+ * it doesnt really work like i thought, ill get to this later
  */
 @Disabled
 public final class OldStuffShower {

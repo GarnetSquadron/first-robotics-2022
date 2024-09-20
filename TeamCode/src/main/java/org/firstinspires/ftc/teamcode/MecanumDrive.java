@@ -503,4 +503,40 @@ public final class MecanumDrive {
                 defaultVelConstraint, defaultAccelConstraint
         );
     }
+
+    /**
+     * I havent tested this yet but it should stay still for a given period of time
+     * and importantly it should try to get back to where it was if it isnt there.
+     */
+     public class StayAndWait implements Action {
+         Pose2d beginPose, tgPose;
+        double duration;
+        double initTime;
+         double error;
+        public StayAndWait(Pose2d beginPose, double t, double error){
+            tgPose = pose;
+            initTime = Actions.now();
+            duration =t;
+            this.beginPose = beginPose;
+            this.error=error;
+        }
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+
+            if (Actions.now()-initTime< duration) {
+                return true;
+            }
+            double poseError=Math.hypot((tgPose.position.x-pose.position.x),(tgPose.position.y-pose.position.y));
+            double headingError=Math.abs(tgPose.heading.toDouble()-pose.heading.toDouble());
+            if(poseError<error||headingError<error ){
+                actionBuilder(beginPose).splineToLinearHeading(tgPose, 0).build();
+            }
+            return false;
+        }
+    }
+    public Action stayAndWait(Pose2d beginPos, double t,double error){
+        return new StayAndWait(beginPos,t,error);
+    }
+
+
 }

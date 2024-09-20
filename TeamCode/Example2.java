@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes.autonomi;
+package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Action;
@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.NonDriveHardware;
 
 @Config
 @TeleOp(name="CrazySpline", group = "RoadRunnerStuff")
-public class CrazySpline extends LinearOpMode {
+public class Example2 extends LinearOpMode {
     public static int pos = 300;
 
     @Override
@@ -41,7 +41,7 @@ public class CrazySpline extends LinearOpMode {
         Action PATH =new ParallelAction(
                 arm.handleMovement(),
                 new SequentialAction(
-                    new ParallelAction(
+                        new ParallelAction(
                                 arm.runTo(0),
                                 path1
                         ),
@@ -54,7 +54,7 @@ public class CrazySpline extends LinearOpMode {
         );
         waitForStart();
         Actions.runBlocking(
-            PATH
+                PATH
         );
     }
 }

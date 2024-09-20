@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-@TeleOp(name = "IMU TEST")
+@TeleOp(name = "IMU TEST", group = "test")
 public class ImuTest extends LinearOpMode {
     IMU imu;
 
