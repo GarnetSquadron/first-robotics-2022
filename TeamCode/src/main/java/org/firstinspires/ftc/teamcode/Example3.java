@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.NonDriveHardware;
 
 @Config
-@TeleOp(name="CrazySpline", group = "RoadRunnerStuff")
+@TeleOp(name="Example3", group = "RoadRunnerStuff")
 public class Example3 extends LinearOpMode {
     Pose2d beginPose = new Pose2d(30, 20, 0);
     NonDriveHardware.Arm arm = new NonDriveHardware.Arm(hardwareMap, 630);
@@ -26,7 +26,7 @@ public class Example3 extends LinearOpMode {
         double y = drive.pose.position.y;
         double theta = drive.pose.heading.toDouble();
         return drive.actionBuilder(beginPose).splineToSplineHeading(new Pose2d(x+length*Math.cos(angle),y+length*Math.sin(angle),theta+angle),angle).build();
-        return drive.actionBuilder(beginPose).splineToSplineHeading(new Pose2d(x,y+Math.tan(theta)*5, angle),1).build();
+        //return drive.actionBuilder(beginPose).splineToSplineHeading(new Pose2d(x,y+Math.tan(theta)*5, angle),1).build();
     }
 //    void RightTriangle(double theta){
 //                .splineToSplineHeading(new x+5,y, theta)

@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.NonDriveHardware;
 
 @Config
-@TeleOp(name="CrazySpline", group = "RoadRunnerStuff")
+@TeleOp(name="Example2", group = "RoadRunnerStuff")
 public class Example2 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -33,6 +33,6 @@ public class Example2 extends LinearOpMode {
         Action ArmMovement = arm.runTo(630);
         Action Movement = new ParallelAction(path,arm.runTo(630));
         waitForStart();
-        Actions.runBlocking();
+        //Actions.runBlocking();
     }
 }

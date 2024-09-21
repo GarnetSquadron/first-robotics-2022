@@ -100,8 +100,8 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline
         // Replace these values with your actual camera calibration parameters
 
         // Focal lengths (fx, fy) and principal point (cx, cy)
-        double fx = 800; // Replace with your camera's focal length in pixels
-        double fy = 800;
+        double fx = 720; // Replace with your camera's focal length in pixels
+        double fy = 720;
         double cx = 320; // Replace with your camera's principal point x-coordinate (usually image width / 2)
         double cy = 240; // Replace with your camera's principal point y-coordinate (usually image height / 2)
 

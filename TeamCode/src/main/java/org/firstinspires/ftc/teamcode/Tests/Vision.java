@@ -51,5 +51,7 @@ public class Vision extends LinearOpMode {
                 telemetry.update();
             }
         });
+        waitForStart();
+        while (opModeIsActive());
     }
 }

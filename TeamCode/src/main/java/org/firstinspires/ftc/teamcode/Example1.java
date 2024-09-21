@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-@TeleOp(name="CrazySpline", group = "RoadRunnerStuff")
+@TeleOp(name="Example1", group = "RoadRunnerStuff")
 public class Example1 extends LinearOpMode {
     private DcMotor lf;
     private DcMotor rf;
