@@ -60,7 +60,7 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline
 
     static final int CONTOUR_LINE_THICKNESS = 2;
 
-    static class AnalyzedStone
+    public static class AnalyzedStone
     {
         double angle;
         String color;
