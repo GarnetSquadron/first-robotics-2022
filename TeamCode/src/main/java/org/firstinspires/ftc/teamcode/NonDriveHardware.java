@@ -7,6 +7,7 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ftc.LynxFirmware;
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -228,7 +229,28 @@ public final class NonDriveHardware {
             return new Disable();
         }
     }
-
+    public static class ContinuousServo {
+        public static CRServo servo;
+        public static int reverse;
+        public ContinuousServo(HardwareMap hardwareMap, String deviceName, boolean reverse){
+            servo = hardwareMap.get(CRServo.class, deviceName);
+            if(reverse) {this.reverse = -1;}
+            else {this.reverse = 1;}
+        }
+        public static class Spin implements Action{
+            double power;
+            Spin(double power){
+                this.power =power;
+            }
+            public boolean run (@NonNull TelemetryPacket telemetryPacket){
+                servo.setPower(reverse*power);
+                return false;
+            }
+        }
+        public static Action spin(double power){
+            return new ContinuousServo.Spin(power);
+        }
+    }
     public static class TeleArmParams{
 
     }
@@ -299,6 +321,17 @@ public final class NonDriveHardware {
         }
         public static Action LaunchPlane(){
             return new LaunchPlane();
+        }
+    }
+
+    public static class IntakeServo1 extends ContinuousServo {
+        public IntakeServo1(HardwareMap hardwareMap){
+            super(hardwareMap,"IntakeServo1", true);
+        }
+    }
+    public static class IntakeServo2 extends ContinuousServo {
+        public IntakeServo2(HardwareMap hardwareMap){
+            super(hardwareMap,"IntakeServo2", false);
         }
     }
     public NonDriveHardware(HardwareMap hardwareMap, int teleArmStartingTick, int liftStartingTick, int ArmStartingTick){
