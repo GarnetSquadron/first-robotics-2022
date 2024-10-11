@@ -1,6 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.telecom.Call;
+
 import org.opencv.core.Algorithm;
+import org.opencv.core.Rect;
+import org.opencv.imgproc.LineSegmentDetector;
 import org.openftc.easyopencv.OpenCvPipeline;
 
 import org.opencv.calib3d.Calib3d;
@@ -20,7 +24,7 @@ import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
 
-public class SampleDetectionPipelinePNP extends OpenCvPipeline
+public class SampleDetectionPipelineAngledCam extends OpenCvPipeline
 {
     /*
      * Our working image buffers
@@ -108,7 +112,7 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline
     // Keep track of what stage the viewport is showing
     int stageNum = 0;
 
-    public SampleDetectionPipelinePNP()
+    public SampleDetectionPipelineAngledCam()
     {
         // Initialize camera parameters
         // Replace these values with your actual camera calibration parameters
@@ -225,7 +229,6 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline
         morphMask(blueThresholdMat, morphedBlueThreshold);
         morphMask(redThresholdMat, morphedRedThreshold);
         morphMask(yellowThresholdMat, morphedYellowThreshold);
-
         // Find contours in the masks
         ArrayList<MatOfPoint> blueContoursList = new ArrayList<>();
         Imgproc.findContours(morphedBlueThreshold, blueContoursList, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);
@@ -265,6 +268,30 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline
         Imgproc.dilate(output, output, dilateElement);
         Imgproc.dilate(output, output, dilateElement);
     }
+    Point getLowestPixel(Mat input){
+        Rect rect =  Imgproc.boundingRect(input);
+        int y = rect.y-rect.height;
+        int firstx = 0;
+        for(int i = 0; i<input.width(); i++){
+            if(input.get(i,y)[0]==1){
+                return new Point(i, y);
+            }
+        }
+        return null;
+    }
+    Point getCoordOnFloorFromCoordOnScreen(Point p,Mat CamMat,double angle, double height){
+        double fx = CamMat.get(0,0)[1];//TODO: figure out the number in the brackets (Its prob 1 but I am not sure maybe 0)
+        double fy = CamMat.get(1,1)[1];
+        double cx = CamMat.get(0,2)[1];
+        double cy = CamMat.get(1,2)[1];
+        Point q = new Point((p.x-cy)/fx,(p.y-cy)/fx);
+        //Point3 m = new Point3((1), p.y, );
+        return new Point();
+    }
+    void getOrientation(Mat input, Mat output){
+        //Imgproc.cornerHarris(input,output,);
+    }
+
 
     void analyzeContour(MatOfPoint contour, Mat input, String color)
     {

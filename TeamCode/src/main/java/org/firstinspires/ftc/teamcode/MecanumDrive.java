@@ -60,7 +60,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Config
-public final class MecanumDrive {
+public class MecanumDrive {
     public static class Params {
         // IMU orientation
         // TODO: fill in these values based on
@@ -77,8 +77,8 @@ public final class MecanumDrive {
         public double trackWidthTicks =  4418.884240665918;
 
         // feedforward parameters (in tick units)
-        public double kS = 0.728862848251262;
-        public double kV = 0.0005849209475706738;
+        public double kS =  0.879693944562431;
+        public double kV =  0.0005557589095561551;
         public double kA = 0.00005;
 
         // path profile parameters (in inches)
@@ -458,18 +458,21 @@ public final class MecanumDrive {
     }
 
     public PoseVelocity2d updatePoseEstimate() {
-        Twist2dDual<Time> twist = localizer.update();
-        pose = pose.plus(twist.value());
 
-        poseHistory.add(pose);
-        while (poseHistory.size() > 100) {
-            poseHistory.removeFirst();
-        }
+            Twist2dDual<Time> twist = localizer.update();
+            pose = pose.plus(twist.value());
 
-        estimatedPoseWriter.write(new PoseMessage(pose));
+            poseHistory.add(pose);
+            while (poseHistory.size() > 100) {
+                poseHistory.removeFirst();
+            }
 
-        return twist.velocity().value();
+            estimatedPoseWriter.write(new PoseMessage(pose));
+
+            return twist.velocity().value();
+
     }
+
 
     private void drawPoseHistory(Canvas c) {
         double[] xPoints = new double[poseHistory.size()];

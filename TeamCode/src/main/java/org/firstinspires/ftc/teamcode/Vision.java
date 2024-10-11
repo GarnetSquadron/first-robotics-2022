@@ -20,6 +20,8 @@ import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
 import org.firstinspires.ftc.teamcode.SampleDetectionPipelinePNP;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.core.Point;
+import org.opencv.core.Point3;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -60,7 +62,27 @@ public class Vision {
             }
         });
     }
+    public void Calibrate(){
+
+    }
     public ArrayList<SampleDetectionPipelinePNP.AnalyzedStone> GetSampleList(){
         return SamplePipeline.getDetectedStones();
+    }
+    public double getDistanceAway(int i){
+        SampleDetectionPipelinePNP.AnalyzedStone p = GetSampleList().get(i);
+        return Math.hypot(Math.hypot(p.getX(),p.getY()),p.getZ());
+    }
+    public SampleDetectionPipelinePNP.AnalyzedStone GetNearestSample(){
+        ArrayList<SampleDetectionPipelinePNP.AnalyzedStone> SampleList = GetSampleList();
+        double MinDistance = getDistanceAway(0);
+        int index=0;
+        for(int i=1; i<SampleList.size(); i++){
+            double d = getDistanceAway(i);
+            if(d>=MinDistance){
+                MinDistance = d;
+                index = i;
+            }
+        }
+        return SampleList.get(index);
     }
 }
