@@ -1,6 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.telecom.Call;
+
 import org.opencv.core.Algorithm;
+import org.opencv.core.Rect;
+import org.opencv.imgproc.LineSegmentDetector;
 import org.openftc.easyopencv.OpenCvPipeline;
 
 import org.opencv.calib3d.Calib3d;
@@ -17,10 +21,11 @@ import org.opencv.core.RotatedRect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
+import org.openftc.easyopencv.PipelineRecordingParameters;
 
 import java.util.ArrayList;
 
-public class SampleDetectionPipelinePNP extends OpenCvPipeline
+public class SampleDetectionPipelineAngledCam extends OpenCvPipeline
 {
     /*
      * Our working image buffers
@@ -90,6 +95,8 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline
      */
     Mat cameraMatrix = new Mat(3, 3, CvType.CV_64FC1);
     MatOfDouble distCoeffs = new MatOfDouble();
+    double angle;
+    double height;
 
     /*
      * Some stuff to handle returning our various buffers
@@ -108,7 +115,7 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline
     // Keep track of what stage the viewport is showing
     int stageNum = 0;
 
-    public SampleDetectionPipelinePNP()
+    public SampleDetectionPipelineAngledCam()
     {
         // Initialize camera parameters
         // Replace these values with your actual camera calibration parameters
@@ -128,6 +135,8 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline
         // If you have calibrated your camera and have these values, use them
         // Otherwise, you can assume zero distortion for simplicity
         distCoeffs = new MatOfDouble(0, 0, 0, 0, 0);
+        angle = Math.PI/2;
+        height = 10;
     }
 
     @Override
@@ -226,31 +235,10 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline
         morphMask(redThresholdMat, morphedRedThreshold);
         morphMask(yellowThresholdMat, morphedYellowThreshold);
 
-        // Find contours in the masks
-        ArrayList<MatOfPoint> blueContoursList = new ArrayList<>();
-        Imgproc.findContours(morphedBlueThreshold, blueContoursList, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);
-
-        ArrayList<MatOfPoint> redContoursList = new ArrayList<>();
-        Imgproc.findContours(morphedRedThreshold, redContoursList, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);
-
-        ArrayList<MatOfPoint> yellowContoursList = new ArrayList<>();
-        Imgproc.findContours(morphedYellowThreshold, yellowContoursList, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);
-
-        // Now analyze the contours
-        for(MatOfPoint contour : blueContoursList)
-        {
-            analyzeContour(contour, input, "Blue");
-        }
-
-        for(MatOfPoint contour : redContoursList)
-        {
-            analyzeContour(contour, input, "Red");
-        }
-
-        for(MatOfPoint contour : yellowContoursList)
-        {
-            analyzeContour(contour, input, "Yellow");
-        }
+        //get the approximate position of the nearest sample
+        getPoseOfClosestPixel(morphedBlueThreshold,cameraMatrix,angle,height);
+        getPoseOfClosestPixel(morphedRedThreshold,cameraMatrix,angle,height);
+        getPoseOfClosestPixel(morphedYellowThreshold,cameraMatrix,angle,height);
     }
 
     void morphMask(Mat input, Mat output)
@@ -265,6 +253,67 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline
         Imgproc.dilate(output, output, dilateElement);
         Imgproc.dilate(output, output, dilateElement);
     }
+    Point getLowestPixel(Mat input){
+        Rect rect =  Imgproc.boundingRect(input);
+        int y = rect.y-rect.height+1;
+        int firstx = 0;
+        for(int i = 0; i<input.width(); i++){
+            if(input.get(i,y)[0]==1){
+                return new Point(i, y);
+            }
+        }
+        return null;
+    }
+    Point getHighestPixel(Mat input){
+        Rect rect =  Imgproc.boundingRect(input);
+        int y = rect.y-1;
+        int firstx = 0;
+        for(int i = 0; i<input.width(); i++){
+            if(input.get(i,y)[0]==1){
+                return new Point(i, y);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Like the name says, gets the coords on the floor from the coords on the screen given the height and angle of the camera
+     * @param p the point on the screen
+     * @param CamMat the camera matrix
+     * @param angle the angle between the line that the camera is pointing along and a line perpendicular to the ground.
+     * @param height this is the height of the camera. what did you think it was lol.
+     *               Also the height scales everything, so whatever
+     *               units for height you input you will get those same units as the output. so inches in, inches out
+     * @return
+     */
+    Point getCoordOnFloorFromCoordOnScreen(Point p,Mat CamMat,double angle, double height){
+        double fx = CamMat.get(0,0)[1];//TODO: figure out the number in the brackets (Its prob 1 but I am not sure maybe 0)
+        double fy = CamMat.get(1,1)[1];
+        double cx = CamMat.get(0,2)[1];
+        double cy = CamMat.get(1,2)[1];
+        Point q = new Point((p.x-cy)/fx,(p.y-cy)/fx);
+        double cos = Math.cos(angle);
+        double sin = Math.sin(angle);
+        double Z =  height/(cos-q.y*sin);
+        double Y = Z*q.y;
+        double ZZ = Z-height*cos;
+        double YY = Y+height*sin;
+        double y = (angle==0)?(YY/cos):(ZZ/sin);
+        double x = q.x*Z;
+        return new Point(x,y);
+    }
+    Point getPoseOfClosestPixel(Mat input, Mat CamMat,double angle, double height){
+        return getCoordOnFloorFromCoordOnScreen(getLowestPixel(input),CamMat,angle,height);
+    }
+    double getOrientation(Mat input, Mat CamMat,  double angle,double height, Point3 sampleDimensions){
+        Point topCorner = getHighestPixel(input);
+        Point bottomCorner = getLowestPixel(input);
+        Point topCoords = getCoordOnFloorFromCoordOnScreen(topCorner, CamMat, angle, height);
+        Point bottomCoords = getCoordOnFloorFromCoordOnScreen(bottomCorner, CamMat, angle, height-sampleDimensions.y);
+        //Point deltaCoords = topCoords-bottomCoords;
+        return Math.atan(1);
+    }
+
 
     void analyzeContour(MatOfPoint contour, Mat input, String color)
     {
