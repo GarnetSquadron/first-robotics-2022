@@ -6,7 +6,10 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.ftc.OverflowEncoder;
+import com.acmerobotics.roadrunner.ftc.RawEncoder;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.teamcode.Drawing;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
@@ -19,7 +22,8 @@ public class LocalizationTest extends LinearOpMode {
 
         if (TuningOpModes.DRIVE_CLASS.equals(MecanumDrive.class)) {
             MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
-
+            OverflowEncoder par = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "par")));
+            OverflowEncoder perp = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "perp/lift")));
             waitForStart();
 
             while (opModeIsActive()) {
@@ -35,6 +39,8 @@ public class LocalizationTest extends LinearOpMode {
 
                 telemetry.addData("x", drive.pose.position.x);
                 telemetry.addData("y", drive.pose.position.y);
+                telemetry.addData("xVel", par.encoder.getPositionAndVelocity().velocity);
+                telemetry.addData("yVel", perp.encoder.getPositionAndVelocity().velocity);
                 telemetry.addData("heading (deg)", Math.toDegrees(drive.pose.heading.toDouble()));
                 telemetry.update();
 

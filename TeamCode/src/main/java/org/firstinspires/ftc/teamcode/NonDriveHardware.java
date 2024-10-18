@@ -248,7 +248,7 @@ public final class NonDriveHardware {
             }
         }
         public static Action spin(double power){
-            return new ContinuousServo.Spin(power);
+            return new Spin(power);
         }
     }
     public static class TeleArmParams{
