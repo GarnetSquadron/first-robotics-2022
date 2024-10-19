@@ -12,7 +12,7 @@ public class VisionTest extends LinearOpMode {
 
     @Override
     public void runOpMode(){
-        vision.InitPipeline();
+        vision.InitPipeline(hardwareMap);
         waitForStart();
     }
 }
