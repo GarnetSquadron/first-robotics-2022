@@ -2,7 +2,7 @@ repositories {
     mavenCentral()
     google() // Needed for androidx
 }
-
+//TODO: Make these all the right version
 dependencies {
     implementation 'org.firstinspires.ftc:Inspection:9.0.1'
     implementation 'org.firstinspires.ftc:Blocks:9.0.1'
