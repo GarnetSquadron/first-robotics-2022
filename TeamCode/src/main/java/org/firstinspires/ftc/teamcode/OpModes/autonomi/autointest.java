@@ -1,7 +1,8 @@
 package org.firstinspires.ftc.teamcode.OpModes.autonomi;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.CRServo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
@@ -20,6 +21,31 @@ import org.openftc.easyopencv.OpenCvWebcam;
         //public OpenCvCamera cam1;
         public CameraStreamSource camera;
         public SampleDetectionPipelinePNP SamplePipeline = new SampleDetectionPipelinePNP();
+    CRServo Ti;
+    CRServo Fi;
+    CRServo Bi;
+    public void Onstart(){
+
+        Ti.setPower(0);
+        Fi.setPower(-power);
+        Bi.setPower(+power);
+
+        if blue||Yellow {
+            Ti.setPower(-power);
+            Fi.setPower(0);
+            Bi.setPower(+power);
+        }
+        if red {
+            Ti.setPower(+power);
+            Fi.setPower(-power);
+            Bi.setPower(0);
+        }
+        else{
+            Ti.setPower(0);
+            Fi.setPower(-power);
+            Bi.setPower(+power);
+        }
+    }
         @Override
         public void runOpMode(){
             WebcamName webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
@@ -41,33 +67,10 @@ import org.openftc.easyopencv.OpenCvWebcam;
                 }
             });
 
-            Dcservo Ti;
-            private Dcservo Fi;
-            private Dcservo Bi;
+
 
         }
 
-        Public void Onstart ();{
 
-        Ti.setpower(0);
-        Fi.setpower(-power);
-        Bi.setpower(+power);
-
-            If blue||Yellow;
-            Ti.setpower(-power);
-            Fi.setpower(0);
-            Bi.setpower(+power);
-
-                If red;
-                Ti.setpower(+power);
-                Fi.setpower(-power);
-                Bi.setpower(0);
-
-                    Else if;
-                    Ti.setpower(0);
-                    Fi.setpower(-power);
-                    Bi.setpower(+power);
-
-    }
     }
 //commit testing
