@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
@@ -39,5 +40,33 @@ import org.openftc.easyopencv.OpenCvWebcam;
                     telemetry.update();
                 }
             });
+
+            Dcservo Ti;
+            private Dcservo Fi;
+            private Dcservo Bi;
+
         }
+
+        Public void Onstart ();{
+
+        Ti.setpower(0);
+        Fi.setpower(-power);
+        Bi.setpower(+power);
+
+            If blue||Yellow;
+            Ti.setpower(-power);
+            Fi.setpower(0);
+            Bi.setpower(+power);
+
+                If red;
+                Ti.setpower(+power);
+                Fi.setpower(-power);
+                Bi.setpower(0);
+
+                    Else if;
+                    Ti.setpower(0);
+                    Fi.setpower(-power);
+                    Bi.setpower(+power);
+
+    }
     }
