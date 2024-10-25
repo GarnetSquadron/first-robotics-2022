@@ -4,19 +4,19 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name = "CrankSlide", group = "test")
-public class CrankSlide extends LinearOpMode {
-    Servo Crank;
+@TeleOp(name = "ServoTest", group = "test")
+public class ServoTest extends LinearOpMode {
+    Servo servo;
 
     public void runOpMode(){
-        Crank = hardwareMap.get(Servo.class, "crank");
+        servo = hardwareMap.get(Servo.class, "crank");
         waitForStart();
         while (opModeIsActive()){
             if (gamepad1.x) {
-                Crank.setPosition(0.5);
+                servo.setPosition(1);
             }
             if (gamepad1.y) {
-                Crank.setPosition(0);
+                servo.setPosition(0);
             }
         }
     }
