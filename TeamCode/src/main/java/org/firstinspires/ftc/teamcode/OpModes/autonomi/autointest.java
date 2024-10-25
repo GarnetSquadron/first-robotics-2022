@@ -30,12 +30,12 @@ import org.openftc.easyopencv.OpenCvWebcam;
         Fi.setPower(-power);
         Bi.setPower(+power);
 
-        if blue||Yellow {
+        if (blue||yellow) {
             Ti.setPower(-power);
             Fi.setPower(0);
             Bi.setPower(+power);
         }
-        if red {
+        if (red) {
             Ti.setPower(+power);
             Fi.setPower(-power);
             Bi.setPower(0);
