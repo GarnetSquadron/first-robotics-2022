@@ -24,28 +24,28 @@ import org.openftc.easyopencv.OpenCvWebcam;
     CRServo Ti;
     CRServo Fi;
     CRServo Bi;
-    public void Onstart(){
-
-        Ti.setPower(0);
-        Fi.setPower(-power);
-        Bi.setPower(+power);
-
-        if (blue||yellow) {
-            Ti.setPower(-power);
-            Fi.setPower(0);
-            Bi.setPower(+power);
-        }
-        if (red) {
-            Ti.setPower(+power);
-            Fi.setPower(-power);
-            Bi.setPower(0);
-        }
-        else{
-            Ti.setPower(0);
-            Fi.setPower(-power);
-            Bi.setPower(+power);
-        }
-    }
+//    public void Onstart(){
+//
+//        Ti.setPower(0);
+//        Fi.setPower(-power);
+//        Bi.setPower(+power);
+//
+//        if (blue||yellow) {
+//            Ti.setPower(-power);
+//            Fi.setPower(0);
+//            Bi.setPower(+power);
+//        }
+//        if (red) {
+//            Ti.setPower(+power);
+//            Fi.setPower(-power);
+//            Bi.setPower(0);
+//        }
+//        else{
+//            Ti.setPower(0);
+//            Fi.setPower(-power);
+//            Bi.setPower(+power);
+//        }
+//    }
         @Override
         public void runOpMode(){
             WebcamName webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
