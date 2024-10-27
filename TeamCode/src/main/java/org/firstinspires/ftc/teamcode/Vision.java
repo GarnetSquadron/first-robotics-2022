@@ -52,9 +52,8 @@ public class Vision {
     public ArrayList<SampleDetectionPipelinePNP.AnalyzedStone> GetSampleList(){
         return SamplePipeline.getDetectedStones();
     }
-    public double getDistanceAway(int i){
+    public double getDistanceAway(int i, ArrayList<SampleDetectionPipelinePNP.AnalyzedStone> SampleList){
         SampleDetectionPipelinePNP.AnalyzedStone p;
-        ArrayList<SampleDetectionPipelinePNP.AnalyzedStone> SampleList = GetSampleList();
         if(SampleList.size()>i) {
             p = SampleList.get(i);
             return Math.hypot(Math.hypot(p.getX(),p.getY()),p.getZ());
@@ -67,10 +66,10 @@ public class Vision {
         if(SampleList.size()==0){
             return null;
         }
-        double MinDistance = getDistanceAway(0);
+        double MinDistance = getDistanceAway(0,SampleList);
         int index=0;
         for(int i=1; i<SampleList.size(); i++){
-            double d = getDistanceAway(i);
+            double d = getDistanceAway(i,SampleList);
             if(d>=MinDistance){
                 MinDistance = d;
                 index = i;

@@ -19,9 +19,19 @@ public class AutoWrist extends LinearOpMode {
         waitForStart();
         while(opModeIsActive()){
             SampleDetectionPipelinePNP.AnalyzedStone Sample = vision.getNearestSample();
-            if(Sample!=null) {
-                wrist.setPosition((Sample.getAngleRad()) / (2 * Math.PI));
+            double pos = (Sample.getAngleRad()) / (2 * Math.PI);
+            //adjust for a possible 180 degree rotation
+            if(pos+0.5< wrist.getPosition()){
+                pos+=0.5;
+            } else if (pos-0.5 > wrist.getPosition()) {
+                pos-=0.5;
             }
+            double tolerance = 0.1;
+            if(Sample!=null&&Math.abs(pos-wrist.getPosition())>tolerance) {
+                wrist.setPosition(pos);
+            }
+            telemetry.addData("rotation",wrist.getPosition());
+            telemetry.update();
         }
     }
 }
