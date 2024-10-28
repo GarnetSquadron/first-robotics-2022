@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
-
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
 import org.firstinspires.ftc.teamcode.SampleDetectionPipelinePNP;
@@ -24,53 +24,62 @@ import org.openftc.easyopencv.OpenCvWebcam;
     CRServo Ti;
     CRServo Fi;
     CRServo Bi;
-//    public void Onstart(){
-//
-//        Ti.setPower(0);
-//        Fi.setPower(-power);
-//        Bi.setPower(+power);
-//
-//        if (blue||yellow) {
-//            Ti.setPower(-power);
-//            Fi.setPower(0);
-//            Bi.setPower(+power);
-//        }
-//        if (red) {
-//            Ti.setPower(+power);
-//            Fi.setPower(-power);
-//            Bi.setPower(0);
-//        }
-//        else{
-//            Ti.setPower(0);
-//            Fi.setPower(-power);
-//            Bi.setPower(+power);
-//        }
-//    }
-        @Override
-        public void runOpMode(){
-            WebcamName webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
-            int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "Id", hardwareMap.appContext.getPackageName());
-            webcam1 = OpenCvCameraFactory.getInstance().createWebcam(webcamName, cameraMonitorViewId);
+    public void Onstart(){
 
-            webcam1.setPipeline(new SampleDetectionPipelinePNP());
+        Ti.setPower(0);
+        Fi.setPower(-power);
+        Bi.setPower(+power);
 
-            webcam1.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
-                @Override
-                public void onOpened() {
-                    webcam1.startStreaming(640, 360,OpenCvCameraRotation.UPRIGHT);
-                }
+        if (blue||yellow) {
+            Ti.setPower(0);
+            Fi.setPower(0);
+            Bi.setPower(0);
 
-                @Override
-                public void onError(int errorCode) {
-                    telemetry.addLine("unable to open camera :(");
-                    telemetry.update();
-                }
-            });
+    //run some rotation code for main arm servo here
 
-
-
+            sleep(1000);
+            Ti.setPower(-power);
+            Fi.setPower(0);
+            Bi.setPower(+power);
         }
-
-
+        if (toString().equals("red")) {
+            Ti.setPower(+power);
+            Fi.setPower(-power);
+            Bi.setPower(0);
+        }
+        else{
+            Ti.setPower(0);
+            Fi.setPower(-power);
+            Bi.setPower(+power);
+        }
     }
-//commit testing
+
+    public class ColorSensorTuning extends LinearOpMode {
+        ColorSensor cSensor;
+        public void runOpMode(){
+            cSensor = hardwareMap.get(ColorSensor.class, "ColorSensor");
+            waitForStart();
+
+            while(opModeIsActive()){
+                telemetry.addData("red", cSensor.red());
+                telemetry.addData("green", cSensor.green());
+                telemetry.addData("blue", cSensor.blue());
+                telemetry.update();
+
+
+                double HighestColorValue = Math.max(Math.max(cSensor.red(), cSensor.green()),cSensor.blue());
+
+                if (HighestColorValue < 200)
+                    telemetry.addLine("No Color");
+                else if (cSensor.red() > cSensor.green() && cSensor.red() > cSensor.blue()) {
+                    telemetry.addLine("red");
+                } else if (cSensor.green() > cSensor.red() && cSensor.green() > cSensor.blue()) {
+                    telemetry.addLine("yellow");
+                } else if (cSensor.blue() > cSensor.red() && cSensor.blue() > cSensor.green())
+                    telemetry.addLine("blue");
+                telemetry.update();}
+             }
+        }
+    }
+
+
