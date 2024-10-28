@@ -17,10 +17,6 @@ import org.openftc.easyopencv.OpenCvWebcam;
 //imports from vision.java
 
     public class autointest extends LinearOpMode {
-        OpenCvWebcam webcam1 = null;
-        //public OpenCvCamera cam1;
-        public CameraStreamSource camera;
-        public SampleDetectionPipelinePNP SamplePipeline = new SampleDetectionPipelinePNP();
     CRServo Ti;
     CRServo Fi;
     CRServo Bi;
@@ -42,7 +38,7 @@ import org.openftc.easyopencv.OpenCvWebcam;
             Fi.setPower(0);
             Bi.setPower(+power);
         }
-        if (toString().equals("red")) {
+        if (red) {
             Ti.setPower(+power);
             Fi.setPower(-power);
             Bi.setPower(0);
@@ -53,8 +49,6 @@ import org.openftc.easyopencv.OpenCvWebcam;
             Bi.setPower(+power);
         }
     }
-
-    public class ColorSensorTuning extends LinearOpMode {
         ColorSensor cSensor;
         public void runOpMode(){
             cSensor = hardwareMap.get(ColorSensor.class, "ColorSensor");
@@ -80,6 +74,5 @@ import org.openftc.easyopencv.OpenCvWebcam;
                 telemetry.update();}
              }
         }
-    }
 
 
