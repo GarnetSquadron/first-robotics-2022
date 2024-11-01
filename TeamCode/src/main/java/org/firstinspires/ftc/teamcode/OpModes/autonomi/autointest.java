@@ -64,7 +64,6 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
                     telemetry.addLine("No Color");
                 else if (cSensor.red() > cSensor.green() && cSensor.red() > cSensor.blue()) {
                     telemetry.addLine("red");
-                    result = false;
                 } else if (cSensor.green() > cSensor.red() && cSensor.green() > cSensor.blue()) {
                     telemetry.addLine("yellow");
                     result = true;
@@ -106,6 +105,9 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
         }
     public void runOpMode(){
         cSensor = hardwareMap.get(ColorSensor.class, "ColorSensor");
+        Ti = hardwareMap.get(CRServo.class,"IntakeServo1");
+        Fi = hardwareMap.get(CRServo.class,"IntakeServo2");
+        Bi = hardwareMap.get(CRServo.class,"IntakeServo3");
         waitForStart();
         Onstart();
 
