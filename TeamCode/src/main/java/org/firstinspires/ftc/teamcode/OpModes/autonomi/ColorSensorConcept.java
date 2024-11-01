@@ -15,3 +15,19 @@ public class ColorSensorConcept {
         }
     }
 }
+/**
+ * rgb values
+ *
+ * Blue
+ * R:1
+ * G:2
+ * B: 6 (Highest)
+ * Yellow:
+ * R:3
+ * G:4 (Highest)
+ * B:1
+ * Red:
+ * R: 5 (Highest)
+ * G:2
+ * B:1
+ * */
