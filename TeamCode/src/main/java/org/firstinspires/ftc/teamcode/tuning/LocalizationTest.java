@@ -10,7 +10,9 @@ import com.acmerobotics.roadrunner.ftc.OverflowEncoder;
 import com.acmerobotics.roadrunner.ftc.RawEncoder;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Drawing;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.TankDrive;
@@ -24,6 +26,7 @@ public class LocalizationTest extends LinearOpMode {
             MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
             OverflowEncoder par = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "par")));
             OverflowEncoder perp = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "perp/lift")));
+            IMU imu = hardwareMap.get(IMU.class,"imu");
             waitForStart();
 
             while (opModeIsActive()) {
@@ -42,6 +45,8 @@ public class LocalizationTest extends LinearOpMode {
                 telemetry.addData("xVel", par.encoder.getPositionAndVelocity().velocity);
                 telemetry.addData("yVel", perp.encoder.getPositionAndVelocity().velocity);
                 telemetry.addData("heading (deg)", Math.toDegrees(drive.pose.heading.toDouble()));
+                telemetry.addData("yaw (deg)", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
+                telemetry.addData("pitch (deg)", imu.getRobotYawPitchRollAngles().getPitch(AngleUnit.DEGREES));
                 telemetry.update();
 
                 TelemetryPacket packet = new TelemetryPacket();

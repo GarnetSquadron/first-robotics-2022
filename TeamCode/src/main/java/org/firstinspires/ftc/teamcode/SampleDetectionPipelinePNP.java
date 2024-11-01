@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
+
 import org.opencv.core.Algorithm;
 import org.openftc.easyopencv.OpenCvPipeline;
 
@@ -20,6 +23,7 @@ import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
 
+@Config
 public class SampleDetectionPipelinePNP extends OpenCvPipeline
 {
     /*
@@ -42,9 +46,15 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline
     /*
      * Threshold values
      */
-    static final int YELLOW_MASK_THRESHOLD = 57;
-    static final int BLUE_MASK_THRESHOLD = 150;
-    static final int RED_MASK_THRESHOLD = 198;
+    @Config
+    public static class Thresholds{
+        static final int OriginalYELLOW_MASK_THRESHOLD = 57;
+        static final int OriginalBLUE_MASK_THRESHOLD = 150;
+        static final int OriginalRED_MASK_THRESHOLD = 198;
+        public static int YELLOW_MASK_THRESHOLD = 80;
+        public static int BLUE_MASK_THRESHOLD = 150;
+        public static int RED_MASK_THRESHOLD = 200;
+    }
 
     /*
      * The elements we use for noise reduction
@@ -213,13 +223,13 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline
         Core.extractChannel(ycrcbMat, crMat, 1); // Cr channel index is 1
 
         // Threshold the Cb channel to form a mask for blue
-        Imgproc.threshold(cbMat, blueThresholdMat, BLUE_MASK_THRESHOLD, 255, Imgproc.THRESH_BINARY);
+        Imgproc.threshold(cbMat, blueThresholdMat, Thresholds.BLUE_MASK_THRESHOLD, 255, Imgproc.THRESH_BINARY);
 
         // Threshold the Cr channel to form a mask for red
-        Imgproc.threshold(crMat, redThresholdMat, RED_MASK_THRESHOLD, 255, Imgproc.THRESH_BINARY);
+        Imgproc.threshold(crMat, redThresholdMat, Thresholds.RED_MASK_THRESHOLD, 255, Imgproc.THRESH_BINARY);
 
         // Threshold the Cb channel to form a mask for yellow
-        Imgproc.threshold(cbMat, yellowThresholdMat, YELLOW_MASK_THRESHOLD, 255, Imgproc.THRESH_BINARY_INV);
+        Imgproc.threshold(cbMat, yellowThresholdMat, Thresholds.YELLOW_MASK_THRESHOLD, 255, Imgproc.THRESH_BINARY_INV);
 
         // Apply morphology to the masks
         morphMask(blueThresholdMat, morphedBlueThreshold);
@@ -236,10 +246,17 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline
         ArrayList<MatOfPoint> yellowContoursList = new ArrayList<>();
         Imgproc.findContours(morphedYellowThreshold, yellowContoursList, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);
 
+        //draw contors
+        Imgproc.drawContours(input, yellowContoursList,-1, new Scalar(0,0,255),1,1);
+        Imgproc.drawContours(input, blueContoursList,-1, new Scalar(0,255,0),1,1);
+        Imgproc.drawContours(input, redContoursList,-1, new Scalar(255,0,0),1,1);
+
+
         // Now analyze the contours
         for(MatOfPoint contour : blueContoursList)
         {
             analyzeContour(contour, input, "Blue");
+
         }
 
         for(MatOfPoint contour : redContoursList)
@@ -251,6 +268,8 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline
         {
             analyzeContour(contour, input, "Yellow");
         }
+
+        //FtcDashboard.getInstance().startCameraStream(,0);
     }
 
     void morphMask(Mat input, Mat output)
@@ -274,6 +293,9 @@ public class SampleDetectionPipelinePNP extends OpenCvPipeline
 
         // Do a rect fit to the contour, and draw it on the screen
         RotatedRect rotatedRectFitToContour = Imgproc.minAreaRect(contour2f);
+        if(rotatedRectFitToContour.size.height<100||rotatedRectFitToContour.size.width<100){
+            return;
+        }
         drawRotatedRect(rotatedRectFitToContour, input, color);
 
         // The angle OpenCV gives us can be ambiguous, so look at the shape of
