@@ -24,12 +24,27 @@ public class Example1 extends LinearOpMode {
         rb.setPower(10);
     }
 
+    public void back() {
+        lf.setPower(-10);
+        rf.setPower(-10);
+        lb.setPower(-10);
+        rb.setPower(-10);
+    }
+
     public void left() {
         lf.setPower(5);
         rf.setPower(15);
         lb.setPower(5);
         rb.setPower(15);
     }
+
+    public void right() {
+        lf.setPower(15);
+        rf.setPower(5);
+        lb.setPower(15);
+        rb.setPower(5);
+    }
+
 
     public void Stop() {
         lf.setPower(0);
