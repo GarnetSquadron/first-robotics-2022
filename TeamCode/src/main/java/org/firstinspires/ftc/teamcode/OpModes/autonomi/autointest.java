@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 
 @TeleOp(name="auto intake test", group = "test")
 
-//imports from vision.java
+//imports from vision.java.
 
     public class autointest extends LinearOpMode {
     CRServo Ti;
