@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public final class NonDriveHardware {
+
     public static class Params {
     }
     public static NonDriveHardware.Params PARAMS = new NonDriveHardware.Params();

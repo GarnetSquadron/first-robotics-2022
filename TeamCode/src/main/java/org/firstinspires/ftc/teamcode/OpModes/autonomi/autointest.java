@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 
+import static org.firstinspires.ftc.teamcode.OpModes.autonomi.autointest.State.EJECTING;
+import static org.firstinspires.ftc.teamcode.OpModes.autonomi.autointest.State.HOLDING;
+import static org.firstinspires.ftc.teamcode.OpModes.autonomi.autointest.State.INTAKING;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -16,7 +20,8 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 
 //imports from vision.java.
 
-    public class autointest extends LinearOpMode {
+public class autointest extends LinearOpMode {
+
     CRServo Ti;
     CRServo Fi;
     CRServo Bi;
@@ -26,18 +31,23 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
         Ti.setPower(0);
         Fi.setPower(-1);
         Bi.setPower(+1);
+        telemetry.addLine("intaking");
     }
 
     public void eject() {
         Ti.setPower(+1);
         Fi.setPower(-1);
         Bi.setPower(0);
+        telemetry.addLine("ejecting");
+
     }
 
     public void hold() {
         Ti.setPower(0);
         Fi.setPower(0);
         Bi.setPower(0);
+        telemetry.addLine("holding");
+
     }
 
 //    public void send() {
@@ -45,8 +55,11 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 //        Fi.setPower(0);
 //        Bi.setPower(+1);
 //    }
-
-
+    public enum State{
+        INTAKING,
+        EJECTING,
+        HOLDING
+    }
     public void Onstart(){
 
         intake();
@@ -55,27 +68,31 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
                 telemetry.addData("red", cSensor.red());
                 telemetry.addData("green", cSensor.green());
                 telemetry.addData("blue", cSensor.blue());
-                telemetry.update();
 
 
                 double HighestColorValue = Math.max(Math.max(cSensor.red(), cSensor.green()),cSensor.blue());
-                boolean result = false;
-                if (HighestColorValue < 250)
+                State result = INTAKING;
+                if (HighestColorValue < 250) {
                     telemetry.addLine("No Color");
+                    result = INTAKING;
+                }
                 else if (cSensor.red() > cSensor.green() && cSensor.red() > cSensor.blue()) {
                     telemetry.addLine("red");
+                    result = EJECTING;
                 } else if (cSensor.green() > cSensor.red() && cSensor.green() > cSensor.blue()) {
                     telemetry.addLine("yellow");
-                    result = true;
+                    result = HOLDING;
                 } else if (cSensor.blue() > cSensor.red() && cSensor.blue() > cSensor.green()){
                     telemetry.addLine("blue");
-                    result = true;
+                    result = HOLDING;
+                }else{
+                    telemetry.addLine("Else has been reached");
                 }
-                telemetry.update();
 
 
 
-                if(result) {
+                double time = getRuntime();
+                if(result==HOLDING) {
                     hold();
 
 //                //run some rotation code for main arm servo here
@@ -95,12 +112,14 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 //                Bi.setPower(+1);
                 }
 
-
-                if(!result) {
+                else if(result ==EJECTING) {
                     eject();
-                    sleep(1500);
+                }
+                else{
                     intake();
                 }
+                telemetry.addData("TI power",Ti.getPower());
+                telemetry.update();
             }
         }
     public void runOpMode(){
