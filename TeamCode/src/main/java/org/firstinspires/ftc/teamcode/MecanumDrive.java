@@ -511,7 +511,7 @@ public class MecanumDrive {
      * I havent tested this yet but it should stay still for a given period of time
      * and importantly it should try to get back to where it was if it isnt there.
      */
-     public class StayAndWait implements Action {
+    public class StayAndWait implements Action {
          Pose2d beginPose, tgPose;
         double duration;
         double initTime;

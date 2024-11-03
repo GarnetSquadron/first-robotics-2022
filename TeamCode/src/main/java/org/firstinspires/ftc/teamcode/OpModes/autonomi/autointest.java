@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 //import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 //import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
-//import org.firstinspires.ftc.teamcode.SampleDetectionPipelinePNP;
+//import org.firstinspires.ftc.teamcode.Pipelines.SampleDetectionPipelinePNP;
 //import org.openftc.easyopencv.OpenCvCamera;
 //import org.openftc.easyopencv.OpenCvCameraFactory;
 //import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -131,7 +131,7 @@ public class autointest extends LinearOpMode {
         Onstart();
 
     }
-    }
+}
 
 
 

@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
+import org.firstinspires.ftc.teamcode.Pipelines.SampleDetectionPipelinePNP;
+import org.firstinspires.ftc.teamcode.Pipelines.SamplePipeline.AnalyzedStone;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -51,20 +53,20 @@ public class Vision {
     public void Calibrate(){
 
     }
-    public ArrayList<SampleDetectionPipelinePNP.AnalyzedStone> GetSampleList(){
+    public ArrayList<AnalyzedStone> GetSampleList(){
         return SamplePipeline.getDetectedStones();
     }
-    public double getDistanceAway(int i, ArrayList<SampleDetectionPipelinePNP.AnalyzedStone> SampleList){
-        SampleDetectionPipelinePNP.AnalyzedStone p;
+    public double getDistanceAway(int i, ArrayList<AnalyzedStone> SampleList){
+        AnalyzedStone p;
         if(SampleList.size()>i) {
             p = SampleList.get(i);
             return Math.hypot(Math.hypot(p.getX(),p.getY()),p.getZ());
         }
         return -1;
     }
-    public SampleDetectionPipelinePNP.AnalyzedStone getNearestSample(){
+    public AnalyzedStone getNearestSample(){
 
-        ArrayList<SampleDetectionPipelinePNP.AnalyzedStone> SampleList = GetSampleList();
+        ArrayList<AnalyzedStone> SampleList = GetSampleList();
         if(SampleList.size()==0){
             return null;
         }

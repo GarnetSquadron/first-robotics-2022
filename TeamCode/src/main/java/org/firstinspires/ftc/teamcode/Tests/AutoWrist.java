@@ -4,8 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.SampleDetectionPipelineAngledCam;
-import org.firstinspires.ftc.teamcode.SampleDetectionPipelinePNP;
+import org.firstinspires.ftc.teamcode.Pipelines.SamplePipeline.AnalyzedStone;
 import org.firstinspires.ftc.teamcode.Vision;
 
 @TeleOp(name = "AutoWristTest")
@@ -18,7 +17,7 @@ public class AutoWrist extends LinearOpMode {
         vision.InitPipeline(hardwareMap);
         waitForStart();
         while(opModeIsActive()){
-            SampleDetectionPipelinePNP.AnalyzedStone Sample = vision.getNearestSample();
+            AnalyzedStone Sample = vision.getNearestSample();
             if(Sample!=null) {
                 double pos = (Sample.getAngleRad()) / (2 * Math.PI);
                 //adjust for a possible 180 degree rotation

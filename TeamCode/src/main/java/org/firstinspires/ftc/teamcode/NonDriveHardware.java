@@ -14,14 +14,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public final class NonDriveHardware {
-
-    public static class Params {
-    }
-    public static NonDriveHardware.Params PARAMS = new NonDriveHardware.Params();
-
-
-
-
     public static DcMotor lift, arm, telearm;
     public static Servo claw;
     public static int teleArmStartingTick, liftStartingTick, armStartingTick;
@@ -274,8 +266,6 @@ public final class NonDriveHardware {
         public static double Ki = 0.5;
         public static double Kd = 0.5;
     }
-
-    public static LiftParams liftParams = new LiftParams();
     @Config
     public static class Lift extends DcMotorActions{
         public static int MaxTick = 100;
