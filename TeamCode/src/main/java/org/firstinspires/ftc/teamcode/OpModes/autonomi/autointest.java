@@ -74,7 +74,6 @@ public class autointest extends LinearOpMode {
                 State result = INTAKING;
                 if (HighestColorValue < 250) {
                     telemetry.addLine("No Color");
-                    result = INTAKING;
                 }
                 else if (cSensor.red() > cSensor.green() && cSensor.red() > cSensor.blue()) {
                     telemetry.addLine("red");
@@ -90,8 +89,6 @@ public class autointest extends LinearOpMode {
                 }
 
 
-
-                double time = getRuntime();
                 if(result==HOLDING) {
                     hold();
 
