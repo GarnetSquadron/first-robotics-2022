@@ -72,15 +72,15 @@ public abstract class SamplePipeline extends OpenCvPipeline {
     double cx = 640; // camera's principal point x-coordinate (usually image width / 2)
     double cy = 360; // camera's principal point y-coordinate (usually image height / 2)4
     //endregion
-    double angle;//angle of where the camera is pointing from vertical
-    double height;//height of the camera
+    double camAngle;//angle of where the camera is pointing from vertical
+    double camHeight;//height of the camera
 
     SamplePipeline() {
         // Initialize camera parameters
 
 
-        angle = 2;
-        height = 10;
+        camAngle = 0;
+        camHeight = 10;
 
         cameraMatrix.put(0, 0,
                 fx, 0,cx,
@@ -100,20 +100,22 @@ public abstract class SamplePipeline extends OpenCvPipeline {
         String color;
         Mat rvec;
         Mat tvec;
+        Point Pos;
         public double getAngleRad()
         {
             return Math.toRadians(angle);
         }
-        public double getX(){
-            return tvec.get(0,0)[0];
+        public Point getPos(){
+            return Pos;
         }
-        public double getY(){
-            return tvec.get(1,0)[0];
-        }
-        public double getZ(){
-            return tvec.get(2,0)[0];
+        public void setPos(Point p){
+            Pos = p;
         }
 
+    }
+    public ArrayList<AnalyzedStone> getDetectedStones()
+    {
+        return clientStoneList;
     }
 
 
@@ -143,7 +145,6 @@ public abstract class SamplePipeline extends OpenCvPipeline {
         MASKS_NR,
         CONTOURS;
     }
-
 
     //region perspective math
     Point getLowestPixel(Mat input){
@@ -333,6 +334,8 @@ public abstract class SamplePipeline extends OpenCvPipeline {
         Imgproc.line(img, imgPts[0], imgPts[2], new Scalar(0, 255, 0), 2); // Y axis in green
         Imgproc.line(img, imgPts[0], imgPts[3], new Scalar(255, 0, 0), 2); // Z axis in blue
     }
+
+    //endregion
     void morphMask(Mat input, Mat output)
     {
         /*
@@ -345,6 +348,5 @@ public abstract class SamplePipeline extends OpenCvPipeline {
         Imgproc.dilate(output, output, dilateElement);
         Imgproc.dilate(output, output, dilateElement);
     }
-    //endregion
 }
 

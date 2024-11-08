@@ -1,33 +1,22 @@
 package org.firstinspires.ftc.teamcode.Pipelines;
 
-import org.openftc.easyopencv.OpenCvPipeline;
-
-import org.opencv.calib3d.Calib3d;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
-import org.opencv.core.MatOfDouble;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
-import org.opencv.core.MatOfPoint3f;
-import org.opencv.core.Point3;
 import org.opencv.core.Point;
 import org.opencv.core.RotatedRect;
-import org.opencv.core.Scalar;
-import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
-import org.firstinspires.ftc.teamcode.Pipelines.SamplePipeline.AnalyzedStone;
-import org.firstinspires.ftc.teamcode.Pipelines.SamplePipeline.Stage;
 
 import java.util.ArrayList;
 
 public class SampleDetectionPipelineAngledCam extends SamplePipeline
 {
-    //region Some stuff to handle returning our various buffers
+    // Some stuff to handle returning our various buffers
     Stage[] stages = Stage.values();
 
     // Keep track of what stage the viewport is showing
     int stageNum = 0;
-    //endregion
 
     @Override
     public void onViewportTapped()
@@ -93,10 +82,6 @@ public class SampleDetectionPipelineAngledCam extends SamplePipeline
 
         return input;
     }
-    public ArrayList<AnalyzedStone> getDetectedStones()
-    {
-        return clientStoneList;
-    }
     void findContours(Mat input)
     {
         // Convert the input image to YCrCb color space
@@ -123,22 +108,11 @@ public class SampleDetectionPipelineAngledCam extends SamplePipeline
         morphMask(yellowThresholdMat, morphedYellowThreshold);
 
         //get the approximate position of the nearest sample
-        getPoseOfClosestPixel(morphedBlueThreshold,cameraMatrix,angle,height);
-        getPoseOfClosestPixel(morphedRedThreshold,cameraMatrix,angle,height);
-        getPoseOfClosestPixel(morphedYellowThreshold,cameraMatrix,angle,height);
+        getPoseOfClosestPixel(morphedBlueThreshold,cameraMatrix, camAngle, camHeight);
+        getPoseOfClosestPixel(morphedRedThreshold,cameraMatrix, camAngle, camHeight);
+        getPoseOfClosestPixel(morphedYellowThreshold,cameraMatrix, camAngle, camHeight);
     }
-    void morphMask(Mat input, Mat output)
-    {
-        /*
-         * Apply some erosion and dilation for noise reduction
-         */
 
-        Imgproc.erode(input, output, erodeElement);
-        Imgproc.erode(output, output, erodeElement);
-
-        Imgproc.dilate(output, output, dilateElement);
-        Imgproc.dilate(output, output, dilateElement);
-    }
     void analyzeContour(MatOfPoint contour, Mat input, String color)
     {
         // Transform the contour to a different format
@@ -165,6 +139,7 @@ public class SampleDetectionPipelineAngledCam extends SamplePipeline
         AnalyzedStone analyzedStone = new AnalyzedStone();
         analyzedStone.angle = rotRectAngle;
         analyzedStone.color = color;
+        analyzedStone.setPos(getCoordOnFloorFromCoordOnScreen(rotatedRectFitToContour.center,cameraMatrix,camAngle, camHeight));
         internalStoneList.add(analyzedStone);
     }
 }

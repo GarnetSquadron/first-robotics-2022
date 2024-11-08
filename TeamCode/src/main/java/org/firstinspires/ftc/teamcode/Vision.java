@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
+import org.firstinspires.ftc.teamcode.Pipelines.SampleDetectionPipelineAngledCam;
 import org.firstinspires.ftc.teamcode.Pipelines.SampleDetectionPipelinePNP;
 import org.firstinspires.ftc.teamcode.Pipelines.SamplePipeline.AnalyzedStone;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -22,7 +23,7 @@ public class Vision {
     Telemetry telemetry;
     WebcamName webcamName;
     Servo s;
-    public SampleDetectionPipelinePNP SamplePipeline = new SampleDetectionPipelinePNP();
+    public SampleDetectionPipelineAngledCam Pipeline = new SampleDetectionPipelineAngledCam();
     public Vision(HardwareMap hardwareMap, Telemetry t){
         this.hardwareMap = hardwareMap;
         telemetry=t;
@@ -32,7 +33,7 @@ public class Vision {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "Id", hardwareMap.appContext.getPackageName());
         webcam1 = OpenCvCameraFactory.getInstance().createWebcam(webcamName, cameraMonitorViewId);
 
-        webcam1.setPipeline(SamplePipeline);
+        webcam1.setPipeline(Pipeline);
 
         webcam1.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
@@ -54,13 +55,13 @@ public class Vision {
 
     }
     public ArrayList<AnalyzedStone> GetSampleList(){
-        return SamplePipeline.getDetectedStones();
+        return Pipeline.getDetectedStones();
     }
     public double getDistanceAway(int i, ArrayList<AnalyzedStone> SampleList){
         AnalyzedStone p;
         if(SampleList.size()>i) {
             p = SampleList.get(i);
-            return Math.hypot(Math.hypot(p.getX(),p.getY()),p.getZ());
+            return Math.hypot(p.getPos().x,p.getPos().y);
         }
         return -1;
     }

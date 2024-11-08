@@ -1,61 +1,17 @@
 package org.firstinspires.ftc.teamcode.Pipelines;
 
-import org.openftc.easyopencv.OpenCvPipeline;
-
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
 import org.opencv.core.RotatedRect;
-import org.opencv.core.Scalar;
-import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
-import org.firstinspires.ftc.teamcode.Pipelines.SamplePipeline.AnalyzedStone;
-import org.firstinspires.ftc.teamcode.Pipelines.SamplePipeline.Stage;
 
 import java.util.ArrayList;
 
 public class SampleDetectionPipeline extends SamplePipeline
 {
-    /*
-     * Working image buffers
-     */
-    Mat ycrcbMat = new Mat();
-    Mat crMat = new Mat();
-    Mat cbMat = new Mat();
-
-    Mat blueThresholdMat = new Mat();
-    Mat redThresholdMat = new Mat();
-    Mat yellowThresholdMat = new Mat();
-
-    Mat morphedBlueThreshold = new Mat();
-    Mat morphedRedThreshold = new Mat();
-    Mat morphedYellowThreshold = new Mat();
-
-    Mat contoursOnPlainImageMat = new Mat();
-
-
-    /*
-     * Elements for noise reduction
-     */
-    Mat erodeElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(3.5, 3.5));
-    Mat dilateElement = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(3.5, 3.5));
-
-    /*
-     * Colors
-     */
-
-    static final int CONTOUR_LINE_THICKNESS = 2;
-
-    ArrayList<AnalyzedStone> internalStoneList = new ArrayList<>();
-    volatile ArrayList<AnalyzedStone> clientStoneList = new ArrayList<>();
-
-    /*
-     * Viewport stages
-     */
-
-
     Stage[] stages = Stage.values();
     int stageNum = 0;
 
@@ -181,19 +137,6 @@ public class SampleDetectionPipeline extends SamplePipeline
             analyzeContour(contour, input, "Yellow");
         }
     }
-
-    void morphMask(Mat input, Mat output)
-    {
-        /*
-         * Apply erosion and dilation for noise reduction
-         */
-        Imgproc.erode(input, output, erodeElement);
-        Imgproc.erode(output, output, erodeElement);
-
-        Imgproc.dilate(output, output, dilateElement);
-        Imgproc.dilate(output, output, dilateElement);
-    }
-
     void analyzeContour(MatOfPoint contour, Mat input, String color)
     {
         // Transform the contour to a different format
@@ -220,39 +163,8 @@ public class SampleDetectionPipeline extends SamplePipeline
         AnalyzedStone analyzedStone = new AnalyzedStone();
         analyzedStone.angle = rotRectAngle;
         analyzedStone.color = color;
+
         internalStoneList.add(analyzedStone);
-    }
-
-    static void drawTagText(RotatedRect rect, String text, Mat mat, String color)
-    {
-        Scalar colorScalar = getColorScalar(color);
-
-        Imgproc.putText(
-                mat, // The buffer we're drawing on
-                text, // The text we're drawing
-                new Point( // The anchor point for the text
-                        rect.center.x - 50,  // x anchor point
-                        rect.center.y + 25), // y anchor point
-                Imgproc.FONT_HERSHEY_PLAIN, // Font
-                1, // Font size
-                colorScalar, // Font color
-                1); // Font thickness
-    }
-
-    static void drawRotatedRect(RotatedRect rect, Mat drawOn, String color)
-    {
-        /*
-         * Draws a rotated rectangle by drawing each of the 4 lines individually
-         */
-        Point[] points = new Point[4];
-        rect.points(points);
-
-        Scalar colorScalar = getColorScalar(color);
-
-        for (int i = 0; i < 4; ++i)
-        {
-            Imgproc.line(drawOn, points[i], points[(i + 1) % 4], colorScalar, 2);
-        }
     }
 
 

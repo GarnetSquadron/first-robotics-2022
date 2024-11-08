@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Pipelines.SamplePipeline.AnalyzedStone;
 import org.firstinspires.ftc.teamcode.Vision;
 
-@TeleOp(name = "AutoWristTest")
+@TeleOp(name = "AutoWristTest", group = "tests")
 public class AutoWrist extends LinearOpMode {
     Servo wrist;
     Vision vision = new Vision(hardwareMap,telemetry);
