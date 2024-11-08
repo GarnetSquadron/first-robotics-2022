@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Pipelines;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.Pose2d;
 
 import org.opencv.calib3d.Calib3d;
 import org.opencv.core.MatOfPoint2f;
@@ -58,10 +59,33 @@ public abstract class SamplePipeline extends OpenCvPipeline {
 
     static final int CONTOUR_LINE_THICKNESS = 2;
 
+    //region AnilyzedStone
+    public static class AnalyzedStone
+    {
+        double angle;
+        String color;
+        Mat rvec;
+        Mat tvec;
+        Point Pos;
+        public double getAngleRad()
+        {
+            return Math.toRadians(angle);
+        }
+        public Point getPos(){
+            return Pos;
+        }
+        public Pose2d getPose2d(){
+            return new Pose2d(getPos().x,getPos().y,getAngleRad());
+        }
+        public void setPos(Point p){
+            Pos = p;
+        }
 
+    }
     ArrayList<AnalyzedStone> internalStoneList = new ArrayList<>();
     volatile ArrayList<AnalyzedStone> clientStoneList = new ArrayList<>();
 
+    //endregion
 
     public static Mat cameraMatrix = new Mat(3, 3, CvType.CV_64FC1);
     public static MatOfDouble distCoeffs = new MatOfDouble();
@@ -94,25 +118,7 @@ public abstract class SamplePipeline extends OpenCvPipeline {
     }
 
 
-    public static class AnalyzedStone
-    {
-        double angle;
-        String color;
-        Mat rvec;
-        Mat tvec;
-        Point Pos;
-        public double getAngleRad()
-        {
-            return Math.toRadians(angle);
-        }
-        public Point getPos(){
-            return Pos;
-        }
-        public void setPos(Point p){
-            Pos = p;
-        }
 
-    }
     public ArrayList<AnalyzedStone> getDetectedStones()
     {
         return clientStoneList;

@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Pipelines.SamplePipeline;
 import org.firstinspires.ftc.teamcode.Vision;
+import org.opencv.core.Point;
 
 @TeleOp(name = "AutoAlign", group = "tests")
 public class AutoAlign extends OpMode {
@@ -26,7 +27,7 @@ public class AutoAlign extends OpMode {
     @Override
     public void loop() {
         SamplePipeline.AnalyzedStone Sample = vision.getNearestSample();
-        drive.actionBuilder(beginPose).splineToSplineHeading(new Pose2d(0,0,0),0);
-        //Actions.runBlocking();
+        Action path = drive.actionBuilder(beginPose).splineToSplineHeading(Sample.getPose2d(),Sample.getAngleRad()).build();
+        Actions.runBlocking(path);
     }
 }
