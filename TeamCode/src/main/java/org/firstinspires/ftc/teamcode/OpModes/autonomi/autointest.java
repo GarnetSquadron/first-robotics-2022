@@ -74,7 +74,6 @@ public class autointest extends LinearOpMode {
                 State result = INTAKING;
                 if (HighestColorValue < 250) {
                     telemetry.addLine("No Color");
-                    result = INTAKING;
                 }
                 else if (cSensor.red() > cSensor.green() && cSensor.red() > cSensor.blue()) {
                     telemetry.addLine("red");
@@ -90,26 +89,23 @@ public class autointest extends LinearOpMode {
                 }
 
 
-
-                double time = getRuntime();
                 if(result==HOLDING) {
+
                     hold();
 
 //                //run some rotation code for main arm servo here
 //
 //                sleep(1000);
 //
-//                Ti.setPower(-1);
-//                Fi.setPower(0);
-//                Bi.setPower(+1);
+//                send();
+//
+//                sleep(1000);
+//
+//                hold()
 //
 //                //run some rotation code for main arm servo here
 //
 //                sleep (1000);
-//
-//                Ti.setPower(0);
-//                Fi.setPower(-1);
-//                Bi.setPower(+1);
                 }
 
                 else if(result ==EJECTING) {
