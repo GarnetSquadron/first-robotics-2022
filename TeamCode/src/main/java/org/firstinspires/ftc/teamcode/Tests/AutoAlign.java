@@ -26,7 +26,7 @@ public class AutoAlign extends OpMode {
     @Override
     public void loop() {
         SamplePipeline.AnalyzedStone Sample = vision.getNearestSample();
-        drive.actionBuilder(beginPose).splineToSplineHeading(new Pose2d(),);
+        drive.actionBuilder(beginPose).splineToSplineHeading(new Pose2d(0,0,0),0);
         //Actions.runBlocking();
     }
 }
