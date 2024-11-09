@@ -72,11 +72,11 @@ public class autointest extends LinearOpMode {
 //
 //                sleep(1000);
 //
-//                send();
+//                triangleIntake.send();
 //
 //                sleep(1000);
 //
-//                hold()
+//                triangleIntake.hold()
 //
 //                //run some rotation code for main arm servo here
 //
