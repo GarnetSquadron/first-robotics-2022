@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.ViperSlidesSubSystem;
 
 @TeleOp(name = "ViperTest", group = "tests")
 public class ViperTest extends OpMode {
-    ViperSlidesSubSystem viperSlides
+    ViperSlidesSubSystem viperSlides;
     @Override
     public void init() {
         viperSlides = new ViperSlidesSubSystem(hardwareMap,"motor", "motor");
