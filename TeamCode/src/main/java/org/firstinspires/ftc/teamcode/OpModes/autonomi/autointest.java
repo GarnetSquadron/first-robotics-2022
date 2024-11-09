@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+
+import org.firstinspires.ftc.teamcode.Subsystems.TriangleIntake;
 //import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 //import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
 //import org.firstinspires.ftc.teamcode.Pipelines.SampleDetectionPipelinePNP;
@@ -21,40 +23,13 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 //imports from vision.java.
 
 public class autointest extends LinearOpMode {
+    TriangleIntake triangleIntake = new TriangleIntake(hardwareMap,"IntakeServo1", "IntakeServo2", "IntakeServo3");
 
     CRServo Ti;
     CRServo Fi;
     CRServo Bi;
     ColorSensor cSensor;
 
-    public void intake() {
-        Ti.setPower(0);
-        Fi.setPower(-1);
-        Bi.setPower(+1);
-        telemetry.addLine("intaking");
-    }
-
-    public void eject() {
-        Ti.setPower(+1);
-        Fi.setPower(-1);
-        Bi.setPower(0);
-        telemetry.addLine("ejecting");
-
-    }
-
-    public void hold() {
-        Ti.setPower(0);
-        Fi.setPower(0);
-        Bi.setPower(0);
-        telemetry.addLine("holding");
-
-    }
-
-//    public void send() {
-//        Ti.setPower(-1);
-//        Fi.setPower(0);
-//        Bi.setPower(+1);
-//    }
     public enum State{
         INTAKING,
         EJECTING,
@@ -62,7 +37,7 @@ public class autointest extends LinearOpMode {
     }
     public void Onstart(){
 
-        intake();
+        triangleIntake.intake();
 
             while(opModeIsActive()){
                 telemetry.addData("red", cSensor.red());
@@ -91,7 +66,7 @@ public class autointest extends LinearOpMode {
 
                 if(result==HOLDING) {
 
-                    hold();
+                    triangleIntake.hold();
 
 //                //run some rotation code for main arm servo here
 //
@@ -109,10 +84,10 @@ public class autointest extends LinearOpMode {
                 }
 
                 else if(result ==EJECTING) {
-                    eject();
+                    triangleIntake.eject();
                 }
                 else{
-                    intake();
+                    triangleIntake.intake();
                 }
                 telemetry.addData("TI power",Ti.getPower());
                 telemetry.update();
