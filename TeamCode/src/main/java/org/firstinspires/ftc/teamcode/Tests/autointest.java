@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.teamcode.Subsystems.TriangleIntake;
-import org.firstinspires.ftc.teamcode.Subsystems.ViperSlidesSubSystem;
+import org.firstinspires.ftc.teamcode.Subsystems.CrankSlideSubSystem;
 //import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 //import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
 //import org.firstinspires.ftc.teamcode.Pipelines.SampleDetectionPipelinePNP;
@@ -24,9 +24,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.ViperSlidesSubSystem;
 //imports from vision.java.
 
 public class autointest extends LinearOpMode {
-    TriangleIntake triangleIntake;
-    ViperSlidesSubSystem v;
-
+    TriangleIntake triangleIntake = new TriangleIntake(hardwareMap,"IntakeServo1", "IntakeServo2", "IntakeServo3");
+    CrankSlideSubSystem crankSlideSubSystem = new CrankSlideSubSystem(hardwareMap, "CrankL","CrankR");
     CRServo Ti;
     CRServo Fi;
     CRServo Bi;
@@ -61,27 +60,19 @@ public class autointest extends LinearOpMode {
                     telemetry.addLine("blue");
                     result = HOLDING;
                 }else{
-                    telemetry.addLine("Else has been reached. Something is very very wrong.");
+                    telemetry.addLine("Else has been reached");
                 }
 
                 if(result == HOLDING) {
 
-                    triangleIntake.hold();
+                triangleIntake.hold();
 
+                crankSlideSubSystem.Return();
 
-//                //run some rotation code for main arm servo here.
-//
-//                sleep(1000);
-//
-//                triangleIntake.send();
-//
-//                sleep(1000);
-//
-//                triangleIntake.hold()
-//
-//                //run some rotation code for main arm servo here.
-//
-//                sleep (1000);
+                triangleIntake.send();
+
+                crankSlideSubSystem.Extend();
+
                 }
 
                 else if(result == EJECTING) {
@@ -100,8 +91,6 @@ public class autointest extends LinearOpMode {
                     triangleIntake.intake();
 
                 }
-                telemetry.addData("Mode", result);
-                telemetry.update();
             }
         }
 
@@ -110,7 +99,6 @@ public class autointest extends LinearOpMode {
         Ti = hardwareMap.get(CRServo.class,"IntakeServo1");
         Fi = hardwareMap.get(CRServo.class,"IntakeServo2");
         Bi = hardwareMap.get(CRServo.class,"IntakeServo3");
-        triangleIntake = new TriangleIntake(hardwareMap,"IntakeServo1", "IntakeServo2", "IntakeServo3","IntakePivot");
         waitForStart();
         Onstart();
     }
