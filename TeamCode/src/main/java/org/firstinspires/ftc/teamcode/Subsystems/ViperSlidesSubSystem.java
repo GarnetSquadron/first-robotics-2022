@@ -17,6 +17,7 @@ public class ViperSlidesSubSystem extends SubsystemBase{
     public ViperSlidesSubSystem(HardwareMap hardwareMap, String name1, String name2){
         //l = new Motor(hardwareMap,name1);
         r = new Motor(hardwareMap,name2);
+        //l.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         r.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
 
     }
