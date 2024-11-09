@@ -8,13 +8,14 @@ import org.firstinspires.ftc.teamcode.NonDriveHardware;
 
 @TeleOp(name="Motor Tick Test", group="tuning")
 public class MotorTickTest extends LinearOpMode {
+    DcMotor motor;
     @Override
     public void runOpMode() throws InterruptedException {
-        NonDriveHardware nonDriveHardware = new NonDriveHardware(hardwareMap, 0, 0, 0);
+        motor = hardwareMap.get(DcMotor.class, "motor");
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         waitForStart();
         while(opModeIsActive()){
-            telemetry.addData("Lift ticks",NonDriveHardware.lift.getCurrentPosition());
-            telemetry.addData("Arm ticks",NonDriveHardware.arm.getCurrentPosition());
+            telemetry.addData("Motor ticks",motor.getCurrentPosition());
             telemetry.update();
 
         }

@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.teamcode.Subsystems.TriangleIntake;
+import org.firstinspires.ftc.teamcode.Subsystems.ViperSlidesSubSystem;
 //import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 //import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
 //import org.firstinspires.ftc.teamcode.Pipelines.SampleDetectionPipelinePNP;
@@ -23,7 +24,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.TriangleIntake;
 //imports from vision.java.
 
 public class autointest extends LinearOpMode {
-    TriangleIntake triangleIntake = new TriangleIntake(hardwareMap,"IntakeServo1", "IntakeServo2", "IntakeServo3");
+    TriangleIntake triangleIntake;
+    ViperSlidesSubSystem v;
 
     CRServo Ti;
     CRServo Fi;
@@ -59,12 +61,13 @@ public class autointest extends LinearOpMode {
                     telemetry.addLine("blue");
                     result = HOLDING;
                 }else{
-                    telemetry.addLine("Else has been reached");
+                    telemetry.addLine("Else has been reached. Something is very very wrong.");
                 }
 
                 if(result == HOLDING) {
 
                     triangleIntake.hold();
+
 
 //                //run some rotation code for main arm servo here.
 //
@@ -97,6 +100,8 @@ public class autointest extends LinearOpMode {
                     triangleIntake.intake();
 
                 }
+                telemetry.addData("Mode", result);
+                telemetry.update();
             }
         }
 
@@ -105,6 +110,7 @@ public class autointest extends LinearOpMode {
         Ti = hardwareMap.get(CRServo.class,"IntakeServo1");
         Fi = hardwareMap.get(CRServo.class,"IntakeServo2");
         Bi = hardwareMap.get(CRServo.class,"IntakeServo3");
+        triangleIntake = new TriangleIntake(hardwareMap,"IntakeServo1", "IntakeServo2", "IntakeServo3","IntakePivot");
         waitForStart();
         Onstart();
     }
