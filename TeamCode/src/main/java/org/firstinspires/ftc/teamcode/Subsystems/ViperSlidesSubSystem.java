@@ -11,7 +11,7 @@ public class ViperSlidesSubSystem extends SubsystemBase{
     private final Motor r;
     private final int LMaxPos = -4000;
     private final int LMinPos = 0;
-    private final int RMaxPos = -4000;
+    private final int RMaxPos = 4000;
     private final int RMinPos = 0;
     private double posCoefficient = 0.05;
     public ViperSlidesSubSystem(HardwareMap hardwareMap, String name1, String name2){
