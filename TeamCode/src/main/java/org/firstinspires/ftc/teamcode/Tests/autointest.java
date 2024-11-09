@@ -82,15 +82,24 @@ public class autointest extends LinearOpMode {
                 }
 
                 else if(result == EJECTING) {
-                    triangleIntake.eject();
+
+                    long duration = 500;
+                    long startTime = System.currentTimeMillis();
+
+                    while (System.currentTimeMillis() - startTime < duration) {
+
+                        triangleIntake.eject();
+
+                    }
                 }
+
                 else{
                     triangleIntake.intake();
+
                 }
-                telemetry.addData("TI power",Ti.getPower());
-                telemetry.update();
             }
         }
+
     public void runOpMode(){
         cSensor = hardwareMap.get(ColorSensor.class, "ColorSensor");
         Ti = hardwareMap.get(CRServo.class,"IntakeServo1");

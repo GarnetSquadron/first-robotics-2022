@@ -16,6 +16,7 @@ public class TriangleIntake extends SubsystemBase {
         Fi = hardwareMap.get(CRServo.class,name2);
         Bi = hardwareMap.get(CRServo.class,name3);
     }
+
     public void intake() {
         Ti.setPower(0);
         Fi.setPower(-1);
