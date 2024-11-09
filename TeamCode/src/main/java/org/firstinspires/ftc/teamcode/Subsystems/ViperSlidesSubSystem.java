@@ -13,7 +13,7 @@ public class ViperSlidesSubSystem extends SubsystemBase{
     private final int MinPos = 0;
     private double posCoefficient = 0.05;
     public ViperSlidesSubSystem(HardwareMap hardwareMap, String name1, String name2){
-        l = hardwareMap.get(Motor.class,name1);
+        l = new Motor(hardwareMap,name1);
         //r = hardwareMap.get(Motor.class,name2);
 
     }
