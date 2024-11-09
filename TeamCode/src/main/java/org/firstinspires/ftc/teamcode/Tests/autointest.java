@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.OpModes.autonomi;
+package org.firstinspires.ftc.teamcode.Tests;
 
-import static org.firstinspires.ftc.teamcode.OpModes.autonomi.autointest.State.EJECTING;
-import static org.firstinspires.ftc.teamcode.OpModes.autonomi.autointest.State.HOLDING;
-import static org.firstinspires.ftc.teamcode.OpModes.autonomi.autointest.State.INTAKING;
+import static org.firstinspires.ftc.teamcode.Tests.autointest.State.EJECTING;
+import static org.firstinspires.ftc.teamcode.Tests.autointest.State.HOLDING;
+import static org.firstinspires.ftc.teamcode.Tests.autointest.State.INTAKING;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -44,10 +44,9 @@ public class autointest extends LinearOpMode {
                 telemetry.addData("green", cSensor.green());
                 telemetry.addData("blue", cSensor.blue());
 
-
                 double HighestColorValue = Math.max(Math.max(cSensor.red(), cSensor.green()),cSensor.blue());
                 State result = INTAKING;
-                if (HighestColorValue < 250) {
+                if (HighestColorValue < 200) {
                     telemetry.addLine("No Color");
                 }
                 else if (cSensor.red() > cSensor.green() && cSensor.red() > cSensor.blue()) {
@@ -63,8 +62,7 @@ public class autointest extends LinearOpMode {
                     telemetry.addLine("Else has been reached");
                 }
 
-
-                if(result==HOLDING) {
+                if(result == HOLDING) {
 
                     triangleIntake.hold();
 
@@ -83,7 +81,7 @@ public class autointest extends LinearOpMode {
 //                sleep (1000);
                 }
 
-                else if(result ==EJECTING) {
+                else if(result == EJECTING) {
                     triangleIntake.eject();
                 }
                 else{
@@ -100,7 +98,6 @@ public class autointest extends LinearOpMode {
         Bi = hardwareMap.get(CRServo.class,"IntakeServo3");
         waitForStart();
         Onstart();
-
     }
 }
 
