@@ -19,7 +19,7 @@ public class CrankTest extends OpMode {
         if(gamepad1.x){
             crank.Extend();
         }
-        if(gamepad2.y){
+        if(gamepad1.y){
             crank.Return();
         }
     }

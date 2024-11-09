@@ -7,9 +7,14 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 public class ViperSlidesSubSystem extends SubsystemBase{
     private final DcMotor l;
     private final DcMotor r;
+    private final double MaxPos = 200;
+    private final double MinPos = 0;
     public ViperSlidesSubSystem(HardwareMap hardwareMap, String name1, String name2, String name3){
         l = hardwareMap.get(DcMotor.class,name1);
         r = hardwareMap.get(DcMotor.class,name2);
+    }
+    public void MoveToPosition(){
+
     }
     public void Extend() {
         l.setPower(-0.25);

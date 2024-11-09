@@ -24,7 +24,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.CrankSlideSubSystem;
 //imports from vision.java.
 
 public class autointest extends LinearOpMode {
-    TriangleIntake triangleIntake = new TriangleIntake(hardwareMap,"IntakeServo1", "IntakeServo2", "IntakeServo3");
+    TriangleIntake triangleIntake = new TriangleIntake(hardwareMap,"IntakeServo1", "IntakeServo2", "IntakeServo3","pivot");
     CrankSlideSubSystem crankSlideSubSystem = new CrankSlideSubSystem(hardwareMap, "CrankL","CrankR");
     CRServo Ti;
     CRServo Fi;
