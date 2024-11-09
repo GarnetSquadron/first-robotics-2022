@@ -25,7 +25,7 @@ public class TriangleIntake extends SubsystemBase {
     }
 
     public void eject() {
-        Ti.setPower(-1);
+        Ti.setPower(+1);
         Fi.setPower(+1);
         Bi.setPower(0);
         telemetry.addLine("ejecting");
@@ -40,7 +40,7 @@ public class TriangleIntake extends SubsystemBase {
 
     }
         public void send() {
-        Ti.setPower(-1);
+        Ti.setPower(+1);
         Fi.setPower(0);
         Bi.setPower(+1);
     }

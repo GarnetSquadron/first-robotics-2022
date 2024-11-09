@@ -83,7 +83,7 @@ public class autointest extends LinearOpMode {
 
                 else if(result == EJECTING) {
 
-                    long duration = 1000;
+                    long duration = 1500;
                     long startTime = System.currentTimeMillis();
 
                     while (System.currentTimeMillis() - startTime < duration) {
@@ -110,7 +110,7 @@ public class autointest extends LinearOpMode {
     }
 }
 
-                    //commit
+                    
 
 
 
