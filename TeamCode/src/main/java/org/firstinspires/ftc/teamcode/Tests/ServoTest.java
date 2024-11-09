@@ -15,6 +15,7 @@ public class ServoTest extends LinearOpMode {
             if (gamepad1.x) {
                 servo.setPosition(1);
             }
+
             if (gamepad1.a) {
                 servo.setPosition(0.66666);
             }

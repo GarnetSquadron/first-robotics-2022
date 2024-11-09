@@ -8,16 +8,19 @@ public class CrankSlideSubSystem extends SubsystemBase {
     private final Servo CrankL;
     private final Servo CrankR;
 
-    public CrankSlideSubSystem(HardwareMap hardwareMap, String name1, String name2, String name3) {
+    public CrankSlideSubSystem(HardwareMap hardwareMap, String name1, String name2) {
         CrankL = hardwareMap.get(Servo.class, name1);
         CrankR = hardwareMap.get(Servo.class, name2);
+        CrankR.setDirection(Servo.Direction.REVERSE);
+    }
+    public void goToPos(double pos){
+        CrankL.setPosition(2*pos/3.0);
+        CrankR.setPosition(2*pos/3.0);
     }
     public void Extend() {
-        CrankL.setPosition(+160/360);
-        CrankR.setPosition(-160/360);
+        goToPos(0);
     }
     public void Return() {
-        CrankL.setPosition(-160/360);
-        CrankR.setPosition(+160/360);
+        goToPos(1);
     }
 }
