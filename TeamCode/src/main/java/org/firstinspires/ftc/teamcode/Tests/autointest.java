@@ -78,16 +78,18 @@ public class autointest extends LinearOpMode {
                 else if(result == EJECTING) {
 
                     long duration = 1500;
+
                     long startTime = System.currentTimeMillis();
 
                     while (System.currentTimeMillis() - startTime < duration) {
 
-                        triangleIntake.eject();
+                    triangleIntake.eject();
 
                     }
                 }
 
                 else{
+
                     triangleIntake.intake();
 
                 }
