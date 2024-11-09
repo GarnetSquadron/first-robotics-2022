@@ -12,12 +12,14 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.Drawing;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.teamcode.Subsystems.ViperSlidesSubSystem;
 import org.firstinspires.ftc.teamcode.TankDrive;
 import org.firstinspires.ftc.teamcode.tuning.TuningOpModes;
-
+///import ViperSlidesSubSystem;
 
 @TeleOp(name = "Headless Drive")
 public class HeadlessDrive extends LinearOpMode {
+    ViperSlidesSubSystem viperSlidesSubSystem = new ViperSlidesSubSystem();
     /**
      * put this in a loop so that it updates the position
      * @param drive the MecanumDrive instance
@@ -84,6 +86,14 @@ public class HeadlessDrive extends LinearOpMode {
             }
         } else {
             throw new RuntimeException();
+        }
+
+        if (gamepad1.right_bumper) {
+           viperSlidesSubSystem.Extend();
+        } else if (gamepad1.left_bumper) {
+            viperSlidesSubSystem.Return();
+        } else {
+            viperSlidesSubSystem.Stop();
         }
     }
 
