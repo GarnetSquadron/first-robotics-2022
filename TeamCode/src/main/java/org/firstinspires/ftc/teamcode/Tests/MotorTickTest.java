@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.NonDriveHardware;
 public class MotorTickTest extends LinearOpMode {
     DcMotor motor;
     @Override
+
     public void runOpMode() throws InterruptedException {
         motor = hardwareMap.get(DcMotor.class, "motor");
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
