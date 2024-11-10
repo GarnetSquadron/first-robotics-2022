@@ -27,7 +27,6 @@ public class ViperSlidesSubSystem extends SubsystemBase{
 
 // set and get the position coefficient
         motor.setPositionCoefficient(PC);
-        double kP = motor.getPositionCoefficient();
 
 // set the target position
         motor.setTargetPosition(pos);      // an integer representing
@@ -39,10 +38,12 @@ public class ViperSlidesSubSystem extends SubsystemBase{
         motor.setPositionTolerance(13.6);   // allowed maximum error
 
 // perform the control loop
-        while (!motor.atTargetPosition()) {
+        if (!motor.atTargetPosition()) {
             motor.set(1);
         }
-        motor.stopMotor(); // stop the motor
+        else {
+            motor.stopMotor();// stop the motor
+        }
     }
     int getPos(int min, int max, double pos){
         return min+(int)Math.round(pos*(max-min));
