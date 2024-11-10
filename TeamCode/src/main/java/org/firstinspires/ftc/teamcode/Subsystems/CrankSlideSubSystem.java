@@ -12,9 +12,9 @@ public class CrankSlideSubSystem extends SubsystemBase {
         return 4.0/(teeth*3.0);
     }
     private double LeftMax = 0.3333;
-    private double RightMax = 1-getToothSize(SplineTeeth);
+    private double RightMax = 1-getToothSize(SplineTeeth)/2.0;
     private double LeftMin = 1;
-    private double RightMin = 0.3333-getToothSize(SplineTeeth);
+    private double RightMin = 0.3333-getToothSize(SplineTeeth)/2.0;
 
     public CrankSlideSubSystem(HardwareMap hardwareMap, String name1, String name2) {
         CrankL = hardwareMap.get(Servo.class, name1);
