@@ -20,14 +20,20 @@ public class AutoAlign extends OpMode {
     MecanumDrive drive;
     @Override
     public void init() {
+        telemetry.addLine("1");
         drive = new MecanumDrive(hardwareMap,beginPose);
+        telemetry.addLine("2");
         vision = new Vision(hardwareMap,telemetry);
+        telemetry.addLine("3");
         wrist = hardwareMap.get(Servo.class, "wrist");
+        telemetry.addLine("4");
         vision.InitPipeline(hardwareMap);
+        telemetry.addLine("5");
     }
 
     @Override
     public void loop() {
+        telemetry.addLine("HOW DID IT GET HERE??!?!?!");
         SamplePipeline.AnalyzedStone Sample = vision.getNearestSample();
         Action path = drive.actionBuilder(beginPose).splineToSplineHeading(Sample.getPose2d(),Sample.getAngleRad()).build();
         Actions.runBlocking(path);
