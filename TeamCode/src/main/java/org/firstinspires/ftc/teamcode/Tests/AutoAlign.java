@@ -14,7 +14,7 @@ import org.opencv.core.Point;
 
 @TeleOp(name = "AutoAlign", group = "tests")
 public class AutoAlign extends OpMode {
-    Servo wrist;
+    //Servo wrist;
     //Vision vision;
     Pose2d beginPose = new Pose2d(0,0,0);
     MecanumDrive drive;
@@ -25,7 +25,7 @@ public class AutoAlign extends OpMode {
         telemetry.addLine("2");
         //vision = new Vision(hardwareMap,telemetry);
         telemetry.addLine("3");
-        wrist = hardwareMap.get(Servo.class, "wrist");
+        //wrist = hardwareMap.get(Servo.class, "wrist");
         telemetry.addLine("4");
         //vision.InitPipeline(hardwareMap);
         telemetry.addLine("5");
