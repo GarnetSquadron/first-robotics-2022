@@ -191,7 +191,7 @@ public abstract class SamplePipeline extends OpenCvPipeline {
         double fy = CamMat.get(1,1)[1];
         double cx = CamMat.get(0,2)[1];
         double cy = CamMat.get(1,2)[1];
-        getCoordOnFloorFromCoordOnScreen(p,fx,fy,cx,cy,angle,height);
+        return getCoordOnFloorFromCoordOnScreen(p,fx,fy,cx,cy,angle,height);
     }
     Point getCoordOnFloorFromCoordOnScreen(Point p, double fx, double fy, double cx, double cy, double angle, double height){
         Point q = new Point((p.x-cy)/fx,(p.y-cy)/fx);
