@@ -59,7 +59,7 @@ public abstract class SamplePipeline extends OpenCvPipeline {
 
     static final int CONTOUR_LINE_THICKNESS = 2;
 
-    //region AnilyzedStone
+    //region AnalyzedStone
     public static class AnalyzedStone
     {
         double angle;
