@@ -22,8 +22,6 @@ import org.firstinspires.ftc.teamcode.Subsystems.TriangleIntake;
 
 @TeleOp(name="auto intake test", group = "test")
 
-//imports from vision.java.
-
 public class autointestred extends LinearOpMode {
     TriangleIntake triangleIntake = new TriangleIntake(hardwareMap,"IntakeServo1", "IntakeServo2", "IntakeServo3","pivot");
     //  CrankSlideSubSystem crankSlideSubSystem = new CrankSlideSubSystem(hardwareMap, "CrankL","CrankR");
