@@ -35,7 +35,7 @@ public class HeadlessDrive extends LinearOpMode {
     }
     @Override
     public void runOpMode() throws InterruptedException {
-        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        //telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         if (TuningOpModes.DRIVE_CLASS.equals(MecanumDrive.class)) {
             MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
@@ -46,15 +46,15 @@ public class HeadlessDrive extends LinearOpMode {
                 drive.updatePoseEstimate();
                 RunHeadlessDrive(drive, gamepad1);
 
-                telemetry.addData("x", drive.pose.position.x);
-                telemetry.addData("y", drive.pose.position.y);
-                telemetry.addData("heading (deg)", Math.toDegrees(drive.pose.heading.toDouble()));
-                telemetry.update();
+//                telemetry.addData("x", drive.pose.position.x);
+//                telemetry.addData("y", drive.pose.position.y);
+//                telemetry.addData("heading (deg)", Math.toDegrees(drive.pose.heading.toDouble()));
+//                telemetry.update();
 
-                TelemetryPacket packet = new TelemetryPacket();
-                packet.fieldOverlay().setStroke("#3F51B5");
-                Drawing.drawRobot(packet.fieldOverlay(), drive.pose);
-                FtcDashboard.getInstance().sendTelemetryPacket(packet);
+//                TelemetryPacket packet = new TelemetryPacket();
+//                packet.fieldOverlay().setStroke("#3F51B5");
+//                Drawing.drawRobot(packet.fieldOverlay(), drive.pose);
+//                FtcDashboard.getInstance().sendTelemetryPacket(packet);
             }
         } else if (TuningOpModes.DRIVE_CLASS.equals(TankDrive.class)) {
             TankDrive drive = new TankDrive(hardwareMap, new Pose2d(0, 0, 0));
@@ -72,15 +72,15 @@ public class HeadlessDrive extends LinearOpMode {
 
                 drive.updatePoseEstimate();
 
-                telemetry.addData("x", drive.pose.position.x);
-                telemetry.addData("y", drive.pose.position.y);
-                telemetry.addData("heading (deg)", Math.toDegrees(drive.pose.heading.toDouble()));
-                telemetry.update();
+//                telemetry.addData("x", drive.pose.position.x);
+//                telemetry.addData("y", drive.pose.position.y);
+//                telemetry.addData("heading (deg)", Math.toDegrees(drive.pose.heading.toDouble()));
+//                telemetry.update();
 
-                TelemetryPacket packet = new TelemetryPacket();
-                packet.fieldOverlay().setStroke("#3F51B5");
-                Drawing.drawRobot(packet.fieldOverlay(), drive.pose);
-                FtcDashboard.getInstance().sendTelemetryPacket(packet);
+//                TelemetryPacket packet = new TelemetryPacket();
+//                packet.fieldOverlay().setStroke("#3F51B5");
+//                Drawing.drawRobot(packet.fieldOverlay(), drive.pose);
+//                FtcDashboard.getInstance().sendTelemetryPacket(packet);
             }
         } else {
             throw new RuntimeException();

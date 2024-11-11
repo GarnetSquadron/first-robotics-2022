@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.Tests;
 
-import static org.firstinspires.ftc.teamcode.Tests.autointestblue.State.EJECTING;
-import static org.firstinspires.ftc.teamcode.Tests.autointestblue.State.HOLDING;
-import static org.firstinspires.ftc.teamcode.Tests.autointestblue.State.INTAKING;
+import static org.firstinspires.ftc.teamcode.Tests.autointest.State.EJECTING;
+import static org.firstinspires.ftc.teamcode.Tests.autointest.State.HOLDING;
+import static org.firstinspires.ftc.teamcode.Tests.autointest.State.INTAKING;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -23,9 +23,9 @@ import org.firstinspires.ftc.teamcode.Subsystems.CrankSlideSubSystem;
 
 //imports from vision.java.
 
-public class autointestblue extends LinearOpMode {
-    TriangleIntake triangleIntake = new TriangleIntake(hardwareMap,"IntakeServo1", "IntakeServo2", "IntakeServo3","pivot");
-//  CrankSlideSubSystem crankSlideSubSystem = new CrankSlideSubSystem(hardwareMap, "CrankL","CrankR");
+public class autointest extends LinearOpMode {
+    TriangleIntake triangleIntake;
+    CrankSlideSubSystem crankSlideSubSystem;
     CRServo Ti;
     CRServo Fi;
     CRServo Bi;
@@ -59,7 +59,7 @@ public class autointestblue extends LinearOpMode {
                 } else if (cSensor.blue() > cSensor.red() && cSensor.blue() > cSensor.green()){
                     telemetry.addLine("blue");
                     result = HOLDING;
-                } else{
+                }else{
                     telemetry.addLine("Else has been reached");
                 }
 
@@ -67,29 +67,27 @@ public class autointestblue extends LinearOpMode {
 
                 triangleIntake.hold();
 
-//                crankSlideSubSystem.Return();
+                crankSlideSubSystem.Return();
 
-//                triangleIntake.send();
+                triangleIntake.send();
 
-//                crankSlideSubSystem.Extend();
+                crankSlideSubSystem.Extend();
 
                 }
 
                 else if(result == EJECTING) {
 
                     long duration = 1500;
-
                     long startTime = System.currentTimeMillis();
 
                     while (System.currentTimeMillis() - startTime < duration) {
 
-                    triangleIntake.eject();
+                        triangleIntake.eject();
 
                     }
                 }
 
                 else{
-
                     triangleIntake.intake();
 
                 }
@@ -97,6 +95,8 @@ public class autointestblue extends LinearOpMode {
         }
 
     public void runOpMode(){
+        triangleIntake = new TriangleIntake(hardwareMap,"IntakeServo1", "IntakeServo2", "IntakeServo3","pivot");
+        crankSlideSubSystem = new CrankSlideSubSystem(hardwareMap, "CrankL","CrankR");
         cSensor = hardwareMap.get(ColorSensor.class, "ColorSensor");
         Ti = hardwareMap.get(CRServo.class,"IntakeServo1");
         Fi = hardwareMap.get(CRServo.class,"IntakeServo2");

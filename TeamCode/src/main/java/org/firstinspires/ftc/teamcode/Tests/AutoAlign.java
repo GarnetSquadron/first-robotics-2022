@@ -14,20 +14,27 @@ import org.opencv.core.Point;
 
 @TeleOp(name = "AutoAlign", group = "tests")
 public class AutoAlign extends OpMode {
-    Servo wrist;
-    Vision vision = new Vision(hardwareMap,telemetry);
+    //Servo wrist;
+    Vision vision;
     Pose2d beginPose = new Pose2d(0,0,0);
-    MecanumDrive drive = new MecanumDrive(hardwareMap,beginPose);
+    MecanumDrive drive;
     @Override
     public void init() {
-        wrist = hardwareMap.get(Servo.class, "wrist");
-        vision.InitPipeline(hardwareMap);
+        telemetry.addLine("1");
+        drive = new MecanumDrive(hardwareMap,beginPose);
+        telemetry.addLine("2");
+        //vision = new Vision(hardwareMap,telemetry);
+        telemetry.addLine("3");
+        //wrist = hardwareMap.get(Servo.class, "wrist");
+        telemetry.addLine("4");
+        //vision.InitPipeline(hardwareMap);
+        telemetry.addLine("5");
     }
 
     @Override
     public void loop() {
-        SamplePipeline.AnalyzedStone Sample = vision.getNearestSample();
-        Action path = drive.actionBuilder(beginPose).splineToSplineHeading(Sample.getPose2d(),Sample.getAngleRad()).build();
-        Actions.runBlocking(path);
+        //SamplePipeline.AnalyzedStone Sample = vision.getNearestSample();
+        //Action path = drive.actionBuilder(beginPose).splineToSplineHeading(Sample.getPose2d(),Sample.getAngleRad()).build();
+        //Actions.runBlocking(path);
     }
 }
