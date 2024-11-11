@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.Tests;
 
-import static org.firstinspires.ftc.teamcode.Tests.autointest.State.EJECTING;
-import static org.firstinspires.ftc.teamcode.Tests.autointest.State.HOLDING;
-import static org.firstinspires.ftc.teamcode.Tests.autointest.State.INTAKING;
+import static org.firstinspires.ftc.teamcode.Tests.autointestblue.State.EJECTING;
+import static org.firstinspires.ftc.teamcode.Tests.autointestblue.State.HOLDING;
+import static org.firstinspires.ftc.teamcode.Tests.autointestblue.State.INTAKING;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -23,7 +23,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.CrankSlideSubSystem;
 
 //imports from vision.java.
 
-public class autointest extends LinearOpMode {
+public class autointestblue extends LinearOpMode {
     TriangleIntake triangleIntake;
     CrankSlideSubSystem crankSlideSubSystem;
     CRServo Ti;

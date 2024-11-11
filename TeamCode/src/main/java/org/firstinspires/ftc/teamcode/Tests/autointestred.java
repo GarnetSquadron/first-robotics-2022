@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.teamcode.Subsystems.TriangleIntake;
-import org.firstinspires.ftc.teamcode.Subsystems.CrankSlideSubSystem;
+//import org.firstinspires.ftc.teamcode.Subsystems.CrankSlideSubSystem;
 //import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 //import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
 //import org.firstinspires.ftc.teamcode.Pipelines.SampleDetectionPipelinePNP;
@@ -109,3 +109,4 @@ public class autointestred extends LinearOpMode {
 
 
 
+//commit
