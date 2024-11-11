@@ -14,12 +14,12 @@ public class ServoAlignmentSub extends SubsystemBase {
 
     public void Up() {
         left.setPower(1);
-        right.setPower(-1);
+        right.setPower(1);
     }
 
     public void Down() {
         left.setPower(-1);
-        right.setPower(1);
+        right.setPower(-1);
     }
 }
 //commit
