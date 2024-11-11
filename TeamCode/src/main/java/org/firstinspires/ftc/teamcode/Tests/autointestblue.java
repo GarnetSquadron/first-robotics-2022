@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.CrankSlideSubSystem;
 //import org.openftc.easyopencv.OpenCvCameraRotation;
 //import org.openftc.easyopencv.OpenCvWebcam;
 
-@TeleOp(name="auto intake test", group = "test")
+@TeleOp(name="auto intake test blue", group = "test")
 
 //imports from vision.java.
 
