@@ -67,11 +67,11 @@ public class autointest extends LinearOpMode {
 
                 triangleIntake.hold();
 
-                crankSlideSubSystem.Return();
+//                crankSlideSubSystem.Return();
 
-                triangleIntake.send();
+//                triangleIntake.send();
 
-                crankSlideSubSystem.Extend();
+//                crankSlideSubSystem.Extend();
 
                 }
 
