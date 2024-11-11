@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.TriangleIntake;
 //import org.openftc.easyopencv.OpenCvCameraRotation;
 //import org.openftc.easyopencv.OpenCvWebcam;
 
-@TeleOp(name="auto intake test", group = "test")
+@TeleOp(name="auto intake test red", group = "test")
 
 public class autointestred extends LinearOpMode {
     TriangleIntake triangleIntake = new TriangleIntake(hardwareMap,"IntakeServo1", "IntakeServo2", "IntakeServo3","pivot");
