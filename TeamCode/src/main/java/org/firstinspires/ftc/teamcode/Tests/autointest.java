@@ -59,7 +59,7 @@ public class autointest extends LinearOpMode {
                 } else if (cSensor.blue() > cSensor.red() && cSensor.blue() > cSensor.green()){
                     telemetry.addLine("blue");
                     result = HOLDING;
-                }else{
+                } else{
                     telemetry.addLine("Else has been reached");
                 }
 
