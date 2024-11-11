@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.ServoAlignmentSub;
 @TeleOp(name="James Servo Alignment", group = "test")
 
 public class JamesServoAlignment extends LinearOpMode{
-     ServoAlignmentSub ServoAlignment = new ServoAlignmentSub(hardwareMap,"AlignServo1", "AlignServo2");
+     ServoAlignmentSub ServoAlignment;
 
     public void Onstart(){
         ServoAlignment.Up();
@@ -17,6 +17,7 @@ public class JamesServoAlignment extends LinearOpMode{
         ServoAlignment.Down();
     }
     public void runOpMode(){
+        ServoAlignment = new ServoAlignmentSub(hardwareMap,"AlignServo1", "AlignServo2");
         waitForStart();
         Onstart();
     }
