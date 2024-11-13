@@ -17,7 +17,11 @@ public class TriangleIntake extends SubsystemBase {
         Bi = hardwareMap.get(CRServo.class,name3);
         Pivot = hardwareMap.get(Servo.class,pivotName);
     }
-
+    public enum State{
+        INTAKING,
+        EJECTING,
+        HOLDING
+    }
     public void intake() {
         Ti.setPower(0);
         Fi.setPower(-1);
