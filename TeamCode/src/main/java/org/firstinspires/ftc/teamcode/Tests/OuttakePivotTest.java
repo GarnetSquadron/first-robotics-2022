@@ -1,16 +1,15 @@
 package org.firstinspires.ftc.teamcode.Tests;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
-import org.firstinspires.ftc.teamcode.Subsystems.ServoAlignmentSub;
+import org.firstinspires.ftc.teamcode.Subsystems.OuttakePivotSub;
 
 
-@TeleOp(name="James Servo Alignment", group = "test")
+@TeleOp(name="OuttakePivotTest", group = "test")
 
-public class JamesServoAlignment extends OpMode {
-     ServoAlignmentSub ServoAlignment;
+public class OuttakePivotTest extends OpMode {
+     OuttakePivotSub ServoAlignment;
 
      @Override
     public void loop() {
@@ -22,7 +21,7 @@ public class JamesServoAlignment extends OpMode {
         }
     }
     public void init(){
-        ServoAlignment = new ServoAlignmentSub(hardwareMap,"AlignServo1", "AlignServo2");
+        ServoAlignment = new OuttakePivotSub(hardwareMap,"AlignServo1", "AlignServo2");
     }
 }
 //commit
