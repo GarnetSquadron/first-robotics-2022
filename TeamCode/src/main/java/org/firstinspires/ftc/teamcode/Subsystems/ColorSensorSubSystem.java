@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.enums.Color;
 public class ColorSensorSubSystem extends SubsystemBase {
     ColorSensor cSensor;
 
-    ColorSensorSubSystem(HardwareMap hardwaremap, String name) {
+    public ColorSensorSubSystem(HardwareMap hardwaremap, String name) {
 
     }
 

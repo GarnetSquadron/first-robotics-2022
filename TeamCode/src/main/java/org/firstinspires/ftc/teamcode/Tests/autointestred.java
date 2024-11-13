@@ -10,7 +10,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
+import org.firstinspires.ftc.teamcode.Subsystems.ColorSensorSubSystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TriangleIntake;
+import org.firstinspires.ftc.teamcode.commands.TriangleIntakeCommand;
+import org.firstinspires.ftc.teamcode.enums.Color;
 //import org.firstinspires.ftc.teamcode.Subsystems.CrankSlideSubSystem;
 //import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 //import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
@@ -28,7 +31,8 @@ public class autointestred extends LinearOpMode {
     CRServo Ti;
     CRServo Fi;
     CRServo Bi;
-    ColorSensor cSensor;
+    ColorSensorSubSystem cSensor;
+    TriangleIntakeCommand triangleIntakeCommand;
 
     public enum State{
         INTAKING,
@@ -36,70 +40,15 @@ public class autointestred extends LinearOpMode {
         HOLDING
     }
     public void Onstart(){
-
-        triangleIntake.intake();
-
-        while(opModeIsActive()){
-            telemetry.addData("red", cSensor.red());
-            telemetry.addData("green", cSensor.green());
-            telemetry.addData("blue", cSensor.blue());
-
-            double HighestColorValue = Math.max(Math.max(cSensor.red(), cSensor.green()),cSensor.blue());
-            State result = INTAKING;
-            if (HighestColorValue < 200) {
-                telemetry.addLine("No Color");
-            }
-            else if (cSensor.red() > cSensor.green() && cSensor.red() > cSensor.blue()) {
-                telemetry.addLine("red");
-                result = HOLDING;
-            } else if (cSensor.green() > cSensor.red() && cSensor.green() > cSensor.blue()) {
-                telemetry.addLine("yellow");
-                result = HOLDING;
-            } else if (cSensor.blue() > cSensor.red() && cSensor.blue() > cSensor.green()){
-                telemetry.addLine("blue");
-                result = EJECTING;
-            } else{
-                telemetry.addLine("Else has been reached");
-            }
-
-            if(result == HOLDING) {
-
-                triangleIntake.hold();
-
-//                crankSlideSubSystem.Return();
-
-//                triangleIntake.send();
-
-//                crankSlideSubSystem.Extend();
-
-            }
-
-            else if(result == EJECTING) {
-
-                long duration = 1500;
-
-                long startTime = System.currentTimeMillis();
-
-                while (System.currentTimeMillis() - startTime < duration) {
-
-                    triangleIntake.eject();
-
-                }
-            }
-
-            else{
-
-                triangleIntake.intake();
-
-            }
+        while(!triangleIntakeCommand.isFinished()){
+            triangleIntakeCommand.execute();
         }
     }
 
     public void runOpMode(){
-        cSensor = hardwareMap.get(ColorSensor.class, "ColorSensor");
-        Ti = hardwareMap.get(CRServo.class,"IntakeServo1");
-        Fi = hardwareMap.get(CRServo.class,"IntakeServo2");
-        Bi = hardwareMap.get(CRServo.class,"IntakeServo3");
+        cSensor = new ColorSensorSubSystem(hardwareMap,"ColorSensor");
+        triangleIntake = new TriangleIntake(hardwareMap,"IntakeServo1", "IntakeServo2", "IntakeServo3","pivot");
+        triangleIntakeCommand = new TriangleIntakeCommand(triangleIntake, cSensor, Color.RED);
         waitForStart();
         Onstart();
     }
