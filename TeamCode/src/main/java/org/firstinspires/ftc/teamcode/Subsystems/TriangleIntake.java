@@ -30,7 +30,7 @@ public class TriangleIntake extends SubsystemBase {
 
     public void eject() {
         Ti.setPower(+1);
-        Fi.setPower(+1);
+        Fi.setPower(-1);
         Bi.setPower(0);
     }
 
