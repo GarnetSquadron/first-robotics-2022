@@ -1,14 +1,14 @@
 package org.firstinspires.ftc.teamcode.Tests;
 
 
-import static org.firstinspires.ftc.teamcode.Tests.autointestred.State.EJECTING;
-import static org.firstinspires.ftc.teamcode.Tests.autointestred.State.HOLDING;
-import static org.firstinspires.ftc.teamcode.Tests.autointestred.State.INTAKING;
+//import static org.firstinspires.ftc.teamcode.Tests.autointestred.State.EJECTING;
+//import static org.firstinspires.ftc.teamcode.Tests.autointestred.State.HOLDING;
+//import static org.firstinspires.ftc.teamcode.Tests.autointestred.State.INTAKING;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.ColorSensor;
+//import com.qualcomm.robotcore.hardware.CRServo;
+//import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.teamcode.Subsystems.ColorSensorSubSystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TriangleIntake;
@@ -28,9 +28,6 @@ import org.firstinspires.ftc.teamcode.enums.Color;
 public class autointestred extends LinearOpMode {
     TriangleIntake triangleIntake = new TriangleIntake(hardwareMap,"IntakeServo1", "IntakeServo2", "IntakeServo3","pivot");
     //  CrankSlideSubSystem crankSlideSubSystem = new CrankSlideSubSystem(hardwareMap, "CrankL","CrankR");
-    CRServo Ti;
-    CRServo Fi;
-    CRServo Bi;
     ColorSensorSubSystem cSensor;
     TriangleIntakeCommand triangleIntakeCommand;
 

@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
-import static org.firstinspires.ftc.teamcode.Tests.autointestred.State.EJECTING;
-import static org.firstinspires.ftc.teamcode.Tests.autointestred.State.HOLDING;
+//import static org.firstinspires.ftc.teamcode.Tests.autointestred.State.EJECTING;
+//import static org.firstinspires.ftc.teamcode.Tests.autointestred.State.HOLDING;
 import static org.firstinspires.ftc.teamcode.Tests.autointestred.State.INTAKING;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
