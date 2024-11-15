@@ -1,13 +1,11 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.arcrobotics.ftclib.hardware.motors.Motor;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
 public class ViperSlidesSubSystem extends SubsystemBase{
-    //private final Motor l;
+    private final Motor l;
     private final Motor r;
     private final int LMaxPos = -4000;
     private final int LMinPos = 0;
@@ -15,13 +13,14 @@ public class ViperSlidesSubSystem extends SubsystemBase{
     private final int RMinPos = 0;
     private double posCoefficient = 0.05;
     public ViperSlidesSubSystem(HardwareMap hardwareMap, String name1, String name2){
-        //l = new Motor(hardwareMap,name1);
+        l = new Motor(hardwareMap,name1);
         r = new Motor(hardwareMap,name2);
-        //l.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        l.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         r.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-
+        l.resetEncoder();
+        r.resetEncoder();
     }
-    public void runMotorToPosition(int pos, double PC, Motor motor){
+    public void setMotorToPosition(int pos, double PC, Motor motor){
         // set the run mode
         motor.setRunMode(Motor.RunMode.PositionControl);
 
@@ -38,6 +37,9 @@ public class ViperSlidesSubSystem extends SubsystemBase{
         motor.setPositionTolerance(13.6);   // allowed maximum error
 
 // perform the control loop
+
+    }
+    public void runMotorToPosition(Motor motor){
         if (!motor.atTargetPosition()) {
             motor.set(1);
         }
@@ -48,14 +50,18 @@ public class ViperSlidesSubSystem extends SubsystemBase{
     int getPos(int min, int max, double pos){
         return min+(int)Math.round(pos*(max-min));
     }
-    public void runToPos(double pos){
-        //runMotorToPosition(getPos(LMinPos,LMaxPos,pos),posCoefficient,l);
-        runMotorToPosition(getPos(RMinPos,RMaxPos,pos),posCoefficient,r);
+    public void SetTgPos(double pos){
+        setMotorToPosition(getPos(LMinPos,LMaxPos,pos),posCoefficient,l);
+        setMotorToPosition(getPos(RMinPos,RMaxPos,pos),posCoefficient,r);
     }
-    public void Extend() {
-        runToPos(1);
+    public void SetPosExtend() {
+        SetTgPos(1);
     }
-    public void Return() {
-       runToPos(0);
+    public void SetPosReturn() {
+       SetTgPos(0);
+    }
+    public void runToTgPos(){
+        runMotorToPosition(l);
+        runMotorToPosition(r);
     }
 }

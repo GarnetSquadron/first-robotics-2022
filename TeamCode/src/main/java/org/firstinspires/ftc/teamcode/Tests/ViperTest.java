@@ -10,16 +10,17 @@ public class ViperTest extends OpMode {
     ViperSlidesSubSystem viperSlides;
     @Override
     public void init() {
-        viperSlides = new ViperSlidesSubSystem(hardwareMap,"motor", "motor");
+        viperSlides = new ViperSlidesSubSystem(hardwareMap,"Viper1", "Viper2");
     }
 
     @Override
     public void loop() {
         if(gamepad1.y){
-            viperSlides.Extend();
+            viperSlides.SetPosExtend();
         }
         if(gamepad1.x){
-            viperSlides.Return();
+            viperSlides.SetPosReturn();
         }
+        viperSlides.runToTgPos();
     }
 }
