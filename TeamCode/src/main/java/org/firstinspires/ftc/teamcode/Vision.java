@@ -39,7 +39,7 @@ public class Vision {
             @Override
             public void onOpened() {
                 webcam1.startStreaming(640, 360,OpenCvCameraRotation.UPRIGHT);
-                FtcDashboard.getInstance().startCameraStream(webcam1,0);
+                //FtcDashboard.getInstance().startCameraStream(webcam1,0);
                 telemetry.addLine("SUCCESSFULLY OPENED CAM =D");
                 telemetry.update();
             }

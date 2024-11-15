@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode.OpModes.autonomi;
+package org.firstinspires.ftc.teamcode.Tests;
 
-import static org.firstinspires.ftc.teamcode.OpModes.autonomi.autointest.State.EJECTING;
-import static org.firstinspires.ftc.teamcode.OpModes.autonomi.autointest.State.HOLDING;
-import static org.firstinspires.ftc.teamcode.OpModes.autonomi.autointest.State.INTAKING;
+import static org.firstinspires.ftc.teamcode.Tests.autointestblue.State.EJECTING;
+import static org.firstinspires.ftc.teamcode.Tests.autointestblue.State.HOLDING;
+import static org.firstinspires.ftc.teamcode.Tests.autointestblue.State.INTAKING;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.teamcode.Subsystems.TriangleIntake;
+import org.firstinspires.ftc.teamcode.Subsystems.CrankSlideSubSystem;
 //import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 //import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
 //import org.firstinspires.ftc.teamcode.Pipelines.SampleDetectionPipelinePNP;
@@ -18,13 +19,13 @@ import org.firstinspires.ftc.teamcode.Subsystems.TriangleIntake;
 //import org.openftc.easyopencv.OpenCvCameraRotation;
 //import org.openftc.easyopencv.OpenCvWebcam;
 
-@TeleOp(name="auto intake test", group = "test")
+@TeleOp(name="auto intake test blue", group = "test")
 
 //imports from vision.java.
 
-public class autointest extends LinearOpMode {
-    TriangleIntake triangleIntake = new TriangleIntake(hardwareMap,"IntakeServo1", "IntakeServo2", "IntakeServo3");
-
+public class autointestblue extends LinearOpMode {
+    TriangleIntake triangleIntake;
+    CrankSlideSubSystem crankSlideSubSystem;
     CRServo Ti;
     CRServo Fi;
     CRServo Bi;
@@ -44,10 +45,9 @@ public class autointest extends LinearOpMode {
                 telemetry.addData("green", cSensor.green());
                 telemetry.addData("blue", cSensor.blue());
 
-
                 double HighestColorValue = Math.max(Math.max(cSensor.red(), cSensor.green()),cSensor.blue());
                 State result = INTAKING;
-                if (HighestColorValue < 250) {
+                if (HighestColorValue < 200) {
                     telemetry.addLine("No Color");
                 }
                 else if (cSensor.red() > cSensor.green() && cSensor.red() > cSensor.blue()) {
@@ -63,48 +63,50 @@ public class autointest extends LinearOpMode {
                     telemetry.addLine("Else has been reached");
                 }
 
+                if(result == HOLDING) {
 
-                if(result==HOLDING) {
+                triangleIntake.hold();
 
-                    triangleIntake.hold();
+                crankSlideSubSystem.Return();
 
-//                //run some rotation code for main arm servo here
-//
-//                sleep(1000);
-//
-//                triangleIntake.send();
-//
-//                sleep(1000);
-//
-//                triangleIntake.hold()
-//
-//                //run some rotation code for main arm servo here
-//
-//                sleep (1000);
+                triangleIntake.send();
+
+                crankSlideSubSystem.Extend();
+
                 }
 
-                else if(result ==EJECTING) {
-                    triangleIntake.eject();
+                else if(result == EJECTING) {
+
+                    long duration = 1500;
+                    long startTime = System.currentTimeMillis();
+
+                    while (System.currentTimeMillis() - startTime < duration) {
+
+                        triangleIntake.eject();
+
+                    }
                 }
+
                 else{
                     triangleIntake.intake();
+
                 }
-                telemetry.addData("TI power",Ti.getPower());
-                telemetry.update();
             }
         }
+
     public void runOpMode(){
+        triangleIntake = new TriangleIntake(hardwareMap,"IntakeServo1", "IntakeServo2", "IntakeServo3","pivot");
+        crankSlideSubSystem = new CrankSlideSubSystem(hardwareMap, "CrankL","CrankR");
         cSensor = hardwareMap.get(ColorSensor.class, "ColorSensor");
         Ti = hardwareMap.get(CRServo.class,"IntakeServo1");
         Fi = hardwareMap.get(CRServo.class,"IntakeServo2");
         Bi = hardwareMap.get(CRServo.class,"IntakeServo3");
         waitForStart();
         Onstart();
-
     }
 }
 
-
+                    
 
 
 

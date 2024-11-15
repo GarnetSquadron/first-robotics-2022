@@ -59,7 +59,7 @@ public abstract class SamplePipeline extends OpenCvPipeline {
 
     static final int CONTOUR_LINE_THICKNESS = 2;
 
-    //region AnilyzedStone
+    //region AnalyzedStone
     public static class AnalyzedStone
     {
         double angle;
@@ -104,7 +104,7 @@ public abstract class SamplePipeline extends OpenCvPipeline {
 
 
         camAngle = 0;
-        camHeight = 10;
+        camHeight = 16.5;
 
         cameraMatrix.put(0, 0,
                 fx, 0,cx,
@@ -191,6 +191,9 @@ public abstract class SamplePipeline extends OpenCvPipeline {
         double fy = CamMat.get(1,1)[1];
         double cx = CamMat.get(0,2)[1];
         double cy = CamMat.get(1,2)[1];
+        return getCoordOnFloorFromCoordOnScreen(p,fx,fy,cx,cy,angle,height);
+    }
+    Point getCoordOnFloorFromCoordOnScreen(Point p, double fx, double fy, double cx, double cy, double angle, double height){
         Point q = new Point((p.x-cy)/fx,(p.y-cy)/fx);
         double cos = Math.cos(angle);
         double sin = Math.sin(angle);
