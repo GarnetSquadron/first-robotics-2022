@@ -49,7 +49,7 @@ public class TriangleIntakeCommand extends CommandBase {
         } else if (c == alianceColor){
             triangleIntake.hold();
             finished = true;
-        }else{
+        } else{
             telemetry.addLine("Else has been reached");
         }
 
