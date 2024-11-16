@@ -3,17 +3,13 @@ package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.ColorSensor;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.IMU;
-import com.qualcomm.robotcore.hardware.Servo;
+
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.oldStuff.VoidsAndThings;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -48,11 +44,6 @@ public class ScrimmageAutoRoute extends LinearOpMode {
     private DcMotor rf;
     private DcMotor lb;
     private DcMotor rb;
-    private DcMotor arm;
-    private Servo claw;
-    private CRServo funnelWheel;
-    private DcMotor telearm;
-    ColorSensor Fsensor;
     //ColorSensor Bsensor;
     //private DcMotor arm;
     //private Servo claw;
@@ -245,27 +236,12 @@ public class ScrimmageAutoRoute extends LinearOpMode {
         rb.setPower(power);
     }
 
-    IMU imu;
+
 
     public void turn(double power, double degrees) {
         runWithoutEncoders();
         //YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
         //double initdirection = orientation.getYaw(AngleUnit.DEGREES);
-        imu.resetYaw();
-        YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
-        while (Math.abs(orientation.getYaw(AngleUnit.DEGREES)) <= degrees) {
-
-
-            turn(power);
-            telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", Math.abs(orientation.getYaw(AngleUnit.DEGREES)));
-//          telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", Math.abs(orientation.getYaw(AngleUnit.DEGREES)));
-            telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", Math.abs(orientation.getYaw(AngleUnit.DEGREES)));
-            telemetry.addData("Yaw (Z)", "%.2f Deg. (Heading)", Math.abs(orientation.getYaw(AngleUnit.DEGREES)));
-            telemetry.update();
-            orientation = imu.getRobotYawPitchRollAngles();
-        }
-        turn(0);
-
     }
 
     //----------------------------------End of forward--------------------------------------------------
@@ -296,11 +272,6 @@ public class ScrimmageAutoRoute extends LinearOpMode {
             telemetry.addData("power: ", rf.getPower());
             telemetry.addData("lf encoder: ", lf.getCurrentPosition());
             telemetry.addData("power: ", lf.getPower());
-            //telemetry.addData("Bsensor red: ",Bsensor.red());
-            //telemetry.addData("Bsensor blue: ",Bsensor.blue());
-            telemetry.addData("claw: ", claw.getPosition());
-            telemetry.update();
-
             telemetry.update();
         }
         //-------------------------End While------------------------------------------------------------
@@ -557,7 +528,6 @@ public class ScrimmageAutoRoute extends LinearOpMode {
 
 
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
-        imu.initialize(new IMU.Parameters(orientationOnRobot));
 
         //arm = hardwareMap.get(DcMotor.class, "arm");
         //claw = hardwareMap.get(Servo.class, "claw");
