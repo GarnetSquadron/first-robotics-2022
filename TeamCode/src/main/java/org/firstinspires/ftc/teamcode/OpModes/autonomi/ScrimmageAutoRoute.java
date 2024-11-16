@@ -445,15 +445,15 @@ public class ScrimmageAutoRoute extends LinearOpMode {
 
 
     public void ScrimmageAuto() {
-        forward(.50,12);
-        sRight(-.50, -30);
+        forward(.25,12);
+        sRight(-.25, -30);
         forward(-.25,-10);
         sleep(2000);
         //Dispense sample
         forward(.25,10);
         sleep(2000);
         //Grab sample
-        forward(-.50,-10);
+        forward(-.25,-10);
         sleep(2000);
         //Dispense sample
         sRight(.25,4);
@@ -465,7 +465,7 @@ public class ScrimmageAutoRoute extends LinearOpMode {
         sleep(2000);
         //Dispense samples
         forward(.25,10);
-        sRight(.50,100);
+        sRight(.25,100);
         forward(.25,10);
 
 
