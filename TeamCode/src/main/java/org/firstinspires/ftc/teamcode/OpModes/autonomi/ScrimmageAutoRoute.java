@@ -60,7 +60,6 @@ public class ScrimmageAutoRoute extends LinearOpMode {
     //Wheel encoders
     //This is the gobilda encoder value that is used
 
-    private VoidsAndThings voidsAndThings;
     final double wheelUnitTicks = 537.7;
 
     //this is the gear ratio (this is to make it looks consistent with the arm encoders)
@@ -77,12 +76,12 @@ public class ScrimmageAutoRoute extends LinearOpMode {
     //the value can be multiplied by the amount of inches desired to make it more simple.
     final double wheelOneInch = (wheelRotation / wheelCircumference);
 
-    private double MaxClawPos = 0.65;
-    private double MinClawPos = 0.9;
-    private double MaxArmPos = 509;
-    private double MinArmPos = 0;
-    private double minRed = 90;//under 90
-    private double minBlue = 50;
+//    private double MaxClawPos = 0.65;
+//    private double MinClawPos = 0.9;
+//    private double MaxArmPos = 509;
+//    private double MinArmPos = 0;
+//    private double minRed = 90;//under 90
+//    private double minBlue = 50;
 
     //    private boolean GetColorBRed(){
 //
@@ -99,13 +98,13 @@ public class ScrimmageAutoRoute extends LinearOpMode {
         rb.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
-    public void arm(double power, double height) {//forward(1);forward(-1)
-        //resetEncoders();   <--we dont want this
-        arm.setTargetPosition((int) (height));
-//--------------------------------------------------------------------------------------------------
-        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//--------------------------------------------------------------------------------------------------
-        arm.setPower(power);
+//    public void arm(double power, double height) {//forward(1);forward(-1)
+//        //resetEncoders();   <--we dont want this
+//        arm.setTargetPosition((int) (height));
+////--------------------------------------------------------------------------------------------------
+//        arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+////--------------------------------------------------------------------------------------------------
+//        arm.setPower(power);
 
         //--------------------------------Telemetry, gives data about position and makes sure it doesnt stop immediately.----------------------
 //        while (arm.isBusy()) {
@@ -114,46 +113,46 @@ public class ScrimmageAutoRoute extends LinearOpMode {
 //            telemetry.update();
 //        }
         //-------------------------End While--------------------------------------------------------
-        Stop(); //stopping all motors
-    }
+      //  Stop(); //stopping all motors
+  //  }
 
-    public void armDown() {
-        sleep(200);
-        arm(0.15, MaxArmPos);
-        while (arm.isBusy()) {
-            telemetry.addData("arm position", arm.getCurrentPosition());
-            telemetry.update();
-
-        }
-        sleep(200);
-        arm.setPower(0);
-        sleep(200);
-
-    }
-
-    public void armUp() {
-        arm(-0.35, MinArmPos);
-        while (arm.isBusy()) {
-            telemetry.addData("arm position", arm.getCurrentPosition());
-            telemetry.update();
-
-        }
-        arm.setPower(0);
-    }
-
-    public void ClawOpenWIDE() {
-        claw.setPosition(0);
-    }
-
-    public void ClawOpen() {
-        claw.setPosition(0.65);
-    }
-
-    public void ClawClose() {
-        claw.setPosition(0.9);
-    }
-
-
+//    public void armDown() {
+//        sleep(200);
+//        arm(0.15, MaxArmPos);
+//        while (arm.isBusy()) {
+//            telemetry.addData("arm position", arm.getCurrentPosition());
+//            telemetry.update();
+//
+//        }
+//        sleep(200);
+//        arm.setPower(0);
+//        sleep(200);
+//
+//    }
+//
+//    public void armUp() {
+//        arm(-0.35, MinArmPos);
+//        while (arm.isBusy()) {
+//            telemetry.addData("arm position", arm.getCurrentPosition());
+//            telemetry.update();
+//
+//        }
+//        arm.setPower(0);
+//    }
+//
+//    public void ClawOpenWIDE() {
+//        claw.setPosition(0);
+//    }
+//
+//    public void ClawOpen() {
+//        claw.setPosition(0.65);
+//    }
+//
+//    public void ClawClose() {
+//        claw.setPosition(0.9);
+//    }
+//
+//
 
     public void move(double direction, double power) {
         lf.setPower(Math.sin(direction - Math.PI / 4) * power);
@@ -171,25 +170,23 @@ public class ScrimmageAutoRoute extends LinearOpMode {
         rb.setPower(power);
 
     }
-    public void openFunnel(){
-        funnelWheel.setPower(1);
-        sleep(1600);
-        funnelWheel.setPower(0);
-    }
-    public void tele(double power,double height) {//forward(1);forward(-1)
-        telearm.setTargetPosition((int) (height));
-//--------------------------------------------------------------------------------------------------
-        telearm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//--------------------------------------------------------------------------------------------------
-        telearm.setPower(power);
-        //--------------------------------Telemetry, gives data about position and makes sure it doesnt stop immediately.----------------------
-        while (telearm.isBusy()) {
+//    public void openFunnel(){
+//        funnelWheel.setPower(1);
+//        sleep(1600);
+//        funnelWheel.setPower(0);
+//    }
+//    public void tele(double power,double height) {//forward(1);forward(-1)
+//        telearm.setTargetPosition((int) (height));
+////--------------------------------------------------------------------------------------------------
+//        telearm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+////--------------------------------------------------------------------------------------------------
+//        telearm.setPower(power);
+//        //--------------------------------Telemetry, gives data about position and makes sure it doesnt stop immediately.----------------------
 //
-        }
-        //-------------------------End While--------------------------------------------------------
-        //stopping all motors
-        telearm.setPower(0);
-    }
+//        //-------------------------End While--------------------------------------------------------
+//        //stopping all motors
+//        telearm.setPower(0);
+//    }
 
     public void resetEncoders() {
         lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -222,7 +219,7 @@ public class ScrimmageAutoRoute extends LinearOpMode {
         rb.setPower(power);
 
         //--------------------------------Telematry, gives data about position----------------------
-        while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()) {
+      //  while (lf.isBusy() && lb.isBusy() && rf.isBusy() && rb.isBusy()) {
 //            telemetry.addData("rb encoder: ",rb.getCurrentPosition());
 //            telemetry.addData("power: ",rb.getPower());
 //            telemetry.addData("lb encoder: ",lb.getCurrentPosition());
@@ -236,9 +233,9 @@ public class ScrimmageAutoRoute extends LinearOpMode {
 //            telemetry.addData("claw: ",claw.getPosition());
 //            telemetry.update();
 //            telemetry.update();
-        }
+      //  }
         //-------------------------End While--------------------------------------------------------
-        stop(); //stopping all motors
+      //  stop(); //stopping all motors
     }
 
     public void turn(double power) {
@@ -544,15 +541,15 @@ public class ScrimmageAutoRoute extends LinearOpMode {
         rb.setDirection(DcMotorSimple.Direction.REVERSE);
         //Fsensor = hardwareMap.get(ColorSensor.class, "Fsensor");
         //Bsensor=hardwareMap.get(ColorSensor.class, "Bsensor");
-        imu = hardwareMap.get(IMU.class, "imu");
-        claw = hardwareMap.get(Servo.class, "claw");
-        arm = hardwareMap.get(DcMotor.class, "arm");
-        //funnel = hardwareMap.get(Servo.class, "funnel");
-        funnelWheel = hardwareMap.get(CRServo.class, "funnel");
-        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        telearm=hardwareMap.get(DcMotor.class, "teleArm");
+//        imu = hardwareMap.get(IMU.class, "imu");
+//        claw = hardwareMap.get(Servo.class, "claw");
+//        arm = hardwareMap.get(DcMotor.class, "arm");
+//        //funnel = hardwareMap.get(Servo.class, "funnel");
+//        funnelWheel = hardwareMap.get(CRServo.class, "funnel");
+//        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        telearm=hardwareMap.get(DcMotor.class, "teleArm");
 
-        voidsAndThings = new VoidsAndThings(hardwareMap);
+        VoidsAndThings voidsAndThings = new VoidsAndThings(hardwareMap);
         voidsAndThings.initHardware();
 
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
