@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.teamcode.OpModes.teleops;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
@@ -10,16 +7,14 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
-import org.firstinspires.ftc.teamcode.Drawing;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
-import org.firstinspires.ftc.teamcode.Subsystems.ViperSlidesSubSystem;
 import org.firstinspires.ftc.teamcode.TankDrive;
 import org.firstinspires.ftc.teamcode.tuning.TuningOpModes;
 ///import ViperSlidesSubSystem;
 
 @TeleOp(name = "Headless Drive")
 public class HeadlessDrive extends LinearOpMode {
-    ViperSlidesSubSystem viperSlidesSubSystem = new ViperSlidesSubSystem();
+    //ViperSlidesSubSystem viperSlidesSubSystem = new ViperSlidesSubSystem();
     /**
      * put this in a loop so that it updates the position
      * @param drive the MecanumDrive instance
@@ -89,11 +84,11 @@ public class HeadlessDrive extends LinearOpMode {
         }
 
         if (gamepad1.right_bumper) {
-           viperSlidesSubSystem.Extend();
+           //viperSlidesSubSystem.Extend();
         } else if (gamepad1.left_bumper) {
-            viperSlidesSubSystem.Return();
+            //viperSlidesSubSystem.Return();
         } else {
-            viperSlidesSubSystem.Stop();
+            //viperSlidesSubSystem.Stop();
         }
     }
 

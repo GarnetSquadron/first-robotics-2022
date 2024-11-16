@@ -2,13 +2,9 @@ package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Subsystems.TriangleIntake;
-import org.firstinspires.ftc.teamcode.oldStuff.VoidsAndThings;
 
 public class AnthonyAuto extends LinearOpMode {
     TriangleIntake triangleIntake = new TriangleIntake(hardwareMap,"IntakeServo1", "IntakeServo2", "IntakeServo3","pivot");
@@ -53,13 +49,13 @@ public class AnthonyAuto extends LinearOpMode {
         lb.setPower(0);
         rb.setPower(0);
     }
-    public void Red
-    @Override
+    //public void Red;
+    //@Override
     public void runOpMode() throws InterruptedException {
 
         }
 
 
     }
-}
+
 //commit 12

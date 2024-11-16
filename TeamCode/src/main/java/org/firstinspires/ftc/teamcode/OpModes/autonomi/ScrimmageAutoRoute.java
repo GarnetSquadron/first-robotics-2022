@@ -1,9 +1,8 @@
 package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -22,8 +21,8 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
 
-@Autonomous(name = "ScrimmageAuto")
-@Disabled
+@TeleOp(name = "ScrimmageAuto", group = "test")
+
 public class ScrimmageAutoRoute extends LinearOpMode {
 
     //We are defining all motors here, as to manually control each motor rather than use terry hardware.
@@ -543,7 +542,7 @@ public class ScrimmageAutoRoute extends LinearOpMode {
         rb = hardwareMap.get(DcMotor.class, "rb");
         rf.setDirection(DcMotorSimple.Direction.REVERSE);
         rb.setDirection(DcMotorSimple.Direction.REVERSE);
-        Fsensor = hardwareMap.get(ColorSensor.class, "Fsensor");
+        //Fsensor = hardwareMap.get(ColorSensor.class, "Fsensor");
         //Bsensor=hardwareMap.get(ColorSensor.class, "Bsensor");
         imu = hardwareMap.get(IMU.class, "imu");
         claw = hardwareMap.get(Servo.class, "claw");
