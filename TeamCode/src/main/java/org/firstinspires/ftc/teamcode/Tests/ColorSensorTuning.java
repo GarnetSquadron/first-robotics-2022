@@ -22,10 +22,13 @@ public class ColorSensorTuning extends LinearOpMode {
 
             if (HighestColorValue < 200)
                 telemetry.addLine("No Color");
+                //To detect red -
             else if (cSensor.red() > cSensor.green() && cSensor.red() > cSensor.blue()) {
                 telemetry.addLine("red");
+                //To detect yellow -
             } else if (cSensor.green() > cSensor.red() && cSensor.green() > cSensor.blue()) {
                 telemetry.addLine("yellow");
+                //To detect blue -
             } else if (cSensor.blue() > cSensor.red() && cSensor.blue() > cSensor.green())
                 telemetry.addLine("blue");
             telemetry.update();

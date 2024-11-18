@@ -20,7 +20,7 @@ public class TriangleIntakeCommand extends CommandBase {
         colorSensor = c;
     }
     boolean finished = false;
-//
+
     @Override
     public void execute() {
         triangleIntake.intake();
