@@ -25,8 +25,6 @@ public class TriangleIntakeCommand extends CommandBase {
     public void execute() {
         triangleIntake.intake();
 
-
-
         Color c = colorSensor.getSensedColor();
 
         telemetry.addData("color", c);
