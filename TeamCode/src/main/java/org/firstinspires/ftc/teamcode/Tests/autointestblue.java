@@ -29,8 +29,8 @@ import org.firstinspires.ftc.teamcode.enums.Color;
 
 
 public class autointestblue extends LinearOpMode {
-    TriangleIntake triangleIntake = new TriangleIntake(hardwareMap,"IntakeServo1", "IntakeServo2", "IntakeServo3","pivot");
-    //  CrankSlideSubSystem crankSlideSubSystem = new CrankSlideSubSystem(hardwareMap, "CrankL","CrankR");
+    TriangleIntake triangleIntake;
+    //CrankSlideSubSystem crankSlideSubSystem = new CrankSlideSubSystem(hardwareMap, "CrankL","CrankR");
     ColorSensorSubSystem cSensor;
     TriangleIntakeCommand triangleIntakeCommand;
 
