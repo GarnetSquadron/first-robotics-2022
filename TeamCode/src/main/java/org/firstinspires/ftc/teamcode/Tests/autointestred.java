@@ -26,7 +26,7 @@ import org.firstinspires.ftc.teamcode.enums.Color;
 @TeleOp(name="auto intake test red", group = "test")
 
 public class autointestred extends LinearOpMode {
-    TriangleIntake triangleIntake = new TriangleIntake(hardwareMap,"IntakeServo1", "IntakeServo2", "IntakeServo3","pivot");
+    TriangleIntake triangleIntake;
     //  CrankSlideSubSystem crankSlideSubSystem = new CrankSlideSubSystem(hardwareMap, "CrankL","CrankR");
     CRServo Ti;
     CRServo Fi;
@@ -45,7 +45,8 @@ public class autointestred extends LinearOpMode {
         }
     }
 
-    public void runOpMode(){
+    public void runOpMode()
+    {
         cSensor = new ColorSensorSubSystem(hardwareMap,"ColorSensor");
         triangleIntake = new TriangleIntake(hardwareMap,"IntakeServo1", "IntakeServo2", "IntakeServo3","pivot");
         triangleIntakeCommand = new TriangleIntakeCommand(triangleIntake, cSensor, Color.RED);
