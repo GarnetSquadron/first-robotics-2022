@@ -14,8 +14,10 @@ import org.firstinspires.ftc.teamcode.enums.Color;
 public class ColorSensorSubSystem extends SubsystemBase {
     ColorSensor cSensor;
 
+    HardwareMap hardwareMap;
     public ColorSensorSubSystem(HardwareMap hardwaremap, String name) {
-
+        hardwareMap = hardwaremap;
+        cSensor = hardwaremap.get(ColorSensor.class,name);
     }
 
     public Color getSensedColor() {
