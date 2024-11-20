@@ -27,7 +27,7 @@ public class TriangleIntakeCommand extends CommandBase {
 
         Color c = colorSensor.getSensedColor();
 
-        telemetry.addData("color", c);
+        //telemetry.addData("color", c);
         if (c == null) {
             triangleIntake.intake();
         }
@@ -48,7 +48,7 @@ public class TriangleIntakeCommand extends CommandBase {
             triangleIntake.hold();
             finished = true;
         }else{
-            telemetry.addLine("Else has been reached");
+            //telemetry.addLine("Else has been reached");
         }
 
     }
