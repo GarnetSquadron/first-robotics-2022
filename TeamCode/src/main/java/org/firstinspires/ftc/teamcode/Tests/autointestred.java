@@ -46,7 +46,7 @@ public class autointestred extends LinearOpMode {
     {
         cSensor = new ColorSensorSubSystem(hardwareMap,"ColorSensor");
         triangleIntake = new TriangleIntake(hardwareMap,"IntakeServo1", "IntakeServo2", "IntakeServo3","pivot");
-        triangleIntakeCommand = new TriangleIntakeCommand(triangleIntake, cSensor, Color.RED);
+        triangleIntakeCommand = new TriangleIntakeCommand(triangleIntake, cSensor, Color.RED,telemetry);
         waitForStart();
         Onstart();
     }

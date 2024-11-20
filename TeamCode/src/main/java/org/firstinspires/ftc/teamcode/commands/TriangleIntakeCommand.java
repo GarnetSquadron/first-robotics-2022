@@ -3,9 +3,11 @@ package org.firstinspires.ftc.teamcode.commands;
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Subsystems.ColorSensorSubSystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TriangleIntake;
 import com.arcrobotics.ftclib.command.CommandBase;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.enums.Color;
 
@@ -14,10 +16,12 @@ public class TriangleIntakeCommand extends CommandBase {
     TriangleIntake triangleIntake;
     Color alianceColor;
     ColorSensorSubSystem colorSensor;
-    public TriangleIntakeCommand(TriangleIntake t, ColorSensorSubSystem c, Color a){
+    Telemetry TELEMETRY;
+    public TriangleIntakeCommand(TriangleIntake t, ColorSensorSubSystem c, Color a, Telemetry tel){
         triangleIntake = t;
         alianceColor = a;
         colorSensor = c;
+        TELEMETRY = tel;
     }
     boolean finished = false;
 
@@ -27,7 +31,7 @@ public class TriangleIntakeCommand extends CommandBase {
 
         Color c = colorSensor.getSensedColor();
 
-        //telemetry.addData("color", c);
+        TELEMETRY.addData("color", c);
         if (c == null) {
             triangleIntake.intake();
         }
