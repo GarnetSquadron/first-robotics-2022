@@ -6,6 +6,7 @@ package org.firstinspires.ftc.teamcode.Tests;
 //import static org.firstinspires.ftc.teamcode.Tests.autointestred.State.INTAKING;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 //import com.qualcomm.robotcore.hardware.CRServo;
 //import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -37,7 +38,7 @@ public class autointestred extends LinearOpMode {
         HOLDING
     }
     public void Onstart(){
-        while(!triangleIntakeCommand.isFinished()){
+        while(!triangleIntakeCommand.isFinished()&& opModeIsActive()){
             triangleIntakeCommand.execute();
         }
     }
