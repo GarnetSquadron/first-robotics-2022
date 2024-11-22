@@ -17,6 +17,7 @@ public class TriangleIntakeCommand extends CommandBase {
     Color alianceColor;
     ColorSensorSubSystem colorSensor;
     Telemetry TELEMETRY;
+    public Color c;
     public TriangleIntakeCommand(TriangleIntake t, ColorSensorSubSystem c, Color a, Telemetry tel){
         triangleIntake = t;
         alianceColor = a;
@@ -29,9 +30,9 @@ public class TriangleIntakeCommand extends CommandBase {
     public void execute() {
         triangleIntake.intake();
 
-        Color c = colorSensor.getSensedColor();
+        c = colorSensor.getSensedColor();
 
-        TELEMETRY.addData("color", c);
+        //TELEMETRY.addData("color", c);
         if (c == null) {
             triangleIntake.intake();
         }
