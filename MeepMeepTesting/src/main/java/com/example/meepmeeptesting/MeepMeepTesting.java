@@ -36,12 +36,10 @@ public class MeepMeepTesting {
         Pose2d tgtPose = new Pose2d(0,0,Math.PI/3);
 
         myBot.runAction(
-                    RotateMove(beginPose,tgtPose.position,2,myBot)
-//                myBot.getDrive().actionBuilder(beginPose)
-//                    //.splineToSplineHeading(tgtPose,getTangentAngle(tgtPose,beginPose))
-//                    .splineToSplineHeading(new Pose2d(0,0,beginPose.heading.toDouble()+Math.PI/2),)
-//                    .build()
-                    );
+                myBot.getDrive().actionBuilder(beginPose)
+                    .splineToSplineHeading(tgtPose,getTangentAngle(tgtPose,beginPose))
+                    .splineToSplineHeading(new Pose2d(0,0,beginPose.heading.toDouble()+Math.PI/2),0)
+                    .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)
                 .setDarkMode(true)
@@ -50,3 +48,4 @@ public class MeepMeepTesting {
                 .start();
     }
 }
+//commen
