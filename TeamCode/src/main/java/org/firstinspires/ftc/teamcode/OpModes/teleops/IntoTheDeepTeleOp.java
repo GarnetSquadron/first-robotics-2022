@@ -63,7 +63,7 @@ public class IntoTheDeepTeleOp extends OpMode {
         cSensor = new ColorSensorSubSystem(hardwareMap,"ColorSensor");
         triangleIntakeCommand = new TriangleIntakeCommand(triangleIntake,cSensor, AlianceColor,telemetry);
         intakePivot = new IntakePivot(hardwareMap);
-        telemetry.addData("sensed color",triangleIntakeCommand.c);
+
     }
     boolean firstiter = true;
     @Override
@@ -117,6 +117,8 @@ public class IntoTheDeepTeleOp extends OpMode {
             intakePivot.undeploy();
         }
         telemetry.addData("firstiter", firstiter);
+        telemetry.addData("IntakeState", triangleIntake.state);
+        telemetry.addData("sensed color",triangleIntakeCommand.c);
         telemetry.update();
 
     }
