@@ -60,12 +60,12 @@ public class IntoTheDeepTeleOp extends OpMode {
         cSensor = new ColorSensorSubSystem(hardwareMap,"ColorSensor");
         triangleIntakeCommand = new TriangleIntakeCommand(triangleIntake,cSensor, AlianceColor,telemetry);
         intakePivot = new IntakePivot(hardwareMap);
-        intakePivot.deploy();
         telemetry.addData("sensed color",triangleIntakeCommand.c);
     }
 
     @Override
     public void loop() {
+        intakePivot.deploy();
         RunHeadlessDrive(drive, gamepad1);
         if(gamepad2.x) {
             viperSlidesSubSystem.SetTgPosToExtend();
