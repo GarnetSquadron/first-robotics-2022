@@ -50,19 +50,11 @@ public class TriangleIntakeCommand extends CommandBase {
 
         } else if (c == Color.YELLOW){
             triangleIntake.hold();
-            //run pivot for main arm
-            crankSlideSubSystem.Return();
-            triangleIntake.eject();
-            crankSlideSubSystem.Extend();
-            //run pivot for main arm
+
 
         } else if (c == alianceColor){
             triangleIntake.hold();
-            //run pivot for main arm
-            crankSlideSubSystem.Return();
-            triangleIntake.eject();
-            crankSlideSubSystem.Extend();
-            //run pivot for main arm
+
         }else{
             //telemetry.addLine("Else has been reached");
         }
