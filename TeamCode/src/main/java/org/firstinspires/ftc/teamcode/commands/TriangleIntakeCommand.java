@@ -19,6 +19,8 @@ public class TriangleIntakeCommand extends CommandBase {
     ColorSensorSubSystem colorSensor;
     Telemetry TELEMETRY;
     public Color c;
+    long duration = 1500;
+    long startTime = duration-System.currentTimeMillis();
     public TriangleIntakeCommand(TriangleIntake t, ColorSensorSubSystem c, Color a, Telemetry tel){
 
         triangleIntake = t;
@@ -34,30 +36,28 @@ public class TriangleIntakeCommand extends CommandBase {
         //triangleIntake.intake();
 
         c = colorSensor.getSensedColor();
+        if (System.currentTimeMillis() - startTime < duration) {
 
+            triangleIntake.eject();
+
+        }
         //TELEMETRY.addData("color", c);
         if (c == null) {
             triangleIntake.intake();
         }
+        else if (c == Color.YELLOW){
+            triangleIntake.hold();
+            startTime = duration-System.currentTimeMillis();
+        }
         else if (c != alianceColor) {
-            long duration = 1500;
-            long startTime = System.currentTimeMillis();
 
-            while (System.currentTimeMillis() - startTime < duration) {
+            startTime = System.currentTimeMillis();
 
-                triangleIntake.eject();
-
-            }
-
-        } else if (c == Color.YELLOW){
+        }
+        if (c == alianceColor){
             triangleIntake.hold();
+            startTime = duration-System.currentTimeMillis();
 
-
-        } else if (c == alianceColor){
-            triangleIntake.hold();
-
-        }else{
-            //telemetry.addLine("Else has been reached");
         }
 
 

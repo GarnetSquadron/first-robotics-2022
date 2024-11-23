@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.ColorSensorSubSystem;
@@ -33,6 +34,7 @@ public class IntoTheDeepTeleOp extends OpMode {
     TriangleIntakeCommand triangleIntakeCommand;
 
     IntakePivot intakePivot;
+    Servo lid;
     GamepadEx Gpad1;
     GamepadEx Gpad2;
     Color AlianceColor = Color.RED;
@@ -52,6 +54,7 @@ public class IntoTheDeepTeleOp extends OpMode {
         drive = new MecanumDrive(hardwareMap,beginPose);
         Gpad1 = new GamepadEx(gamepad1);
         Gpad2 = new GamepadEx(gamepad2);
+        lid = hardwareMap.get(Servo.class, "lid");
         headlessDriveCommand = new HeadlessDriveCommand(drive,Gpad1::getLeftX,Gpad1::getLeftY,Gpad1::getRightX);
         viperSlidesSubSystem = new ViperSlidesSubSystem(hardwareMap);
         outtakePivot = new OuttakePivotSub(hardwareMap,"AlignServo1","AlignServo2");
@@ -62,8 +65,15 @@ public class IntoTheDeepTeleOp extends OpMode {
         intakePivot = new IntakePivot(hardwareMap);
         telemetry.addData("sensed color",triangleIntakeCommand.c);
     }
+    boolean firstiter = true;
     @Override
     public void loop() {
+        if(firstiter){
+            intakePivot.deploy();
+            outtakePivot.Down();
+            firstiter = false;
+        }
+
         RunHeadlessDrive(drive, gamepad1);
         if(gamepad2.x) {
             viperSlidesSubSystem.SetTgPosToExtend();
@@ -81,8 +91,14 @@ public class IntoTheDeepTeleOp extends OpMode {
         if(gamepad2.dpad_up){
             outtakePivot.Up();
         }
-        if(gamepad2.dpad_down) {
+        else{
             outtakePivot.Down();
+        }
+        if(gamepad2.dpad_down) {
+            lid.setPosition(0);
+        }
+        else{
+            lid.setPosition(1);
         }
         if(gamepad2.right_trigger>0.1/*&&!triangleIntakeCommand.isFinished()*/){
             triangleIntakeCommand.execute();
@@ -100,5 +116,8 @@ public class IntoTheDeepTeleOp extends OpMode {
         if(gamepad2.dpad_left){
             intakePivot.undeploy();
         }
+        telemetry.addData("firstiter", firstiter);
+        telemetry.update();
+
     }
 }
