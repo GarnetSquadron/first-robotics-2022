@@ -33,7 +33,7 @@ public class TriangleIntakeCommand extends CommandBase {
         startTime = duration-System.currentTimeMillis();
     }
     public void ejectForDuration(){
-        startTime  = System.currentTimeMillis()
+        startTime  = System.currentTimeMillis();
     }
 
     @Override
