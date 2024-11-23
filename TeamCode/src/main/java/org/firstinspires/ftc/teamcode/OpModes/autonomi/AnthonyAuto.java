@@ -25,7 +25,7 @@ import org.firstinspires.ftc.teamcode.oldStuff.VoidsAndThings;
 public class AnthonyAuto extends LinearOpMode {
     TriangleIntake triangleIntake;
     ViperSlidesSubSystem viperSlidesSubsystem;
-    TriangleIntake triangleIntake = new TriangleIntake(hardwareMap,"IntakeServo1", "IntakeServo2", "IntakeServo3","pivot");
+    //TriangleIntake triangleIntake = new TriangleIntake(hardwareMap,"IntakeServo1", "IntakeServo2", "IntakeServo3","pivot");
     DcMotor lf;
     DcMotor rf;
     DcMotor lb;
@@ -35,25 +35,25 @@ public class AnthonyAuto extends LinearOpMode {
         //Raise Viperslides and score sample in highest bucket
         //Lower Viperslides
         //spline to sample
-        Action path1 = drive.actionBuilder(beginPose)
-                .setTangent(0)
-                .splineToConstantHeading(new Vector2d(36,54),0)
-                .build();
-        Action path2 = drive.actionBuilder(new Pose2d(40,20,0))
-                .setTangent(0)
-                .splineToConstantHeading(new Pose2d(54,-36, 0)
-                        .build();
+//        Action path1 = drive.actionBuilder(beginPose)
+//                .setTangent(0)
+//                .splineToConstantHeading(new Vector2d(36,54),0)
+//                .build();
+//        Action path2 = drive.actionBuilder(new Pose2d(40,20,0))
+//                .setTangent(0)
+//                .splineToConstantHeading(new Pose2d(54,-36, 0)
+//                        .build();
 
-        Action PATH =new ParallelAction(
-                new SequentialAction(
-                        new ParallelAction(
-                                path1
-                        ),
-                        new ParallelAction(
-                                path2
-                        ),
-                        )
-        );
+//        Action PATH =new ParallelAction(
+//                new SequentialAction(
+//                        new ParallelAction(
+//                                path1
+//                        ),
+//                        new ParallelAction(
+//                                path2
+//                        ),
+//                        )
+//        );
         //pick up sample
         //transfer sample to bucket
         //spline back to bucket
@@ -69,6 +69,6 @@ public class AnthonyAuto extends LinearOpMode {
 }
 
 
-    }
+
 
 //commit 12

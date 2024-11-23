@@ -47,7 +47,7 @@ public class autointestblue extends LinearOpMode {
 
     public void runOpMode(){
         cSensor = new ColorSensorSubSystem(hardwareMap,"ColorSensor");
-        triangleIntake = new TriangleIntake(hardwareMap,"IntakeServo1", "IntakeServo2", "IntakeServo3","pivot");
+        triangleIntake = new TriangleIntake(hardwareMap,"Ti", "Fi", "Bi","pivot");
         triangleIntakeCommand = new TriangleIntakeCommand(triangleIntake, cSensor, Color.BLUE,telemetry);
         waitForStart();
         Onstart();

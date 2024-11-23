@@ -13,7 +13,7 @@ public class ServoTest extends LinearOpMode {
         waitForStart();
         while (opModeIsActive()){
             if (gamepad1.x) {
-                servo.setPosition(1);
+                servo.setPosition(1);//up
             }
 
             if (gamepad1.a) {
@@ -23,7 +23,7 @@ public class ServoTest extends LinearOpMode {
                 servo.setPosition(0.33333);
             }
             if (gamepad1.y) {
-                servo.setPosition(0);
+                servo.setPosition(0);//down
             }
         }
     }
