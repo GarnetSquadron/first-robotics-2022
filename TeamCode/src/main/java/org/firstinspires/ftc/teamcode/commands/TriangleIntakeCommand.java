@@ -29,6 +29,12 @@ public class TriangleIntakeCommand extends CommandBase {
         TELEMETRY = tel;
     }
     boolean finished = false;
+    public void stopEjecting(){
+        startTime = duration-System.currentTimeMillis();
+    }
+    public void ejectForDuration(){
+        startTime  = System.currentTimeMillis()
+    }
 
     @Override
     public void execute() {
@@ -46,17 +52,17 @@ public class TriangleIntakeCommand extends CommandBase {
             triangleIntake.intake();
         }
         else if (c == Color.YELLOW){
+            stopEjecting();
             triangleIntake.hold();
-            startTime = duration-System.currentTimeMillis();
         }
         else if (c != alianceColor) {
 
-            startTime = System.currentTimeMillis();
+            ejectForDuration();
 
         }
         if (c == alianceColor){
+            stopEjecting();
             triangleIntake.hold();
-            startTime = duration-System.currentTimeMillis();
 
         }
 
