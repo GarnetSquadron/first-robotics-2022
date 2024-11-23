@@ -28,7 +28,8 @@ public class TriangleIntakeCommand extends CommandBase {
 
     @Override
     public void execute() {
-        triangleIntake.intake();
+
+        //triangleIntake.intake();
 
         c = colorSensor.getSensedColor();
 
@@ -37,11 +38,11 @@ public class TriangleIntakeCommand extends CommandBase {
             triangleIntake.intake();
         }
         else if (c != alianceColor) {
-            triangleIntake.eject();
             long duration = 1500;
             long startTime = System.currentTimeMillis();
 
             while (System.currentTimeMillis() - startTime < duration) {
+
                 triangleIntake.eject();
 
             }
@@ -58,6 +59,10 @@ public class TriangleIntakeCommand extends CommandBase {
 
 
     }
+//    public void stop(){
+//        triangleIntake.hold();
+//    }
+//    public void
 
     @Override
     public boolean isFinished() {

@@ -41,18 +41,23 @@ public class autointestred extends CommandOpMode {
     public void Onstart(){
         while(!triangleIntakeCommand.isFinished()&& opModeIsActive()){
             triangleIntakeCommand.execute();
+            telemetry.addData("team", triangleIntakeCommand.alianceColor);
+            telemetry.addData("sensed color", triangleIntakeCommand.c);
+            telemetry.update();
         }
     }
 
     public void initialize()
     {
         cSensor = new ColorSensorSubSystem(hardwareMap,"ColorSensor");
-        triangleIntake = new TriangleIntake(hardwareMap,"IntakeServo1", "IntakeServo2", "IntakeServo3","pivot");
+        triangleIntake = new TriangleIntake(hardwareMap,"Ti", "Fi", "Bi","pivot");
         triangleIntakeCommand = new TriangleIntakeCommand(triangleIntake, cSensor, Color.RED,telemetry);
-        triangleIntake.setDefaultCommand(triangleIntakeCommand);
-        cSensor.setDefaultCommand(triangleIntakeCommand);
-        //waitForStart();
-        //Onstart();
+
+//        triangleIntake.setDefaultCommand(triangleIntakeCommand);
+//        cSensor.setDefaultCommand(triangleIntakeCommand);
+
+        waitForStart();
+        Onstart();
     }
 }
 

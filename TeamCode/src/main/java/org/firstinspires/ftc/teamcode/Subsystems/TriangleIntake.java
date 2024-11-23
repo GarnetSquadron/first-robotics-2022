@@ -11,10 +11,10 @@ public class TriangleIntake extends SubsystemBase {
     private final CRServo Fi;
     private final CRServo Bi;
     private final Servo Pivot;
-    public TriangleIntake(HardwareMap hardwareMap, String name1,String name2,String name3, String pivotName){
-        Ti = hardwareMap.get(CRServo.class,name1);
-        Fi = hardwareMap.get(CRServo.class,name2);
-        Bi = hardwareMap.get(CRServo.class,name3);
+    public TriangleIntake(HardwareMap hardwareMap, String TiName,String FiName,String BiName, String pivotName){
+        Ti = hardwareMap.get(CRServo.class,TiName);
+        Fi = hardwareMap.get(CRServo.class,FiName);
+        Bi = hardwareMap.get(CRServo.class,BiName);
         Pivot = hardwareMap.get(Servo.class,pivotName);
     }
     public enum State{
@@ -24,13 +24,13 @@ public class TriangleIntake extends SubsystemBase {
     }
     public void intake() {
         Ti.setPower(0);
-        Fi.setPower(-1);
-        Bi.setPower(+1);
+        Fi.setPower(+1);
+        Bi.setPower(-1);
     }
 
     public void eject() {
         Ti.setPower(+1);
-        Fi.setPower(-1);
+        Fi.setPower(+1);
         Bi.setPower(0);
     }
 
@@ -40,7 +40,7 @@ public class TriangleIntake extends SubsystemBase {
         Bi.setPower(0);
     }
     public void send() {
-        Ti.setPower(-1);
+        Ti.setPower(+1);
         Fi.setPower(0);
         Bi.setPower(+1);
     }
