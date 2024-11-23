@@ -40,7 +40,7 @@ public class autointestblue extends LinearOpMode {
         HOLDING
     }
     public void Onstart(){
-        while(!triangleIntakeCommand.isFinished()){
+        while(!triangleIntakeCommand.isFinished()&&opModeIsActive()){
             triangleIntakeCommand.execute();
         }
     }

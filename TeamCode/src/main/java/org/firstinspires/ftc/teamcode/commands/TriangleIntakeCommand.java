@@ -14,9 +14,10 @@ import org.firstinspires.ftc.teamcode.enums.Color;
 
 public class TriangleIntakeCommand extends CommandBase {
     TriangleIntake triangleIntake;
-    Color alianceColor;
+    public Color alianceColor;
     ColorSensorSubSystem colorSensor;
     Telemetry TELEMETRY;
+    public Color c;
     public TriangleIntakeCommand(TriangleIntake t, ColorSensorSubSystem c, Color a, Telemetry tel){
         triangleIntake = t;
         alianceColor = a;
@@ -29,9 +30,9 @@ public class TriangleIntakeCommand extends CommandBase {
     public void execute() {
         triangleIntake.intake();
 
-        Color c = colorSensor.getSensedColor();
+        c = colorSensor.getSensedColor();
 
-        TELEMETRY.addData("color", c);
+        //TELEMETRY.addData("color", c);
         if (c == null) {
             triangleIntake.intake();
         }
@@ -54,6 +55,7 @@ public class TriangleIntakeCommand extends CommandBase {
         }else{
             //telemetry.addLine("Else has been reached");
         }
+
 
     }
 
