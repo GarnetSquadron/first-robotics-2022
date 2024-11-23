@@ -37,11 +37,11 @@ public class TriangleIntakeCommand extends CommandBase {
             triangleIntake.intake();
         }
         else if (c != alianceColor) {
+            triangleIntake.eject();
             long duration = 1500;
             long startTime = System.currentTimeMillis();
 
             while (System.currentTimeMillis() - startTime < duration) {
-
                 triangleIntake.eject();
 
             }
