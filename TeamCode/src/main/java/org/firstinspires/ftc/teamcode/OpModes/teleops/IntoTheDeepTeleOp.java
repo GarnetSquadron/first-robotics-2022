@@ -91,13 +91,13 @@ public class IntoTheDeepTeleOp extends OpMode {
         if(gamepad2.dpad_up){
             outtakePivot.Up();
         }
-        else{
+        if(gamepad2.dpad_down) {
             outtakePivot.Down();
         }
-        if(gamepad2.dpad_down) {
+        if(gamepad2.left_bumper){
             lid.setPosition(0);
         }
-        else{
+        if(gamepad2.right_bumper){
             lid.setPosition(1);
         }
         if(gamepad2.right_trigger>0.1/*&&!triangleIntakeCommand.isFinished()*/){
