@@ -96,7 +96,7 @@ public class ScrimmageAutoRoute extends LinearOpMode {
 ////--------------------------------------------------------------------------------------------------
 //        arm.setPower(power);
 
-        //--------------------------------Telemetry, gives data about position and makes sure it doesnt stop immediately.----------------------
+        //--------------------------------Telemetry, gives data about position and makes sure it doesn't stop immediately.----------------------
 //        while (arm.isBusy()) {
 //            telemetry.addData("lf encoder: ",arm.getCurrentPosition());
 //            telemetry.addData("power: ",arm.getPower());
@@ -402,6 +402,7 @@ public class ScrimmageAutoRoute extends LinearOpMode {
             //            telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
             //telemetry.addData("- spikemark?","%.0f x %.0f", Math.round(x/200));
         }   // end for() loop
+
         telemetry.addData("position", x);
         telemetry.addData("spikemark", Math.round(x / 200 + 1));
         telemetry.update();
@@ -431,10 +432,8 @@ public class ScrimmageAutoRoute extends LinearOpMode {
         sleep(2000);
         //Dispense samples
         forward(.25,10);
-        sRight(.25,100);
+        sRight(.25,10);
         forward(.25,10);
-
-
 
     }
 
