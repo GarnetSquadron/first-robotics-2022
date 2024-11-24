@@ -9,7 +9,7 @@ public class NathanAuto {
 //                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
 //                .build();
 //
-//        Pose2d beginPose = new Pose2d(-26,-70,Math.toRadians(180));
+//        Pose2d beginPose = new Pose2d(-26,-62,Math.toRadians(180));
 //        Pose2d tgtPose = new Pose2d(20,20,Math.PI);
 //        myBot.runAction(myBot.getDrive().actionBuilder(beginPose)
 //                .splineToConstantHeading(new Vector2d(-34,-26),90)
@@ -28,8 +28,7 @@ public class NathanAuto {
 //                .waitSeconds(0.7)
 //                .splineToConstantHeading(new Vector2d(-55,-55),0)
 //                .turn(Math.toRadians(225))
-//                .waitSeconds(0.7)
-//                .splineToConstantHeading(new Vector2d(58,-62),0)
-//                .turn(Math.toRadians(45))
+//               .waitSeconds(0.7)
+//                .splineToLinearHeading(new Pose2d(58, -62, Math.toRadians(90)), Math.toRadians(0))
 //                .build());
 }
