@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 
-import com.acmerobotics.roadrunner.Vector2d;
-
-public class NathanAuto {
+public class ThreePtSampleAuto {
 
 //             RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
 //                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
