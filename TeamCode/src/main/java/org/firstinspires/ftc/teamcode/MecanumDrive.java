@@ -50,6 +50,7 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
+import org.firstinspires.ftc.teamcode.Subsystems.MecanumDriveSubSystem;
 import org.firstinspires.ftc.teamcode.messages.DriveCommandMessage;
 import org.firstinspires.ftc.teamcode.messages.MecanumCommandMessage;
 import org.firstinspires.ftc.teamcode.messages.MecanumLocalizerInputsMessage;
@@ -541,5 +542,14 @@ public class MecanumDrive {
         return new StayAndWait(beginPos,t,error);
     }
 
+    public static double getTangentAngle(Pose2d tgtPose, Pose2d beginPose){
+        return Math.PI+Math.atan((tgtPose.position.y-beginPose.position.y)/(tgtPose.position.x-beginPose.position.x));
+    }
+    public static Action EasyLine(Pose2d tgtPose, Pose2d beginPose, MecanumDrive drive){
+        return drive.actionBuilder(beginPose)
+                .setTangent(getTangentAngle(beginPose,tgtPose))
+                .splineToSplineHeading(tgtPose, getTangentAngle(tgtPose,beginPose))
+                .build();
+    }
 
 }

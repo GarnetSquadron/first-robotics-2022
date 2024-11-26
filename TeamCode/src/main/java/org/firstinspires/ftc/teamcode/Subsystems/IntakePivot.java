@@ -5,15 +5,16 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class IntakePivot extends SubsystemBase {
-    Servo pivot;
+    ServoSub pivot;
     public IntakePivot(HardwareMap hardwaremap){
-        pivot = hardwaremap.get(Servo.class, "pivot");
+        pivot = new ServoSub(hardwaremap,"pivot",0.8,0);
+    //hardwaremap.get(Servo.class, "pivot");
 
     }
     public void deploy(){
-        pivot.setPosition(0);
+        pivot.MoveToMax();
     }
     public void undeploy(){
-        pivot.setPosition(0.8);
+        pivot.MoveToMin();
     }
 }
