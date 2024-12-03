@@ -18,11 +18,7 @@ public class IntakeCenteredHeadlessDrive extends CommandBase {
     DoubleSupplier yvel;
     DoubleSupplier AngularVel;
     DoubleSupplier CrankExtension;
-    double maxExtension = 12;// needs to be updated
-    double minExtension = 0;
-    public double getExtension(double ratio){
-        return (maxExtension-minExtension)*ratio;
-    }
+
     public IntakeCenteredHeadlessDrive(MecanumDrive m, DoubleSupplier x, DoubleSupplier y, DoubleSupplier angle,DoubleSupplier crankExtension){
         drive = m;
         xvel=x;
@@ -36,7 +32,8 @@ public class IntakeCenteredHeadlessDrive extends CommandBase {
         double direction = drive.pose.heading.toDouble();
         drive.setDrivePowers(new PoseVelocity2d(
                 new Vector2d(
-                        -Math.sin(drive.pose.heading.toDouble())*xvel.getAsDouble()-Math.cos(drive.pose.heading.toDouble())*yvel.getAsDouble()+AngularVel.getAsDouble()*getExtension(CrankExtension.getAsDouble()),
+                        -Math.sin(drive.pose.heading.toDouble())*xvel.getAsDouble()-Math.cos(drive.pose.heading.toDouble())*yvel.getAsDouble()
+                        /*+AngularVel.getAsDouble()*CrankExtension.getAsDouble()   <-this has the potential to be larger than 1, so it may throw error. I temporarily forgot that motors have a limit to their power*/,
                         -Math.cos(drive.pose.heading.toDouble())*xvel.getAsDouble()+Math.sin(drive.pose.heading.toDouble())*yvel.getAsDouble()
                 ),
                 -AngularVel.getAsDouble()

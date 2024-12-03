@@ -11,7 +11,7 @@ public class CrankTest extends OpMode {
     CrankSlideSubSystem crank;
     @Override
     public void init() {
-        crank = new CrankSlideSubSystem(hardwareMap,"CrankLeft","CrankRight");
+        crank = new CrankSlideSubSystem(hardwareMap);
     }
 
     @Override

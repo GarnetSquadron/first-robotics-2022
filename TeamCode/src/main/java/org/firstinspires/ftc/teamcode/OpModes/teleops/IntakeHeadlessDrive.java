@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.teamcode.Subsystems.CrankSlideSubSystem;
 import org.firstinspires.ftc.teamcode.commands.IntakeCenteredHeadlessDrive;
 
 public class IntakeHeadlessDrive extends OpMode {
@@ -18,6 +19,7 @@ public class IntakeHeadlessDrive extends OpMode {
     MecanumDrive drive;
     Pose2d beginPose = new Pose2d(0,0,0);
     static GamepadEx Gpad1, Gpad2;
+    CrankSlideSubSystem crank;
     public static double getLeftTrigger(){
         return Gpad1.getTrigger(LEFT_TRIGGER);
     }
@@ -25,6 +27,7 @@ public class IntakeHeadlessDrive extends OpMode {
     public void init() {
         Gpad1 = new GamepadEx(gamepad1);
         Gpad2 = new GamepadEx(gamepad2);
+        crank = new CrankSlideSubSystem(hardwareMap);
         drive = new MecanumDrive(hardwareMap,beginPose);
         driveCommand = new IntakeCenteredHeadlessDrive(drive,Gpad1::getLeftX,Gpad1::getLeftY,Gpad1::getRightX,IntakeHeadlessDrive::getLeftTrigger);
     }

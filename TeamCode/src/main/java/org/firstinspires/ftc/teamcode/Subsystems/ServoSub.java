@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class ServoSub {
-    public final Servo servo;
+    private final Servo servo;
     private double Max;
     private double Min;
     public ServoSub(HardwareMap hardwareMap, String name, double min, double max) {
@@ -24,5 +24,11 @@ public class ServoSub {
     }
     public void MoveToMin() {
         goToPos(1);
+    }
+//    private double getToothSize(int teeth){
+//        return 4.0/(teeth*3.0);
+//    }
+    public double getPos(){
+        return servo.getPosition();
     }
 }

@@ -58,7 +58,7 @@ public class IntoTheDeepTeleOp extends OpMode {
         headlessDriveCommand = new HeadlessDriveCommand(drive,Gpad1::getLeftX,Gpad1::getLeftY,Gpad1::getRightX);
         viperSlidesSubSystem = new ViperSlidesSubSystem(hardwareMap);
         outtakePivot = new OuttakePivotSub(hardwareMap,"AlignServo1","AlignServo2");
-        crank = new CrankSlideSubSystem(hardwareMap,"CrankLeft","CrankRight");
+        crank = new CrankSlideSubSystem(hardwareMap);
         triangleIntake = new TriangleIntake(hardwareMap,"Ti", "Fi", "Bi","pivot");
         cSensor = new ColorSensorSubSystem(hardwareMap,"ColorSensor");
         triangleIntakeCommand = new TriangleIntakeCommand(triangleIntake,cSensor, AlianceColor,telemetry);

@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.OpModes.autonomi;
+
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.acmerobotics.roadrunner.Pose2d;
@@ -8,7 +11,7 @@ import com.acmerobotics.roadrunner.Vector2d;
 
 import org.checkerframework.checker.units.qual.A;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
-@Autonomous(name = "ScrimRed")
+@Autonomous(name = "ScrimRed", group = "test")
 public class Autonoredteamscrim extends LinearOpMode {
 
         public void runOpMode() throws InterruptedException {
@@ -23,6 +26,9 @@ public class Autonoredteamscrim extends LinearOpMode {
                     .splineToConstantHeading(new Vector2d(56,-62),90)
                     .build();
 
+            Actions.runBlocking(
+                  new SequentialAction(path1,path2)
+            );
 
         }
 }
