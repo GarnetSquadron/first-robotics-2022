@@ -19,11 +19,11 @@ import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
             ThreeSample s = new ThreeSample(myBot);
             Pose2d beginPose = new Pose2d(26,-62,Math.toRadians(90));
             Pose2d tgtPose = new Pose2d(20,20,Math.PI);
-            t.run();
+            s.run();
             meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)
                     .setDarkMode(true)
                     .setBackgroundAlpha(0.95f)
                     .addEntity(myBot)
                     .start();
         }
-    }
+    }//

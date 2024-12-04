@@ -2,9 +2,7 @@ package org.firstinspires.ftc.teamcode.Tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
 import org.firstinspires.ftc.teamcode.Subsystems.IntakeClawSub;
-import org.firstinspires.ftc.teamcode.Subsystems.OuttakePivotSub;
 
 @TeleOp(name="IntakeClawTest", group = "test")
 public class IntakeClawTest extends OpMode {
@@ -20,6 +18,6 @@ public class IntakeClawTest extends OpMode {
     }
 
     public void init() {
-        ServoAlignment = new IntakeClawSub(hardwareMap,"ClawLeft", "ClawRight");
+        ServoAlignment = new IntakeClawSub(hardwareMap,"ClawServo");
     }
 }
