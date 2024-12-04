@@ -5,7 +5,7 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 public class IntakeClawSub extends SubsystemBase {
     public final ServoSub SERVO;
 
-    public IntakeClawSub(HardwareMap hardwareMap, String name1, String name2) {
+    public IntakeClawSub(HardwareMap hardwareMap, String name1) {
         SERVO = new ServoSub(hardwareMap, name1, 1, 0);
     }
 
