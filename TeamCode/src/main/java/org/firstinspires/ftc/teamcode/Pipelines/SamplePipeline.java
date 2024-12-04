@@ -24,7 +24,7 @@ import java.util.ArrayList;
 /**
  * This contains methods that are useful for making pipelines
  */
-@Config
+//@Config
 public abstract class SamplePipeline extends OpenCvPipeline {
     //region Our working image buffers
     Mat ycrcbMat = new Mat();
@@ -187,10 +187,11 @@ public abstract class SamplePipeline extends OpenCvPipeline {
      * @return
      */
     Point getCoordOnFloorFromCoordOnScreen(Point p,Mat CamMat,double angle, double height){
-        double fx = CamMat.get(0,0)[1];//TODO: figure out the number in the brackets (Its prob 1 but I am not sure maybe 0)
-        double fy = CamMat.get(1,1)[1];
-        double cx = CamMat.get(0,2)[1];
-        double cy = CamMat.get(1,2)[1];
+//        double fx = CamMat.get(0,0)[0];//TODO: figure out the number in the brackets (Its prob 1 but I am not sure maybe 0)
+//        double fy = CamMat.get(1,1)[0];
+//        double cx = CamMat.get(0,2)[0];
+//        double cy = CamMat.get(1,2)[0];
+
         return getCoordOnFloorFromCoordOnScreen(p,fx,fy,cx,cy,angle,height);
     }
     Point getCoordOnFloorFromCoordOnScreen(Point p, double fx, double fy, double cx, double cy, double angle, double height){
