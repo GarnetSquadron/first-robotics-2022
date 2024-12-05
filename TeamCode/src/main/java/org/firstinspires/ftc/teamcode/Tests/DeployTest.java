@@ -18,7 +18,7 @@ public class DeployTest extends OpMode {
         if(gamepad1.x){
             claw.deploy(1);
         }
-        else {
+        if(gamepad1.y) {
             claw.undeploy();
         }
     }
