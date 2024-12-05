@@ -5,7 +5,6 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
- * STILL WORKING ON THIS DO NOT USE
  * Class to keep all DcMotor actions that can be used for multiple different motors
  */
 public class DcMotorSubSystem extends SubsystemBase {
