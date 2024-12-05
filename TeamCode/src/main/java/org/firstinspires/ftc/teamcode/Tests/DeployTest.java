@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.Tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.CrankAndPivotClaw;
 
+@TeleOp(name = "Claw Deploy Test",group = "test")
 public class DeployTest extends OpMode {
     CrankAndPivotClaw claw;
     @Override
