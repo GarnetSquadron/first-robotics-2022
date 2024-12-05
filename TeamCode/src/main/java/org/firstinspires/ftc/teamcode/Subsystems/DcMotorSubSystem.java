@@ -12,15 +12,13 @@ public class DcMotorSubSystem extends SubsystemBase {
     private final Motor motor;
     private final int MaxPos;
     private final int MinPos;
-    private final int StartPos;
     private double PosCoefficient;
-    public DcMotorSubSystem(HardwareMap hardwareMap, String MotorName,int minPos, int maxPos, int startPos, double posCoefficient){
+    public DcMotorSubSystem(HardwareMap hardwareMap, String MotorName,int minPos, int maxPos, double posCoefficient){
         motor = new Motor(hardwareMap,MotorName);
         motor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         motor.resetEncoder();
         MaxPos = minPos;
         MinPos = maxPos;
-        StartPos = startPos;
         PosCoefficient = posCoefficient;
     }
     public void setTgPos(int posRatio){
@@ -31,7 +29,7 @@ public class DcMotorSubSystem extends SubsystemBase {
         motor.setPositionCoefficient(PosCoefficient);
 
 // set the target position
-        motor.setTargetPosition(getPosFromRatio(MinPos, MaxPos, StartPos, posRatio));      // an integer representing
+        motor.setTargetPosition(getPosFromRatio(MinPos, MaxPos, posRatio));      // an integer representing
         // desired tick count
 
         motor.set(0);
@@ -50,7 +48,7 @@ public class DcMotorSubSystem extends SubsystemBase {
             motor.stopMotor();// stop the motor
         }
     }
-    int getPosFromRatio(int min, int max, int startPos, double pos){
-        return startPos+(int)Math.round(pos*(max-min));
+    int getPosFromRatio(int min, int max, double pos){
+        return (int)Math.round(pos*(max-min));
     }
 }
