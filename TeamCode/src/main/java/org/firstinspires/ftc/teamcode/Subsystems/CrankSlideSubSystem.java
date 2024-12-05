@@ -19,7 +19,7 @@ public class CrankSlideSubSystem extends SubsystemBase {
 
     public CrankSlideSubSystem(HardwareMap hardwareMap) {
         CrankL = new ServoSub(hardwareMap,"CrankLeft", LeftMin, LeftMax);
-        CrankR = new ServoSub(hardwareMap, "CrankLeft", RightMin, RightMax);
+        CrankR = new ServoSub(hardwareMap, "CrankRight", RightMin, RightMax);
 
     }
     public void goToPos(double pos){
