@@ -1,24 +1,10 @@
 package org.firstinspires.ftc.teamcode.OpModes.teleops;
 
-import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.PoseVelocity2d;
-import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.Bot;
-import org.firstinspires.ftc.teamcode.Subsystems.ColorSensorSubSystem;
-import org.firstinspires.ftc.teamcode.Subsystems.CrankSlideSubSystem;
-import org.firstinspires.ftc.teamcode.Subsystems.IntakePivot;
-import org.firstinspires.ftc.teamcode.Subsystems.OuttakePivotSub;
-import org.firstinspires.ftc.teamcode.Subsystems.TriangleIntake;
-import org.firstinspires.ftc.teamcode.Subsystems.ViperSlidesSubSystem;
-import org.firstinspires.ftc.teamcode.commands.HeadlessDriveCommand;
-import org.firstinspires.ftc.teamcode.commands.TriangleIntakeCommand;
 import org.firstinspires.ftc.teamcode.enums.Color;
 
 @TeleOp(name = "INTOTHEDEEP TELEOP", group = "AAA TELEOPS")

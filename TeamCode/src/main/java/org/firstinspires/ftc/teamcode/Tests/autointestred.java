@@ -6,17 +6,15 @@ package org.firstinspires.ftc.teamcode.Tests;
 //import static org.firstinspires.ftc.teamcode.Tests.autointestred.State.INTAKING;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 //import com.qualcomm.robotcore.hardware.CRServo;
 //import com.qualcomm.robotcore.hardware.ColorSensor;
 
-import org.firstinspires.ftc.teamcode.Subsystems.ColorSensorSubSystem;
-import org.firstinspires.ftc.teamcode.Subsystems.TriangleIntake;
+import org.firstinspires.ftc.teamcode.Subsystems.depricated.TriangleIntake.ColorSensorSubSystem;
+import org.firstinspires.ftc.teamcode.Subsystems.depricated.TriangleIntake.TriangleIntake;
 import org.firstinspires.ftc.teamcode.commands.TriangleIntakeCommand;
 import org.firstinspires.ftc.teamcode.enums.Color;
-//import org.firstinspires.ftc.teamcode.Subsystems.CrankSlideSubSystem;
+//import org.firstinspires.ftc.teamcode.Subsystems.Intake.CrankSlideSubSystem;
 //import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 //import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
 //import org.firstinspires.ftc.teamcode.Pipelines.SampleDetectionPipelinePNP;

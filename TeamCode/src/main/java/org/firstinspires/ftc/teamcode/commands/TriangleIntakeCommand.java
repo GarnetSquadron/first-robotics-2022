@@ -1,13 +1,10 @@
 package org.firstinspires.ftc.teamcode.commands;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-
-import org.firstinspires.ftc.teamcode.Subsystems.CrankSlideSubSystem;
+import org.firstinspires.ftc.teamcode.Subsystems.Intake.CrankSlideSubSystem;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Subsystems.ColorSensorSubSystem;
-import org.firstinspires.ftc.teamcode.Subsystems.TriangleIntake;
+import org.firstinspires.ftc.teamcode.Subsystems.depricated.TriangleIntake.ColorSensorSubSystem;
+import org.firstinspires.ftc.teamcode.Subsystems.depricated.TriangleIntake.TriangleIntake;
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.enums.Color;
 

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Subsystems;
+package org.firstinspires.ftc.teamcode.Subsystems.depricated.TriangleIntake;
 
 //import static org.firstinspires.ftc.teamcode.Tests.autointestred.State.EJECTING;
 //import static org.firstinspires.ftc.teamcode.Tests.autointestred.State.HOLDING;

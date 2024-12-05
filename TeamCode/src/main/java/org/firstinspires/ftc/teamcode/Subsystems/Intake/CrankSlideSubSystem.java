@@ -1,7 +1,9 @@
-package org.firstinspires.ftc.teamcode.Subsystems;
+package org.firstinspires.ftc.teamcode.Subsystems.Intake;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.teamcode.Subsystems.ServoSub;
 
 public class CrankSlideSubSystem extends SubsystemBase {
     private final ServoSub CrankL;

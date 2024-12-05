@@ -3,7 +3,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
-import org.firstinspires.ftc.teamcode.Subsystems.OuttakePivotSub;
+import org.firstinspires.ftc.teamcode.Subsystems.outake.OuttakePivotSub;
 
 
 @TeleOp(name="OuttakePivotTest", group = "test")

@@ -1,6 +1,8 @@
-package org.firstinspires.ftc.teamcode.Subsystems;
+package org.firstinspires.ftc.teamcode.Subsystems.Intake;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.teamcode.Subsystems.ServoSub;
 
 public class Wrist{
     static ServoSub wrist;

@@ -2,13 +2,14 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.teamcode.Subsystems.Intake.CrankAndClaw;
+import org.firstinspires.ftc.teamcode.Subsystems.outake.OuttakePivotSub;
+import org.firstinspires.ftc.teamcode.Subsystems.outake.ViperSlidesSubSystem;
 import org.firstinspires.ftc.teamcode.commands.HeadlessDriveCommand;
-import org.firstinspires.ftc.teamcode.commands.TriangleIntakeCommand;
 
 public class Bot {
     public MecanumDrive drive;

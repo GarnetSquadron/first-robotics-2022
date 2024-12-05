@@ -1,26 +1,12 @@
 package org.firstinspires.ftc.teamcode.OpModes.autonomi;
-import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.Vector2d;
-import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
-import org.firstinspires.ftc.teamcode.Subsystems.ColorSensorSubSystem;
 
-import org.firstinspires.ftc.teamcode.Subsystems.TriangleIntake;
-import org.firstinspires.ftc.teamcode.commands.TriangleIntakeCommand;
-import org.firstinspires.ftc.teamcode.Subsystems.ViperSlidesSubSystem;
-
-import org.firstinspires.ftc.teamcode.Subsystems.TriangleIntake;
-import org.firstinspires.ftc.teamcode.oldStuff.VoidsAndThings;
+import org.firstinspires.ftc.teamcode.Subsystems.depricated.TriangleIntake.TriangleIntake;
+import org.firstinspires.ftc.teamcode.Subsystems.outake.ViperSlidesSubSystem;
 
 public class AnthonyAuto extends LinearOpMode {
     TriangleIntake triangleIntake;

@@ -1,17 +1,13 @@
 package org.firstinspires.ftc.teamcode.OpModes.teleops;
 
 import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Trigger.LEFT_TRIGGER;
-import static com.arcrobotics.ftclib.gamepad.GamepadKeys.Trigger.RIGHT_TRIGGER;
 
 import com.acmerobotics.roadrunner.Pose2d;
-import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
-import org.firstinspires.ftc.teamcode.Subsystems.CrankSlideSubSystem;
+import org.firstinspires.ftc.teamcode.Subsystems.Intake.CrankSlideSubSystem;
 import org.firstinspires.ftc.teamcode.commands.IntakeCenteredHeadlessDrive;
 
 public class IntakeHeadlessDrive extends OpMode {
