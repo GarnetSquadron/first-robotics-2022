@@ -1,9 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands;
 
-import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.arcrobotics.ftclib.command.CommandGroupBase;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Subsystems.ColorSensorSubSystem;
@@ -12,8 +9,6 @@ import org.firstinspires.ftc.teamcode.Subsystems.IntakePivot;
 import org.firstinspires.ftc.teamcode.Subsystems.TriangleIntake;
 import org.firstinspires.ftc.teamcode.TTimer;
 import org.firstinspires.ftc.teamcode.enums.Color;
-
-import java.util.Timer;
 
 public class AutomatedIntakeAndTransfer extends CommandBase {
     ColorSensorSubSystem cSensor;
@@ -37,7 +32,7 @@ public class AutomatedIntakeAndTransfer extends CommandBase {
 
         if(triangleIntakeCommand.isFinished()){
             if(!retractTime.timestarted()){
-                crank.Return();
+                crank.undeploy();
                 pivot.undeploy();
                 retractTime.StartTimer();
             }

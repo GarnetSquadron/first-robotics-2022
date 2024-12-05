@@ -20,7 +20,7 @@ public class CrankTest extends OpMode {
             crank.Extend();
         }
         if(gamepad1.y){
-            crank.Return();
+            crank.undeploy();
         }
     }
 }

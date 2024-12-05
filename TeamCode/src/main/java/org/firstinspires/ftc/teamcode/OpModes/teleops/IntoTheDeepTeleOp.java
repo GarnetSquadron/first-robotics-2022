@@ -6,7 +6,6 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -86,7 +85,7 @@ public class IntoTheDeepTeleOp extends OpMode {
             crank.Extend();
         }
         if(gamepad2.b){
-            crank.Return();
+            crank.undeploy();
         }
         if(gamepad2.dpad_up){
             outtakePivot.Up();

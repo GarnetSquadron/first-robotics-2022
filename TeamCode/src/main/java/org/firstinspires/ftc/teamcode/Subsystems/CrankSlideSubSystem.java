@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class CrankSlideSubSystem extends SubsystemBase {
@@ -30,7 +29,7 @@ public class CrankSlideSubSystem extends SubsystemBase {
     public void Extend() {
         goToPos(1);
     }
-    public void Return() {
+    public void undeploy() {
         goToPos(0);
     }
 
