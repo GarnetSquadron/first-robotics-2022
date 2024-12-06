@@ -2,27 +2,32 @@ package org.firstinspires.ftc.teamcode;
 
 import java.util.TimerTask;
 import java.util.function.DoubleSupplier;
+import java.util.function.LongSupplier;
+
+/**
+ * easier to use than util.Timer and has slightly different functionality. you can get timeover() to see if the time is up, but this cannot schedule tasks like utils.Timer can
+ */
 
 public class TTimer {
     double duration;
     double startTime;
-    DoubleSupplier TimeSinceInit;
+    LongSupplier TimeSinceInit;
     boolean timeStarted;
-    public TTimer(double duration, DoubleSupplier SystemTime){
-        this.duration = duration;
+    public TTimer(LongSupplier SystemTime){
+        duration = 0;
         TimeSinceInit = SystemTime;
         timeStarted = false;
     }
-    public void StartTimer(){
-        startTime = TimeSinceInit.getAsDouble();
+    public void StartTimer(double duration){
+        startTime = TimeSinceInit.getAsLong();
         timeStarted = true;
-
+        this.duration = duration;
     }
     public boolean timestarted(){
         return timeStarted;
     }
     public boolean timeover(){
-        return duration+startTime<TimeSinceInit.getAsDouble();
+        return duration+startTime<TimeSinceInit.getAsLong();
     }
 
 }

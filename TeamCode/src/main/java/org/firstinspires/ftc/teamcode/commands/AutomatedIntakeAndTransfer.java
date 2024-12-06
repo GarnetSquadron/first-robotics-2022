@@ -23,9 +23,8 @@ public class AutomatedIntakeAndTransfer extends CommandBase {
         triangleIntakeCommand = new TriangleIntakeCommand(triangleIntake,cSensor,alianceColor,telemetry);
         crank = c;
         pivot = p;
-        retractTime = new TTimer(1,System::currentTimeMillis);
-        transferTime = new TTimer(1,System::currentTimeMillis);
-
+        retractTime = new TTimer(System::currentTimeMillis);
+        transferTime = new TTimer(System::currentTimeMillis);
     }
     @Override
     public void execute(){
@@ -34,13 +33,13 @@ public class AutomatedIntakeAndTransfer extends CommandBase {
             if(!retractTime.timestarted()){
                 crank.undeploy();
                 pivot.undeploy();
-                retractTime.StartTimer();
+                retractTime.StartTimer(100);
             }
             if(retractTime.timeover()){
                 if(!transferTime.timestarted())
                 {
                     triangleIntake.eject();
-                    transferTime.StartTimer();
+                    transferTime.StartTimer(100);
                 }
                 if(transferTime.timeover()){
                     triangleIntake.hold();

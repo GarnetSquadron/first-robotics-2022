@@ -21,6 +21,15 @@ public class CrankAndClaw {
         crankSlide.undeploy();
         pivot.undeploy();
     }
+    public void runToDegrees(double angle){
+        wrist.runToDegrees(angle);
+    }
+    public void runToRad(double angle){
+        wrist.runToRad(angle);
+    }
+    public void runToRatio(double ratio){
+        wrist.runToRatio(ratio);
+    }
 
 
 

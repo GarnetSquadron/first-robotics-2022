@@ -29,5 +29,13 @@ public class Bot {
         outtake = new Outtake(hardwareMap);
         outtakePivot = new OuttakePivotSub(hardwareMap);
     }
-
+    public void wristToDegrees(double angle){
+        intake.runToDegrees(angle);
+    }
+    public void wristToRad(double angle){
+        intake.runToRad(angle);
+    }
+    public void wristToRatio(double ratio){
+        intake.runToRatio(ratio);
+    }
 }
