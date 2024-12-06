@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.ExtraMath;
 import org.firstinspires.ftc.teamcode.TTimer;
 
 public class ServoSub {
@@ -23,20 +24,24 @@ public class ServoSub {
 
     }
 
-    double getPos(double min, double max, double pos){
-        return min+pos*(max-min);
+    double getPosFromRatio(double ratio){
+        return Min+ratio*(Max-Min);
     }
-    public void goToPos(double pos){
-        if(servo.getPosition()!=getPos(Min, Max, pos)){
-            servo.setPosition(getPos(Min, Max, pos));
+    double getRatioFromPos(double pos){
+        return (pos-Min)/(Max-Min);
+    }
+    public void goToRatio(double ratioPos){
+        ratioPos = ExtraMath.Clamp(ratioPos,1,0);
+        if(servo.getPosition()!= getPosFromRatio(ratioPos)){
+            servo.setPosition(getPosFromRatio(ratioPos));
             timer.StartTimer(runtime);//when the timer goes off, the servo should be at the correct position. this needs to be tuned
         }
     }
     public void MoveToMax() {
-        goToPos(0);
+        goToRatio(0);
     }
     public void MoveToMin() {
-        goToPos(1);
+        goToRatio(1);
     }
 //    private double getToothSize(int teeth){
 //        return 4.0/(teeth*3.0);
@@ -44,7 +49,14 @@ public class ServoSub {
     public double getPos(){
         return servo.getPosition();
     }
+    public double getRatioPos(){
+        return getRatioFromPos(getPos());
+    }
+
     public boolean targetReached(){
         return timer.timeover()|| !timer.timestarted();
+    }
+    public void changePosBy(double delta){
+        goToRatio(getRatioPos()+delta);
     }
 }

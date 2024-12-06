@@ -25,8 +25,8 @@ public class CrankSlideSubSystem extends SubsystemBase {
 
     }
     public void goToPos(double pos){
-        CrankL.goToPos(pos);
-        CrankR.goToPos(pos);
+        CrankL.goToRatio(pos);
+        CrankR.goToRatio(pos);
     }
     public void Extend() {
         goToPos(1);

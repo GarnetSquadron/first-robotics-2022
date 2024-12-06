@@ -5,18 +5,18 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.Subsystems.ServoSub;
 
 public class Wrist{
-    static ServoSub wrist;
+    public static ServoSub wrist;
     static double rangeInDegrees = 270;
     public Wrist(HardwareMap hardwareMap){
         wrist = new ServoSub(hardwareMap,"wrist",0,1);
     }
     public void runToDegrees(double angle){
-        wrist.goToPos(angle/rangeInDegrees);
+        wrist.goToRatio(angle/rangeInDegrees);
     }
     public void runToRad(double angle){
         runToDegrees(Math.toDegrees(angle));
     }
     public void runToRatio(double ratio){
-        wrist.goToPos(ratio);
+        wrist.goToRatio(ratio);
     }
 }

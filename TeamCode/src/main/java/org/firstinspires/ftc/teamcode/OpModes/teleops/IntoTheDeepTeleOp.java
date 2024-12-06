@@ -45,11 +45,11 @@ public class IntoTheDeepTeleOp extends OpMode {
 //        if(gamepad1.b) {
 //            bot.intake.claw.close();
 //        }
-        bot.intake.wrist.runToRatio(gamepad2.left_stick_x);
+        bot.intake.wrist.wrist.changePosBy(gamepad2.left_stick_x);
         if(gamepad2.right_bumper){
             bot.outtake.BasketDropping();
         }
-        if(gamepad1.left_bumper){
+        if(gamepad2.left_bumper){
             bot.outtake.vipers.SetTgPosToRetract();
         }
         bot.outtake.vipers.runToTgPos();
