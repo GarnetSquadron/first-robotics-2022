@@ -155,14 +155,14 @@ public abstract class SamplePipeline extends OpenCvPipeline {
     //region perspective math
     Point getLowestPixel(Mat input){
         Rect rect =  Imgproc.boundingRect(input);
-        int y = rect.y-rect.height+1;
-        int firstx = 0;
-        for(int i = 0; i<input.width(); i++){
-            if(input.get(i,y)[0]==1){
-                return new Point(i, y);
-            }
-        }
-        return null;
+//        int y = rect.y-rect.height+1;
+//        int firstx = 0;
+//        for(int i = 0; i<input.width(); i++){
+//            if(input.get(i,y)[0]==1){
+//                return new Point(i, y);
+//            }
+//        }
+        return new Point(0,0);
     }
     Point getHighestPixel(Mat input){
         Rect rect =  Imgproc.boundingRect(input);
@@ -195,16 +195,21 @@ public abstract class SamplePipeline extends OpenCvPipeline {
         return getCoordOnFloorFromCoordOnScreen(p,fx,fy,cx,cy,angle,height);
     }
     Point getCoordOnFloorFromCoordOnScreen(Point p, double fx, double fy, double cx, double cy, double angle, double height){
-        Point q = new Point((p.x-cy)/fx,(p.y-cy)/fx);
-        double cos = Math.cos(angle);
-        double sin = Math.sin(angle);
-        double Z =  height/(cos-q.y*sin);
-        double Y = Z*q.y;
-        double ZZ = Z-height*cos;
-        double YY = Y+height*sin;
-        double y = (angle==0)?(YY/cos):(ZZ/sin);
-        double x = q.x*Z;
-        return new Point(x,y);
+        if(p!=null){
+            Point q = new Point((p.x - cy) / fx, (p.y - cy) / fx);
+            double cos = Math.cos(angle);
+            double sin = Math.sin(angle);
+            double Z = height / (cos - q.y * sin);
+            double Y = Z * q.y;
+            double ZZ = Z - height * cos;
+            double YY = Y + height * sin;
+            double y = (angle == 0) ? (YY / cos) : (ZZ / sin);
+            double x = q.x * Z;
+            return new Point(x, y);
+        }
+        else {
+            return null;
+        }
     }
     Point getPoseOfClosestPixel(Mat input, Mat CamMat,double angle, double height){
         return getCoordOnFloorFromCoordOnScreen(getLowestPixel(input),CamMat,angle,height);
