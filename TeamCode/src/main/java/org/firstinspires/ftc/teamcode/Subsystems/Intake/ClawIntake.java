@@ -15,4 +15,5 @@ public class ClawIntake {
     public void open(){
         Claw.MoveToMax();
     }
+
 }

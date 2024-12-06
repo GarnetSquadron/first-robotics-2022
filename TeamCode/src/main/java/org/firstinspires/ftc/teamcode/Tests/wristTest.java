@@ -14,6 +14,6 @@ public class wristTest extends OpMode {
 
     @Override
     public void loop() {
-        Wrist.runToRatio(gamepad1.left_stick_x);
+        s.runToRatio(gamepad1.left_stick_x);
     }
 }

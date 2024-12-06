@@ -47,11 +47,11 @@ public class IntoTheDeepTeleOp extends OpMode {
 //        }
         bot.intake.wrist.runToRatio(gamepad1.left_stick_x);
         if(gamepad1.right_bumper){
-            bot.vipers.SetTgPosToExtend();
+            bot.outtake.BasketDropping();
         }
         if(gamepad1.left_bumper){
-            bot.vipers.SetTgPosToRetract();
+            bot.outtake.vipers.SetTgPosToRetract();
         }
-        bot.vipers.runToTgPos();
+        bot.outtake.vipers.runToTgPos();
     }
 }

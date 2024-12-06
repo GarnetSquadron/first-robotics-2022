@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class CrankAndClaw {
     IntakePivot pivot;
-    public ClawIntake claw;
+    public static ClawIntake claw;
     public Wrist wrist;
     CrankSlideSubSystem crankSlide;
     public CrankAndClaw(HardwareMap hardwareMap){
@@ -21,5 +21,7 @@ public class CrankAndClaw {
         crankSlide.undeploy();
         pivot.undeploy();
     }
+
+
 
 }
