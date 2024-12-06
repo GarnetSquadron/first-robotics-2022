@@ -3,14 +3,11 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake.CrankAndClaw;
 import org.firstinspires.ftc.teamcode.Subsystems.outake.Outtake;
-import org.firstinspires.ftc.teamcode.Subsystems.outake.OuttakeClaw;
 import org.firstinspires.ftc.teamcode.Subsystems.outake.OuttakePivotSub;
-import org.firstinspires.ftc.teamcode.Subsystems.outake.ViperSlidesSubSystem;
 import org.firstinspires.ftc.teamcode.commands.HeadlessDriveCommand;
 
 public class Bot {
@@ -28,14 +25,6 @@ public class Bot {
         headlessDriveCommand = new HeadlessDriveCommand(drive,Gpad1::getLeftX,Gpad1::getLeftY,Gpad1::getRightX);
         outtake = new Outtake(hardwareMap);
         outtakePivot = new OuttakePivotSub(hardwareMap);
-    }
-    public void wristToDegrees(double angle){
-        intake.runToDegrees(angle);
-    }
-    public void wristToRad(double angle){
-        intake.runToRad(angle);
-    }
-    public void wristToRatio(double ratio){
-        intake.runToRatio(ratio);
+        intake = new CrankAndClaw(hardwareMap)
     }
 }

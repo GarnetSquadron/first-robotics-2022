@@ -33,10 +33,10 @@ public class IntoTheDeepTeleOp extends OpMode {
     boolean firstiter = true;
     @Override
     public void loop() {
-        if(gamepad1.x){
+        if(gamepad2.x){
             bot.intake.deploy(1);
         }
-        if(gamepad1.y) {
+        if(gamepad2.y) {
             bot.intake.undeploy();
         }
 //        if(gamepad1.a){
@@ -45,8 +45,8 @@ public class IntoTheDeepTeleOp extends OpMode {
 //        if(gamepad1.b) {
 //            bot.intake.claw.close();
 //        }
-        bot.wristToRatio(gamepad1.left_stick_x);
-        if(gamepad1.right_bumper){
+        bot.intake.wrist.runToRatio(gamepad2.left_stick_x);
+        if(gamepad2.right_bumper){
             bot.outtake.BasketDropping();
         }
         if(gamepad1.left_bumper){
