@@ -30,4 +30,7 @@ public class ViperSlidesSubSystem extends SubsystemBase{
         l.runToTgPos();
         r.runToTgPos();
     }
+    public boolean targetReached(){
+        return l.TargetReached()&&r.TargetReached();
+    }
 }

@@ -21,7 +21,7 @@ public class OuttakePivotTest extends OpMode {
         }
     }
     public void init(){
-        ServoAlignment = new OuttakePivotSub(hardwareMap,"AlignServo1", "AlignServo2");
+        ServoAlignment = new OuttakePivotSub(hardwareMap);
     }
 }
 //commit

@@ -8,9 +8,9 @@ import org.firstinspires.ftc.teamcode.Subsystems.ServoSub;
 public class OuttakePivotSub extends SubsystemBase {
     public final ServoSub left;
     public final ServoSub right;
-    public OuttakePivotSub(HardwareMap hardwareMap, String name1, String name2) {
-         left = new ServoSub(hardwareMap,name1,0,1);
-         right = new ServoSub(hardwareMap,name2,1,0);
+    public OuttakePivotSub(HardwareMap hardwareMap) {
+         left = new ServoSub(hardwareMap,"AlignServo1",0,1);
+         right = new ServoSub(hardwareMap,"AlignServo2",1,0);
     }
 
     public void Up() {

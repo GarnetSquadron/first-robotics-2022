@@ -39,13 +39,19 @@ public class IntoTheDeepTeleOp extends OpMode {
         if(gamepad1.y) {
             bot.intake.undeploy();
         }
-        if(gamepad1.a){
-            bot.intake.claw.open();
-        }
-        if(gamepad1.b) {
-            bot.intake.claw.close();
-        }
+//        if(gamepad1.a){
+//            bot.intake.claw.open();
+//        }
+//        if(gamepad1.b) {
+//            bot.intake.claw.close();
+//        }
         bot.intake.wrist.runToRatio(gamepad1.left_stick_x);
-
+        if(gamepad1.right_bumper){
+            bot.vipers.SetTgPosToExtend();
+        }
+        if(gamepad1.left_bumper){
+            bot.vipers.SetTgPosToRetract();
+        }
+        bot.vipers.runToTgPos();
     }
 }
