@@ -25,6 +25,6 @@ public class Bot {
         headlessDriveCommand = new HeadlessDriveCommand(drive,Gpad1::getLeftX,Gpad1::getLeftY,Gpad1::getRightX);
         outtake = new Outtake(hardwareMap);
         outtakePivot = new OuttakePivotSub(hardwareMap);
-        intake = new CrankAndClaw(hardwareMap)
+        intake = new CrankAndClaw(hardwareMap);
     }
 }
