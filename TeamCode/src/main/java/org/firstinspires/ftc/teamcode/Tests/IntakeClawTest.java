@@ -19,6 +19,6 @@ public class IntakeClawTest extends OpMode {
     }
 
     public void init() {
-        ServoAlignment = new IntakeClawSub(hardwareMap,"Claw");
+        ServoAlignment = new IntakeClawSub(hardwareMap);
     }
 }
