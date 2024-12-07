@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Pipelines;
 
+import com.acmerobotics.dashboard.config.Config;
+
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;

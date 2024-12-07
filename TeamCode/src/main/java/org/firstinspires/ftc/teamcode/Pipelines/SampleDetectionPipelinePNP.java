@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Pipelines;
 
+import com.acmerobotics.dashboard.config.Config;
+
 import org.openftc.easyopencv.OpenCvPipeline;
 
 import org.opencv.calib3d.Calib3d;

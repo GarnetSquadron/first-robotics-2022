@@ -1,11 +1,15 @@
 package org.firstinspires.ftc.teamcode.Pipelines;
 
+import com.acmerobotics.dashboard.config.Config;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Point;
 import org.opencv.core.RotatedRect;
+import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
@@ -17,6 +21,7 @@ public class SampleDetectionPipelineAngledCam extends SamplePipeline
 
     // Keep track of what stage the viewport is showing
     int stageNum = 0;
+    public Point RedCoords, BlueCoords, YellowCoords;
 
     @Override
     public void onViewportTapped()
@@ -106,11 +111,39 @@ public class SampleDetectionPipelineAngledCam extends SamplePipeline
         morphMask(blueThresholdMat, morphedBlueThreshold);
         morphMask(redThresholdMat, morphedRedThreshold);
         morphMask(yellowThresholdMat, morphedYellowThreshold);
+        ArrayList<MatOfPoint> blueContoursList = new ArrayList<>();
+        Imgproc.findContours(morphedBlueThreshold, blueContoursList, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);
+
+        ArrayList<MatOfPoint> redContoursList = new ArrayList<>();
+        Imgproc.findContours(morphedRedThreshold, redContoursList, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);
+
+        ArrayList<MatOfPoint> yellowContoursList = new ArrayList<>();
+        Imgproc.findContours(morphedYellowThreshold, yellowContoursList, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);
+
+        Imgproc.drawContours(input, yellowContoursList,-1, new Scalar(0,0,255),1,1);
+        Imgproc.drawContours(input, blueContoursList,-1, new Scalar(0,255,0),1,1);
+        Imgproc.drawContours(input, redContoursList,-1, new Scalar(255,0,0),1,1);
+
+        for(MatOfPoint contour : blueContoursList)
+        {
+            analyzeContour(contour, input, "Blue");
+
+        }
+
+        for(MatOfPoint contour : redContoursList)
+        {
+            analyzeContour(contour, input, "Red");
+        }
+
+        for(MatOfPoint contour : yellowContoursList)
+        {
+            analyzeContour(contour, input, "Yellow");
+        }
 
         //get the approximate position of the nearest sample
-        getPoseOfClosestPixel(morphedBlueThreshold,cameraMatrix, camAngle, camHeight);
-        getPoseOfClosestPixel(morphedRedThreshold,cameraMatrix, camAngle, camHeight);
-        getPoseOfClosestPixel(morphedYellowThreshold,cameraMatrix, camAngle, camHeight);
+//        BlueCoords = getPoseOfClosestPixel(morphedBlueThreshold,cameraMatrix, camAngle, camHeight);
+//        RedCoords = getPoseOfClosestPixel(morphedRedThreshold,cameraMatrix, camAngle, camHeight);
+//        YellowCoords = getPoseOfClosestPixel(morphedYellowThreshold,cameraMatrix, camAngle, camHeight);
     }
 
     void analyzeContour(MatOfPoint contour, Mat input, String color)

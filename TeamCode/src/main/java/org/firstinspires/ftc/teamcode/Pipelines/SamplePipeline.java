@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Pipelines;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Pose2d;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.opencv.calib3d.Calib3d;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.MatOfPoint3f;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 /**
  * This contains methods that are useful for making pipelines
  */
-//@Config
+
 public abstract class SamplePipeline extends OpenCvPipeline {
     //region Our working image buffers
     Mat ycrcbMat = new Mat();
@@ -48,7 +49,7 @@ public abstract class SamplePipeline extends OpenCvPipeline {
     static final int OriginalRED_MASK_THRESHOLD = 198;
     public static int YELLOW_MASK_THRESHOLD = 80;
     public static int BLUE_MASK_THRESHOLD = 150;
-    public static int RED_MASK_THRESHOLD = 200;
+    public static int RED_MASK_THRESHOLD = 180;
     //endregion
 
     //region The elements we use for noise reduction
@@ -98,10 +99,10 @@ public abstract class SamplePipeline extends OpenCvPipeline {
     //endregion
     double camAngle;//angle of where the camera is pointing from vertical
     double camHeight;//height of the camera
+    public Telemetry telemetry;
 
     SamplePipeline() {
         // Initialize camera parameters
-
 
         camAngle = 0;
         camHeight = 16.5;
@@ -155,14 +156,24 @@ public abstract class SamplePipeline extends OpenCvPipeline {
     //region perspective math
     Point getLowestPixel(Mat input){
         Rect rect =  Imgproc.boundingRect(input);
-//        int y = rect.y-rect.height+1;
-//        int firstx = 0;
-//        for(int i = 0; i<input.width(); i++){
-//            if(input.get(i,y)[0]==1){
-//                return new Point(i, y);
-//            }
-//        }
+        int y = rect.y-rect.height+1;
+        int firstx = 0;
+        try {
+        for (int i = 0; i < input.width(); i++) {
+
+
+            if (input.get(i, y)[0] == 1) {
+                return new Point(i, y);
+            }
+
+
+        }
+        }
+        catch(NullPointerException e){
+
+        }
         return new Point(0,0);
+
     }
     Point getHighestPixel(Mat input){
         Rect rect =  Imgproc.boundingRect(input);

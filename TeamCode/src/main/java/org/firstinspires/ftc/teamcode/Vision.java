@@ -23,11 +23,12 @@ public class Vision {
     Telemetry telemetry;
     WebcamName webcamName;
     Servo s;
-    public SampleDetectionPipelineAngledCam Pipeline = new SampleDetectionPipelineAngledCam();
+
     public Vision(HardwareMap hardwareMap, Telemetry t){
         this.hardwareMap = hardwareMap;
         telemetry=t;
     }
+    public SampleDetectionPipelineAngledCam Pipeline = new SampleDetectionPipelineAngledCam();
     public void InitPipeline(HardwareMap hardwareMap){
         webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "Id", hardwareMap.appContext.getPackageName());
