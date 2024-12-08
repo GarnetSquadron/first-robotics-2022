@@ -71,8 +71,8 @@ public class IntoTheDeepTeleOp extends OpMode {
         }
         bot.outtake.vipers.runToTgPos();
 
-        telemetry.addData("left viper encoder", bot.outtake.vipers.l);
-        telemetry.addData("right viper encoder", bot.outtake.vipers.r);
+        telemetry.addData("left viper encoder", bot.outtake.vipers.l.getPos());
+        telemetry.addData("right viper encoder", bot.outtake.vipers.r.getPos());
         telemetry.update();
     }
 }

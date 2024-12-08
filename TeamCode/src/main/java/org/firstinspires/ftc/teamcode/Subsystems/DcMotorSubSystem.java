@@ -121,6 +121,9 @@ public class DcMotorSubSystem extends SubsystemBase {
     public boolean TargetReached(){
         return motor.atTargetPosition();
     }
+    public int getPos(){
+        return motor.getCurrentPosition();
+    }
 
 }
 
