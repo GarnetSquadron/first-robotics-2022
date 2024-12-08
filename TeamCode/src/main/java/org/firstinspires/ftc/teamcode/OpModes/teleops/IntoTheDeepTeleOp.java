@@ -44,10 +44,10 @@ public class IntoTheDeepTeleOp extends OpMode {
 
     @Override
     public void loop() {
-        if(intakeDeployToggle.getState()){
+        if(gamepad2.x){
             bot.intake.deploy(1);
         }
-        else {
+        if(gamepad1.y) {
             bot.intake.undeploy();
         }
         if(gamepad2.a){
@@ -63,12 +63,12 @@ public class IntoTheDeepTeleOp extends OpMode {
         }
 
 
-        if(gamepad2.right_bumper){
-            bot.outtake.BasketDropping();
-        }
-        if(gamepad2.left_bumper){
-            bot.outtake.vipers.SetTgPosToRetract();
-        }
+//        if(gamepad2.right_bumper){
+//            bot.outtake.BasketDropping();
+//        }
+//        if(gamepad2.left_bumper){
+//            bot.outtake.vipers.SetTgPosToRetract();
+//        }
         bot.outtake.vipers.runToTgPos();
 
 
