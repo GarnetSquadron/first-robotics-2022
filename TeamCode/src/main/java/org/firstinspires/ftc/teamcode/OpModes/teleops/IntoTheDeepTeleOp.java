@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.OpModes.teleops;
 
+import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.arcrobotics.ftclib.gamepad.ToggleButtonReader;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -23,20 +26,28 @@ public class IntoTheDeepTeleOp extends OpMode {
 //                -gamepad.right_stick_x
 //        ));
 //    }
+    GamepadButton intakeDeployButton;
+    ToggleButtonReader intakeDeployToggle;
+    GamepadButton transferButton;
+    ToggleButtonReader transferToggle;
     @Override
     public void init() {
         Gpad1 = new GamepadEx(gamepad1);
         Gpad2 = new GamepadEx(gamepad2);
         bot = new Bot(hardwareMap,Gpad1);
-
+        intakeDeployButton = new GamepadButton(Gpad2, GamepadKeys.Button.X);
+        intakeDeployToggle = new ToggleButtonReader(intakeDeployButton::get);
     }
     boolean firstiter = true;
+
+
+
     @Override
     public void loop() {
-        if(gamepad2.x){
+        if(intakeDeployToggle.getState()){
             bot.intake.deploy(1);
         }
-        if(gamepad2.y) {
+        else {
             bot.intake.undeploy();
         }
 //        if(gamepad1.a){
@@ -46,6 +57,12 @@ public class IntoTheDeepTeleOp extends OpMode {
 //            bot.intake.claw.close();
 //        }
         bot.intake.wrist.wrist.changePosBy(Math.signum(gamepad2.left_stick_x)*0.01);
+
+        if(gamepad2.y){
+            bot.transfer();
+        }
+
+
         if(gamepad2.right_bumper){
             bot.outtake.BasketDropping();
         }
@@ -53,5 +70,8 @@ public class IntoTheDeepTeleOp extends OpMode {
             bot.outtake.vipers.SetTgPosToRetract();
         }
         bot.outtake.vipers.runToTgPos();
+
+
+
     }
 }

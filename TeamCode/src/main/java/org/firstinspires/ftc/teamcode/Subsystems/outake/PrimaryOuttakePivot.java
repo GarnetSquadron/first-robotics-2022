@@ -5,10 +5,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.Subsystems.ServoSub;
 
 
-public class OuttakePivotSub extends SubsystemBase {
+public class PrimaryOuttakePivot extends SubsystemBase {
     public final ServoSub left;
     public final ServoSub right;
-    public OuttakePivotSub(HardwareMap hardwareMap) {
+    public PrimaryOuttakePivot(HardwareMap hardwareMap) {
          left = new ServoSub(hardwareMap,"AlignServo1",0,1);
          right = new ServoSub(hardwareMap,"AlignServo2",1,0);
     }

@@ -6,7 +6,7 @@ public class CrankAndClaw {
     IntakePivot pivot;
     public static ClawIntake claw;
     public Wrist wrist;
-    CrankSlideSubSystem crankSlide;
+    public CrankSlideSubSystem crankSlide;
     public CrankAndClaw(HardwareMap hardwareMap){
         pivot = new IntakePivot(hardwareMap);
         crankSlide = new CrankSlideSubSystem(hardwareMap);
@@ -20,6 +20,10 @@ public class CrankAndClaw {
     public void undeploy(){
         crankSlide.undeploy();
         pivot.undeploy();
+    }
+    public void goToDefaultPos(){
+        undeploy();
+        wrist.runToRatio(0);
     }
 
 

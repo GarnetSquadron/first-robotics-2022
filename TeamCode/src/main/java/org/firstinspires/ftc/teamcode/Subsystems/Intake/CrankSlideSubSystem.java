@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.Subsystems.ServoSub;
 
 public class CrankSlideSubSystem extends SubsystemBase {
-    private final ServoSub CrankL;
-    private final ServoSub CrankR;
+    public final ServoSub CrankL;
+    public final ServoSub CrankR;
     private int SplineTeeth = 25;
     private double getToothSize(int teeth){
         return 4.0/(teeth*3.0);

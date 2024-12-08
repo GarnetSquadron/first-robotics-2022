@@ -3,13 +3,13 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
-import org.firstinspires.ftc.teamcode.Subsystems.outake.OuttakePivotSub;
+import org.firstinspires.ftc.teamcode.Subsystems.outake.PrimaryOuttakePivot;
 
 
 @TeleOp(name="OuttakePivotTest", group = "test")
 
 public class OuttakePivotTest extends OpMode {
-     OuttakePivotSub ServoAlignment;
+     PrimaryOuttakePivot ServoAlignment;
 
      @Override
     public void loop() {
@@ -21,7 +21,7 @@ public class OuttakePivotTest extends OpMode {
         }
     }
     public void init(){
-        ServoAlignment = new OuttakePivotSub(hardwareMap);
+        ServoAlignment = new PrimaryOuttakePivot(hardwareMap);
     }
 }
 //commit
