@@ -7,8 +7,8 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import org.firstinspires.ftc.teamcode.Subsystems.DcMotorSubSystem;
 
 public class ViperSlidesSubSystem extends SubsystemBase{
-    DcMotorSubSystem l;
-    DcMotorSubSystem r;
+    public DcMotorSubSystem l;
+    public DcMotorSubSystem r;
     private final int LMaxPos = -4000;
     private final int LMinPos = 0;
     private final int RMaxPos = 4000;
