@@ -5,7 +5,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
-import org.firstinspires.ftc.teamcode.Subsystems.Intake.CrankAndClaw;
+import org.firstinspires.ftc.teamcode.Subsystems.Intake.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.outake.Outtake;
 import org.firstinspires.ftc.teamcode.Subsystems.outake.PrimaryOuttakePivot;
 import org.firstinspires.ftc.teamcode.commands.HeadlessDriveCommand;
@@ -19,13 +19,13 @@ public class Bot {
 
     public PrimaryOuttakePivot outtakePivot;
 
-    public CrankAndClaw intake;
+    public Intake intake;
     public Bot(HardwareMap hardwareMap, GamepadEx Gpad1){
         drive = new MecanumDrive(hardwareMap,beginPose);
         headlessDriveCommand = new HeadlessDriveCommand(drive,Gpad1::getLeftX,Gpad1::getLeftY,Gpad1::getRightX);
         outtake = new Outtake(hardwareMap);
         outtakePivot = new PrimaryOuttakePivot(hardwareMap);
-        intake = new CrankAndClaw(hardwareMap);
+        intake = new Intake(hardwareMap);
     }
 
     /**
@@ -34,7 +34,7 @@ public class Bot {
     public void transfer(){
         intake.goToDefaultPos();
         outtake.goToDefaultPos();
-        if(intake.crankSlide.CrankL.targetReached()&&outtake.vipers.targetReached()){
+        if(intake.targetReached()&&outtake.targetReached()){
             outtake.claw.close();
             intake.claw.open();
         }

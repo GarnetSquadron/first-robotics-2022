@@ -45,4 +45,7 @@ public class Outtake {
         vipers.SetTgPosToRetract();
         claw.close();
     }
+    public boolean targetReached(){
+        return vipers.targetReached()&&claw.claw.targetReached();
+    }
 }

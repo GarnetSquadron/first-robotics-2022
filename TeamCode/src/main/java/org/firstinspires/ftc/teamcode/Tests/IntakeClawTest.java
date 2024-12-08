@@ -11,10 +11,10 @@ public class IntakeClawTest extends OpMode {
     @Override
     public void loop() {
         if (gamepad1.a) {
-            ServoAlignment.Open();
+            ServoAlignment.open();
         }
         if (gamepad1.b) {
-            ServoAlignment.Close();
+            ServoAlignment.close();
         }
     }
 

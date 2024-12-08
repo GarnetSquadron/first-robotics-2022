@@ -2,15 +2,15 @@ package org.firstinspires.ftc.teamcode.Subsystems.Intake;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class CrankAndClaw {
+public class Intake {
     IntakePivot pivot;
-    public static ClawIntake claw;
+    public static IntakeClawSub claw;
     public Wrist wrist;
     public CrankSlideSubSystem crankSlide;
-    public CrankAndClaw(HardwareMap hardwareMap){
+    public Intake(HardwareMap hardwareMap){
         pivot = new IntakePivot(hardwareMap);
         crankSlide = new CrankSlideSubSystem(hardwareMap);
-        claw = new ClawIntake(hardwareMap);
+        claw = new IntakeClawSub(hardwareMap);
         wrist = new Wrist(hardwareMap);
     }
     public void deploy(double distance){
@@ -24,6 +24,9 @@ public class CrankAndClaw {
     public void goToDefaultPos(){
         undeploy();
         wrist.runToRatio(0);
+    }
+    public boolean targetReached(){
+        return crankSlide.targetReached()&&pivot.pivot.targetReached()&&claw.SERVO.targetReached()&&wrist.wrist.targetReached();
     }
 
 

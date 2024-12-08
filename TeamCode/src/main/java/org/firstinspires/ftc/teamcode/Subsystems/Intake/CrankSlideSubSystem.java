@@ -38,4 +38,7 @@ public class CrankSlideSubSystem extends SubsystemBase {
     public double getExtensionInInches() {
         return minExtensionInInches+CrankL.getPos()*(maxExtensionInInches-minExtensionInInches);
     }
+    public boolean targetReached(){
+        return CrankL.targetReached()&& CrankR.targetReached();
+    }
 }

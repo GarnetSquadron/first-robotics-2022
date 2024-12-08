@@ -13,11 +13,11 @@ public class IntakeClawSub extends SubsystemBase {
         SERVO = new ServoSub(hardwareMap, "intake claw", 0, 0.33);
     }
 
-    public void Open() {
+    public void open() {
         SERVO.MoveToMax();
     }
 
-    public void Close() {
+    public void close() {
         SERVO.MoveToMin();
     }
 }
