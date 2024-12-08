@@ -4,6 +4,8 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.ExtraMath;
+
 /**
  * Class to keep all DcMotor actions that can be used for multiple different motors
  */
@@ -21,6 +23,7 @@ public class DcMotorSubSystem extends SubsystemBase {
         PosCoefficient = posCoefficient;
     }
     public void setTgPos(int posRatio){
+        posRatio = (int)ExtraMath.Clamp(posRatio,1,0);
         // set the run mode
         motor.setRunMode(Motor.RunMode.PositionControl);
 
@@ -31,7 +34,7 @@ public class DcMotorSubSystem extends SubsystemBase {
         motor.setTargetPosition(getPosFromRatio(MinPos, MaxPos, posRatio));      // an integer representing
         // desired tick count
 
-        motor.set(0);
+//        motor.set(0);
 
 // set the tolerance
         motor.setPositionTolerance(13.6);   // allowed maximum error

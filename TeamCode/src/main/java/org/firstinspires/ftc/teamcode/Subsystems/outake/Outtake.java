@@ -26,6 +26,7 @@ public class Outtake {
         pivot2.Down();
     }
     public void BasketDropping(){
+        vipers.SetTgPosToExtend();
         //this is meant to be looped
         if(vipers.targetReached()){
             Up();
@@ -38,7 +39,7 @@ public class Outtake {
             }
         }
         else {
-            vipers.SetTgPosToExtend();
+
         }
     }
     public void goToDefaultPos(){
