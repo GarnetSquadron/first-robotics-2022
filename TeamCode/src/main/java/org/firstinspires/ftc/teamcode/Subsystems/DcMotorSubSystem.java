@@ -118,5 +118,9 @@ public class DcMotorSubSystem extends SubsystemBase {
     int getPosFromRatio(int min, int max, double pos){
         return min+(int)Math.round(pos*(max-min));
     }
+    public boolean TargetReached(){
+        return motor.atTargetPosition();
+    }
+
 }
 
