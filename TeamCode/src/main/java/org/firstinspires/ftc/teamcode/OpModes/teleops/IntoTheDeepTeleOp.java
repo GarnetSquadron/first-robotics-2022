@@ -50,12 +50,12 @@ public class IntoTheDeepTeleOp extends OpMode {
         else {
             bot.intake.undeploy();
         }
-//        if(gamepad1.a){
-//            bot.intake.claw.open();
-//        }
-//        if(gamepad1.b) {
-//            bot.intake.claw.close();
-//        }
+        if(gamepad1.a){
+            bot.intake.claw.open();
+        }
+        if(gamepad1.b) {
+            bot.intake.claw.close();
+        }
         bot.intake.wrist.wrist.changePosBy(Math.signum(gamepad2.left_stick_x)*0.01);
 
         if(gamepad2.y){
