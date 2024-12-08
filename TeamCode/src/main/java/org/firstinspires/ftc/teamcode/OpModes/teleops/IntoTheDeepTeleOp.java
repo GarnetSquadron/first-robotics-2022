@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Subsystems.Bot;
 import org.firstinspires.ftc.teamcode.enums.Color;
 
-@TeleOp(name = "INTOTHEDEEP TELEOP", group = "AAA TELEOPS")
+@TeleOp(name = "INTOTHEDEEP TELEOP ", group = "AAA TELEOPS")
 public class IntoTheDeepTeleOp extends OpMode {
     Bot bot;
     GamepadEx Gpad1, Gpad2;
@@ -50,10 +50,10 @@ public class IntoTheDeepTeleOp extends OpMode {
         else {
             bot.intake.undeploy();
         }
-        if(gamepad1.a){
+        if(gamepad2.a){
             bot.intake.claw.open();
         }
-        if(gamepad1.b) {
+        if(gamepad2.b) {
             bot.intake.claw.close();
         }
         bot.intake.wrist.wrist.changePosBy(Math.signum(gamepad2.left_stick_x)*0.01);
