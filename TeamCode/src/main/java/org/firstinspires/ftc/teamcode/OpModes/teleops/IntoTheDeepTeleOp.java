@@ -58,7 +58,7 @@ public class IntoTheDeepTeleOp extends OpMode {
         }
         bot.intake.wrist.wrist.changePosBy(Math.signum(gamepad2.left_stick_x)*0.01);
 
-        if(gamepad2.y){
+        if(gamepad2.dpad_left){
             bot.transfer();
         }
 
