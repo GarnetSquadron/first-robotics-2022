@@ -15,7 +15,7 @@ public class ViperSlidesSubSystem extends SubsystemBase{
     private final int RMinPos = 0;
     private double posCoefficient = 0.05;
     public ViperSlidesSubSystem(HardwareMap hardwareMap){
-         l = new DcMotorSubSystem(hardwareMap,"LeftViper",-4000,0,posCoefficient);
+         l = new DcMotorSubSystem(hardwareMap,"LeftViper",0,-4000,posCoefficient);
          r = new DcMotorSubSystem(hardwareMap,"RightViper",0,4000,posCoefficient);
     }
     public void SetTgPosToExtend(){
