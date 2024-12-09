@@ -97,10 +97,10 @@ public class DcMotorSubSystem extends SubsystemBase {
         motor.setPositionCoefficient(PosCoefficient);
 
 
-        tgtPos = getPosFromRatio(MinPos, MaxPos,posRatio);
-// set the target position
-        motor.setTargetPosition(tgtPos);// an integer representing
+        tgtPos = getPosFromRatio(MinPos, MaxPos,posRatio);// an integer representing
         // desired tick count
+// set the target position
+        motor.setTargetPosition(tgtPos);
 
 
         motor.set(0);
