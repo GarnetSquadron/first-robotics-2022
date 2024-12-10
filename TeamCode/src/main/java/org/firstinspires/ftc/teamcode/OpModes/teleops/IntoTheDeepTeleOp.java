@@ -71,7 +71,10 @@ public class IntoTheDeepTeleOp extends OpMode {
         }
         bot.outtake.vipers.runToTgPos();
         if(gamepad2.left_trigger>0){
-            bot.outtake.BasketDropping();
+            bot.outtake.claw.close();
+        }
+        if(gamepad2.right_trigger>0){
+            bot.outtake.claw.open();
         }
 
         bot.headlessDriveCommand.execute();
