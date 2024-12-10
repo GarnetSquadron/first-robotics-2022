@@ -4,21 +4,22 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Intake.IntakeClawSub;
+import org.firstinspires.ftc.teamcode.Subsystems.outake.OuttakeClaw;
 
-@TeleOp(name="IntakeClawTest", group = "test")
-public class IntakeClawTest extends OpMode {
-    IntakeClawSub ServoAlignment;
+@TeleOp(name="OuttakeClawTest", group = "test")
+public class OuttakeClawTest extends OpMode {
+    OuttakeClaw claw;
     @Override
     public void loop() {
         if (gamepad1.a) {
-            ServoAlignment.open();
+            claw.open();
         }
         if (gamepad1.b) {
-            ServoAlignment.close();
+            claw.close();
         }
     }
 
     public void init() {
-        ServoAlignment = new IntakeClawSub(hardwareMap);
+        claw = new OuttakeClaw(hardwareMap);
     }
 }
