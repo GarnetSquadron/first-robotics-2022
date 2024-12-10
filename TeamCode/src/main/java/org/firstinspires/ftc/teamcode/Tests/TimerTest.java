@@ -11,7 +11,7 @@ public class TimerTest extends OpMode {
 
     @Override
     public void init() {
-        timer.StartTimer(100);
+        timer.StartTimer(1000000);
     }
 
     @Override
