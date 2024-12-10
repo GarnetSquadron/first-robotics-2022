@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.ServoSub;
 public class IntakePivot extends SubsystemBase {
     ServoSub pivot;
     public IntakePivot(HardwareMap hardwaremap){
-        pivot = new ServoSub(hardwaremap,"pivot",1,0);
+        pivot = new ServoSub(hardwaremap,"pivot",0,1);
     //hardwaremap.get(Servo.class, "pivot");
 
     }
