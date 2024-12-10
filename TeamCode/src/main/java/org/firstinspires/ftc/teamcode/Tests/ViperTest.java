@@ -16,10 +16,10 @@ public class ViperTest extends OpMode {
     @Override
     public void loop() {
         if(gamepad1.y){
-            viperSlides.SetTgPosToExtend();
+            viperSlides.SetTgPosToRetract();
         }
         if(gamepad1.x){
-            viperSlides.SetTgPosToRetract();
+            viperSlides.SetTgPosToExtend();
         }
         viperSlides.runToTgPos();
     }

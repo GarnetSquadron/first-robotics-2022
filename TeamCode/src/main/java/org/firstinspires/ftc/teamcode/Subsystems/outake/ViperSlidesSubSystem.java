@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Subsystems.outake;
 
-import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
@@ -18,11 +17,11 @@ public class ViperSlidesSubSystem extends SubsystemBase{
          l = new DcMotorSubSystem(hardwareMap,"LeftViper",0,-4000,posCoefficient);
          r = new DcMotorSubSystem(hardwareMap,"RightViper",0,4000,posCoefficient);
     }
-    public void SetTgPosToExtend(){
+    public void SetTgPosToRetract(){
         l.setTgPos(1);
         r.setTgPos(1);
     }
-    public void SetTgPosToRetract(){
+    public void SetTgPosToExtend(){
         l.setTgPos(0);
         r.setTgPos(0);
     }

@@ -64,10 +64,10 @@ public class IntoTheDeepTeleOp extends OpMode {
 
 
         if(gamepad2.right_bumper){
-            bot.outtake.vipers.SetTgPosToExtend();
+            bot.outtake.vipers.SetTgPosToRetract();
         }
         if(gamepad2.left_bumper){
-            bot.outtake.vipers.SetTgPosToRetract();
+            bot.outtake.vipers.SetTgPosToExtend();
         }
         bot.outtake.vipers.runToTgPos();
 
