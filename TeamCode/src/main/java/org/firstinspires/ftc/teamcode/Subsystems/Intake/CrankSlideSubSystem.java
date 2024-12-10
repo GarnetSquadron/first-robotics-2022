@@ -29,10 +29,10 @@ public class CrankSlideSubSystem extends SubsystemBase {
         CrankR.goToRatio(pos);
     }
     public void undeploy() {
-        goToPos(1);
+        goToPos(0);
     }
     public void deploy() {
-        goToPos(0);
+        goToPos(1);
     }
 
     public double getExtensionInInches() {
