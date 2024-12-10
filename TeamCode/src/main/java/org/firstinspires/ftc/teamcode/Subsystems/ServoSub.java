@@ -38,10 +38,10 @@ public class ServoSub {
         }
     }
     public void MoveToMax() {
-        goToRatio(0);
+        goToRatio(1);
     }
     public void MoveToMin() {
-        goToRatio(1);
+        goToRatio(0);
     }
 //    private double getToothSize(int teeth){
 //        return 4.0/(teeth*3.0);
