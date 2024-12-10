@@ -47,7 +47,7 @@ public class IntoTheDeepTeleOp extends OpMode {
         if(gamepad2.x){
             bot.intake.deploy(1);
         }
-        if(gamepad1.y) {
+        if(gamepad2.y) {
             bot.intake.undeploy();
         }
         if(gamepad2.a){
