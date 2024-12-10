@@ -17,10 +17,10 @@ public class CrankTest extends OpMode {
     @Override
     public void loop() {
         if(gamepad1.x){
-            crank.Extend();
+            crank.undeploy();
         }
         if(gamepad1.y){
-            crank.undeploy();
+            crank.deploy();
         }
     }
 }

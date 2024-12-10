@@ -28,10 +28,10 @@ public class CrankSlideSubSystem extends SubsystemBase {
         CrankL.goToRatio(pos);
         CrankR.goToRatio(pos);
     }
-    public void Extend() {
+    public void undeploy() {
         goToPos(1);
     }
-    public void undeploy() {
+    public void deploy() {
         goToPos(0);
     }
 

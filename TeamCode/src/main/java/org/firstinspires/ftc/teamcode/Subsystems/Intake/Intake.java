@@ -22,7 +22,7 @@ public class Intake {
         pivot.undeploy();
     }
     public void goToDefaultPos(){
-        undeploy();
+        pivot.deploy();
         wrist.runToRatio(0);
     }
     public boolean targetReached(){

@@ -31,7 +31,7 @@ public class AutomatedIntakeAndTransfer extends CommandBase {
 
         if(triangleIntakeCommand.isFinished()){
             if(!retractTime.timestarted()){
-                crank.undeploy();
+                crank.deploy();
                 pivot.undeploy();
                 retractTime.StartTimer(100);
             }

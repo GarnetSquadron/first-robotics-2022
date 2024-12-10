@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.Subsystems.Intake;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Subsystems.ServoSub;
 
