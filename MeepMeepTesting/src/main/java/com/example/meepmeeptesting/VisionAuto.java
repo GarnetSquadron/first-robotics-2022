@@ -22,7 +22,7 @@ public class VisionAuto {
                 .waitSeconds(0.7)
                 .splineToLinearHeading(new Pose2d(-55, -55,Math.toRadians(45)), 10)
                 .waitSeconds(0.7)
-                .splineToLinearHeading(new Pose2d(-54, -26,Math.toRadians(180)), 90)
+                .splineToLinearHeading(new Pose2d(-50, -46,Math.toRadians(133)), 90)
                 .waitSeconds(0.7)
                 .setTangent(-90)
                 .splineToLinearHeading(new Pose2d(-55, -55,Math.toRadians(45)), 10)
@@ -37,7 +37,7 @@ public class VisionAuto {
                 .setTangent(-180)
                 .splineToLinearHeading(new Pose2d(-55, -55,Math.toRadians(45)), 10)
                 .waitSeconds(0.7)
-                .splineToLinearHeading(new Pose2d(-24, -10, Math.toRadians(180)), 0)
+                .splineToLinearHeading(new Pose2d(-24, -10, Math.toRadians(0)), 0)
                 .build());
     }
 }
