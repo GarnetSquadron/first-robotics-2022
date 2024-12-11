@@ -9,8 +9,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 //import com.qualcomm.robotcore.hardware.CRServo;
 //import com.qualcomm.robotcore.hardware.ColorSensor;
 
-import org.firstinspires.ftc.teamcode.Subsystems.depricated.TriangleIntake.ColorSensorSubSystem;
-import org.firstinspires.ftc.teamcode.Subsystems.depricated.TriangleIntake.TriangleIntake;
+import org.firstinspires.ftc.teamcode.depricated.TriangleIntake.ColorSensorSubSystem;
+import org.firstinspires.ftc.teamcode.depricated.TriangleIntake.TriangleIntake;
 //import org.firstinspires.ftc.teamcode.Subsystems.Intake.CrankSlideSubSystem;
 import org.firstinspires.ftc.teamcode.commands.TriangleIntakeCommand;
 import org.firstinspires.ftc.teamcode.enums.Color;

@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
-import org.firstinspires.ftc.teamcode.NonDriveHardware;
+import org.firstinspires.ftc.teamcode.depricated.NonDriveHardware;
 
 @TeleOp(name = "JAMANUELS CHALLENGE")
 public class JamuelsChallenge extends LinearOpMode {

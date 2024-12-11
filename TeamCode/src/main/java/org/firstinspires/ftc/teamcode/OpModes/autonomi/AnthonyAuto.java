@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.Subsystems.depricated.TriangleIntake.TriangleIntake;
+import org.firstinspires.ftc.teamcode.depricated.TriangleIntake.TriangleIntake;
 import org.firstinspires.ftc.teamcode.Subsystems.outake.ViperSlidesSubSystem;
 
 public class AnthonyAuto extends LinearOpMode {

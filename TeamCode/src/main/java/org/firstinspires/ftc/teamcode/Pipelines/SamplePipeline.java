@@ -105,7 +105,7 @@ public abstract class SamplePipeline extends OpenCvPipeline {
         // Initialize camera parameters
 
         camAngle = 0;
-        camHeight = 16.5;
+        camHeight = 12.5;
 
         cameraMatrix.put(0, 0,
                 fx, 0,cx,

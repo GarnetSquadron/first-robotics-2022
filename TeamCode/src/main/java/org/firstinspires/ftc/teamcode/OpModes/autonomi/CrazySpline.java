@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
-import org.firstinspires.ftc.teamcode.NonDriveHardware;
+import org.firstinspires.ftc.teamcode.depricated.NonDriveHardware;
 
 @Config
 @TeleOp(name="CrazySpline", group = "RoadRunnerStuff")

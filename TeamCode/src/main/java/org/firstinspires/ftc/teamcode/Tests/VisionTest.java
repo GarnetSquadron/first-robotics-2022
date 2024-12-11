@@ -17,9 +17,23 @@ public class VisionTest extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         vision.InitPipeline(hardwareMap);
         waitForStart();
+        String JankTelemetry;//ftc dash doesnt like telemetry.clear() for some reason, so Im doing this
         while (opModeIsActive()){
-            telemetry.addData("coords", vision.Pipeline.RedCoords);
+            if(vision.GetSampleList().size()>0) {
+                JankTelemetry = "Sample detected";
+                telemetry.addData("angle", vision.getNearestSample().getAngleRad());
+                telemetry.addData("distance away:", vision.getNearestSample().getPos().y);
+
+            }
+            else {
+                JankTelemetry = "no sample detected :(";
+            }
+            telemetry.addData("", JankTelemetry);
+
+
+
             telemetry.update();
+
         }
     }
 }

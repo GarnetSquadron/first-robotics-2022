@@ -7,6 +7,8 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.depricated.NonDriveHardware;
+
 @Config
 @TeleOp(name="Example3", group = "RoadRunnerStuff")
 public class Example3 extends LinearOpMode {
