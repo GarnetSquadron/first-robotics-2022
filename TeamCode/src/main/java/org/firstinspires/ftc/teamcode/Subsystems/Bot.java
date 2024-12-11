@@ -39,6 +39,8 @@ public class Bot {
         outtake.runToTargetPos();
         headlessDriveCommand.execute();
         if (transfering){
+            outtake.claw.open();
+            intake.claw.close();
             intake.goToDefaultPos();
             outtake.goToDefaultPos();
             if(intake.targetReached()&&outtake.targetReached()){

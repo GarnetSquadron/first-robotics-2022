@@ -32,7 +32,7 @@ public class Outtake {
     }
     public void goToDefaultPos(){
         vipers.SetTgPosToRetract();
-        claw.open();
+        Down();
     }
     public boolean targetReached(){
         return vipers.targetReached()&&claw.claw.targetReached();
@@ -48,8 +48,7 @@ public class Outtake {
                 //^ 12/6 I just did this not sure if its fixed though
                 if(claw.claw.targetReached()){
                     claw.open();
-                    Down();
-                    vipers.SetTgPosToRetract();
+                    goToDefaultPos();
                     BasketDropping = false;
                 }
             }
