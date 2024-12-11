@@ -66,10 +66,12 @@ import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
                     .build();
 
             //Auto routes
-            ThreeClip t = new ThreeClip(myBot); //t.run();
+            ThreeClip c = new ThreeClip(myBot); //c.run();
             ThreeSample s = new ThreeSample(myBot); //s.run();
             SoloAuto  a = new SoloAuto(myBot); //a.run();
-            VisionAuto v = new VisionAuto(myBot); //v.run()
+            VisionAuto v = new VisionAuto(myBot); //v.run();
+            //Auto routes
+
             Pose2d beginPose = new Pose2d(26,-62,Math.toRadians(90));
             Pose2d tgtPose = new Pose2d(20,20,Math.PI);
             v.run();
