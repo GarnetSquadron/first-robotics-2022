@@ -71,10 +71,10 @@ public class IntoTheDeepTeleOp extends OpMode {
         }
         bot.outtake.vipers.runToTgPos();
         if(gamepad2.left_trigger>0){
-            bot.outtake.claw.close();
+            bot.outtake.BasketDrop();
         }
         if(gamepad2.right_trigger>0){
-            bot.outtake.claw.open();
+
         }
 
         bot.runToTargetPos();

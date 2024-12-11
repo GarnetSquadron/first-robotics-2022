@@ -40,7 +40,7 @@ public class Outtake {
     public void runToTargetPos(){
         vipers.runToTgPos();
         if(BasketDropping){
-            vipers.SetTgPosToExtend();
+            //vipers.SetTgPosToExtend();
             //this is meant to be looped
             if(vipers.targetReached()){
                 Up();
