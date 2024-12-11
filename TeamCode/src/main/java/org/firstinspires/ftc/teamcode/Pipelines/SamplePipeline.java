@@ -68,6 +68,10 @@ public abstract class SamplePipeline extends OpenCvPipeline {
         Mat rvec;
         Mat tvec;
         Point Pos;
+        Point CoordsOnScreen;
+        public String getColor(){
+            return color;
+        }
         public double getAngleRad()
         {
             return Math.toRadians(angle);
@@ -80,6 +84,12 @@ public abstract class SamplePipeline extends OpenCvPipeline {
         }
         public void setPos(Point p){
             Pos = p;
+        }
+        public void setCoordsOnScreen(Point p){
+            CoordsOnScreen = p;
+        }
+        public Point getCoordsOnScreen(){
+            return CoordsOnScreen;
         }
 
     }
@@ -94,8 +104,8 @@ public abstract class SamplePipeline extends OpenCvPipeline {
     //region Focal lengths (fx, fy) and principal point (cx, cy)
     double fx = 720; // camera's focal length in pixels
     double fy = 720;
-    double cx = 640; // camera's principal point x-coordinate (usually image width / 2)
-    double cy = 360; // camera's principal point y-coordinate (usually image height / 2)4
+    double cx = 320; // camera's principal point x-coordinate (usually image width / 2)
+    double cy = 180; // camera's principal point y-coordinate (usually image height / 2)4
     //endregion
     double camAngle;//angle of where the camera is pointing from vertical
     double camHeight;//height of the camera
@@ -104,8 +114,8 @@ public abstract class SamplePipeline extends OpenCvPipeline {
     SamplePipeline() {
         // Initialize camera parameters
 
-        camAngle = 0;
-        camHeight = 12.5;
+        camAngle = Math.PI/2;
+        camHeight = 4;
 
         cameraMatrix.put(0, 0,
                 fx, 0,cx,
@@ -207,7 +217,7 @@ public abstract class SamplePipeline extends OpenCvPipeline {
     }
     Point getCoordOnFloorFromCoordOnScreen(Point p, double fx, double fy, double cx, double cy, double angle, double height){
         if(p!=null){
-            Point q = new Point((p.x - cy) / fx, (p.y - cy) / fx);
+            Point q = new Point((p.x - cy) / fx, -(p.y - cy) / fx);
             double cos = Math.cos(angle);
             double sin = Math.sin(angle);
             double Z = height / (cos - q.y * sin);
