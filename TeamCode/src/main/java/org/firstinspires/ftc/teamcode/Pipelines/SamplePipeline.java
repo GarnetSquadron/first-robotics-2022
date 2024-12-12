@@ -102,10 +102,10 @@ public abstract class SamplePipeline extends OpenCvPipeline {
     public static MatOfDouble distCoeffs = new MatOfDouble();
 
     //region Focal lengths (fx, fy) and principal point (cx, cy)
-    double fx = 720; // camera's focal length in pixels
-    double fy = 720;
-    double cx = 320; // camera's principal point x-coordinate (usually image width / 2)
-    double cy = 180; // camera's principal point y-coordinate (usually image height / 2)4
+    double fx = 1409.76; // camera's focal length in pixels
+    double fy = 1409.76;
+    static double cx = 634.365 ; // camera's principal point x-coordinate (usually image width / 2)
+    static double cy = 354.346;//354.346; // camera's principal point y-coordinate (usually image height / 2)4
     //endregion
     double camAngle;//angle of where the camera is pointing from vertical
     double camHeight;//height of the camera
@@ -328,6 +328,10 @@ public abstract class SamplePipeline extends OpenCvPipeline {
                 1, // Font size
                 colorScalar, // Font color
                 1); // Font thickness
+    }
+    static void DrawScreenAxes(Mat drawOn,String color){
+        Imgproc.line(drawOn,new Point(0,cy),new Point(1280,cy),getColorScalar(color));
+        Imgproc.line(drawOn,new Point(cx,0),new Point(cx,720),getColorScalar(color));
     }
 
     static void drawRotatedRect(RotatedRect rect, Mat drawOn, String color)

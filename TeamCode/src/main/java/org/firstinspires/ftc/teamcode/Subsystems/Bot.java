@@ -20,7 +20,7 @@ public class Bot {
     public PrimaryOuttakePivot outtakePivot;
 
     public Intake intake;
-    boolean transfering = false;
+    public boolean transfering = false;
     public Bot(HardwareMap hardwareMap, GamepadEx Gpad1){
         drive = new MecanumDrive(hardwareMap,beginPose);
         headlessDriveCommand = new HeadlessDriveCommand(drive,Gpad1::getLeftX,Gpad1::getLeftY,Gpad1::getRightX);

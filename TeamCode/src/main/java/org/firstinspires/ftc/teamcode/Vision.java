@@ -39,7 +39,7 @@ public class Vision {
         webcam1.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
-                webcam1.startStreaming(640, 360,OpenCvCameraRotation.UPRIGHT);
+                webcam1.startStreaming(1280, 720,OpenCvCameraRotation.UPRIGHT);
                 FtcDashboard.getInstance().startCameraStream(webcam1,0);
                 telemetry.addLine("SUCCESSFULLY OPENED CAM =D");
                 telemetry.update();

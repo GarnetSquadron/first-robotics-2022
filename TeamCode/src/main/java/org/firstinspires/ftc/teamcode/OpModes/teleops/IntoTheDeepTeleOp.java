@@ -79,7 +79,7 @@ public class IntoTheDeepTeleOp extends OpMode {
 
         bot.runToTargetPos();
 
-
+        telemetry.addData("transfering",bot.transfering);
         telemetry.update();
     }
 }
