@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Pipelines;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.sun.tools.javac.util.MandatoryWarningHandler;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.opencv.calib3d.Calib3d;
@@ -214,6 +215,28 @@ public abstract class SamplePipeline extends OpenCvPipeline {
 //        double cy = CamMat.get(1,2)[0];
 
         return getCoordOnFloorFromCoordOnScreen(p,fx,fy,cx,cy,angle,height);
+    }
+    Point undistortDivisionModel(double x, double y, double xc, double yc, double k1, double k2, double k3, double p1, double p2){
+        double r = Math.hypot(x-xc,y-yc);
+        double denominator = 1+k1*Math.pow(r,2)+k2*Math.pow(r,4)+k3*Math.pow(r,6);
+        return new Point(xc+(x-xc)/denominator,yc+(y-yc)/denominator);
+
+    }
+
+    Point undistortPolynomialModel(double x, double y, double xc, double yc, double k1, double k2, double k3, double p1, double p2){
+        double r = Math.hypot(x-xc,y-yc);
+        return new Point(undistortXPolynomialModel(x,y,xc,yc,k1,k2,k3,p1,p2),undistortYPolynomialModel(x,y,xc,yc,k1,k2,k3,p1,p2));
+    }
+    double undistortXPolynomialModel(double xd, double yd, double xc, double yc, double k1, double k2, double k3, double p1, double p2){
+        double x=xd-xc;
+        double y = yd-yc;
+        double r = Math.hypot(x,y);
+        double term2 = (x)*(k1*Math.pow(r,2)+k2*Math.pow(r,4)+k3*Math.pow(r,6));
+        double term3 = p1*(Math.pow(r,2)+2*Math.pow(x,2))+2*p2*x*y;
+        return xd+term2+term3;
+    }
+    double undistortYPolynomialModel(double xd, double yd, double xc, double yc, double k1, double k2, double k3, double p1, double p2){
+        return undistortXPolynomialModel(yd,xd,yc,xc,k1,k2,k3,p2,p1);
     }
     Point getCoordOnFloorFromCoordOnScreen(Point p, double fx, double fy, double cx, double cy, double angle, double height){
         if(p!=null){

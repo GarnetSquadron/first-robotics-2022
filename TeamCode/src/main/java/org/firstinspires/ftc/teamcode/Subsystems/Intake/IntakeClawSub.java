@@ -10,7 +10,7 @@ public class IntakeClawSub extends SubsystemBase {
 
 
     public IntakeClawSub(HardwareMap hardwareMap) {
-        SERVO = new ServoSub(hardwareMap, "intake claw", 0, 0.33);
+        SERVO = new ServoSub(hardwareMap, "intake claw", 0.33, 0);
     }
 
     public void open() {
