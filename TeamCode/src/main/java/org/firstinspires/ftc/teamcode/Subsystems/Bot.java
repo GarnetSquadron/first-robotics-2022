@@ -20,6 +20,7 @@ public class Bot {
     public PrimaryOuttakePivot outtakePivot;
 
     public Intake intake;
+    public boolean transfering = false;
     public Bot(HardwareMap hardwareMap, GamepadEx Gpad1){
         drive = new MecanumDrive(hardwareMap,beginPose);
         headlessDriveCommand = new HeadlessDriveCommand(drive,Gpad1::getLeftX,Gpad1::getLeftY,Gpad1::getRightX);
@@ -32,11 +33,21 @@ public class Bot {
      * meant to be looped, like a lot of this stuff
      */
     public void transfer(){
-        intake.goToDefaultPos();
-        outtake.goToDefaultPos();
-        if(intake.targetReached()&&outtake.targetReached()){
-            outtake.claw.close();
-            intake.claw.open();
+        transfering = true;
+    }
+    public void runToTargetPos() {
+        outtake.runToTargetPos();
+        headlessDriveCommand.execute();
+        if (transfering){
+            outtake.claw.open();
+            intake.claw.close();
+            intake.goToDefaultPos();
+            outtake.goToDefaultPos();
+            if(intake.targetReached()&&outtake.targetReached()){
+                outtake.claw.close();
+                intake.claw.open();
+                transfering = false;
+            }
         }
     }
 }

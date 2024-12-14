@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Pipelines;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.sun.tools.javac.util.MandatoryWarningHandler;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.opencv.calib3d.Calib3d;
@@ -68,6 +69,10 @@ public abstract class SamplePipeline extends OpenCvPipeline {
         Mat rvec;
         Mat tvec;
         Point Pos;
+        Point CoordsOnScreen;
+        public String getColor(){
+            return color;
+        }
         public double getAngleRad()
         {
             return Math.toRadians(angle);
@@ -81,6 +86,12 @@ public abstract class SamplePipeline extends OpenCvPipeline {
         public void setPos(Point p){
             Pos = p;
         }
+        public void setCoordsOnScreen(Point p){
+            CoordsOnScreen = p;
+        }
+        public Point getCoordsOnScreen(){
+            return CoordsOnScreen;
+        }
 
     }
     ArrayList<AnalyzedStone> internalStoneList = new ArrayList<>();
@@ -92,10 +103,10 @@ public abstract class SamplePipeline extends OpenCvPipeline {
     public static MatOfDouble distCoeffs = new MatOfDouble();
 
     //region Focal lengths (fx, fy) and principal point (cx, cy)
-    double fx = 720; // camera's focal length in pixels
-    double fy = 720;
-    double cx = 640; // camera's principal point x-coordinate (usually image width / 2)
-    double cy = 360; // camera's principal point y-coordinate (usually image height / 2)4
+    double fx = 1409.76; // camera's focal length in pixels
+    double fy = 1409.76;
+    static double cx = 634.365 ; // camera's principal point x-coordinate (usually image width / 2)
+    static double cy = 354.346;//354.346; // camera's principal point y-coordinate (usually image height / 2)4
     //endregion
     double camAngle;//angle of where the camera is pointing from vertical
     double camHeight;//height of the camera
@@ -104,8 +115,8 @@ public abstract class SamplePipeline extends OpenCvPipeline {
     SamplePipeline() {
         // Initialize camera parameters
 
-        camAngle = 0;
-        camHeight = 16.5;
+        camAngle = Math.PI/2;
+        camHeight = 4;
 
         cameraMatrix.put(0, 0,
                 fx, 0,cx,
@@ -205,9 +216,31 @@ public abstract class SamplePipeline extends OpenCvPipeline {
 
         return getCoordOnFloorFromCoordOnScreen(p,fx,fy,cx,cy,angle,height);
     }
+    Point undistortDivisionModel(double x, double y, double xc, double yc, double k1, double k2, double k3, double p1, double p2){
+        double r = Math.hypot(x-xc,y-yc);
+        double denominator = 1+k1*Math.pow(r,2)+k2*Math.pow(r,4)+k3*Math.pow(r,6);
+        return new Point(xc+(x-xc)/denominator,yc+(y-yc)/denominator);
+
+    }
+
+    Point undistortPolynomialModel(double x, double y, double xc, double yc, double k1, double k2, double k3, double p1, double p2){
+        double r = Math.hypot(x-xc,y-yc);
+        return new Point(undistortXPolynomialModel(x,y,xc,yc,k1,k2,k3,p1,p2),undistortYPolynomialModel(x,y,xc,yc,k1,k2,k3,p1,p2));
+    }
+    double undistortXPolynomialModel(double xd, double yd, double xc, double yc, double k1, double k2, double k3, double p1, double p2){
+        double x=xd-xc;
+        double y = yd-yc;
+        double r = Math.hypot(x,y);
+        double term2 = (x)*(k1*Math.pow(r,2)+k2*Math.pow(r,4)+k3*Math.pow(r,6));
+        double term3 = p1*(Math.pow(r,2)+2*Math.pow(x,2))+2*p2*x*y;
+        return xd+term2+term3;
+    }
+    double undistortYPolynomialModel(double xd, double yd, double xc, double yc, double k1, double k2, double k3, double p1, double p2){
+        return undistortXPolynomialModel(yd,xd,yc,xc,k1,k2,k3,p2,p1);
+    }
     Point getCoordOnFloorFromCoordOnScreen(Point p, double fx, double fy, double cx, double cy, double angle, double height){
         if(p!=null){
-            Point q = new Point((p.x - cy) / fx, (p.y - cy) / fx);
+            Point q = new Point((p.x - cy) / fx, -(p.y - cy) / fx);
             double cos = Math.cos(angle);
             double sin = Math.sin(angle);
             double Z = height / (cos - q.y * sin);
@@ -318,6 +351,10 @@ public abstract class SamplePipeline extends OpenCvPipeline {
                 1, // Font size
                 colorScalar, // Font color
                 1); // Font thickness
+    }
+    static void DrawScreenAxes(Mat drawOn,String color){
+        Imgproc.line(drawOn,new Point(0,cy),new Point(1280,cy),getColorScalar(color));
+        Imgproc.line(drawOn,new Point(cx,0),new Point(cx,720),getColorScalar(color));
     }
 
     static void drawRotatedRect(RotatedRect rect, Mat drawOn, String color)

@@ -7,6 +7,7 @@ public class Outtake {
     public OuttakeClaw claw;
     public PrimaryOuttakePivot pivot1;
     public SecondaryOuttakePivot pivot2;
+    boolean BasketDropping = false;
     public Outtake(HardwareMap hardwareMap){
         claw = new OuttakeClaw(hardwareMap);
         pivot1 = new PrimaryOuttakePivot(hardwareMap);
@@ -25,28 +26,36 @@ public class Outtake {
         pivot1.Down();
         pivot2.Down();
     }
-    public void BasketDropping(){
-        vipers.SetTgPosToExtend();
-        //this is meant to be looped
-        if(vipers.targetReached()){
-            Up();
-            //TODO: probably add a sleep here, need to make a class for sleeping in a loop(everything is more complicated in a loop)
-            //^ 12/6 I just did this not sure if its fixed though
-            if(claw.claw.targetReached()){
-                claw.open();
-                Down();
-                vipers.SetTgPosToRetract();
-            }
-        }
-        else {
+    public void BasketDrop(){
 
-        }
+        BasketDropping = true;
     }
     public void goToDefaultPos(){
         vipers.SetTgPosToRetract();
-        claw.close();
+        Down();
     }
     public boolean targetReached(){
         return vipers.targetReached()&&claw.claw.targetReached();
+    }
+    public void runToTargetPos(){
+        vipers.runToTgPos();
+        if(BasketDropping){
+            //vipers.SetTgPosToExtend();
+            //this is meant to be looped
+            if(vipers.targetReached()){
+                Up();
+                //TODO: probably add a sleep here, need to make a class for sleeping in a loop(everything is more complicated in a loop)
+                //^ 12/6 I just did this not sure if its fixed though
+                if(claw.claw.targetReached()){
+                    claw.open();
+                    goToDefaultPos();
+                    BasketDropping = false;
+                }
+            }
+            else {
+
+            }
+        }
+
     }
 }

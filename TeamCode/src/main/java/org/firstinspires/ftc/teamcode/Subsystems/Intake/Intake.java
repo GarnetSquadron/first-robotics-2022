@@ -22,8 +22,8 @@ public class Intake {
         pivot.undeploy();
     }
     public void goToDefaultPos(){
-        pivot.deploy();
         wrist.runToRatio(0);
+        undeploy();
     }
     public boolean targetReached(){
         return crankSlide.targetReached()&&pivot.pivot.targetReached()&&claw.SERVO.targetReached()&&wrist.wrist.targetReached();

@@ -71,20 +71,15 @@ public class IntoTheDeepTeleOp extends OpMode {
         }
         bot.outtake.vipers.runToTgPos();
         if(gamepad2.left_trigger>0){
-            bot.outtake.claw.close();
+            bot.outtake.BasketDrop();
         }
         if(gamepad2.right_trigger>0){
-            bot.outtake.claw.open();
+
         }
 
-        bot.headlessDriveCommand.execute();
+        bot.runToTargetPos();
 
-        telemetry.addData("left viper encoder", bot.outtake.vipers.l.getPos());
-        telemetry.addData("right viper encoder", bot.outtake.vipers.r.getPos());
-        telemetry.addData("left viper target pos", bot.outtake.vipers.l.getTargetPos());
-        telemetry.addData("right viper target pos", bot.outtake.vipers.r.getTargetPos());
-        telemetry.addData("left viper reached target pos", bot.outtake.vipers.l.TargetReached());
-        telemetry.addData("right viper reached target pos", bot.outtake.vipers.r.TargetReached());
+        telemetry.addData("transfering",bot.transfering);
         telemetry.update();
     }
 }

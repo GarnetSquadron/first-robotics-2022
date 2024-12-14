@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Subsystems.depricated.TriangleIntake;
+package org.firstinspires.ftc.teamcode.depricated.TriangleIntake;
 
 //import com.acmerobotics.roadrunner.Action;
 import com.arcrobotics.ftclib.command.SubsystemBase;

@@ -6,21 +6,18 @@ import org.firstinspires.ftc.teamcode.Subsystems.ServoSub;
 
 
 public class PrimaryOuttakePivot extends SubsystemBase {
-    public final ServoSub left;
-    public final ServoSub right;
+    public final ServoSub pivot;
+
     public PrimaryOuttakePivot(HardwareMap hardwareMap) {
-         left = new ServoSub(hardwareMap,"AlignServo1",0,1);
-         right = new ServoSub(hardwareMap,"AlignServo2",1,0);
+         pivot = new ServoSub(hardwareMap,"primary pivot",1,0);
     }
 
     public void Up() {
-        left.MoveToMax();
-        right.MoveToMax();
+        pivot.MoveToMax();
     }
 
     public void Down() {
-        left.MoveToMin();
-        right.MoveToMin();
+        pivot.MoveToMin();
     }
 }
 //commit

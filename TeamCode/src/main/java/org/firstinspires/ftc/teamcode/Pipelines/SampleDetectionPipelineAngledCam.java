@@ -139,6 +139,7 @@ public class SampleDetectionPipelineAngledCam extends SamplePipeline
         {
             analyzeContour(contour, input, "Yellow");
         }
+        DrawScreenAxes(input,"Red");
 
         //get the approximate position of the nearest sample
 //        BlueCoords = getPoseOfClosestPixel(morphedBlueThreshold,cameraMatrix, camAngle, camHeight);
@@ -172,6 +173,7 @@ public class SampleDetectionPipelineAngledCam extends SamplePipeline
         AnalyzedStone analyzedStone = new AnalyzedStone();
         analyzedStone.angle = rotRectAngle;
         analyzedStone.color = color;
+        analyzedStone.setCoordsOnScreen(new Point(rotatedRectFitToContour.center.x-cx,rotatedRectFitToContour.center.y-cy));
         analyzedStone.setPos(getCoordOnFloorFromCoordOnScreen(rotatedRectFitToContour.center,cameraMatrix,camAngle, camHeight));
         internalStoneList.add(analyzedStone);
     }

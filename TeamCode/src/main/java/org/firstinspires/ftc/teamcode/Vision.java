@@ -39,7 +39,7 @@ public class Vision {
         webcam1.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
-                webcam1.startStreaming(640, 360,OpenCvCameraRotation.UPRIGHT);
+                webcam1.startStreaming(1280, 720,OpenCvCameraRotation.UPRIGHT);
                 FtcDashboard.getInstance().startCameraStream(webcam1,0);
                 telemetry.addLine("SUCCESSFULLY OPENED CAM =D");
                 telemetry.update();
@@ -60,11 +60,11 @@ public class Vision {
     }
     public double getDistanceAway(int i, ArrayList<AnalyzedStone> SampleList){
         AnalyzedStone p;
-        if(SampleList.size()>i) {
+        if(SampleList.size()>i&&i>=0) {
             p = SampleList.get(i);
             return Math.hypot(p.getPos().x,p.getPos().y);
         }
-        return -1;
+        return -1;//if i is out of bounds, return a number that is not possible
     }
     public AnalyzedStone getNearestSample(){
 
