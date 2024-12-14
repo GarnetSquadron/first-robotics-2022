@@ -339,39 +339,14 @@ public class ScrimmageAutoRoute extends LinearOpMode {
             builder.setCamera(BuiltinCameraDirection.BACK);
         }
 
-        // Choose a camera resolution. Not all cameras support all resolutions.
-        //builder.setCameraResolution(new Size(640, 480));
-
-        // Enable the RC preview (LiveView).  Set "false" to omit camera monitoring.
-        //builder.enableLiveView(true);
-
-        // Set the stream format; MJPEG uses less bandwidth than default YUY2.
-        //builder.setStreamFormat(VisionPortal.StreamFormat.YUY2);
-
-        // Choose whether or not LiveView stops if no processors are enabled.
-        // If set "true", monitor shows solid orange screen if no processors enabled.
-        // If set "false", monitor shows camera view without annotations.
-        //builder.setAutoStopLiveView(false);
-
-        // Set and enable the processor.
         builder.addProcessor(tfod);
-        //builder.addProcessor(tfod2);
 
-        // Build the Vision Portal, using the above settings.
         visionPortal = builder.build();
-
-        // Set confidence threshold for TFOD recognitions, at any time.
-        //tfod.setMinResultConfidence(0.75f);
-
-        // Disable or re-enable the TFOD processor at any time.
-        //visionPortal.setProcessorEnabled(tfod, true);
-
-    }   // end method initTfod()
+    }
 
     private int getSpikeMarkVision() {
 
         List<Recognition> currentRecognitions = tfod.getRecognitions();
-        //telemetry.addData("# Objects Detected", currentRecognitions.size());
 
         double confidence = 0;
         double x = 100;
@@ -389,19 +364,13 @@ public class ScrimmageAutoRoute extends LinearOpMode {
 
 
         }
-        // Step through the list of recognitions and display info for each one.
         for (Recognition recognition : currentRecognitions) {
             if (confidence < recognition.getConfidence()) {
                 x = (recognition.getLeft() + recognition.getRight()) / 2;
                 confidence = recognition.getConfidence();
             }
 
-            //            telemetry.addData(""," ");
-            //            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
-            //            telemetry.addData("- Position", "%.0f / %.0f", x, y);
-            //            telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
-            //telemetry.addData("- spikemark?","%.0f x %.0f", Math.round(x/200));
-        }   // end for() loop
+        }
 
         telemetry.addData("position", x);
         telemetry.addData("spikemark", Math.round(x / 200 + 1));
@@ -508,15 +477,7 @@ public class ScrimmageAutoRoute extends LinearOpMode {
         rb = hardwareMap.get(DcMotor.class, "rb");
         rf.setDirection(DcMotorSimple.Direction.REVERSE);
         rb.setDirection(DcMotorSimple.Direction.REVERSE);
-        //Fsensor = hardwareMap.get(ColorSensor.class, "Fsensor");
-        //Bsensor=hardwareMap.get(ColorSensor.class, "Bsensor");
-//        imu = hardwareMap.get(IMU.class, "imu");
-//        claw = hardwareMap.get(Servo.class, "claw");
-//        arm = hardwareMap.get(DcMotor.class, "arm");
-//        //funnel = hardwareMap.get(Servo.class, "funnel");
-//        funnelWheel = hardwareMap.get(CRServo.class, "funnel");
-//        arm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        telearm=hardwareMap.get(DcMotor.class, "teleArm");
+
 
         VoidsAndThings voidsAndThings = new VoidsAndThings(hardwareMap);
         voidsAndThings.initHardware();
@@ -527,9 +488,7 @@ public class ScrimmageAutoRoute extends LinearOpMode {
 
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
 
-        //arm = hardwareMap.get(DcMotor.class, "arm");
-        //claw = hardwareMap.get(Servo.class, "claw");
-        //colorSensor = hardwareMap.colorSensor.get("color");
+
         initTfod();
         waitForStart();
 
