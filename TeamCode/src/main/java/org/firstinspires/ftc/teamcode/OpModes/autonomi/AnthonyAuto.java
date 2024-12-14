@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Trajectory;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
+import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -16,7 +17,11 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Subsystems.ColorSensorSubSystem;
+import org.firstinspires.ftc.teamcode.Subsystems.CrankSlideSubSystem;
+import org.firstinspires.ftc.teamcode.Subsystems.IntakePivot;
+import org.firstinspires.ftc.teamcode.Subsystems.OuttakePivotSub;
 import org.firstinspires.ftc.teamcode.Subsystems.TriangleIntake;
+import org.firstinspires.ftc.teamcode.commands.HeadlessDriveCommand;
 import org.firstinspires.ftc.teamcode.commands.TriangleIntakeCommand;
 import org.firstinspires.ftc.teamcode.Subsystems.ViperSlidesSubSystem;
 import org.firstinspires.ftc.teamcode.Subsystems.TriangleIntake;
@@ -27,50 +32,87 @@ public class AnthonyAuto extends LinearOpMode {
     ColorSensorSubSystem colorSensor;
     TriangleIntake triangleIntake;
     TriangleIntakeCommand triangleIntakeCommand;
-    ViperSlidesSubSystem viperSlidesSubsystem;
+    ViperSlidesSubSystem viperSlidesSubSystem;
+    OuttakePivotSub outtakePivot;
+    CrankSlideSubSystem crank;
 
-    DcMotor lf;
-    DcMotor rf;
-    DcMotor lb;
-    DcMotor rb;
+    IntakePivot intakePivot;
+    public void pickUp() {
+        intakePivot.deploy();
+        sleep(100);
+        triangleIntakeCommand.execute();
+        sleep(100);
+        intakePivot.undeploy();
+        sleep(100);
+        triangleIntake.eject();
+    }
+    public void score() {
+    outtakePivot.Up();
+    ViperSlidesSubSystem.SetTgPosToExtend();
+    outtakePivot.Down();
+    ViperSlidesSubSystem.SetTgPosToRetract();
+    }
     public void Auto() {
+        viperSlidesSubSystem = new ViperSlidesSubSystem(hardwareMap);
+        outtakePivot = new OuttakePivotSub(hardwareMap,"AlignServo1","AlignServo2");
+        crank = new CrankSlideSubSystem(hardwareMap,"CrankLeft","CrankRight");
+        triangleIntake = new TriangleIntake(hardwareMap,"Ti", "Fi", "Bi","pivot");
         colorSensor = new ColorSensorSubSystem(hardwareMap,"ColorSensor");
-        triangleIntake = new TriangleIntake(hardwareMap,"IntakeServo1", "IntakeServo2", "IntakeServo3","pivot");
+        triangleIntakeCommand = new TriangleIntakeCommand(triangleIntake,colorSensor, Color.BLUE,telemetry);
+        intakePivot = new IntakePivot(hardwareMap);
+        telemetry.addData("sensed color",triangleIntakeCommand.c);
         Pose2d StartPose = new Pose2d(-26,-64.5,Math.toRadians(90));
-        triangleIntakeCommand = new TriangleIntakeCommand(triangleIntake,colorSensor, Color.RED,telemetry);
-        //Raise Viperslides and score sample in highest bucket
-        //Lower Viperslides
-        //spline to sample
         MecanumDrive Drive = new MecanumDrive(hardwareMap,StartPose);
-        Action BlueAutoBasket = Drive.actionBuilder(StartPose)
-                .splineToConstantHeading(new Vector2d(-48,-36.5),0)
-                .waitSeconds(1)
-                //goes to first sample
-                //insert code to pick up first sample
-                .splineToSplineHeading(new Pose2d(-55, -55, Math.toRadians(225)), Math.toRadians(0))
-                .waitSeconds(1)
-                //goes to basket
-                //put sample in basket
-                //.splineTo(new Vector2d(-55,-40), 0)
-                .splineToSplineHeading(new Pose2d(-58, -36.5, Math.toRadians(90)), Math.toRadians(270))
-                .waitSeconds(2)
-                .splineToSplineHeading(new Pose2d(-55, -55, Math.toRadians(225)), Math.toRadians(0))
-                .waitSeconds(3)
-                //put sample in basket
-                //.splineTo(new Vector2d(-51, -51), 0)
-                .splineToSplineHeading(new Pose2d(-55,-25, Math.toRadians(180)),Math.toRadians(270))
-                .splineToSplineHeading(new Pose2d(-55, -55, Math.toRadians(225)), Math.toRadians(0))
-                .waitSeconds(2)
-                .turn(Math.toRadians(-45))
-                //.splineToSplineHeading(new Pose2d(55,-55, Math.toRadians(90)),0)
-//                .splineToConstantHeading(new Vector2d(56,-60),0)
+
+        Action path0 = Drive.actionBuilder(StartPose)
+                .splineToSplineHeading(new Pose2d(-55, -55, Math.toRadians(45)), Math.toRadians(0))
                 .build();
-        Actions.runBlocking(BlueAutoBasket
-        );
-        //pick up sample
-        //transfer sample to bucket
-        //spline back to bucket
-        //repeat
+        Action path1 = Drive.actionBuilder(new Pose2d(-55, -55, Math.toRadians(45)))
+                .waitSeconds(2)
+                .splineToSplineHeading(new Pose2d(-48,-36.5, Math.toRadians(90)),0)
+                .build();
+        Action path2 = Drive.actionBuilder(new Pose2d(-48,-36.5, Math.toRadians(90)))
+                .waitSeconds(1.25)
+                .splineToSplineHeading(new Pose2d(-55, -55, Math.toRadians(45)), Math.toRadians(0))
+                .build();
+        Action path3 = Drive.actionBuilder(new Pose2d(-55, -55, Math.toRadians(45)))
+                .waitSeconds(2)
+                .splineToSplineHeading(new Pose2d(-58, -36.5, Math.toRadians(90)), Math.toRadians(270))
+                .build();
+        Action path4 = Drive.actionBuilder(new Pose2d(-58, -36.5, Math.toRadians(90)))
+                .waitSeconds(1.25)
+                .splineToSplineHeading(new Pose2d(-55, -55, Math.toRadians(45)), Math.toRadians(0))
+                .build();
+        Action path5 = Drive.actionBuilder (new Pose2d(-55, -55, Math.toRadians(45)))
+                .waitSeconds(2)
+                .splineToSplineHeading(new Pose2d(-55,-25, Math.toRadians(180)),Math.toRadians(270))
+                .build();
+        Action path6 = Drive.actionBuilder (new Pose2d(-55,-25, Math.toRadians(180)))
+                .waitSeconds(1.25)
+                .splineToSplineHeading(new Pose2d(-50, -55, Math.toRadians(45)), Math.toRadians(0))
+                .build();
+        Action path7 = Drive.actionBuilder (new Pose2d(-50, -55, Math.toRadians(45)))
+                .waitSeconds(2)
+                .splineToSplineHeading(new Pose2d(55,-55,Math.toRadians(90)),0)
+                .build();
+
+
+        Actions.runBlocking(path0);
+        score();
+        Actions.runBlocking(path1);
+        pickUp();
+        Actions.runBlocking(path2);
+        score();
+        Actions.runBlocking(path3);
+        pickUp();
+        Actions.runBlocking(path4);
+        score();
+        Actions.runBlocking(path5);
+        pickUp();
+        Actions.runBlocking(path6);
+        score();
+        Actions.runBlocking(path7);
+        pickUp();
     }
     @Override
     public void runOpMode() throws InterruptedException {
@@ -78,7 +120,8 @@ public class AnthonyAuto extends LinearOpMode {
 
     }
 }
-//
+
+
 //package com.example.meepmeeptesting;
 //
 //import com.acmerobotics.roadrunner.Action;
@@ -99,30 +142,21 @@ public class AnthonyAuto extends LinearOpMode {
 //
 //        Pose2d beginPose = new Pose2d(-26,-64.5,Math.toRadians(90));
 //        myBot.runAction(myBot.getDrive().actionBuilder(beginPose)
-//                .splineToConstantHeading(new Vector2d(-48,-36.5),0)
-//                .waitSeconds(1)
-//                //goes to first sample
-//                //insert code to pick up first sample
-//                .splineToSplineHeading(new Pose2d(-55, -55, Math.toRadians(225)), Math.toRadians(0))
-//                .waitSeconds(1)
-//                //goes to basket
-//                //put sample in basket
-//                //.splineTo(new Vector2d(-55,-40), 0)
+//                .splineToSplineHeading(new Pose2d(-55, -55, Math.toRadians(45)), Math.toRadians(0))
+//                .waitSeconds(2)
+//                .splineToSplineHeading(new Pose2d(-48,-36.5, Math.toRadians(90)),0)
+//                .waitSeconds(1.5)
+//                .splineToSplineHeading(new Pose2d(-55, -55, Math.toRadians(45)), Math.toRadians(0))
+//                .waitSeconds(2)
 //                .splineToSplineHeading(new Pose2d(-58, -36.5, Math.toRadians(90)), Math.toRadians(270))
+//                .waitSeconds(1.5)
+//                .splineToSplineHeading(new Pose2d(-55, -55, Math.toRadians(45)), Math.toRadians(45))
 //                .waitSeconds(2)
-//                .splineToSplineHeading(new Pose2d(-55, -55, Math.toRadians(225)), Math.toRadians(0))
-//                .waitSeconds(3)
-//                //put sample in basket
-//                //.splineTo(new Vector2d(-51, -51), 0)
 //                .splineToSplineHeading(new Pose2d(-55,-25, Math.toRadians(180)),Math.toRadians(270))
-//                .splineToSplineHeading(new Pose2d(-50, -55, Math.toRadians(225)), Math.toRadians(0))
+//                .waitSeconds(1.5)
+//                .splineToSplineHeading(new Pose2d(-50, -55, Math.toRadians(45)), Math.toRadians(90))
 //                .waitSeconds(2)
-//                .turn(Math.toRadians(-45))
-//                .waitSeconds(1)
-//                .splineToSplineHeading(new Pose2d(55,-55,Math.toRadians(90)),0)
-//                //.forward(15)
-//                //.splineToSplineHeading(new Pose2d(55,-55, Math.toRadians(90)),0)
-////                .splineToConstantHeading(new Vector2d(56,-60),0)
+//                .splineToSplineHeading(new Pose2d(55,-55,Math.toRadians(90)),270)
 //                .build());
 //
 //        meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)
