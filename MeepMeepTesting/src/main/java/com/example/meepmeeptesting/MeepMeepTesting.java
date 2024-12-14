@@ -9,7 +9,9 @@ import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-    public class MeepMeepTesting {
+import java.util.Timer;
+
+public class MeepMeepTesting {
         static Pose2d[] excludeElement0(Pose2d[] arr){
             Pose2d[] arr2 = new Pose2d[arr.length-1];
             System.arraycopy(arr, 1, arr2, 0, arr.length - 1);
@@ -66,13 +68,15 @@ import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
                     .build();
 
             //Auto routes
-            ThreeClip t = new ThreeClip(myBot); //t.run();
+            ThreeClip c = new ThreeClip(myBot); //c.run();
             ThreeSample s = new ThreeSample(myBot); //s.run();
-            SoloAuto  a = new SoloAuto(myBot); //a.run();
-            VisionAuto v = new VisionAuto(myBot); //v.run()
+            SoloAuto SOLO = new SoloAuto(myBot); //SOLO.run();
+            VisionAutoSixSamp vs = new VisionAutoSixSamp(myBot); //vs.run();
+            VisionAutoClip vc = new VisionAutoClip(myBot); //vc.run();
+
             Pose2d beginPose = new Pose2d(26,-62,Math.toRadians(90));
             Pose2d tgtPose = new Pose2d(20,20,Math.PI);
-            v.run();
+            vs.run();
 
             meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)
                     .setDarkMode(true)

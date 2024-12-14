@@ -4,10 +4,10 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-public class VisionAuto {
+public class VisionAutoSixSamp {
     RoadRunnerBotEntity myBot;
     Pose2d beginPose = new Pose2d(-26,-62,Math.toRadians(180));
-    VisionAuto (RoadRunnerBotEntity myBot){
+    VisionAutoSixSamp (RoadRunnerBotEntity myBot){
         this.myBot = myBot;
     }
     public void run(){

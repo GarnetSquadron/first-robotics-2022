@@ -1,5 +1,5 @@
 package com.example.meepmeeptesting;
-
+//SLIGHTLY BROKEN!!!!
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
@@ -19,14 +19,10 @@ public class ThreeClip {
                 .splineToConstantHeading(new Vector2d(-0,-50),5)
                 .splineToConstantHeading(new Vector2d(36,-30),45)
                 .splineToConstantHeading(new Vector2d(34,-0),0)
-                .splineToLinearHeading(new Pose2d(40, 0,Math.toRadians(270)), Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(pushX, pushY),-1)
-                .splineToConstantHeading(new Vector2d(36,-30),45)
-                .splineToConstantHeading(new Vector2d(34,-0),0)
+                .splineToConstantHeading(new Vector2d(40,-0),5)
+                .splineToConstantHeading(new Vector2d(pushX, pushY),2)
                 .splineToConstantHeading(new Vector2d(45,-0),0)
                 .splineToConstantHeading(new Vector2d(pushX, pushY),2)
-                .splineToConstantHeading(new Vector2d(36,-30),45)
-                .splineToConstantHeading(new Vector2d(34,-0),0)
                 .splineToConstantHeading(new Vector2d(54,-0),0)
                 .splineToConstantHeading(new Vector2d(pushX, pushY),2)
                 .splineToConstantHeading(new Vector2d(56,-34),2)
