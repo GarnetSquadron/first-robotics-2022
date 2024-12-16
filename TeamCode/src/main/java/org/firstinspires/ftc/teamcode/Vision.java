@@ -30,7 +30,7 @@ public class Vision {
         telemetry=t;
     }
     public SampleDetectionPipelineAngledCam Pipeline = new SampleDetectionPipelineAngledCam();
-    public void InitPipeline(HardwareMap hardwareMap){
+    public void InitPipeline(){
         webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "Id", hardwareMap.appContext.getPackageName());
         webcam1 = OpenCvCameraFactory.getInstance().createWebcam(webcamName, cameraMonitorViewId);
@@ -96,5 +96,8 @@ public class Vision {
     }
     public void setAngle(double angle){
         Pipeline.setAngle(angle);
+    }
+    public double getBrightness(){
+        return Pipeline.brightness;
     }
 }

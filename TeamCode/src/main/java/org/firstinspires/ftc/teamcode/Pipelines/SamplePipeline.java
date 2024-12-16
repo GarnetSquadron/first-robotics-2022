@@ -35,6 +35,7 @@ public abstract class SamplePipeline extends OpenCvPipeline {
     Mat ycrcbMat = new Mat();
     Mat crMat = new Mat();
     Mat cbMat = new Mat();
+    Mat grayScaleMat = new Mat();
 
     Mat blueThresholdMat = new Mat();
     Mat redThresholdMat = new Mat();
@@ -551,5 +552,11 @@ public abstract class SamplePipeline extends OpenCvPipeline {
     public void setAngle(double angle){
         camAngle = angle;
     }
+    //region threshold auto tuner
+    public double getMidPixelBrightness(Mat input){
+        Imgproc.cvtColor(input,grayScaleMat,Imgproc.COLOR_BGR2GRAY);
+        return grayScaleMat.get((int)Math.round(cx),(int)Math.round(cy))[0];
+    }
+    //endregion
 }
 

@@ -18,6 +18,7 @@ public class SampleDetectionPipelineAngledCam extends SamplePipeline
 {
     // Some stuff to handle returning our various buffers
     Stage[] stages = Stage.values();
+    public double brightness;
 
     // Keep track of what stage the viewport is showing
     int stageNum = 0;
@@ -89,6 +90,7 @@ public class SampleDetectionPipelineAngledCam extends SamplePipeline
     }
     void findContours(Mat input)
     {
+        brightness = getMidPixelBrightness(input);
         // Convert the input image to YCrCb color space
         Imgproc.cvtColor(input, ycrcbMat, Imgproc.COLOR_RGB2YCrCb);
 
@@ -149,6 +151,7 @@ public class SampleDetectionPipelineAngledCam extends SamplePipeline
 
     void analyzeContour(MatOfPoint contour, Mat input, String color)
     {
+
         // Transform the contour to a different format
         Point[] points = contour.toArray();
         MatOfPoint2f contour2f = new MatOfPoint2f(points);

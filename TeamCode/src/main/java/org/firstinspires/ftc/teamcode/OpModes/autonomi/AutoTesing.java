@@ -75,9 +75,9 @@ public class AutoTesing extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(-24, 10, Math.toRadians(180)), 0)
                 .build();
         Action path3 = drive.actionBuilder(beginPose)
-                build();
+                .build();
 
 
-        Actions.runBlocking(path);
+        Actions.runBlocking(path3clea);
     }
 }

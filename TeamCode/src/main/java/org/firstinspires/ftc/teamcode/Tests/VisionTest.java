@@ -19,7 +19,7 @@ public class VisionTest extends LinearOpMode {
     @Override
     public void runOpMode(){
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        vision.InitPipeline(hardwareMap);
+        vision.InitPipeline();
         servo = new ServoSub(hardwareMap,"servo",0,1);
         waitForStart();
         String JankTelemetry;//ftc dash doesnt like telemetry.clear() for some reason, so Im doing this
@@ -53,6 +53,7 @@ public class VisionTest extends LinearOpMode {
                 telemetry.addData("width "+i,Sample.width);
                 telemetry.addData("length"+i,Sample.length);
             }
+            telemetry.addData("brightness", vision.getBrightness());
            // telemetry.addData("", JankTelemetry);
 
 

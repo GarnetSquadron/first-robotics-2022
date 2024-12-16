@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.Tests;
 //import static org.firstinspires.ftc.teamcode.Tests.autointestblue.State.HOLDING;
 //import static org.firstinspires.ftc.teamcode.Tests.autointestblue.State.INTAKING;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 //import com.qualcomm.robotcore.hardware.CRServo;
@@ -24,6 +25,7 @@ import org.firstinspires.ftc.teamcode.enums.Color;
 
 
 @TeleOp(name="auto intake test blue", group = "test")
+@Disabled
 
 //imports from vision.java.
 

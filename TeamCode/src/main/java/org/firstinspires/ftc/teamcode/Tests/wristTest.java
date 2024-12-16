@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake.Wrist;
 
 public class wristTest extends OpMode {
+
     Wrist s;
 
     @Override

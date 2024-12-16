@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.Tests;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Subsystems.outake.ViperSlidesSubSystem;
 
 @TeleOp(name = "ViperTest", group = "tests")
+@Disabled
 public class ViperTest extends OpMode {
     ViperSlidesSubSystem viperSlides;
     @Override

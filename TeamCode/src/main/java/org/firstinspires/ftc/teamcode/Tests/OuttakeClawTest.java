@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Tests;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -7,6 +8,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Intake.IntakeClawSub;
 import org.firstinspires.ftc.teamcode.Subsystems.outake.OuttakeClaw;
 
 @TeleOp(name="OuttakeClawTest", group = "test")
+@Disabled
 public class OuttakeClawTest extends OpMode {
     OuttakeClaw claw;
     @Override

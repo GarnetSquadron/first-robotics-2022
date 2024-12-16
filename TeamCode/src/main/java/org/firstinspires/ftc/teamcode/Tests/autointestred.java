@@ -6,6 +6,7 @@ package org.firstinspires.ftc.teamcode.Tests;
 //import static org.firstinspires.ftc.teamcode.Tests.autointestred.State.INTAKING;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 //import com.qualcomm.robotcore.hardware.CRServo;
 //import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -24,7 +25,7 @@ import org.firstinspires.ftc.teamcode.enums.Color;
 //import org.openftc.easyopencv.OpenCvWebcam;
 
 @TeleOp(name="auto intake test red", group = "test")
-
+@Disabled
 public class autointestred extends CommandOpMode {
     TriangleIntake triangleIntake;
     //  CrankSlideSubSystem crankSlideSubSystem = new CrankSlideSubSystem(hardwareMap, "CrankL","CrankR");
