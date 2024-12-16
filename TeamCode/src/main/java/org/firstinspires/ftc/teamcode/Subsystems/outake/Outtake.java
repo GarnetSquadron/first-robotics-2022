@@ -18,13 +18,13 @@ public class Outtake {
     /**
      * this function is meant to be looped
      */
-    public void Up(){
-        pivot1.Up();
-        pivot2.Up();
+    public void BucketPos(){
+        pivot1.BucketPos();
+        pivot2.BucketPos();
     }
-    public void Down(){
-        pivot1.Down();
-        pivot2.Down();
+    public void TransferPos(){
+        pivot1.TransferPos();
+        pivot2.TransferPos();
     }
     public void BasketDrop(){
 
@@ -32,7 +32,7 @@ public class Outtake {
     }
     public void goToDefaultPos(){
         vipers.SetTgPosToRetract();
-        Down();
+        TransferPos();
     }
     public boolean targetReached(){
         return vipers.targetReached()&&claw.claw.targetReached();
@@ -43,7 +43,7 @@ public class Outtake {
             //vipers.SetTgPosToExtend();
             //this is meant to be looped
             if(vipers.targetReached()){
-                Up();
+                BucketPos();
                 //TODO: probably add a sleep here, need to make a class for sleeping in a loop(everything is more complicated in a loop)
                 //^ 12/6 I just did this not sure if its fixed though
                 if(claw.claw.targetReached()){

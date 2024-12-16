@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -22,11 +23,9 @@ public class Example2 extends LinearOpMode {
         Action path = drive.actionBuilder(beginpos)
                 .splineToSplineHeading(new Pose2d(20,20,Math.toRadians(90)), 0)
                 .build();
-        Action path2 = drive.actionBuilder(beginpos).build();
-        Action path3 = new SequentialAction(path,path2);
-        Action ArmMovement = arm.runTo(630);
-        Action Movement = new ParallelAction(path,arm.runTo(630));
         waitForStart();
-        //Actions.runBlocking();
+        Actions.runBlocking(
+                path
+        );
     }
 }

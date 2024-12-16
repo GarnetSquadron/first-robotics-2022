@@ -9,14 +9,14 @@ public class PrimaryOuttakePivot extends SubsystemBase {
     public final ServoSub pivot;
 
     public PrimaryOuttakePivot(HardwareMap hardwareMap) {
-         pivot = new ServoSub(hardwareMap,"primary pivot",1,0);
+         pivot = new ServoSub(hardwareMap,"primary pivot",0.95,0.3333333);
     }
 
-    public void Up() {
+    public void BucketPos() {
         pivot.MoveToMax();
     }
 
-    public void Down() {
+    public void TransferPos() {
         pivot.MoveToMin();
     }
 }

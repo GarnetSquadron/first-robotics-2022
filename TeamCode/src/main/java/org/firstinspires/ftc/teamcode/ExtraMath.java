@@ -17,4 +17,10 @@ public class ExtraMath {
     public static double Clamp(double val, double max, double min){
         return Math.min(Math.max(val,min),max);
     }
+    public static boolean withinRange(double val, double max, double min){
+        return val<=max&&val>=min;
+    }
+    public static boolean ApproximatelyEqualTo(double val, double expectedVal, double tolerance){
+        return withinRange(val,expectedVal+tolerance,expectedVal-tolerance);
+    }
 }

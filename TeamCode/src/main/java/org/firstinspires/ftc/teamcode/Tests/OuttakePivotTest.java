@@ -14,10 +14,10 @@ public class OuttakePivotTest extends OpMode {
      @Override
     public void loop() {
         if (gamepad1.y) {
-            ServoAlignment.Up();
+            ServoAlignment.BucketPos();
         }
         if (gamepad1.x) {
-            ServoAlignment.Down();
+            ServoAlignment.TransferPos();
         }
     }
     public void init(){

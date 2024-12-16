@@ -7,14 +7,14 @@ import org.firstinspires.ftc.teamcode.Subsystems.ServoSub;
 public class SecondaryOuttakePivot {
     public final ServoSub pivot;
     public SecondaryOuttakePivot(HardwareMap hardwareMap) {
-        pivot = new ServoSub(hardwareMap,"secondary pivot",0,1);
+        pivot = new ServoSub(hardwareMap,"secondary pivot",0.9,0.1);
     }
 
-    public void Up() {
+    public void BucketPos() {
         pivot.MoveToMax();
     }
 
-    public void Down() {
+    public void TransferPos() {
         pivot.MoveToMin();
     }
 }

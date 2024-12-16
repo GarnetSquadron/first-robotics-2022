@@ -10,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
 import org.firstinspires.ftc.teamcode.Pipelines.SampleDetectionPipelineAngledCam;
 import org.firstinspires.ftc.teamcode.Pipelines.SampleDetectionPipelinePNP;
 import org.firstinspires.ftc.teamcode.Pipelines.SamplePipeline.AnalyzedStone;
+import org.firstinspires.ftc.teamcode.enums.Color;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -58,6 +59,16 @@ public class Vision {
     public ArrayList<AnalyzedStone> GetSampleList(){
         return Pipeline.getDetectedStones();
     }
+    public ArrayList<AnalyzedStone> GetListWithColor(String color){
+        ArrayList<AnalyzedStone> SampleList = GetSampleList();
+        ArrayList<AnalyzedStone> n= new ArrayList<>();
+        for(AnalyzedStone Sample:SampleList){
+            if(Sample.getColor() == color){
+                n.add(Sample);
+            }
+        }
+        return n;
+    }
     public double getDistanceAway(int i, ArrayList<AnalyzedStone> SampleList){
         AnalyzedStone p;
         if(SampleList.size()>i&&i>=0) {
@@ -82,5 +93,8 @@ public class Vision {
             }
         }
         return SampleList.get(index);
+    }
+    public void setAngle(double angle){
+        Pipeline.setAngle(angle);
     }
 }

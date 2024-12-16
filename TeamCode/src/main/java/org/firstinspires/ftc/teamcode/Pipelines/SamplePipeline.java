@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.Pipelines;
 
+import static org.firstinspires.ftc.teamcode.ExtraMath.ApproximatelyEqualTo;
+import static org.firstinspires.ftc.teamcode.ExtraMath.withinRange;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.sun.tools.javac.util.MandatoryWarningHandler;
@@ -64,12 +67,21 @@ public abstract class SamplePipeline extends OpenCvPipeline {
     //region AnalyzedStone
     public static class AnalyzedStone
     {
+        public RotatedRect rect;
         double angle;
         String color;
         Mat rvec;
         Mat tvec;
         Point Pos;
         Point CoordsOnScreen;
+        /**
+         * short side
+         */
+        public double width;
+        /**
+         * long side
+         */
+        public double length;
         public String getColor(){
             return color;
         }
@@ -107,6 +119,7 @@ public abstract class SamplePipeline extends OpenCvPipeline {
     double fy = 1409.76;
     static double cx = 634.365 ; // camera's principal point x-coordinate (usually image width / 2)
     static double cy = 354.346;//354.346; // camera's principal point y-coordinate (usually image height / 2)4
+    static double k1 = 0.0490191, k2 = 0.624066, k3 = -3.46861, p1 = -0.00146273, p2 = -0.00249107;
     //endregion
     double camAngle;//angle of where the camera is pointing from vertical
     double camHeight;//height of the camera
@@ -115,8 +128,8 @@ public abstract class SamplePipeline extends OpenCvPipeline {
     SamplePipeline() {
         // Initialize camera parameters
 
-        camAngle = Math.PI/2;
-        camHeight = 4;
+        camAngle = Math.PI/4;
+        camHeight = 12;
 
         cameraMatrix.put(0, 0,
                 fx, 0,cx,
@@ -126,7 +139,7 @@ public abstract class SamplePipeline extends OpenCvPipeline {
         // Distortion coefficients (k1, k2, p1, p2, k3)
         // If you have calibrated your camera and have these values, use them
         // Otherwise, you can assume zero distortion for simplicity
-        distCoeffs = new MatOfDouble(0, 0, 0, 0, 0);
+        distCoeffs = new MatOfDouble(k1, k2, p1, p2, k3);
     }
 
 
@@ -201,21 +214,42 @@ public abstract class SamplePipeline extends OpenCvPipeline {
     /**
      * Like the name says, gets the coords on the floor from the coords on the screen given the height and angle of the camera
      * @param p the point on the screen
-     * @param CamMat the camera matrix
      * @param angle the angle between the line that the camera is pointing along and a line perpendicular to the ground.
      * @param height this is the height of the camera. what did you think it was lol.
      *               Also the height scales everything, so whatever
      *               units for height you input you will get those same units as the output. so inches in, inches out
      * @return
      */
-    Point getCoordOnFloorFromCoordOnScreen(Point p,Mat CamMat,double angle, double height){
+    Point getCoordOnFloorFromCoordOnScreen(Point p,double angle, double height){
 //        double fx = CamMat.get(0,0)[0];//TODO: figure out the number in the brackets (Its prob 1 but I am not sure maybe 0)
 //        double fy = CamMat.get(1,1)[0];
 //        double cx = CamMat.get(0,2)[0];
 //        double cy = CamMat.get(1,2)[0];
 
-        return getCoordOnFloorFromCoordOnScreen(p,fx,fy,cx,cy,angle,height);
+        return getCoordOnFloorFromCoordOnScreen(p,fx,fy,cx,cy,angle,height,k1,k2,k3,p1,p2);
     }
+    Point getCoordOnFloorFromCoordOnScreen(Point p){
+//        double fx = CamMat.get(0,0)[0];//TODO: figure out the number in the brackets (Its prob 1 but I am not sure maybe 0)
+//        double fy = CamMat.get(1,1)[0];
+//        double cx = CamMat.get(0,2)[0];
+//        double cy = CamMat.get(1,2)[0];
+
+        return getCoordOnFloorFromCoordOnScreen(p,camAngle, camHeight);
+    }
+
+    /**
+     * also doesnt work. idk
+     * @param x
+     * @param y
+     * @param xc
+     * @param yc
+     * @param k1
+     * @param k2
+     * @param k3
+     * @param p1
+     * @param p2
+     * @return
+     */
     Point undistortDivisionModel(double x, double y, double xc, double yc, double k1, double k2, double k3, double p1, double p2){
         double r = Math.hypot(x-xc,y-yc);
         double denominator = 1+k1*Math.pow(r,2)+k2*Math.pow(r,4)+k3*Math.pow(r,6);
@@ -223,10 +257,36 @@ public abstract class SamplePipeline extends OpenCvPipeline {
 
     }
 
+    /**
+     * doesnt work idk why
+     * @param x
+     * @param y
+     * @param xc
+     * @param yc
+     * @param k1
+     * @param k2
+     * @param k3
+     * @param p1
+     * @param p2
+     * @return
+     */
     Point undistortPolynomialModel(double x, double y, double xc, double yc, double k1, double k2, double k3, double p1, double p2){
-        double r = Math.hypot(x-xc,y-yc);
         return new Point(undistortXPolynomialModel(x,y,xc,yc,k1,k2,k3,p1,p2),undistortYPolynomialModel(x,y,xc,yc,k1,k2,k3,p1,p2));
     }
+
+    /**
+     *  doesnt work idk why
+     * @param xd
+     * @param yd
+     * @param xc
+     * @param yc
+     * @param k1
+     * @param k2
+     * @param k3
+     * @param p1
+     * @param p2
+     * @return
+     */
     double undistortXPolynomialModel(double xd, double yd, double xc, double yc, double k1, double k2, double k3, double p1, double p2){
         double x=xd-xc;
         double y = yd-yc;
@@ -235,14 +295,30 @@ public abstract class SamplePipeline extends OpenCvPipeline {
         double term3 = p1*(Math.pow(r,2)+2*Math.pow(x,2))+2*p2*x*y;
         return xd+term2+term3;
     }
+
+    /**
+     * doesnt work idk why
+     * @param xd
+     * @param yd
+     * @param xc
+     * @param yc
+     * @param k1
+     * @param k2
+     * @param k3
+     * @param p1
+     * @param p2
+     * @return
+     */
     double undistortYPolynomialModel(double xd, double yd, double xc, double yc, double k1, double k2, double k3, double p1, double p2){
         return undistortXPolynomialModel(yd,xd,yc,xc,k1,k2,k3,p2,p1);
     }
-    Point getCoordOnFloorFromCoordOnScreen(Point p, double fx, double fy, double cx, double cy, double angle, double height){
+    Point getCoordOnFloorFromCoordOnScreen(Point p, double fx, double fy, double cx, double cy, double angle, double height,double k1, double k2, double k3, double p1, double p2){
         if(p!=null){
-            Point q = new Point((p.x - cy) / fx, -(p.y - cy) / fx);
+            //Point up = undistortDivisionModel(p.x,p.y,cx,cy,k1,k2,k3,p1,p2);//does not seem to work idk
+            Point q = new Point((p.x - cx) / fx, -(p.y - cy) / fx);
             double cos = Math.cos(angle);
             double sin = Math.sin(angle);
+            double tan = Math.tan(angle);
             double Z = height / (cos - q.y * sin);
             double Y = Z * q.y;
             double ZZ = Z - height * cos;
@@ -250,19 +326,80 @@ public abstract class SamplePipeline extends OpenCvPipeline {
             double y = (angle == 0) ? (YY / cos) : (ZZ / sin);
             double x = q.x * Z;
             return new Point(x, y);
+            ///////////////////////////////////////////////////////////
+//            double y=height*(q.y+tan)/(1-q.y*tan);
+//            double Z=Math.hypot(y,height);
+//            double x=q.x*Z;
+//            return new Point(x,y);
         }
         else {
             return null;
         }
     }
-    Point getPoseOfClosestPixel(Mat input, Mat CamMat,double angle, double height){
-        return getCoordOnFloorFromCoordOnScreen(getLowestPixel(input),CamMat,angle,height);
+    double getCamZ(double y, double h, double angle){
+        double sin = Math.sin(angle);
+        double cos = Math.cos(angle);
+        double tan = Math.tan(angle);
+        double L=h*tan;
+        double H=h/cos;
+        double l=L-y;
+        double n=l*sin;
+        return H-n;
+    }
+    double getscale(double y){
+        return getscale(getCamZ(y,camHeight,camAngle),fx);
+    }
+    /**
+     * returns how small objects should appear compared to their actual size at a given point
+     * @param y the distance of the object on the ground to the camera in inches
+     * @param height the height of the camera
+     * @param angle the angle of the camera
+     * @param f
+     * @return
+     */
+    double getscale(double y, double height, double angle, double f){
+        return getscale(getCamZ(y,height,angle),f);
+    }
+
+    /**
+     * returns how small objects should appear compared to their actual size at a given point
+     * @param Z distance from the plane parrallel to the camera that the object lies in
+     * @param f focal length in pixels
+     * @return
+     */
+    double getscale(double Z,double f){
+        return Z/f;
+    }
+
+
+    double getApriximateRealWidth(AnalyzedStone sample){
+        RotatedRect rectangle = sample.rect;
+        return Math.min(rectangle.size.height,rectangle.size.width)*getscale(sample.Pos.y);
+    }
+    double getApriximateRealLength(AnalyzedStone sample){
+        RotatedRect rectangle = sample.rect;
+        return Math.max(rectangle.size.height,rectangle.size.width)*getscale(sample.Pos.y);
+    }
+    /**
+     * checks whether a given sample is
+     * @param sample
+     * @param expectedWidth
+     * @param expectedLength
+     * @param tolerance
+     * @return
+     */
+    boolean CheckScale(AnalyzedStone sample,double expectedWidth,double expectedLength, double tolerance){
+        RotatedRect rectangle = sample.rect;;
+        return ApproximatelyEqualTo(sample.length,expectedWidth,tolerance)&&ApproximatelyEqualTo(sample.length,expectedLength,tolerance);
+    }
+    Point getPoseOfClosestPixel(Mat input, double angle, double height){
+        return getCoordOnFloorFromCoordOnScreen(getLowestPixel(input),angle,height);
     }
     double getOrientation(Mat input, Mat CamMat,  double angle,double height, Point3 sampleDimensions){
         Point topCorner = getHighestPixel(input);
         Point bottomCorner = getLowestPixel(input);
-        Point topCoords = getCoordOnFloorFromCoordOnScreen(topCorner, CamMat, angle, height);
-        Point bottomCoords = getCoordOnFloorFromCoordOnScreen(bottomCorner, CamMat, angle, height-sampleDimensions.y);
+        Point topCoords = getCoordOnFloorFromCoordOnScreen(topCorner, angle, height);
+        Point bottomCoords = getCoordOnFloorFromCoordOnScreen(bottomCorner, angle, height-sampleDimensions.y);
         //Point deltaCoords = topCoords-bottomCoords;
         return Math.atan(1);
     }
@@ -410,6 +547,9 @@ public abstract class SamplePipeline extends OpenCvPipeline {
 
         Imgproc.dilate(output, output, dilateElement);
         Imgproc.dilate(output, output, dilateElement);
+    }
+    public void setAngle(double angle){
+        camAngle = angle;
     }
 }
 

@@ -171,10 +171,13 @@ public class SampleDetectionPipelineAngledCam extends SamplePipeline
 
         // Store the detected stone information
         AnalyzedStone analyzedStone = new AnalyzedStone();
+        analyzedStone.rect = rotatedRectFitToContour;
         analyzedStone.angle = rotRectAngle;
         analyzedStone.color = color;
-        analyzedStone.setCoordsOnScreen(new Point(rotatedRectFitToContour.center.x-cx,rotatedRectFitToContour.center.y-cy));
-        analyzedStone.setPos(getCoordOnFloorFromCoordOnScreen(rotatedRectFitToContour.center,cameraMatrix,camAngle, camHeight));
+        analyzedStone.setCoordsOnScreen(new Point((rotatedRectFitToContour.center.x-cx)/fx,-(rotatedRectFitToContour.center.y-cy)/fy));
+        analyzedStone.setPos(getCoordOnFloorFromCoordOnScreen(rotatedRectFitToContour.center));
+        analyzedStone.width = getApriximateRealWidth(analyzedStone);
+        analyzedStone.length = getApriximateRealLength(analyzedStone);
         internalStoneList.add(analyzedStone);
     }
 }

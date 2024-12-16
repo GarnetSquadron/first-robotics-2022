@@ -16,109 +16,99 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
-import org.firstinspires.ftc.teamcode.Subsystems.ColorSensorSubSystem;
-import org.firstinspires.ftc.teamcode.Subsystems.CrankSlideSubSystem;
-import org.firstinspires.ftc.teamcode.Subsystems.IntakePivot;
-import org.firstinspires.ftc.teamcode.Subsystems.OuttakePivotSub;
-import org.firstinspires.ftc.teamcode.Subsystems.TriangleIntake;
-import org.firstinspires.ftc.teamcode.commands.HeadlessDriveCommand;
-import org.firstinspires.ftc.teamcode.commands.TriangleIntakeCommand;
-import org.firstinspires.ftc.teamcode.Subsystems.ViperSlidesSubSystem;
-import org.firstinspires.ftc.teamcode.Subsystems.TriangleIntake;
-import org.firstinspires.ftc.teamcode.enums.Color;
 import org.firstinspires.ftc.teamcode.oldStuff.VoidsAndThings;
 
-public class AnthonyAuto extends LinearOpMode {
-    ColorSensorSubSystem colorSensor;
-    TriangleIntake triangleIntake;
-    TriangleIntakeCommand triangleIntakeCommand;
-    ViperSlidesSubSystem viperSlidesSubSystem;
-    OuttakePivotSub outtakePivot;
-    CrankSlideSubSystem crank;
-
-    IntakePivot intakePivot;
-    public void pickUp() {
-        intakePivot.deploy();
-        sleep(100);
-        triangleIntakeCommand.execute();
-        sleep(100);
-        intakePivot.undeploy();
-        sleep(100);
-        triangleIntake.eject();
-    }
-    public void score() {
-    outtakePivot.Up();
-    ViperSlidesSubSystem.SetTgPosToExtend();
-    outtakePivot.Down();
-    ViperSlidesSubSystem.SetTgPosToRetract();
-    }
-    public void Auto() {
-        viperSlidesSubSystem = new ViperSlidesSubSystem(hardwareMap);
-        outtakePivot = new OuttakePivotSub(hardwareMap,"AlignServo1","AlignServo2");
-        crank = new CrankSlideSubSystem(hardwareMap,"CrankLeft","CrankRight");
-        triangleIntake = new TriangleIntake(hardwareMap,"Ti", "Fi", "Bi","pivot");
-        colorSensor = new ColorSensorSubSystem(hardwareMap,"ColorSensor");
-        triangleIntakeCommand = new TriangleIntakeCommand(triangleIntake,colorSensor, Color.BLUE,telemetry);
-        intakePivot = new IntakePivot(hardwareMap);
-        telemetry.addData("sensed color",triangleIntakeCommand.c);
-        Pose2d StartPose = new Pose2d(-26,-64.5,Math.toRadians(90));
-        MecanumDrive Drive = new MecanumDrive(hardwareMap,StartPose);
-
-        Action path0 = Drive.actionBuilder(StartPose)
-                .splineToSplineHeading(new Pose2d(-55, -55, Math.toRadians(45)), Math.toRadians(0))
-                .build();
-        Action path1 = Drive.actionBuilder(new Pose2d(-55, -55, Math.toRadians(45)))
-                .waitSeconds(2)
-                .splineToSplineHeading(new Pose2d(-48,-36.5, Math.toRadians(90)),0)
-                .build();
-        Action path2 = Drive.actionBuilder(new Pose2d(-48,-36.5, Math.toRadians(90)))
-                .waitSeconds(1.25)
-                .splineToSplineHeading(new Pose2d(-55, -55, Math.toRadians(45)), Math.toRadians(0))
-                .build();
-        Action path3 = Drive.actionBuilder(new Pose2d(-55, -55, Math.toRadians(45)))
-                .waitSeconds(2)
-                .splineToSplineHeading(new Pose2d(-58, -36.5, Math.toRadians(90)), Math.toRadians(270))
-                .build();
-        Action path4 = Drive.actionBuilder(new Pose2d(-58, -36.5, Math.toRadians(90)))
-                .waitSeconds(1.25)
-                .splineToSplineHeading(new Pose2d(-55, -55, Math.toRadians(45)), Math.toRadians(0))
-                .build();
-        Action path5 = Drive.actionBuilder (new Pose2d(-55, -55, Math.toRadians(45)))
-                .waitSeconds(2)
-                .splineToSplineHeading(new Pose2d(-55,-25, Math.toRadians(180)),Math.toRadians(270))
-                .build();
-        Action path6 = Drive.actionBuilder (new Pose2d(-55,-25, Math.toRadians(180)))
-                .waitSeconds(1.25)
-                .splineToSplineHeading(new Pose2d(-50, -55, Math.toRadians(45)), Math.toRadians(0))
-                .build();
-        Action path7 = Drive.actionBuilder (new Pose2d(-50, -55, Math.toRadians(45)))
-                .waitSeconds(2)
-                .splineToSplineHeading(new Pose2d(55,-55,Math.toRadians(90)),0)
-                .build();
-
-
-        Actions.runBlocking(path0);
-        score();
-        Actions.runBlocking(path1);
-        pickUp();
-        Actions.runBlocking(path2);
-        score();
-        Actions.runBlocking(path3);
-        pickUp();
-        Actions.runBlocking(path4);
-        score();
-        Actions.runBlocking(path5);
-        pickUp();
-        Actions.runBlocking(path6);
-        score();
-        Actions.runBlocking(path7);
-        pickUp();
-    }
-    @Override
-    public void runOpMode() throws InterruptedException {
-        Auto();
-
-    }
+public class AnthonyAuto {
+//    ColorSensorSubSystem colorSensor;
+//    TriangleIntake triangleIntake;
+//    TriangleIntakeCommand triangleIntakeCommand;
+//    ViperSlidesSubSystem viperSlidesSubSystem;
+//    OuttakePivotSub outtakePivot;
+//    CrankSlideSubSystem crank;
+//
+//    IntakePivot intakePivot;
+//    public void pickUp() {
+//        intakePivot.deploy();
+//        sleep(100);
+//        triangleIntakeCommand.execute();
+//        sleep(100);
+//        intakePivot.undeploy();
+//        sleep(100);
+//        triangleIntake.eject();
+//    }
+//    public void score() {
+//    outtakePivot.Up();
+//    ViperSlidesSubSystem.SetTgPosToExtend();
+//    outtakePivot.Down();
+//    ViperSlidesSubSystem.SetTgPosToRetract();
+//    }
+//    public void Auto() {
+//        viperSlidesSubSystem = new ViperSlidesSubSystem(hardwareMap);
+//        outtakePivot = new OuttakePivotSub(hardwareMap,"AlignServo1","AlignServo2");
+//        crank = new CrankSlideSubSystem(hardwareMap,"CrankLeft","CrankRight");
+//        triangleIntake = new TriangleIntake(hardwareMap,"Ti", "Fi", "Bi","pivot");
+//        colorSensor = new ColorSensorSubSystem(hardwareMap,"ColorSensor");
+//        triangleIntakeCommand = new TriangleIntakeCommand(triangleIntake,colorSensor, Color.BLUE,telemetry);
+//        intakePivot = new IntakePivot(hardwareMap);
+//        telemetry.addData("sensed color",triangleIntakeCommand.c);
+//        Pose2d StartPose = new Pose2d(-26,-64.5,Math.toRadians(90));
+//        MecanumDrive Drive = new MecanumDrive(hardwareMap,StartPose);
+//
+//        Action path0 = Drive.actionBuilder(StartPose)
+//                .splineToSplineHeading(new Pose2d(-55, -55, Math.toRadians(45)), Math.toRadians(0))
+//                .build();
+//        Action path1 = Drive.actionBuilder(new Pose2d(-55, -55, Math.toRadians(45)))
+//                .waitSeconds(2)
+//                .splineToSplineHeading(new Pose2d(-48,-36.5, Math.toRadians(90)),0)
+//                .build();
+//        Action path2 = Drive.actionBuilder(new Pose2d(-48,-36.5, Math.toRadians(90)))
+//                .waitSeconds(1.25)
+//                .splineToSplineHeading(new Pose2d(-55, -55, Math.toRadians(45)), Math.toRadians(0))
+//                .build();
+//        Action path3 = Drive.actionBuilder(new Pose2d(-55, -55, Math.toRadians(45)))
+//                .waitSeconds(2)
+//                .splineToSplineHeading(new Pose2d(-58, -36.5, Math.toRadians(90)), Math.toRadians(270))
+//                .build();
+//        Action path4 = Drive.actionBuilder(new Pose2d(-58, -36.5, Math.toRadians(90)))
+//                .waitSeconds(1.25)
+//                .splineToSplineHeading(new Pose2d(-55, -55, Math.toRadians(45)), Math.toRadians(0))
+//                .build();
+//        Action path5 = Drive.actionBuilder (new Pose2d(-55, -55, Math.toRadians(45)))
+//                .waitSeconds(2)
+//                .splineToSplineHeading(new Pose2d(-55,-25, Math.toRadians(180)),Math.toRadians(270))
+//                .build();
+//        Action path6 = Drive.actionBuilder (new Pose2d(-55,-25, Math.toRadians(180)))
+//                .waitSeconds(1.25)
+//                .splineToSplineHeading(new Pose2d(-50, -55, Math.toRadians(45)), Math.toRadians(0))
+//                .build();
+//        Action path7 = Drive.actionBuilder (new Pose2d(-50, -55, Math.toRadians(45)))
+//                .waitSeconds(2)
+//                .splineToSplineHeading(new Pose2d(55,-55,Math.toRadians(90)),0)
+//                .build();
+//
+//
+//        Actions.runBlocking(path0);
+//        score();
+//        Actions.runBlocking(path1);
+//        pickUp();
+//        Actions.runBlocking(path2);
+//        score();
+//        Actions.runBlocking(path3);
+//        pickUp();
+//        Actions.runBlocking(path4);
+//        score();
+//        Actions.runBlocking(path5);
+//        pickUp();
+//        Actions.runBlocking(path6);
+//        score();
+//        Actions.runBlocking(path7);
+//        pickUp();
+//    }
+//    @Override
+//    public void runOpMode() throws InterruptedException {
+//        Auto();
+//
+//    }
 }
 
 
