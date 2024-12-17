@@ -77,7 +77,7 @@ public class MeepMeepTesting {
 
             Pose2d beginPose = new Pose2d(26,-62,Math.toRadians(90));
             Pose2d tgtPose = new Pose2d(20,20,Math.PI);
-            SOLO.run();
+            s.run();
 
             meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)
                     .setDarkMode(true)

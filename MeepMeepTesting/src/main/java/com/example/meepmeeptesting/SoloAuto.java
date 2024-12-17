@@ -28,6 +28,7 @@ public class SoloAuto {
                 .waitSeconds(2)
                 .splineToLinearHeading(new Pose2d(56, -60, Math.toRadians(270)), Math.toRadians(0))
                 .waitSeconds(0.7)
+                .setTangent(90)
                 .splineToLinearHeading(new Pose2d(5, -34, Math.toRadians(90)), Math.toRadians(0))
                 .waitSeconds(0.7)
                 .splineToConstantHeading(new Vector2d(5,-50),2)
