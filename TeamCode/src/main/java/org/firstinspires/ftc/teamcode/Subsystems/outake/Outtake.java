@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Subsystems.outake;
 
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Outtake {
@@ -56,6 +57,16 @@ public class Outtake {
 
             }
         }
+    }
+    public Action OuttakeBucket() {
+        BasketDrop();
+        return null;
+    }
+
+    public Action ClawTransfer() {
+        TransferPos();
+        return null;
+    }
 
     }
 }

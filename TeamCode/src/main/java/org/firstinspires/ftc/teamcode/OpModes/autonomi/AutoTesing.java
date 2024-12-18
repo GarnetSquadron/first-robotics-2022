@@ -1,6 +1,10 @@
 package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 
+import org.firstinspires.ftc.teamcode.Subsystems.Intake.CrankSlideSubSystem;
+import org.firstinspires.ftc.teamcode.Subsystems.Intake.IntakeClawSub;
+import org.firstinspires.ftc.teamcode.Subsystems.outake.Outtake;
 import org.firstinspires.ftc.teamcode.Subsystems.outake.ViperSlidesSubSystem;
+import org.firstinspires.ftc.teamcode.Subsystems.outake.OuttakeClaw;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -14,6 +18,10 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 public class AutoTesing extends LinearOpMode {
     MecanumDrive drive;
     ViperSlidesSubSystem viperSlidesSubSystem;
+    CrankSlideSubSystem crankSlideSubSystem;
+    OuttakeClaw outtakeClaw;
+    IntakeClawSub intakeClawSub;
+    Outtake outtake;
     double pushY = -45;
     double pushX = 47;
     @Override
@@ -23,70 +31,78 @@ public class AutoTesing extends LinearOpMode {
         drive = new MecanumDrive(hardwareMap,beginPose);
 
 
-        Action path1 = drive.actionBuilder(beginPose)
+        Action Deposit = drive.actionBuilder(beginPose)
                 .splineToLinearHeading(new Pose2d(-55, -55, Math.toRadians(45)), 10)
-                .waitSeconds(0.7)
                 .build();
 
-        Action path2 = drive.actionBuilder(beginPose)
-                .splineToLinearHeading(new Pose2d(-48, -48, Math.toRadians(90)), 45)
-                .waitSeconds(0.7)
-                .build();
-
-        Action path3 = drive.actionBuilder(beginPose)
-                .splineToLinearHeading(new Pose2d(-55, -55, Math.toRadians(45)), 10)
-                .waitSeconds(0.7)
-                .build();
-
-        Action path4 = drive.actionBuilder(beginPose)
-                .splineToLinearHeading(new Pose2d(-58, -48, Math.toRadians(90)), 90)
-                .waitSeconds(0.7)
-                .build();
-
-        Action path5 = drive.actionBuilder(beginPose)
-                .splineToLinearHeading(new Pose2d(-55, -55, Math.toRadians(45)), 10)
-                .waitSeconds(0.7)
-                .build();
-
-        Action path6 = drive.actionBuilder(beginPose)
-                .splineToLinearHeading(new Pose2d(-50, -46, Math.toRadians(133)), 90)
-                .waitSeconds(0.7)
-                .build();
-
-        Action path7 = drive.actionBuilder(beginPose)
+        Action DepositTan = drive.actionBuilder(beginPose)
                 .setTangent(-90)
                 .splineToLinearHeading(new Pose2d(-55, -55, Math.toRadians(45)), 10)
-                .waitSeconds(0.7)
                 .build();
 
-        Action path8 = drive.actionBuilder(beginPose)
+        Action Sample1 = drive.actionBuilder(beginPose)
+                .splineToLinearHeading(new Pose2d(-48, -48, Math.toRadians(90)), 45)
+                .build();
+
+        Action Sample2 = drive.actionBuilder(beginPose)
+                .splineToLinearHeading(new Pose2d(-58, -48, Math.toRadians(90)), 90)
+                .build();
+
+        Action Sample3 = drive.actionBuilder(beginPose)
+                .splineToLinearHeading(new Pose2d(-50, -46, Math.toRadians(133)), 90)
+                .build();
+
+        Action Park = drive.actionBuilder(beginPose)
                 .splineToLinearHeading(new Pose2d(-24, -12, Math.toRadians(0)), 0)
                 .build();
 
 
+/*
+          AVAIL ACTIONS
 
+            *INTAKE*
+crankSlideSubSystem.Crankin(),
+crankSlideSubSystem.Crankout(),
+intakeClawSub.InClawOpen(),
+intakeClawSub.InClawClose(),
+
+           *OUTTAKE*
+viperSlidesSubSystem.Viperup(),
+viperSlidesSubSystem.Viperdown(),
+outtakeClaw.OutClawClose(),
+outtakeClaw.OutClawOpen(),
+outtake.OuttakeBucket(),
+
+           *EXTRA*
+outtake.ClawTransfer(),
+
+*/
 
 
 
 
         Actions.runBlocking(
                 new SequentialAction(
-                        path1,
+                        Deposit,
                         viperSlidesSubSystem.Viperdown(),
-                        viperSlidesSubSystem.Viperup())
-//                        path2,
-//
-//                        path3,
-//
-//                        path4,
-//
-//                        path5,
-//
-//                        path6,
-//
-//                        path7,
-//
-//                        path8)
+                        viperSlidesSubSystem.Viperup(),
+                        Sample1,
+                        crankSlideSubSystem.Crankin(),
+                        crankSlideSubSystem.Crankout(),
+                        Deposit,
+                        outtakeClaw.OutClawOpen(),
+                        outtakeClaw.OutClawClose(),
+                        Sample2,
+                        intakeClawSub.InClawOpen(),
+                        intakeClawSub.InClawClose(),
+                        Deposit,
+                        outtake.ClawTransfer(),
+                        outtake.OuttakeBucket(),
+                        Sample3,
+
+                        DepositTan,
+
+                        Park)
 
         );
     }

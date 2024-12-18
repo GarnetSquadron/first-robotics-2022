@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Subsystems.Intake;
 
+import com.acmerobotics.roadrunner.Action;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -41,4 +42,12 @@ public class CrankSlideSubSystem extends SubsystemBase {
     public boolean targetReached(){
         return CrankL.targetReached()&& CrankR.targetReached();
     }
+    public Action Crankin() {
+        undeploy();
+        return null;
+    }
+    public Action Crankout() {
+        deploy();
+        return null;
+}
 }
