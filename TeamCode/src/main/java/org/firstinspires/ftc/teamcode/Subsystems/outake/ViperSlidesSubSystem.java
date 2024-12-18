@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Subsystems.outake;
 
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
@@ -31,5 +32,14 @@ public class ViperSlidesSubSystem extends SubsystemBase{
     }
     public boolean targetReached(){
         return l.TargetReached()&&r.TargetReached();
+    }
+
+    public Action Viperup() {
+        SetTgPosToExtend();
+        return null;
+    }
+    public Action Viperdown() {
+        SetTgPosToRetract();
+        return null;
     }
 }
