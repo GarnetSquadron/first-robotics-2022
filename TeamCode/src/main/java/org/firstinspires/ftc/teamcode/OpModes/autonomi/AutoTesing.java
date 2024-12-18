@@ -29,13 +29,13 @@ public class AutoTesing extends LinearOpMode {
         viperSlidesSubSystem =  new ViperSlidesSubSystem(hardwareMap);
         Pose2d beginPose = new Pose2d(0,0,0);
         drive = new MecanumDrive(hardwareMap,beginPose);
-
+        Pose2d depositSpot = new Pose2d(-55, -55, Math.toRadians(45));
 
         Action Deposit = drive.actionBuilder(beginPose)
-                .splineToLinearHeading(new Pose2d(-55, -55, Math.toRadians(45)), 10)
+                .splineToLinearHeading(depositSpot, 10)
                 .build();
 
-        Action DepositTan = drive.actionBuilder(beginPose)
+        Action DepositTan = drive.actionBuilder(depositSpot)
                 .setTangent(-90)
                 .splineToLinearHeading(new Pose2d(-55, -55, Math.toRadians(45)), 10)
                 .build();
