@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Subsystems.Intake;
 
+import com.acmerobotics.roadrunner.Action;
 import static org.firstinspires.ftc.teamcode.ExtraMath.Tau;
 import static java.lang.Math.PI;
 import static java.lang.Math.pow;
@@ -47,11 +48,19 @@ public class CrankSlideSubSystem extends SubsystemBase {
     }
 
     public double getExtensionInInches() {
-        return getAngleFromRatio(CrankL.getPos());
+        return minExtensionInInches+CrankL.getPos()*(maxExtensionInInches-minExtensionInInches);
     }
     public boolean targetReached(){
         return CrankL.targetReached()&& CrankR.targetReached();
     }
+    public Action Crankin() {
+        undeploy();
+        return null;
+    }
+    public Action Crankout() {
+        deploy();
+        return null;
+}
     /**
      * in inches
      * @return

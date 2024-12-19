@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Subsystems.Intake;
 
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
@@ -19,6 +20,15 @@ public class IntakeClawSub extends SubsystemBase {
 
     public void close() {
         SERVO.MoveToMin();
+    }
+    public Action InClawClose() {
+        close();
+        return null;
+    }
+
+    public Action InClawOpen() {
+        open();
+        return null;
     }
 }
 
