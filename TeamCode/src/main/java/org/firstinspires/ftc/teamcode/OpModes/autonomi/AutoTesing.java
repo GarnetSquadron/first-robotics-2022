@@ -78,6 +78,6 @@ public class AutoTesing extends LinearOpMode {
                 .build();
 
 
-        Actions.runBlocking(path3clea);
+        //Actions.runBlocking(path3clea);
     }
 }

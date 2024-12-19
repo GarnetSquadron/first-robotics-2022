@@ -1,8 +1,12 @@
 package com.example.meepmeeptesting;
 //
+import static java.lang.Math.PI;
+
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Rotation2d;
+import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.noahbres.meepmeep.MeepMeep;
@@ -18,7 +22,7 @@ public class MeepMeepTesting {
             return arr2;
         }
         static double getTangentAngle(Pose2d tgtPose, Pose2d beginPose){
-            return Math.PI+Math.atan((tgtPose.position.y-beginPose.position.y)/(tgtPose.position.x-beginPose.position.x));
+            return PI+Math.atan((tgtPose.position.y-beginPose.position.y)/(tgtPose.position.x-beginPose.position.x));
         }
         static TrajectoryActionBuilder EasyLine(TrajectoryActionBuilder trajectoryActionBuilder, Pose2d beginPose, Pose2d tgtPose){
             return trajectoryActionBuilder
@@ -27,6 +31,13 @@ public class MeepMeepTesting {
         }
 
         /**
+         * DEPRICATED
+         * bc turns out theres a better way. use
+         * .strafeToSplineHeading()
+         * .endTrajectory()
+         * .strafeToSplineHeading()
+         * etc. didnt know about endTrajectory() before lol.
+         *
          * this basically adds a sequence of straight lines to a trajectory action builder.
          * NOTE: for some reason it sometimes seems to overshoot before moving backwards to compensate. it possibly has to do with the acceleration constraints, but it could also be that i somehow messed up the tangents to be reversed. idk i dont really feel like fixing it
          * @param trajectoryActionBuilder the original trajectory action builder
@@ -51,8 +62,8 @@ public class MeepMeepTesting {
         static Action RotateMove(Pose2d beginPose, Vector2d tgtp, double spinRate,RoadRunnerBotEntity myBot){
             Vector2d v=tgtp.div(2);
             return myBot.getDrive().actionBuilder(beginPose)
-                    .splineToSplineHeading(new Pose2d(beginPose.position.plus(tgtp.minus(beginPose.position).div(2)), Math.PI/2), Math.PI)
-                    .splineToSplineHeading(new Pose2d(tgtp, 0), Math.PI)
+                    .splineToSplineHeading(new Pose2d(beginPose.position.plus(tgtp.minus(beginPose.position).div(2)), PI/2), PI)
+                    .splineToSplineHeading(new Pose2d(tgtp, 0), PI)
 //                .strafeToSplineHeading(tgtp.times(1/4),2)
 //
 //                .strafeToSplineHeading(tgtp.times(2/4),4)
@@ -75,9 +86,24 @@ public class MeepMeepTesting {
             VisionAutoClip vc = new VisionAutoClip(myBot); //vc.run();
             NewGAutoMM g = new NewGAutoMM(myBot); //g.run();
 
+            Pose2d intakePose = new Pose2d(30,0,PI);
             Pose2d beginPose = new Pose2d(26,-62,Math.toRadians(90));
-            Pose2d tgtPose = new Pose2d(20,20,Math.PI);
-            SOLO.run();
+            Pose2d tgtPose = new Pose2d(20,20, PI);
+            Action path2 = myBot.getDrive().actionBuilder(beginPose)
+                    .splineToSplineHeading(tgtPose,0)
+                    .build();
+            Action path = myBot.getDrive().actionBuilder(beginPose)
+                    .strafeToSplineHeading(intakePose.position,intakePose.heading)
+                    .endTrajectory()
+                    .strafeToSplineHeading(beginPose.position,beginPose.heading)
+                    .build();
+            myBot.runAction(
+                    new SequentialAction(
+                            path2,
+                            path
+                    )
+            );
+            //SOLO.run();
 
             meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)
                     .setDarkMode(true)

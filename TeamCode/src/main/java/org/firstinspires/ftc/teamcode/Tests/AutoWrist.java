@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Pipelines.SamplePipeline.AnalyzedStone;
-import org.firstinspires.ftc.teamcode.Vision;
+import org.firstinspires.ftc.teamcode.Subsystems.Vision;
 
 @TeleOp(name = "AutoWristTest", group = "tests")
 @Disabled

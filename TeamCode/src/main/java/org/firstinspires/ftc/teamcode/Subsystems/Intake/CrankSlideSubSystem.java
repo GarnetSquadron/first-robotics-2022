@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.Subsystems.Intake;
 
+import static org.firstinspires.ftc.teamcode.ExtraMath.Tau;
+import static java.lang.Math.PI;
+import static java.lang.Math.pow;
+
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -18,6 +22,7 @@ public class CrankSlideSubSystem extends SubsystemBase {
     private double RightMax = 0.3333;
     double maxExtensionInInches = 12;// needs to be updated
     double minExtensionInInches = 0;
+    double drivingLinkageLength = 4,secondaryLinkageLength = 8;
 
     public CrankSlideSubSystem(HardwareMap hardwareMap) {
         CrankL = new ServoSub(hardwareMap,"CrankLeft", LeftMin, LeftMax,10000);
@@ -28,6 +33,12 @@ public class CrankSlideSubSystem extends SubsystemBase {
         CrankL.goToRatio(pos);
         CrankR.goToRatio(pos);
     }
+    public double getAngleFromRatio(double ratio){
+        return ratio*PI;
+    }
+    public double getRatioFromAngle(double angle){
+        return angle/PI;
+    }
     public void undeploy() {
         goToPos(0);
     }
@@ -36,9 +47,17 @@ public class CrankSlideSubSystem extends SubsystemBase {
     }
 
     public double getExtensionInInches() {
-        return minExtensionInInches+CrankL.getPos()*(maxExtensionInInches-minExtensionInInches);
+        return getAngleFromRatio(CrankL.getPos());
     }
     public boolean targetReached(){
         return CrankL.targetReached()&& CrankR.targetReached();
+    }
+    /**
+     * in inches
+     * @return
+     */
+    public void goToLengthInInches(double length){
+        double angle = Math.acos((pow(secondaryLinkageLength,2)-pow(length,2)-pow(drivingLinkageLength,2))/(2*length*drivingLinkageLength));
+        goToPos(getRatioFromAngle(angle));
     }
 }

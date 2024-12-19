@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -23,20 +23,20 @@ public class Vision {
     HardwareMap hardwareMap;
     Telemetry telemetry;
     WebcamName webcamName;
+    boolean streamOpened = false;
     Servo s;
 
     public Vision(HardwareMap hardwareMap, Telemetry t){
         this.hardwareMap = hardwareMap;
         telemetry=t;
-    }
-    public SampleDetectionPipelineAngledCam Pipeline = new SampleDetectionPipelineAngledCam();
-    public void InitPipeline(){
         webcamName = hardwareMap.get(WebcamName.class, "Webcam 1");
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "Id", hardwareMap.appContext.getPackageName());
         webcam1 = OpenCvCameraFactory.getInstance().createWebcam(webcamName, cameraMonitorViewId);
 
         webcam1.setPipeline(Pipeline);
-
+    }
+    public SampleDetectionPipelineAngledCam Pipeline = new SampleDetectionPipelineAngledCam();
+    public void InitPipeline(){
         webcam1.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() {
@@ -44,6 +44,7 @@ public class Vision {
                 FtcDashboard.getInstance().startCameraStream(webcam1,0);
                 telemetry.addLine("SUCCESSFULLY OPENED CAM =D");
                 telemetry.update();
+                streamOpened = true;
             }
 
             @Override
@@ -52,6 +53,10 @@ public class Vision {
                 telemetry.update();
             }
         });
+    }
+    public void closeCam(){
+        webcam1.stopStreaming();
+        streamOpened = false;
     }
     public void Calibrate(){
 

@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 
-import com.acmerobotics.dashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ftc.Actions;// <--NOTE: FOR SOME REASON ACTIONS WONT IMPORT IF YOU DONT PUT .ftc BEFORE .Actions IDK WHY
 
@@ -8,7 +8,7 @@ import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Vector2d;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpmode;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;

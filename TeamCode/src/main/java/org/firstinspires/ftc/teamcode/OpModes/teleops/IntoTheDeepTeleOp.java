@@ -34,7 +34,7 @@ public class IntoTheDeepTeleOp extends OpMode {
     public void init() {
         Gpad1 = new GamepadEx(gamepad1);
         Gpad2 = new GamepadEx(gamepad2);
-        bot = new Bot(hardwareMap,Gpad1);
+        bot = new Bot(hardwareMap,Gpad1,telemetry);
         intakeDeployButton = new GamepadButton(Gpad2, GamepadKeys.Button.X);
         intakeDeployToggle = new ToggleButtonReader(intakeDeployButton::get);
     }

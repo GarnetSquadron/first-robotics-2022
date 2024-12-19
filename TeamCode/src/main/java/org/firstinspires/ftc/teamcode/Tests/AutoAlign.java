@@ -1,16 +1,11 @@
 package org.firstinspires.ftc.teamcode.Tests;
 
-import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
-import org.firstinspires.ftc.teamcode.Pipelines.SamplePipeline;
-import org.firstinspires.ftc.teamcode.Vision;
-import org.opencv.core.Point;
+import org.firstinspires.ftc.teamcode.Subsystems.Vision;
 
 @TeleOp(name = "AutoAlign", group = "tests")
 public class AutoAlign extends OpMode {

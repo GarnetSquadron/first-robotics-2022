@@ -4,11 +4,10 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Pipelines.SamplePipeline;
 import org.firstinspires.ftc.teamcode.Subsystems.ServoSub;
-import org.firstinspires.ftc.teamcode.Vision;
+import org.firstinspires.ftc.teamcode.Subsystems.Vision;
 
 @TeleOp(name = "VisionTest",group = "test")
 public class VisionTest extends LinearOpMode {
@@ -41,7 +40,7 @@ public class VisionTest extends LinearOpMode {
             vision.setAngle(angle);
             telemetry.addData("cam angle",angle);
             double i = 0;
-            for(SamplePipeline.AnalyzedStone Sample:vision.GetListWithColor("Blue")){
+            for(SamplePipeline.AnalyzedStone Sample:vision.GetListWithColor("Red")){
                 i++;
 
                 telemetry.addData("Screen Coords y "+i,  Sample.getCoordsOnScreen().y);

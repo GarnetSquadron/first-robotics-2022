@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import static java.lang.Thread.sleep;
+
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.canvas.Canvas;
@@ -11,6 +13,7 @@ import com.acmerobotics.roadrunner.Actions;
 import com.acmerobotics.roadrunner.AngularVelConstraint;
 import com.acmerobotics.roadrunner.DualNum;
 import com.acmerobotics.roadrunner.HolonomicController;
+import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.MecanumKinematics;
 import com.acmerobotics.roadrunner.MinVelConstraint;
 import com.acmerobotics.roadrunner.MotorFeedforward;
@@ -50,6 +53,7 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
+import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
 import org.firstinspires.ftc.teamcode.Subsystems.MecanumDriveSubSystem;
 import org.firstinspires.ftc.teamcode.messages.DriveCommandMessage;
 import org.firstinspires.ftc.teamcode.messages.MecanumCommandMessage;
@@ -551,5 +555,18 @@ public class MecanumDrive {
                 .splineToSplineHeading(tgtPose, getTangentAngle(tgtPose,beginPose))
                 .build();
     }
+    public Action StraightTo(Pose2d tgtPos){
+        return actionBuilder(pose)
+                .strafeToSplineHeading(tgtPos.position,tgtPos.heading)
+                .build();
+    }
+    public Action CancelableStraightTo(Pose2d tgtPos){
+        return new CancelableAction(
+                StraightTo(tgtPos),
+                new InstantAction(() -> setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0)))
+        );
+    }
+
+
 
 }

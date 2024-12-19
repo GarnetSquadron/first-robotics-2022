@@ -12,6 +12,7 @@ public class ServoSub {
     private double Min;
     TTimer timer;
     double runtime;
+
     public ServoSub(HardwareMap hardwareMap, String name, double min, double max,double runtime) {
         servo = hardwareMap.get(Servo.class, name);
         Max = max;
@@ -52,6 +53,8 @@ public class ServoSub {
     public double getRatioPos(){
         return getRatioFromPos(getPos());
     }
+
+
 
     public boolean targetReached(){
         return timer.timeover()|| !timer.timestarted();

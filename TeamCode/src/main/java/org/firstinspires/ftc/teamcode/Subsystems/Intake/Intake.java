@@ -6,6 +6,10 @@ public class Intake {
     IntakePivot pivot;
     public static IntakeClawSub claw;
     public Wrist wrist;
+    public double littleClawArmThingyLength = 5;
+    public double CrankWidth = 9.57;
+    public double leftClawLength = CrankWidth/2.0;
+    public double rightClawLength = CrankWidth/2.0;
     public CrankSlideSubSystem crankSlide;
     public Intake(HardwareMap hardwareMap){
         pivot = new IntakePivot(hardwareMap);
