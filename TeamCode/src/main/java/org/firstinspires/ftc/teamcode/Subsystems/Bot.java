@@ -51,3 +51,5 @@ public class Bot {
         }
     }
 }
+
+//Default pos = set postition not starting pos

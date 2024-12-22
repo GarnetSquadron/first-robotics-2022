@@ -52,9 +52,6 @@ public class Outtake {
                     BasketDropping = false;
                 }
             }
-            else {
-
-            }
         }
 
     }

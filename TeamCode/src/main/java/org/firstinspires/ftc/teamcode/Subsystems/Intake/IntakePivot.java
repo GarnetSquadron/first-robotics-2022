@@ -12,10 +12,10 @@ public class IntakePivot extends SubsystemBase {
     //hardwaremap.get(Servo.class, "pivot");
 
     }
-    public void deploy(){
+    public void undeploy(){
         pivot.MoveToMax();
     }
-    public void undeploy(){
+    public void deploy(){
         pivot.MoveToMin();
     }
 }

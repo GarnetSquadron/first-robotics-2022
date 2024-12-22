@@ -6,12 +6,14 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.ExtraMath;
 import org.firstinspires.ftc.teamcode.TTimer;
 
+
 public class ServoSub {
     private final Servo servo;
     private double Max;
     private double Min;
     TTimer timer;
     double runtime;
+
     public ServoSub(HardwareMap hardwareMap, String name, double min, double max,double runtime) {
         servo = hardwareMap.get(Servo.class, name);
         Max = max;
