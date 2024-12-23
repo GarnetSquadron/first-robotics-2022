@@ -29,7 +29,7 @@ import java.util.function.DoubleSupplier;
  */
 public class ActionBot {
     public MecanumDrive drive;
-    public Vision vision;
+    //public Vision vision;
     public Pose2d beginPose = new Pose2d(0,0,0);
     public HeadlessDriveCommand headlessDriveCommand;
 
@@ -52,7 +52,7 @@ public Action Transfer;
         outtake = new Outtake(hardwareMap,time);
         outtakePivot = new PrimaryOuttakePivot(hardwareMap,time);
         intake = new Intake(hardwareMap,time);
-        vision = new Vision(hardwareMap,telemetry);
+        //vision = new Vision(hardwareMap,telemetry);
         Transfer = new SequentialAction(
                 new ParallelAction(
                         outtake.claw.Open(),
@@ -67,11 +67,11 @@ public Action Transfer;
     /**
      * meant to be looped, like a lot of this stuff
      */
-    public void VisionGrab(){
-        if(vision.streamOpened){
-            SamplePipeline.AnalyzedStone Sample =  vision.getNearestSample();
-        }
-    }
+//    public void VisionGrab(){
+//        if(vision.streamOpened){
+//            SamplePipeline.AnalyzedStone Sample =  vision.getNearestSample();
+//        }
+//    }
 
     //region actions
     /**
