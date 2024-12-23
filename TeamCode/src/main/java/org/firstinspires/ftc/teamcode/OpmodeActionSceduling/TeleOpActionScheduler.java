@@ -1,20 +1,15 @@
 package org.firstinspires.ftc.teamcode.OpmodeActionSceduling;
 
-import androidx.annotation.NonNull;
-
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.Actions;
-import com.acmerobotics.roadrunner.ParallelAction;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import java.util.ArrayList;
 
-public class OpModeActionScheduler {
+public class TeleOpActionScheduler {
     ArrayList <Action> actions = new ArrayList<>();
     TelemetryPacket packet = new TelemetryPacket();
 
-    public OpModeActionScheduler(){
+    public TeleOpActionScheduler(){
     }
     public void start(Action action){
         actions.add(action);

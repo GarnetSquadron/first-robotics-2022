@@ -7,7 +7,7 @@ import com.arcrobotics.ftclib.gamepad.ToggleButtonReader;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.OpmodeActionSceduling.OpModeActionScheduler;
+import org.firstinspires.ftc.teamcode.OpmodeActionSceduling.TeleOpActionScheduler;
 import org.firstinspires.ftc.teamcode.Subsystems.ActionBot;
 import org.firstinspires.ftc.teamcode.enums.Color;
 
@@ -31,7 +31,7 @@ public class IntoTheDeepTeleOp extends OpMode {
     ToggleButtonReader intakeDeployToggle;
     GamepadButton transferButton;
     ToggleButtonReader transferToggle;
-    OpModeActionScheduler actionScheduler;
+    TeleOpActionScheduler actionScheduler;
     @Override
     public void init() {
         Gpad1 = new GamepadEx(gamepad1);
