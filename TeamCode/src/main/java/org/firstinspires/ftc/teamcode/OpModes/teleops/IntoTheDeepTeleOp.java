@@ -49,7 +49,7 @@ public class IntoTheDeepTeleOp extends OpMode {
     @Override
     public void loop() {
         if(gamepad2.x){
-            actionScheduler.start(bot.intake.deploy(1));
+            actionScheduler.start(bot.intake.deploy(1));//cranks go forward
             actionScheduler.cancel(bot.intake.undeploy());
         }
         if(gamepad2.y) {
