@@ -6,6 +6,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.outake.Outtake;
 import org.firstinspires.ftc.teamcode.Subsystems.outake.ViperSlidesSubSystem;
 import org.firstinspires.ftc.teamcode.Subsystems.outake.OuttakeClaw;
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Vector2d;
@@ -84,20 +85,20 @@ outtake.ClawTransfer(),
         Actions.runBlocking(
                 new SequentialAction(
                         Deposit,
-                        viperSlidesSubSystem.Viperdown(),
-                        viperSlidesSubSystem.Viperup(),
+                        viperSlidesSubSystem.Down(),
+                        viperSlidesSubSystem.Up(),
                         Sample1,
-                        crankSlideSubSystem.Crankin(),
-                        crankSlideSubSystem.Crankout(),
+                        crankSlideSubSystem.deploy,
+                        crankSlideSubSystem.undeploy,
                         Deposit,
-                        outtakeClaw.OutClawOpen(),
-                        outtakeClaw.OutClawClose(),
+                        outtakeClaw.Open,
+                        outtakeClaw.Close,
                         Sample2,
-                        intakeClawSub.InClawOpen(),
-                        intakeClawSub.InClawClose(),
+                        intakeClawSub.Open,
+                        intakeClawSub.Close,
                         Deposit,
-                        outtake.ClawTransfer(),
-                        outtake.OuttakeBucket(),
+                        //outtake.ClawTransfer(),
+                        outtake.BasketDrop,
                         Sample3,
 
                         DepositTan,

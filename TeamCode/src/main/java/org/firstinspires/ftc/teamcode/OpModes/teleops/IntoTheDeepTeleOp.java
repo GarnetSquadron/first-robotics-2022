@@ -7,12 +7,13 @@ import com.arcrobotics.ftclib.gamepad.ToggleButtonReader;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Subsystems.Bot;
+import org.firstinspires.ftc.teamcode.OpmodeActionSceduling.OpModeActionScheduler;
+import org.firstinspires.ftc.teamcode.Subsystems.ActionBot;
 import org.firstinspires.ftc.teamcode.enums.Color;
 
 @TeleOp(name = "INTOTHEDEEP TELEOP ", group = "AAA TELEOPS")
 public class IntoTheDeepTeleOp extends OpMode {
-    Bot bot;
+    ActionBot bot;
     GamepadEx Gpad1, Gpad2;
     Color AlianceColor = Color.RED;
 //    public static void RunHeadlessDrive(MecanumDrive drive, Gamepad gamepad){
@@ -30,11 +31,12 @@ public class IntoTheDeepTeleOp extends OpMode {
     ToggleButtonReader intakeDeployToggle;
     GamepadButton transferButton;
     ToggleButtonReader transferToggle;
+    OpModeActionScheduler actionScheduler;
     @Override
     public void init() {
         Gpad1 = new GamepadEx(gamepad1);
         Gpad2 = new GamepadEx(gamepad2);
-        bot = new Bot(hardwareMap,Gpad1,telemetry);
+        bot = new ActionBot(hardwareMap,Gpad1,telemetry,this::getRuntime);
         intakeDeployButton = new GamepadButton(Gpad2, GamepadKeys.Button.X);
         intakeDeployToggle = new ToggleButtonReader(intakeDeployButton::get);
     }
@@ -45,41 +47,37 @@ public class IntoTheDeepTeleOp extends OpMode {
     @Override
     public void loop() {
         if(gamepad2.x){
-            bot.intake.deploy(1);
+            actionScheduler.start(bot.intake.deploy(1));
         }
         if(gamepad2.y) {
-            bot.intake.undeploy();
+            actionScheduler.start(bot.intake.undeploy());
         }
         if(gamepad2.a){
-            bot.intake.claw.open();
+            actionScheduler.start(bot.intake.claw.Open);
         }
         if(gamepad2.b) {
-            bot.intake.claw.close();
+            actionScheduler.start(bot.intake.claw.Open);
         }
         bot.intake.wrist.wrist.changePosBy(Math.signum(gamepad2.left_stick_x)*0.01);
 
         if(gamepad2.dpad_left){
-            bot.transfer();
+            actionScheduler.start(bot.Transfer);
         }
 
 
         if(gamepad2.right_bumper){
-            bot.outtake.vipers.SetTgPosToRetract();
+            actionScheduler.start(bot.outtake.vipers.Down());
         }
         if(gamepad2.left_bumper){
-            bot.outtake.vipers.SetTgPosToExtend();
+            actionScheduler.start(bot.outtake.vipers.Up());
         }
-        bot.outtake.vipers.runToTgPos();
         if(gamepad2.left_trigger>0){
-            bot.outtake.BasketDrop();
+            actionScheduler.start(bot.outtake.BasketDrop);
         }
         if(gamepad2.right_trigger>0){
 
         }
 
-        bot.runToTargetPos();
-
-        telemetry.addData("transfering",bot.transfering);
-        telemetry.update();
+        actionScheduler.update();
     }
 }

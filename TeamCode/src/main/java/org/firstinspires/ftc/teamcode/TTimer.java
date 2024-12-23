@@ -11,15 +11,15 @@ import java.util.function.LongSupplier;
 public class TTimer {
     double duration;
     double startTime;
-    LongSupplier TimeSinceInit;
+    DoubleSupplier TimeSinceInit;
     boolean timeStarted;
-    public TTimer(LongSupplier SystemTime){
+    public TTimer(DoubleSupplier SystemTime){
         duration = 0;
         TimeSinceInit = SystemTime;
         timeStarted = false;
     }
     public void StartTimer(double duration){
-        startTime = TimeSinceInit.getAsLong();
+        startTime = TimeSinceInit.getAsDouble();
         timeStarted = true;
         this.duration = duration;
     }
@@ -27,7 +27,7 @@ public class TTimer {
         return timeStarted;
     }
     public boolean timeover(){
-        return duration+startTime<TimeSinceInit.getAsLong();
+        return duration+startTime<TimeSinceInit.getAsDouble();
     }
 
 }

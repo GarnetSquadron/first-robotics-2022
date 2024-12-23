@@ -1,6 +1,13 @@
 package org.firstinspires.ftc.teamcode.Subsystems.Intake;
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import java.util.function.DoubleSupplier;
 
 public class Intake {
     IntakePivot pivot;
@@ -11,26 +18,28 @@ public class Intake {
     public double leftClawLength = CrankWidth/2.0;
     public double rightClawLength = CrankWidth/2.0;
     public CrankSlideSubSystem crankSlide;
-    public Intake(HardwareMap hardwareMap){
-        pivot = new IntakePivot(hardwareMap);
-        crankSlide = new CrankSlideSubSystem(hardwareMap);
-        claw = new IntakeClawSub(hardwareMap);
+    public Intake(HardwareMap hardwareMap, DoubleSupplier time){
+        pivot = new IntakePivot(hardwareMap,time);
+        crankSlide = new CrankSlideSubSystem(hardwareMap,time);
+        claw = new IntakeClawSub(hardwareMap,time);
         wrist = new Wrist(hardwareMap);
     }
-    public void deploy(double distance){
-        crankSlide.goToPos(distance);
-        pivot.deploy();
+    public Action deploy(double distance){
+        return new ParallelAction(
+            crankSlide.goToPos(distance),
+            pivot.deploy
+        );
     }
-    public void undeploy(){
-        crankSlide.undeploy();
-        pivot.undeploy();
+    public Action undeploy(){
+        return new ParallelAction(
+                crankSlide.undeploy,
+                pivot.undeploy
+        );
     }
-    public void goToDefaultPos(){
-        wrist.runToRatio(0);
-        undeploy();
-    }
-    public boolean targetReached(){
-        return crankSlide.targetReached()&&pivot.pivot.targetReached()&&claw.SERVO.targetReached()&&wrist.wrist.targetReached();
+    public Action DefaultPos(){
+        return new ParallelAction(
+
+        );
     }
 
 

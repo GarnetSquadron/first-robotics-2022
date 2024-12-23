@@ -14,6 +14,9 @@ public class CancelableAction implements Action {
         this.mainAction = mainAction;
         this.failoverAction = failoverAction;
     }
+    public CancelableAction(Action mainAction){
+        this(mainAction,null);
+    }
 
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {

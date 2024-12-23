@@ -13,15 +13,15 @@ public class OuttakeClawTest extends OpMode {
     OuttakeClaw claw;
     @Override
     public void loop() {
-        if (gamepad1.a) {
-            claw.open();
-        }
-        if (gamepad1.b) {
-            claw.close();
-        }
+//        if (gamepad1.a) {
+//            claw.open();
+//        }
+//        if (gamepad1.b) {
+//            claw.close();
+//        }
     }
 
     public void init() {
-        claw = new OuttakeClaw(hardwareMap);
+        //claw = new OuttakeClaw(hardwareMap);
     }
 }

@@ -563,8 +563,11 @@ public class MecanumDrive {
     public Action CancelableStraightTo(Pose2d tgtPos){
         return new CancelableAction(
                 StraightTo(tgtPos),
-                new InstantAction(() -> setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0)))
+                Stop()
         );
+    }
+    public Action Stop(){
+        return new InstantAction(() -> setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0)));
     }
 
 

@@ -5,14 +5,18 @@ import static org.firstinspires.ftc.teamcode.ExtraMath.Tau;
 import static java.lang.Math.PI;
 import static java.lang.Math.pow;
 
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.Subsystems.ActionServo;
 import org.firstinspires.ftc.teamcode.Subsystems.ServoSub;
 
+import java.util.function.DoubleSupplier;
+
 public class CrankSlideSubSystem extends SubsystemBase {
-    public final ServoSub CrankL;
-    public final ServoSub CrankR;
+    public final ActionServo CrankL;
+    public final ActionServo CrankR;
     private int SplineTeeth = 25;
     private double getToothSize(int teeth){
         return 4.0/(teeth*3.0);
@@ -25,14 +29,16 @@ public class CrankSlideSubSystem extends SubsystemBase {
     double minExtensionInInches = 0;
     double drivingLinkageLength = 4,secondaryLinkageLength = 8;
 
-    public CrankSlideSubSystem(HardwareMap hardwareMap) {
-        CrankL = new ServoSub(hardwareMap,"CrankLeft", LeftMin, LeftMax,10000);
-        CrankR = new ServoSub(hardwareMap, "CrankRight", RightMin, RightMax,10000);
-
+    public CrankSlideSubSystem(HardwareMap hardwareMap, DoubleSupplier time) {
+        CrankL = new ActionServo(hardwareMap,"CrankLeft", LeftMin, LeftMax,time);
+        CrankR = new ActionServo(hardwareMap, "CrankRight", RightMin, RightMax,time);
     }
-    public void goToPos(double pos){
-        CrankL.goToRatio(pos);
-        CrankR.goToRatio(pos);
+    public Action goToPos(double ratio){
+        return new ParallelAction
+                (
+                        CrankL.runToRatio(ratio),
+                        CrankR.runToRatio(ratio)
+                );
     }
     public double getAngleFromRatio(double ratio){
         return ratio*PI;
@@ -40,33 +46,18 @@ public class CrankSlideSubSystem extends SubsystemBase {
     public double getRatioFromAngle(double angle){
         return angle/PI;
     }
-    public void undeploy() {
-        goToPos(0);
-    }
-    public void deploy() {
-        goToPos(1);
-    }
+    public Action undeploy = goToPos(0);
+    public Action deploy = goToPos(1);
 
     public double getExtensionInInches() {
         return minExtensionInInches+CrankL.getPos()*(maxExtensionInInches-minExtensionInInches);
     }
-    public boolean targetReached(){
-        return CrankL.targetReached()&& CrankR.targetReached();
-    }
-    public Action Crankin() {
-        undeploy();
-        return null;
-    }
-    public Action Crankout() {
-        deploy();
-        return null;
-}
     /**
      * in inches
      * @return
      */
-    public void goToLengthInInches(double length){
+    public Action goToLengthInInches(double length){
         double angle = Math.acos((pow(secondaryLinkageLength,2)-pow(length,2)-pow(drivingLinkageLength,2))/(2*length*drivingLinkageLength));
-        goToPos(getRatioFromAngle(angle));
+        return goToPos(getRatioFromAngle(angle));
     }
 }

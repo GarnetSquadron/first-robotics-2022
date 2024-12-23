@@ -3,30 +3,19 @@ package org.firstinspires.ftc.teamcode.Subsystems.outake;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.Subsystems.ActionServo;
 import org.firstinspires.ftc.teamcode.Subsystems.ServoSub;
 
+import java.util.function.DoubleSupplier;
+
 public class OuttakeClaw {
-    ServoSub claw;
+    ActionServo claw;
 
-    public OuttakeClaw(HardwareMap hardwareMap) {
-        claw = new ServoSub(hardwareMap, "outtake claw", 0, 0.4, 500);//TODO: tune this
+    public OuttakeClaw(HardwareMap hardwareMap, DoubleSupplier time) {
+        claw = new ActionServo(hardwareMap, "outtake claw", 0, 0.4, time,500);//TODO: tune this
     }
 
-    public void close() {
-        claw.MoveToMin();
-    }
+    public Action Close = claw.runToRatio(1);
 
-    public void open() {
-        claw.MoveToMax();
-    }
-
-    public Action OutClawClose() {
-        close();
-        return null;
-    }
-
-    public Action OutClawOpen() {
-        open();
-        return null;
-    }
+    public Action Open = claw.runToRatio(0);
 }

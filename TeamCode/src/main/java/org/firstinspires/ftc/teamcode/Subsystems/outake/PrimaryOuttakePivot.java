@@ -1,23 +1,23 @@
 package org.firstinspires.ftc.teamcode.Subsystems.outake;
+import com.acmerobotics.roadrunner.Action;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.Subsystems.ActionServo;
 import org.firstinspires.ftc.teamcode.Subsystems.ServoSub;
 
+import java.util.function.DoubleSupplier;
 
-public class PrimaryOuttakePivot extends SubsystemBase {
-    public final ServoSub pivot;
 
-    public PrimaryOuttakePivot(HardwareMap hardwareMap) {
-         pivot = new ServoSub(hardwareMap,"primary pivot",0.95,0.3333333);
+public class PrimaryOuttakePivot{
+    public ActionServo pivot;
+
+    public PrimaryOuttakePivot(HardwareMap hardwareMap, DoubleSupplier time) {
+         pivot = new ActionServo(hardwareMap,"primary pivot",0.95,0.3333333,time);
     }
 
-    public void BucketPos() {
-        pivot.MoveToMax();
-    }
+    public Action BucketPos = pivot.runToRatio(1);
 
-    public void TransferPos() {
-        pivot.MoveToMin();
-    }
+    public Action TransferPos = pivot.runToRatio(0);
 }
 //commit

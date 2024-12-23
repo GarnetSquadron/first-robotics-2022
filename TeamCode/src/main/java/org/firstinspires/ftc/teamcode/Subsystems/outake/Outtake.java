@@ -1,7 +1,14 @@
 package org.firstinspires.ftc.teamcode.Subsystems.outake;
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.ParallelAction;
+import com.acmerobotics.roadrunner.SequentialAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import java.util.function.DoubleSupplier;
 
 public class Outtake {
     public ViperSlidesSubSystem vipers;
@@ -9,63 +16,29 @@ public class Outtake {
     public PrimaryOuttakePivot pivot1;
     public SecondaryOuttakePivot pivot2;
     boolean BasketDropping = false;
-    public Outtake(HardwareMap hardwareMap){
-        claw = new OuttakeClaw(hardwareMap);
-        pivot1 = new PrimaryOuttakePivot(hardwareMap);
-        pivot2 = new SecondaryOuttakePivot(hardwareMap);
+    public Outtake(HardwareMap hardwareMap, DoubleSupplier time){
+        claw = new OuttakeClaw(hardwareMap,time);
+        pivot1 = new PrimaryOuttakePivot(hardwareMap,time);
+        pivot2 = new SecondaryOuttakePivot(hardwareMap,time);
         vipers = new ViperSlidesSubSystem(hardwareMap);
     }
 
     /**
      * this function is meant to be looped
      */
-    public void BucketPos(){
-        pivot1.BucketPos();
-        pivot2.BucketPos();
-    }
-    public void TransferPos(){
-        pivot1.TransferPos();
-        pivot2.TransferPos();
-    }
-    public void BasketDrop(){
-
-        BasketDropping = true;
-    }
-    public void goToDefaultPos(){
-        vipers.SetTgPosToRetract();
-        TransferPos();
-    }
-    public boolean targetReached(){
-        return vipers.targetReached()&&claw.claw.targetReached();
-    }
-    public void runToTargetPos(){
-        vipers.runToTgPos();
-        if(BasketDropping){
-            //vipers.SetTgPosToExtend();
-            //this is meant to be looped
-            if(vipers.targetReached()){
-                BucketPos();
-                //TODO: probably add a sleep here, need to make a class for sleeping in a loop(everything is more complicated in a loop)
-                //^ 12/6 I just did this not sure if its fixed though
-                if(claw.claw.targetReached()){
-                    claw.open();
-                    goToDefaultPos();
-                    BasketDropping = false;
-                }
-            }
-            else {
-
-            }
-        }
-    }
-    public Action OuttakeBucket() {
-        BasketDrop();
-        return null;
-    }
-
-    public Action ClawTransfer() {
-        TransferPos();
-        return null;
-    }
-
-    }
+    public Action TransferPos = new ParallelAction(
+            pivot1.TransferPos,
+            pivot2.TransferPos,
+            vipers.Down()
+    );
+    public Action BasketDrop  =
+           new SequentialAction(
+                   claw.Close,
+                   new ParallelAction(
+                        pivot1.BucketPos,
+                        pivot2.BucketPos,
+                        vipers.Up()
+                   ),
+                   claw.Open
+           );
+}

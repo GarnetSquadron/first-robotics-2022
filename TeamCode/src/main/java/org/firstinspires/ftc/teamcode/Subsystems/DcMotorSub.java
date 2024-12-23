@@ -7,13 +7,13 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 /**
  * Class to keep all DcMotor actions that can be used for multiple different motors
  */
-public class DcMotorSubSystem extends SubsystemBase {
+public class DcMotorSub extends SubsystemBase {
     private final Motor motor;
     private final int MaxPos;
     private final int MinPos;
     private double PosCoefficient;
     private int tgtPos;
-    public DcMotorSubSystem(HardwareMap hardwareMap, String MotorName,int minPos, int maxPos, double posCoefficient){
+    public DcMotorSub(HardwareMap hardwareMap, String MotorName, int minPos, int maxPos, double posCoefficient){
         motor = new Motor(hardwareMap,MotorName);
         motor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         motor.resetEncoder();
@@ -21,7 +21,7 @@ public class DcMotorSubSystem extends SubsystemBase {
         MinPos = maxPos;
         PosCoefficient = posCoefficient;
     }
-    public void setTgPos(int posRatio){
+    public void setTgPos(double posRatio){
         // set the run mode
         motor.setRunMode(Motor.RunMode.PositionControl);
 

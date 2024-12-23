@@ -4,31 +4,21 @@ import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
+import org.firstinspires.ftc.teamcode.Subsystems.ActionServo;
 import org.firstinspires.ftc.teamcode.Subsystems.ServoSub;
 
+import java.util.function.DoubleSupplier;
+
 public class IntakeClawSub extends SubsystemBase {
-    public final ServoSub SERVO;
+    public ActionServo SERVO;
 
 
-    public IntakeClawSub(HardwareMap hardwareMap) {
-        SERVO = new ServoSub(hardwareMap, "intake claw", 0.33, 0);
+    public IntakeClawSub(HardwareMap hardwareMap, DoubleSupplier time) {
+        SERVO = new ActionServo(hardwareMap, "intake claw", 0.33, 0,time);
     }
 
-    public void open() {
-        SERVO.MoveToMax();
-    }
+    public Action Open = SERVO.runToRatio(1);
 
-    public void close() {
-        SERVO.MoveToMin();
-    }
-    public Action InClawClose() {
-        close();
-        return null;
-    }
-
-    public Action InClawOpen() {
-        open();
-        return null;
-    }
+    public Action Close = SERVO.runToRatio(0);
 }
 

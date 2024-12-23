@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode.Tests;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Pipelines.SamplePipeline;
+import org.firstinspires.ftc.teamcode.Subsystems.ActionServo;
 import org.firstinspires.ftc.teamcode.Subsystems.ServoSub;
 import org.firstinspires.ftc.teamcode.Subsystems.Vision;
 
@@ -13,13 +15,14 @@ import org.firstinspires.ftc.teamcode.Subsystems.Vision;
 public class VisionTest extends LinearOpMode {
 
     Vision vision = new Vision(hardwareMap,telemetry);
-    ServoSub servo;
+    ActionServo servo;
 
     @Override
     public void runOpMode(){
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        TelemetryPacket packet = new TelemetryPacket();
         vision.InitPipeline();
-        servo = new ServoSub(hardwareMap,"servo",0,1);
+        servo = new ActionServo(hardwareMap,"servo",0,1,this::getRuntime);
         waitForStart();
         String JankTelemetry;//ftc dash doesnt like telemetry.clear() for some reason, so Im doing this
         while (opModeIsActive()){
@@ -35,7 +38,7 @@ public class VisionTest extends LinearOpMode {
 //                JankTelemetry = "no sample detected :(";
 //            }
             //servo.goToRatio(gamepad1.left_stick_x*0.5+0.5);
-            servo.goToRatio(0.25);
+            servo.runToRatio(0.25).run(packet);
             double angle = Math.PI/2-servo.getPos()*Math.PI;
             vision.setAngle(angle);
             telemetry.addData("cam angle",angle);
