@@ -41,9 +41,9 @@ public class ActionBot {
     public boolean transfering = false;
     public final double robotWidth = 9;
     Pose2d intakePos = new Pose2d(0,0,0);
-    Action path = drive.actionBuilder(beginPose)
-            .splineToSplineHeading(intakePos,0)
-            .build();
+//    Action path = drive.actionBuilder(beginPose)
+//            .splineToSplineHeading(intakePos,0)
+//            .build();
 
     public ActionBot(HardwareMap hardwareMap, GamepadEx Gpad1, Telemetry telemetry, DoubleSupplier time){
         drive = new MecanumDrive(hardwareMap,beginPose);
