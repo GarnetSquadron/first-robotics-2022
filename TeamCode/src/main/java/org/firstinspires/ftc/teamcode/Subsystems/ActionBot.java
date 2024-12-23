@@ -44,6 +44,7 @@ public class ActionBot {
 //    Action path = drive.actionBuilder(beginPose)
 //            .splineToSplineHeading(intakePos,0)
 //            .build();
+public Action Transfer;
 
     public ActionBot(HardwareMap hardwareMap, GamepadEx Gpad1, Telemetry telemetry, DoubleSupplier time){
         drive = new MecanumDrive(hardwareMap,beginPose);
@@ -52,6 +53,15 @@ public class ActionBot {
         outtakePivot = new PrimaryOuttakePivot(hardwareMap,time);
         intake = new Intake(hardwareMap,time);
         vision = new Vision(hardwareMap,telemetry);
+        Transfer = new SequentialAction(
+                new ParallelAction(
+                        outtake.claw.Open,
+                        intake.claw.Close
+                ),
+                intake.DefaultPos(),
+                outtake.TransferPos
+
+        );
     }
 
     /**
@@ -95,15 +105,7 @@ public class ActionBot {
     }
 
 
-    public Action Transfer = new SequentialAction(
-            new ParallelAction(
-                    outtake.claw.Open,
-                    intake.claw.Close
-            ),
-            intake.DefaultPos(),
-            outtake.TransferPos
 
-    );
     public Action PositionClaw(Point tgtp, double length, double angle){
         Pose2d botPos = new Pose2d(tgtp.x+length*Math.sin(angle),tgtp.y-length*Math.cos(angle), angle);
 
