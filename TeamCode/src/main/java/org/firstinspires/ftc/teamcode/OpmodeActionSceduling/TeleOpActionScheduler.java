@@ -80,5 +80,8 @@ public class TeleOpActionScheduler {
         }
         actions = actionsKept;
     }
+    public ArrayList<Action> getActions(){
+        return actions;
+    }
 
 }
