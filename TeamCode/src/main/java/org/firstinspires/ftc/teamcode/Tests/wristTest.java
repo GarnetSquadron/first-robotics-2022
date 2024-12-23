@@ -10,7 +10,7 @@ public class wristTest extends OpMode {
 
     @Override
     public void init() {
-        s = new Wrist(hardwareMap);
+        s = new Wrist(hardwareMap,this::getRuntime);
     }
 
     @Override

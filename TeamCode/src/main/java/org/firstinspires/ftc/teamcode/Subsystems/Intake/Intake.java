@@ -22,7 +22,7 @@ public class Intake {
         pivot = new IntakePivot(hardwareMap,time);
         crankSlide = new CrankSlideSubSystem(hardwareMap,time);
         claw = new IntakeClawSub(hardwareMap,time);
-        wrist = new Wrist(hardwareMap);
+        wrist = new Wrist(hardwareMap,time);
     }
     public Action deploy(double distance){
         return new ParallelAction(
