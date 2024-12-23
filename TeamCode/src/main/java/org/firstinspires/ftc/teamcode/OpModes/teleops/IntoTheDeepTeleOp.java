@@ -39,6 +39,7 @@ public class IntoTheDeepTeleOp extends OpMode {
         bot = new ActionBot(hardwareMap,Gpad1,telemetry,this::getRuntime);
         intakeDeployButton = new GamepadButton(Gpad2, GamepadKeys.Button.X);
         intakeDeployToggle = new ToggleButtonReader(intakeDeployButton::get);
+        actionScheduler = new TeleOpActionScheduler();
         actionScheduler.CancelOnAnyOtherAction(bot.Transfer,bot.outtake.BasketDrop());
     }
     boolean firstiter = true;
