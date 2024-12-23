@@ -64,7 +64,7 @@ public class IntoTheDeepTeleOp extends OpMode {
             actionScheduler.start(bot.intake.claw.Close());
             actionScheduler.cancel(bot.intake.claw.Open());
         }
-        //bot.intake.wrist.wrist.changePosBy(Math.signum(gamepad2.left_stick_x)*0.01);
+        bot.intake.wrist.wrist.changePosBy(Math.signum(gamepad2.left_stick_x)*0.01);
 
         if(gamepad2.dpad_left){
             actionScheduler.cancelAll();
@@ -80,9 +80,9 @@ public class IntoTheDeepTeleOp extends OpMode {
             actionScheduler.start(bot.outtake.vipers.Up());
             actionScheduler.cancel(bot.outtake.vipers.Down());
         }
-//        if(gamepad2.left_trigger>0.1) {
-//            actionScheduler.start(bot.outtake.BasketDrop());
-//        }
+        if(gamepad2.left_trigger>0.1) {
+            actionScheduler.start(bot.outtake.BasketDrop());
+        }
         if(gamepad2.right_trigger>0.1){
 
         }
