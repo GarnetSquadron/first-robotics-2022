@@ -40,7 +40,7 @@ public class IntoTheDeepTeleOp extends OpMode {
         intakeDeployButton = new GamepadButton(Gpad2, GamepadKeys.Button.X);
         intakeDeployToggle = new ToggleButtonReader(intakeDeployButton::get);
         actionScheduler = new TeleOpActionScheduler();
-        actionScheduler.CancelOnAnyOtherAction(bot.Transfer,bot.outtake.BasketDrop());
+        actionScheduler.CancelOnAnyOtherAction(bot.Transfer(),bot.outtake.BasketDrop());
     }
     boolean firstiter = true;
 
@@ -68,7 +68,7 @@ public class IntoTheDeepTeleOp extends OpMode {
 
         if(gamepad2.dpad_left){
             actionScheduler.cancelAll();
-            actionScheduler.start(bot.Transfer);
+            actionScheduler.start(bot.Transfer());
         }
 
 
