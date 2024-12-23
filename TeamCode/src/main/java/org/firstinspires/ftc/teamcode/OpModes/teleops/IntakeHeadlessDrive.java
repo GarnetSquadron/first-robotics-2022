@@ -23,7 +23,7 @@ public class IntakeHeadlessDrive extends OpMode {
     public void init() {
         Gpad1 = new GamepadEx(gamepad1);
         Gpad2 = new GamepadEx(gamepad2);
-        crank = new CrankSlideSubSystem(hardwareMap);
+        crank = new CrankSlideSubSystem(hardwareMap,this::getRuntime);
         drive = new MecanumDrive(hardwareMap,beginPose);
         driveCommand = new IntakeCenteredHeadlessDrive(drive,Gpad1::getLeftX,Gpad1::getLeftY,Gpad1::getRightX,IntakeHeadlessDrive::getLeftTrigger);
     }

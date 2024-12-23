@@ -39,6 +39,7 @@ public class IntoTheDeepTeleOp extends OpMode {
         bot = new ActionBot(hardwareMap,Gpad1,telemetry,this::getRuntime);
         intakeDeployButton = new GamepadButton(Gpad2, GamepadKeys.Button.X);
         intakeDeployToggle = new ToggleButtonReader(intakeDeployButton::get);
+        actionScheduler.CancelOnAnyOtherAction(bot.Transfer,bot.outtake.BasketDrop);
     }
     boolean firstiter = true;
 
@@ -48,30 +49,37 @@ public class IntoTheDeepTeleOp extends OpMode {
     public void loop() {
         if(gamepad2.x){
             actionScheduler.start(bot.intake.deploy(1));
+            actionScheduler.cancel(bot.intake.undeploy());
         }
         if(gamepad2.y) {
             actionScheduler.start(bot.intake.undeploy());
+            actionScheduler.cancel(bot.intake.deploy(1));
         }
         if(gamepad2.a){
             actionScheduler.start(bot.intake.claw.Open);
+            actionScheduler.cancel(bot.intake.claw.Close);
         }
         if(gamepad2.b) {
-            actionScheduler.start(bot.intake.claw.Open);
+            actionScheduler.start(bot.intake.claw.Close);
+            actionScheduler.cancel(bot.intake.claw.Open);
         }
         bot.intake.wrist.wrist.changePosBy(Math.signum(gamepad2.left_stick_x)*0.01);
 
         if(gamepad2.dpad_left){
+            actionScheduler.cancelAll();
             actionScheduler.start(bot.Transfer);
         }
 
 
         if(gamepad2.right_bumper){
             actionScheduler.start(bot.outtake.vipers.Down());
+            actionScheduler.cancel(bot.outtake.vipers.Up());
         }
         if(gamepad2.left_bumper){
             actionScheduler.start(bot.outtake.vipers.Up());
+            actionScheduler.cancel(bot.outtake.vipers.Down());
         }
-        if(gamepad2.left_trigger>0){
+        if(gamepad2.left_trigger>0) {
             actionScheduler.start(bot.outtake.BasketDrop);
         }
         if(gamepad2.right_trigger>0){
