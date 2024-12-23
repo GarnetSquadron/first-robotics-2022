@@ -80,9 +80,9 @@ public class IntoTheDeepTeleOp extends OpMode {
             actionScheduler.start(bot.outtake.vipers.Up());
             actionScheduler.cancel(bot.outtake.vipers.Down());
         }
-        if(gamepad2.left_trigger>0.1) {
-            actionScheduler.start(bot.outtake.BasketDrop());
-        }
+//        if(gamepad2.left_trigger>0.1) {
+//            actionScheduler.start(bot.outtake.BasketDrop());
+//        }
         if(gamepad2.right_trigger>0.1){
 
         }
