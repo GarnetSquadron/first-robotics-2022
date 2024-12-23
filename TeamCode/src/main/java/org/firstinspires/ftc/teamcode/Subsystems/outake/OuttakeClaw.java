@@ -12,10 +12,14 @@ public class OuttakeClaw {
     ActionServo claw;
 
     public OuttakeClaw(HardwareMap hardwareMap, DoubleSupplier time) {
-        claw = new ActionServo(hardwareMap, "outtake claw", 0, 0.4, time,500);//TODO: tune this
+        claw = new ActionServo(hardwareMap, "outtake claw", 0, 0.4, time,5);//TODO: tune this
     }
 
-    public Action Close = claw.runToRatio(1);
+    public Action Close() {
+        return claw.runToRatio(1);
+    }
 
-    public Action Open = claw.runToRatio(0);
+    public Action Open() {
+        return claw.runToRatio(0);
+    }
 }

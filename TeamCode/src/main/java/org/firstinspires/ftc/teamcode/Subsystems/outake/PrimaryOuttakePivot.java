@@ -16,8 +16,12 @@ public class PrimaryOuttakePivot{
          pivot = new ActionServo(hardwareMap,"primary pivot",0.95,0.3333333,time);
     }
 
-    public Action BucketPos = pivot.runToRatio(1);
+    public Action BucketPos() {
+        return pivot.runToRatio(1);
+    }
 
-    public Action TransferPos = pivot.runToRatio(0);
+    public Action TransferPos() {
+        return pivot.runToRatio(0);
+    }
 }
 //commit

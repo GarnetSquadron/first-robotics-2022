@@ -27,13 +27,13 @@ public class Intake {
     public Action deploy(double distance){
         return new ParallelAction(
             crankSlide.goToPos(distance),
-            pivot.deploy
+            pivot.deploy()
         );
     }
     public Action undeploy(){
         return new ParallelAction(
-                crankSlide.undeploy,
-                pivot.undeploy
+                crankSlide.undeploy(),
+                pivot.undeploy()
         );
     }
     public Action DefaultPos(){

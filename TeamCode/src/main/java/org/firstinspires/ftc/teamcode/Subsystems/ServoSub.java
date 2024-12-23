@@ -30,7 +30,7 @@ public class ServoSub {
         this.runtime = runtime;
     }
     public ServoSub(HardwareMap hardwareMap, String name, double min, double max, DoubleSupplier time){
-        this(hardwareMap, name, min, max,time,1000);
+        this(hardwareMap, name, min, max,time,1);
 
     }
 

@@ -14,7 +14,11 @@ public class SecondaryOuttakePivot {
         pivot = new ActionServo(hardwareMap,"secondary pivot",0.9,0.1,time);
     }
 
-    public Action BucketPos = pivot.runToRatio(1);
+    public Action BucketPos() {
+        return pivot.runToRatio(1);
+    }
 
-    public Action TransferPos = pivot.runToRatio(0);
+    public Action TransferPos() {
+        return pivot.runToRatio(0);
+    }
 }

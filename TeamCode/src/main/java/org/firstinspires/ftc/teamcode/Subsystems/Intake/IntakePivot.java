@@ -16,6 +16,10 @@ public class IntakePivot extends SubsystemBase {
     //hardwaremap.get(Servo.class, "pivot");
 
     }
-    public Action deploy = pivot.runToRatio(1);
-    public Action undeploy = pivot.runToRatio(0);
+    public Action deploy() {
+        return pivot.runToRatio(1);
+    }
+    public Action undeploy() {
+        return pivot.runToRatio(0);
+    }
 }

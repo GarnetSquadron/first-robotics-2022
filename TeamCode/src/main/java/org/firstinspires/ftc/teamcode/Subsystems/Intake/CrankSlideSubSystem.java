@@ -46,8 +46,12 @@ public class CrankSlideSubSystem extends SubsystemBase {
     public double getRatioFromAngle(double angle){
         return angle/PI;
     }
-    public Action undeploy = goToPos(0);
-    public Action deploy = goToPos(1);
+    public Action undeploy() {
+        return goToPos(0);
+    }
+    public Action deploy() {
+        return goToPos(1);
+    }
 
     public double getExtensionInInches() {
         return minExtensionInInches+CrankL.getPos()*(maxExtensionInInches-minExtensionInInches);

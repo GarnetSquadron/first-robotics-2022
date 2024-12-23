@@ -21,10 +21,10 @@ public class CrankTest extends OpMode {
     @Override
     public void loop() {
         if(gamepad1.x){
-            crank.undeploy.run(packet);
+            crank.undeploy().run(packet);
         }
         if(gamepad1.y){
-            crank.deploy.run(packet);
+            crank.deploy().run(packet);
         }
     }
 }

@@ -55,11 +55,11 @@ public Action Transfer;
         vision = new Vision(hardwareMap,telemetry);
         Transfer = new SequentialAction(
                 new ParallelAction(
-                        outtake.claw.Open,
-                        intake.claw.Close
+                        outtake.claw.Open(),
+                        intake.claw.Close()
                 ),
                 intake.DefaultPos(),
-                outtake.TransferPos
+                outtake.TransferPos()
 
         );
     }
