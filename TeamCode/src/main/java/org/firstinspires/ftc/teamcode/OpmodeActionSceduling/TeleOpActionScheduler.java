@@ -67,7 +67,6 @@ public class TeleOpActionScheduler {
     }
     public void CancelOnAnyOtherAction(Action... action){
         for(Action a:action) {
-            actions.add(a);
             cancelOnAllOtherActions.add(a);
         }
     }
