@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.OpmodeActionSceduling;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.arcrobotics.ftclib.gamepad.ToggleButtonReader;
 
 import java.util.ArrayList;
 
@@ -68,6 +70,28 @@ public class TeleOpActionScheduler {
     public void CancelOnAnyOtherAction(Action... action){
         for(Action a:action) {
             cancelOnAllOtherActions.add(a);
+        }
+    }
+//    public void onConditionStart(,Action action){
+//        if(){
+//
+//        }
+//    }
+
+    /**
+     * does action one if toggled, and action 2 otherwise. doesn't automatically update the toggle though
+     * @param toggle
+     * @param action1
+     * @param action2
+     */
+    public void actionTogglePair(ToggleButtonReader toggle,Action action1,Action action2){
+        if(toggle.getState()){
+            start(action1);
+            cancel(action2);
+        }
+        else {
+            start(action2);
+            cancel(action1);
         }
     }
     public void update(){

@@ -28,7 +28,7 @@ public class IntoTheDeepTeleOp extends OpMode {
 //        ));
 //    }
     GamepadButton intakeDeployButton;
-    ToggleButtonReader intakeDeployToggle;
+    ToggleButtonReader intakeDeployToggle, intakeClawToggle, outtakeClawToggle, viperToggle, outtakePivotToggle;
     GamepadButton transferButton;
     ToggleButtonReader transferToggle;
     TeleOpActionScheduler actionScheduler;
@@ -37,8 +37,14 @@ public class IntoTheDeepTeleOp extends OpMode {
         Gpad1 = new GamepadEx(gamepad1);
         Gpad2 = new GamepadEx(gamepad2);
         bot = new ActionBot(hardwareMap,Gpad1,telemetry,this::getRuntime);
-        intakeDeployButton = new GamepadButton(Gpad2, GamepadKeys.Button.X);
-        intakeDeployToggle = new ToggleButtonReader(intakeDeployButton::get);
+
+        intakeDeployToggle = new ToggleButtonReader(Gpad2, GamepadKeys.Button.X);
+        viperToggle = new ToggleButtonReader(Gpad2, GamepadKeys.Button.RIGHT_BUMPER);
+        outtakePivotToggle = new ToggleButtonReader(Gpad2, GamepadKeys.Button.LEFT_BUMPER);
+        intakeClawToggle = new ToggleButtonReader(Gpad2,GamepadKeys.Button.A);
+        outtakeClawToggle = new ToggleButtonReader(Gpad2, GamepadKeys.Button.B);
+
+
         actionScheduler = new TeleOpActionScheduler();
         actionScheduler.CancelOnAnyOtherAction(bot.Transfer(),bot.outtake.BasketDrop());
     }
@@ -48,21 +54,35 @@ public class IntoTheDeepTeleOp extends OpMode {
 
     @Override
     public void loop() {
-        if(gamepad2.x){
+        outtakeClawToggle.readValue();
+        intakeClawToggle.readValue();
+        viperToggle.readValue();
+        outtakePivotToggle.readValue();
+        intakeDeployToggle.readValue();
+        //actionScheduler.actionTogglePair(intakeDeployToggle,);
+        if(intakeDeployToggle.getState()){
             actionScheduler.start(bot.intake.deploy(1));//cranks go forward
             actionScheduler.cancel(bot.intake.undeploy());
         }
-        if(gamepad2.y) {
+        else {
             actionScheduler.start(bot.intake.undeploy());
             actionScheduler.cancel(bot.intake.deploy(1));
         }
-        if(gamepad2.a){
+        if(intakeClawToggle.getState()){
             actionScheduler.start(bot.intake.claw.Open());
             actionScheduler.cancel(bot.intake.claw.Close());
         }
-        if(gamepad2.b) {
+        else {
             actionScheduler.start(bot.intake.claw.Close());
             actionScheduler.cancel(bot.intake.claw.Open());
+        }
+        if(outtakeClawToggle.getState()){
+            actionScheduler.start(bot.outtake.claw.Close());
+            actionScheduler.cancel(bot.outtake.claw.Open());
+        }
+        else {
+            actionScheduler.start(bot.outtake.claw.Open());
+            actionScheduler.cancel(bot.outtake.claw.Close());
         }
         bot.intake.wrist.wrist.changePosBy(Math.signum(gamepad2.left_stick_x)*0.01);
 
@@ -72,20 +92,18 @@ public class IntoTheDeepTeleOp extends OpMode {
         }
 
 
-        if(gamepad2.right_bumper){
-            actionScheduler.start(bot.outtake.vipers.Down());
-            actionScheduler.cancel(bot.outtake.vipers.Up());
-        }
-        if(gamepad2.left_bumper){
+        if(viperToggle.getState()){
             actionScheduler.start(bot.outtake.vipers.Up());
             actionScheduler.cancel(bot.outtake.vipers.Down());
+        }
+        else {
+            actionScheduler.start(bot.outtake.vipers.Down());
+            actionScheduler.cancel(bot.outtake.vipers.Up());
         }
         if(gamepad2.left_trigger>0.1) {
             actionScheduler.start(bot.outtake.BasketDrop());
         }
-        if(gamepad2.right_trigger>0.1){
 
-        }
 
         actionScheduler.update();
         telemetry.addData("left trigger", gamepad2.left_trigger);
