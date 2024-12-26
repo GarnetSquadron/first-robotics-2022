@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.gamepad.ToggleButtonReader;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.BooleanToggler;
 import org.firstinspires.ftc.teamcode.OpmodeActionSceduling.TeleOpActionScheduler;
 import org.firstinspires.ftc.teamcode.Subsystems.ActionBot;
 import org.firstinspires.ftc.teamcode.enums.Color;
@@ -32,6 +33,10 @@ public class IntoTheDeepTeleOp extends OpMode {
     GamepadButton transferButton;
     ToggleButtonReader transferToggle;
     TeleOpActionScheduler actionScheduler;
+    BooleanToggler diyViperToggle;
+    boolean getRightBumper(){
+        return gamepad2.right_bumper;
+    }
     @Override
     public void init() {
         Gpad1 = new GamepadEx(gamepad1);
@@ -40,6 +45,7 @@ public class IntoTheDeepTeleOp extends OpMode {
 
         intakeDeployToggle = new ToggleButtonReader(Gpad2, GamepadKeys.Button.X);
         viperToggle = new ToggleButtonReader(Gpad2, GamepadKeys.Button.RIGHT_BUMPER);
+        diyViperToggle = new BooleanToggler(this::getRightBumper);
         outtakePivotToggle = new ToggleButtonReader(Gpad2, GamepadKeys.Button.LEFT_BUMPER);
         intakeClawToggle = new ToggleButtonReader(Gpad2,GamepadKeys.Button.A);
         outtakeClawToggle = new ToggleButtonReader(Gpad2, GamepadKeys.Button.B);
@@ -57,13 +63,16 @@ public class IntoTheDeepTeleOp extends OpMode {
         outtakeClawToggle.readValue();
         intakeClawToggle.readValue();
         viperToggle.readValue();
+
+        diyViperToggle.updateValue();
+
         outtakePivotToggle.readValue();
         intakeDeployToggle.readValue();
 
 //        actionScheduler.actionTogglePair(intakeDeployToggle,bot.intake.deploy(1),bot.intake.undeploy());
 //        actionScheduler.actionTogglePair(intakeClawToggle,bot.intake.claw.Open(),bot.intake.claw.Close());
 //        actionScheduler.actionTogglePair(outtakeClawToggle,bot.outtake.claw.Open(),bot.outtake.claw.Close());
-          actionScheduler.actionTogglePair(viperToggle.getState(),bot.outtake.vipers.Up(),bot.outtake.vipers.Down());
+          actionScheduler.actionTogglePair(diyViperToggle.getState(),bot.outtake.vipers.Up(),bot.outtake.vipers.Down());
 
 //        bot.intake.wrist.wrist.changePosBy(Math.signum(gamepad2.left_stick_x)*0.01);
 //
@@ -78,7 +87,7 @@ public class IntoTheDeepTeleOp extends OpMode {
 //        bot.headlessDriveCommand.execute();
 
         telemetry.addData("current actions", actionScheduler.getActionIDs());
-        telemetry.addData("viper toggle", viperToggle.getState());
+        telemetry.addData("viper toggle", diyViperToggle.getState());
         telemetry.update();
         actionScheduler.update();
     }

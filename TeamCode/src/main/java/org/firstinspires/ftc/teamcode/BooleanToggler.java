@@ -10,7 +10,7 @@ public class BooleanToggler {
         bool = b;
     }
     public void updateValue(){
-        if(bool.getAsBoolean()!=prevVal){
+        if(bool.getAsBoolean()&&!prevVal){
             toggleState = !toggleState;
         }
     }
