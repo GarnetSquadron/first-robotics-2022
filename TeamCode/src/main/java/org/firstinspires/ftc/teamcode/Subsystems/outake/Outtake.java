@@ -41,8 +41,7 @@ public class Outtake {
                         pivot1.BucketPos(),
                         pivot2.BucketPos(),
                         vipers.Up()
-                ),
-                claw.Open()
+                )
         );
     }
 }
