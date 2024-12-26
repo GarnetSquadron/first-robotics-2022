@@ -67,7 +67,6 @@ public class IntoTheDeepTeleOp extends OpMode {
         outtakeClawToggle.updateValue();
         intakeClawToggle.updateValue();
         viperToggle.updateValue();
-
         outtakePivotToggle.updateValue();
         intakeDeployToggle.updateValue();
 
@@ -88,7 +87,7 @@ public class IntoTheDeepTeleOp extends OpMode {
         }
         bot.headlessDriveCommand.execute();
 
-        telemetry.addData("current actions", actionScheduler.getActionIDs());
+        telemetry.addData("current actions", actionScheduler.getActions());
         telemetry.addData("crank toggle", intakeDeployToggle.getState());
         telemetry.update();
         actionScheduler.update();

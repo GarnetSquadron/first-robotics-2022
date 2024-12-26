@@ -11,7 +11,7 @@ import java.util.function.DoubleSupplier;
 public class SecondaryOuttakePivot {
     public ActionServo pivot;
     public SecondaryOuttakePivot(HardwareMap hardwareMap, DoubleSupplier time) {
-        pivot = new ActionServo(hardwareMap,"secondary pivot",0.9,0.1,time);
+        pivot = new ActionServo(hardwareMap,"secondary pivot",0.85,0.1,time);
     }
 
     public Action BucketPos() {
