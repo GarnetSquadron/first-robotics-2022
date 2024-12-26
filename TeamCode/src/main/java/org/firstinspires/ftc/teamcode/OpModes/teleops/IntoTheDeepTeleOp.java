@@ -59,54 +59,27 @@ public class IntoTheDeepTeleOp extends OpMode {
         viperToggle.readValue();
         outtakePivotToggle.readValue();
         intakeDeployToggle.readValue();
-        //actionScheduler.actionTogglePair(intakeDeployToggle,);
-        if(intakeDeployToggle.getState()){
-            actionScheduler.start(bot.intake.deploy(1));//cranks go forward
-            actionScheduler.cancel(bot.intake.undeploy());
-        }
-        else {
-            actionScheduler.start(bot.intake.undeploy());
-            actionScheduler.cancel(bot.intake.deploy(1));
-        }
-        if(intakeClawToggle.getState()){
-            actionScheduler.start(bot.intake.claw.Open());
-            actionScheduler.cancel(bot.intake.claw.Close());
-        }
-        else {
-            actionScheduler.start(bot.intake.claw.Close());
-            actionScheduler.cancel(bot.intake.claw.Open());
-        }
-        if(outtakeClawToggle.getState()){
-            actionScheduler.start(bot.outtake.claw.Close());
-            actionScheduler.cancel(bot.outtake.claw.Open());
-        }
-        else {
-            actionScheduler.start(bot.outtake.claw.Open());
-            actionScheduler.cancel(bot.outtake.claw.Close());
-        }
+
+        actionScheduler.actionTogglePair(intakeDeployToggle,bot.intake.deploy(1),bot.intake.undeploy());
+        actionScheduler.actionTogglePair(intakeClawToggle,bot.intake.claw.Open(),bot.intake.claw.Close());
+        actionScheduler.actionTogglePair(outtakeClawToggle,bot.outtake.claw.Open(),bot.outtake.claw.Close());
+        actionScheduler.actionTogglePair(viperToggle,bot.outtake.vipers.Up(),bot.outtake.vipers.Down());
+
         bot.intake.wrist.wrist.changePosBy(Math.signum(gamepad2.left_stick_x)*0.01);
 
         if(gamepad2.dpad_left){
             actionScheduler.cancelAll();
             actionScheduler.start(bot.Transfer());
         }
-
-
-        if(viperToggle.getState()){
-            actionScheduler.start(bot.outtake.vipers.Up());
-            actionScheduler.cancel(bot.outtake.vipers.Down());
-        }
-        else {
-            actionScheduler.start(bot.outtake.vipers.Down());
-            actionScheduler.cancel(bot.outtake.vipers.Up());
-        }
         if(gamepad2.left_trigger>0.1) {
+            actionScheduler.cancelAll();
             actionScheduler.start(bot.outtake.BasketDrop());
         }
+        bot.headlessDriveCommand.execute();
 
 
         actionScheduler.update();
-        telemetry.addData("left trigger", gamepad2.left_trigger);
+        telemetry.addData("viper toggle", viperToggle.getState());
         telemetry.addData("current actions", actionScheduler.getActions());
         telemetry.update();
     }

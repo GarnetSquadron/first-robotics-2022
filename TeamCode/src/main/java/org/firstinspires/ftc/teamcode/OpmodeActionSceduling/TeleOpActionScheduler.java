@@ -94,6 +94,10 @@ public class TeleOpActionScheduler {
             cancel(action1);
         }
     }
+    public void StopEverythingAndStart(Action action){
+        cancelAll();
+        start(action);
+    }
     public void update(){
         ArrayList <Action> actionsKept = new ArrayList<>();//temporary list for keeping track of the actions we want
         for(Action action:actions){
