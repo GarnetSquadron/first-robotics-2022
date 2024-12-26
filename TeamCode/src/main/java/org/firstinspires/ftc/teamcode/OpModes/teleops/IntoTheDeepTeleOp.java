@@ -74,7 +74,6 @@ public class IntoTheDeepTeleOp extends OpMode {
         actionScheduler.actionTogglePair(intakeClawToggle,bot.intake.claw.Open(),bot.intake.claw.Close());
         actionScheduler.actionTogglePair(outtakeClawToggle,bot.outtake.claw.Open(),bot.outtake.claw.Close());
         actionScheduler.actionTogglePair(viperToggle,bot.outtake.vipers.Up(),bot.outtake.vipers.Down());
-
         bot.intake.wrist.wrist.changePosBy(Math.signum(gamepad2.left_stick_x)*0.01);
 
         if(gamepad2.dpad_left){
@@ -87,8 +86,7 @@ public class IntoTheDeepTeleOp extends OpMode {
         }
         bot.headlessDriveCommand.execute();
 
-        telemetry.addData("current actions", actionScheduler.getActions());
-        telemetry.addData("crank toggle", intakeDeployToggle.getState());
+        telemetry.addData("outtake claw time left", bot.outtake.claw.claw.servo.timer.timeLeft());
         telemetry.update();
         actionScheduler.update();
     }
