@@ -8,16 +8,16 @@ import org.firstinspires.ftc.teamcode.TTimer;
 
 @TeleOp(name = "timer test")
 public class TimerTest extends OpMode {
-    TTimer timer  = new TTimer(System::currentTimeMillis);
+    TTimer timer  = new TTimer(this::getRuntime);
 
     @Override
     public void init() {
-        timer.StartTimer(1000000);
+        timer.StartTimer(100);
     }
 
     @Override
     public void loop() {
-        telemetry.addData("time", System.currentTimeMillis());
+        telemetry.addData("time", this.getRuntime());
         telemetry.addData("timer up",timer.timeover());
     }
 }
