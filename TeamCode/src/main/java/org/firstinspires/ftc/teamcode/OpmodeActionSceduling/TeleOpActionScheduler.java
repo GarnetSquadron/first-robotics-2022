@@ -103,14 +103,11 @@ public class TeleOpActionScheduler {
         start(action);
     }
     public void update(){
-        ArrayList <Action> actionsKept = new ArrayList<>();//temporary list for keeping track of the actions we want
         for(Action action:actions){
-            if(action.run(packet)){
-                actionsKept.add(action);
+            if(!action.run(packet)){
+                actions.remove(action);
             }
         }
-        actions.clear();
-        actions = actionsKept;
     }
     public ArrayList<Action> getActions(){
         return actions;
