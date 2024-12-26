@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import java.util.Timer;
 import java.util.TimerTask;
 import java.util.function.DoubleSupplier;
 import java.util.function.LongSupplier;
@@ -28,6 +29,9 @@ public class TTimer {
     }
     public boolean timeover(){
         return duration+startTime<TimeSinceInit.getAsDouble();
+    }
+    public double timeLeft(){
+        return startTime+duration-TimeSinceInit.getAsDouble();
     }
 
 }

@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import java.util.function.DoubleSupplier;
 
 public class ActionServo {
-    ServoSub servo;
+    public ServoSub servo;
     public ActionServo(HardwareMap hardwareMap, String name, double min, double max, DoubleSupplier time, double t){
         servo = new ServoSub(hardwareMap,name,min,max,time,t);
     }

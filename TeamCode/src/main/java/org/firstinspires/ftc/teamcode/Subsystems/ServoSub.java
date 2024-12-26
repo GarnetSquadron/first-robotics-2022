@@ -19,7 +19,7 @@ public class ServoSub {
     private final Servo servo;
     private double Max;
     private double Min;
-    TTimer timer;
+    public TTimer timer;
     double runtime;
 
     public ServoSub(HardwareMap hardwareMap, String name, double min, double max, DoubleSupplier time, double runtime) {

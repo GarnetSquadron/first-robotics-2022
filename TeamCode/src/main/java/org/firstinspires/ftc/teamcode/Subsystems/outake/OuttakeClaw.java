@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.ServoSub;
 import java.util.function.DoubleSupplier;
 
 public class OuttakeClaw {
-    ActionServo claw;
+    public ActionServo claw;
 
     public OuttakeClaw(HardwareMap hardwareMap, DoubleSupplier time) {
         claw = new ActionServo(hardwareMap, "outtake claw", 0, 0.4, time,5);//TODO: tune this
