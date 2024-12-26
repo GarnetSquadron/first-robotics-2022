@@ -110,7 +110,11 @@ public class ActionBot {
                         intake.claw.Close()
                 ),
                 intake.DefaultPos(),
-                outtake.TransferPos()
+                outtake.TransferPos(),
+                new ParallelAction(
+                        outtake.claw.Close(),
+                        intake.claw.Open()
+                )
 
         );
     }
