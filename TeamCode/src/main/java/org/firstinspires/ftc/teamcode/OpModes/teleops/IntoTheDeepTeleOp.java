@@ -77,10 +77,9 @@ public class IntoTheDeepTeleOp extends OpMode {
 //        }
 //        bot.headlessDriveCommand.execute();
 
-
+        telemetry.addData("current actions", actionScheduler.getActions());
         actionScheduler.update();
         telemetry.addData("viper toggle", viperToggle.getState());
-        telemetry.addData("current actions", actionScheduler.getActions());
         telemetry.update();
     }
 }
