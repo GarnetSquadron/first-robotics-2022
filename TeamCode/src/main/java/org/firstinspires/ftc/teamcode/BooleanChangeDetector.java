@@ -11,6 +11,7 @@ public class BooleanChangeDetector {
     }
     public void update(){
         State = prevVal != bool.getAsBoolean();
+        prevVal = bool.getAsBoolean();
     }
     public boolean getState(){
         return State;
