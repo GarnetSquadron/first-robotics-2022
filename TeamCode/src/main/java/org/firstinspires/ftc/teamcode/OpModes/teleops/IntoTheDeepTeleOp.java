@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.BetterControllerClass;
 import org.firstinspires.ftc.teamcode.BooleanToggler;
+import org.firstinspires.ftc.teamcode.InitialToggler;
 import org.firstinspires.ftc.teamcode.OpmodeActionSceduling.TeleOpActionScheduler;
 import org.firstinspires.ftc.teamcode.Subsystems.ActionBot;
 import org.firstinspires.ftc.teamcode.enums.Color;
@@ -33,7 +34,7 @@ public class IntoTheDeepTeleOp extends OpMode {
 //        ));
 //    }
     GamepadButton intakeDeployButton;
-    BooleanToggler intakeDeployToggle, intakeClawToggle, outtakeClawToggle, viperToggle, outtakePivotToggle;
+    InitialToggler intakeDeployToggle, intakeClawToggle, outtakeClawToggle, viperToggle, outtakePivotToggle;
     GamepadButton transferButton;
     ToggleButtonReader transferToggle;
     TeleOpActionScheduler actionScheduler;
@@ -47,11 +48,11 @@ public class IntoTheDeepTeleOp extends OpMode {
 
         bot = new ActionBot(hardwareMap,Gpad1,telemetry,this::getRuntime);
 
-        intakeDeployToggle = new BooleanToggler(Con2::X);
-        viperToggle = new BooleanToggler(Con2::RightBumper);
-        outtakePivotToggle = new BooleanToggler(Con2::LeftBumper);
-        intakeClawToggle = new BooleanToggler(Con2::Y);
-        outtakeClawToggle = new BooleanToggler(Con2::B);
+        intakeDeployToggle = new InitialToggler(Con2::X);
+        viperToggle = new InitialToggler(Con2::RightBumper);
+        outtakePivotToggle = new InitialToggler(Con2::LeftBumper);
+        intakeClawToggle = new InitialToggler(Con2::Y);
+        outtakeClawToggle = new InitialToggler(Con2::B);
 
 
         actionScheduler = new TeleOpActionScheduler();
@@ -70,10 +71,10 @@ public class IntoTheDeepTeleOp extends OpMode {
         outtakePivotToggle.updateValue();
         intakeDeployToggle.updateValue();
 
-        actionScheduler.actionTogglePair(intakeDeployToggle.getState(),bot.intake.deploy(1),bot.intake.undeploy());
-        actionScheduler.actionTogglePair(intakeClawToggle.getState(),bot.intake.claw.Open(),bot.intake.claw.Close());
-        actionScheduler.actionTogglePair(outtakeClawToggle.getState(),bot.outtake.claw.Open(),bot.outtake.claw.Close());
-        actionScheduler.actionTogglePair(viperToggle.getState(),bot.outtake.vipers.Up(),bot.outtake.vipers.Down());
+        actionScheduler.actionTogglePair(intakeDeployToggle,bot.intake.deploy(1),bot.intake.undeploy());
+        actionScheduler.actionTogglePair(intakeClawToggle,bot.intake.claw.Open(),bot.intake.claw.Close());
+        actionScheduler.actionTogglePair(outtakeClawToggle,bot.outtake.claw.Open(),bot.outtake.claw.Close());
+        actionScheduler.actionTogglePair(viperToggle,bot.outtake.vipers.Up(),bot.outtake.vipers.Down());
 
         bot.intake.wrist.wrist.changePosBy(Math.signum(gamepad2.left_stick_x)*0.01);
 

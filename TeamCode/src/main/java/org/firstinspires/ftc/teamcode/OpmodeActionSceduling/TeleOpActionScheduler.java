@@ -5,6 +5,8 @@ import com.acmerobotics.roadrunner.Action;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.gamepad.ToggleButtonReader;
 
+import org.firstinspires.ftc.teamcode.InitialToggler;
+
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.HashMap;
@@ -81,18 +83,19 @@ public class TeleOpActionScheduler {
 
     /**
      * does action one if toggled, and action 2 otherwise. doesn't automatically update the toggle though
-     * @param toggle
+     * @param toggler
      * @param action1
      * @param action2
      */
-    public void actionTogglePair(boolean toggle,Action action1,Action action2){
-        if(toggle){
-            start(action1);
-            cancel(action2);
-        }
-        else {
-            start(action2);
-            cancel(action1);
+    public void actionTogglePair(InitialToggler toggler, Action action1, Action action2){
+        if(toggler.JustChanged()){
+            if (toggler.getState()) {
+                start(action1);
+                cancel(action2);
+            } else {
+                start(action2);
+                cancel(action1);
+            }
         }
     }
     public void StopEverythingAndStart(Action action){
