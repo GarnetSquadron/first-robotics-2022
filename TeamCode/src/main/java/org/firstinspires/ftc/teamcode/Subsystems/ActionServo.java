@@ -15,7 +15,7 @@ public class ActionServo {
         servo = new ServoSub(hardwareMap,name,min,max,time,t);
     }
     public ActionServo(HardwareMap hardwareMap, String name,double min,double max, DoubleSupplier time){
-        this(hardwareMap,name,min,max,time,1000);
+        this(hardwareMap,name,min,max,time,1);
     }
 
     public double getPos() {
