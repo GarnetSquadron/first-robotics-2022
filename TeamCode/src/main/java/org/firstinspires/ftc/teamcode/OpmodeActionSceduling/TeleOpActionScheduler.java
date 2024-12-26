@@ -27,7 +27,9 @@ public class TeleOpActionScheduler {
                 actions.remove(a);
             }
         }
-        actions.add(action);
+        if(!actions.contains(action)) {
+            actions.add(action);
+        }
         IDs.add(ID);
     }
 
