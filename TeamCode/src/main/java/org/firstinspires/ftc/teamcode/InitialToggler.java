@@ -7,7 +7,7 @@ public class InitialToggler {
     BooleanChangeDetector changeDetector;
     public InitialToggler(BooleanSupplier bool){
         toggler = new BooleanToggler(bool);
-        changeDetector = new BooleanChangeDetector(bool);
+        changeDetector = new BooleanChangeDetector(toggler::getState);
     }
     public void updateValue(){
         toggler.updateValue();
