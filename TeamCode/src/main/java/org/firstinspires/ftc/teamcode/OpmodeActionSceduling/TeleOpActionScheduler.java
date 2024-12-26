@@ -56,7 +56,9 @@ public class TeleOpActionScheduler {
      */
     public void cancel(Action... listOfActions){
         for(Action action:listOfActions) {
-            actions.remove(action);
+            if(actions.contains(action)) {
+                actions.remove(action);
+            }
         }
     }
 
@@ -83,8 +85,8 @@ public class TeleOpActionScheduler {
      * @param action1
      * @param action2
      */
-    public void actionTogglePair(ToggleButtonReader toggle,Action action1,Action action2){
-        if(toggle.getState()){
+    public void actionTogglePair(boolean toggle,Action action1,Action action2){
+        if(toggle){
             start(action1);
             cancel(action2);
         }
