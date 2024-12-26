@@ -6,39 +6,37 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.gamepad.ToggleButtonReader;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class TeleOpActionScheduler {
     ArrayList <Action> actions = new ArrayList<>();
     ArrayList <Action> cancelOnAllOtherActions = new ArrayList<>();
-    ArrayList <String> IDs = new ArrayList<> ();
     TelemetryPacket packet = new TelemetryPacket();
+    Map<String,Action> IDMap = new HashMap<>();
 
     public TeleOpActionScheduler(){
+    }
+    public void SetID(Action action,String string){
+        IDMap.put(string,action);
     }
 
     /**
      * adds an action to the que
      * @param action
-     * @param ID identifier for identifying the action later
      */
-    public void start(Action action,String ID){
+    public void start(Action action){
         for(Action a:cancelOnAllOtherActions){
             if(actions.contains(a)){
-                actions.remove(a);
+                cancel(a);
             }
         }
         if(!actions.contains(action)) {
             actions.add(action);
         }
-        IDs.add(ID);
-    }
 
-    /**
-     * adds an action to the que. I quickly realized the identifier is possibly pointless so here it is without the id. you have to cancel by inputting an action instead of an id if you want to cancel it. So like  cancel(Action)
-     * @param action
-     */
-    public void start(Action action){
-        start(action,null);
     }
 
     /**
@@ -46,10 +44,9 @@ public class TeleOpActionScheduler {
      * @param ID
      */
     public void cancel(String ID){
-        if(IDs.contains(ID)){
-            int i = IDs.indexOf(ID);
-            IDs.remove(ID);
-            actions.remove(actions.get(i));
+        Action action = IDMap.get(ID);
+        if(actions.contains(action)){
+            actions.remove(action);
         }
     }
 
@@ -107,10 +104,23 @@ public class TeleOpActionScheduler {
                 actionsKept.add(action);
             }
         }
+        actions.clear();
         actions = actionsKept;
     }
     public ArrayList<Action> getActions(){
         return actions;
+    }
+
+    /**
+     * doesnt work rn sorry
+     * @return
+     */
+    public ArrayList<String> getActionIDs(){
+        ArrayList IDs = new ArrayList<>();
+        for(Action action:actions){
+
+        }
+        return IDs;
     }
 
 }
