@@ -16,10 +16,10 @@ public class OuttakeClaw {
     }
 
     public Action Close() {
-        return claw.runToRatio(1);
+        return claw.runToRatio(0);
     }
 
     public Action Open() {
-        return claw.runToRatio(0);
+        return claw.runToRatio(1);
     }
 }
