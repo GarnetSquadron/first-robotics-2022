@@ -17,7 +17,6 @@ public class TeleOpActionScheduler {
     TelemetryPacket packet = new TelemetryPacket();
     ArrayList <Action> registeredActions = new ArrayList<>();
     ArrayList <String> registeredIDs = new ArrayList<>();
-
     public TeleOpActionScheduler(){
     }
     public void AssignID(Action action, String ID){
