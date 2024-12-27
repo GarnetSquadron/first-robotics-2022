@@ -64,7 +64,13 @@ public class TeleOpActionScheduler {
     public void cancel(Action... listOfActions){
         for(Action action:listOfActions) {
             if (actions.contains(action)){
-                actions.set(actions.indexOf(action), getFailOvers(action));
+                int index = actions.indexOf(action);
+                Action failAction = getFailOvers(action);
+                if(failAction ==null){
+                    actions.remove(action);
+                }
+                else
+                    actions.set(index, failAction);
             }
         }
 
