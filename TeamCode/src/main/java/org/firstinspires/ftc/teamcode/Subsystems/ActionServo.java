@@ -30,7 +30,7 @@ public class ActionServo {
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             servo.goToRatio(ratio);
-            return servo.targetReached();
+            return false;
         }
     }
     public class WaitForTargetReached implements Action{
