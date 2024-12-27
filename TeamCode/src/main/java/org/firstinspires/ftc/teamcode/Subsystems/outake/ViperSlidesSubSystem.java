@@ -18,8 +18,8 @@ public class ViperSlidesSubSystem{
     private final int RMinPos = 0;
     private double posCoefficient = 0.05;
     public ViperSlidesSubSystem(HardwareMap hardwareMap){
-         l = new ActionDcMotor(hardwareMap,"LeftViper",0,-4000,posCoefficient);
-         r = new ActionDcMotor(hardwareMap,"RightViper",0,4000,posCoefficient);
+         l = new ActionDcMotor(hardwareMap,"LeftViper",0,-3900,posCoefficient);
+         r = new ActionDcMotor(hardwareMap,"RightViper",0,3900,posCoefficient);
     }
     public boolean targetReached(){
         return l.targetReached()&&r.targetReached();
