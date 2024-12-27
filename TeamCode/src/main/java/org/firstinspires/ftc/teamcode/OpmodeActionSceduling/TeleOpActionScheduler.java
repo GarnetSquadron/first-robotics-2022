@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.OpmodeActionSceduling;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.InstantAction;
+import com.acmerobotics.roadrunner.InstantFunction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import org.firstinspires.ftc.teamcode.InitialToggler;
@@ -138,7 +140,9 @@ public class TeleOpActionScheduler {
                 canceledActions.add(getFailOvers(a));
             return new ParallelAction(canceledActions);
         }
-        return null;
+        return new InstantAction(()->{
+
+        });
     }
     public void update(){
         ArrayList<Action> newActions = new ArrayList<>();
