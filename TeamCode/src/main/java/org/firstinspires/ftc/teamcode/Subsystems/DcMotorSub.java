@@ -51,6 +51,9 @@ public class DcMotorSub extends SubsystemBase {
             motor.stopMotor();// stop the motor
         }
     }
+    public void stop(){
+        motor.stopMotor();
+    }
     int getPosFromRatio(int min, int max, double pos){
         return min+(int)Math.round(pos*(max-min));
     }

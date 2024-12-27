@@ -2,27 +2,37 @@ package org.firstinspires.ftc.teamcode.OpmodeActionSceduling;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
-import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-import com.arcrobotics.ftclib.gamepad.ToggleButtonReader;
 
 import org.firstinspires.ftc.teamcode.InitialToggler;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class TeleOpActionScheduler {
     ArrayList <Action> actions = new ArrayList<>();
     ArrayList <Action> cancelOnAllOtherActions = new ArrayList<>();
     TelemetryPacket packet = new TelemetryPacket();
-    Map<String,Action> IDMap = new HashMap<>();
+    ArrayList <Action> registeredActions = new ArrayList<>();
+    ArrayList <String> registeredIDs = new ArrayList<>();
 
     public TeleOpActionScheduler(){
     }
-    public void SetID(Action action,String string){
-        IDMap.put(string,action);
+    public void AssignID(Action action, String ID){
+        if(registeredActions.contains(action)){
+            registeredActions.remove(action);
+            registeredIDs.remove(getIDFromAction(action));
+        }
+        if(registeredIDs.contains(ID)){
+            registeredIDs.remove(ID);
+            registeredActions.remove(getActionFromID(ID));
+        }
+        registeredActions.add(action);
+        registeredIDs.add(ID);
+    }
+    public Action getActionFromID(String ID){
+        return registeredActions.get(registeredIDs.indexOf(ID));
+    }
+    public String getIDFromAction(Action action){
+        return registeredIDs.get(registeredActions.indexOf(action));
     }
 
     /**
@@ -40,15 +50,18 @@ public class TeleOpActionScheduler {
         }
 
     }
+    public void start(Action action, String ID){
+        start(action);
+        AssignID(action,ID);
+    }
 
     /**
      * cancel with the id
      * @param ID
      */
     public void cancel(String ID){
-        Action action = IDMap.get(ID);
-        if(actions.contains(action)){
-            actions.remove(action);
+        if(actions.contains(getActionFromID(ID))){
+            actions.remove(getActionFromID(ID));
         }
     }
 
@@ -98,6 +111,11 @@ public class TeleOpActionScheduler {
             }
         }
     }
+    public void actionTogglePair(InitialToggler toggler, Action action1, String ID1, Action action2, String ID2){
+        AssignID(action1,ID1);
+        AssignID(action2,ID2);
+        actionTogglePair(toggler,action1,action2);
+    }
     public void StopEverythingAndStart(Action action){
         cancelAll();
         start(action);
@@ -113,14 +131,12 @@ public class TeleOpActionScheduler {
         return actions;
     }
 
-    /**
-     * doesnt work rn sorry
-     * @return
-     */
+
     public ArrayList<String> getActionIDs(){
         ArrayList IDs = new ArrayList<>();
         for(Action action:actions){
-
+            if(registeredActions.contains(action))
+                IDs.add(getIDFromAction(action));
         }
         return IDs;
     }

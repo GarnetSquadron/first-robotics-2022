@@ -34,10 +34,10 @@ public class ActionDcMotor {
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
                 motor.runToTgPos();
                 if (motor.TargetReached()&&!Stopping){
+                    motor.stop();
                     return false;
                 }
                 else {
-
                     return true;
                 }
             }
