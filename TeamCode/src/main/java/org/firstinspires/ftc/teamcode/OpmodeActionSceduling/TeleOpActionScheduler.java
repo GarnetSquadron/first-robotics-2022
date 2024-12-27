@@ -74,7 +74,7 @@ public class TeleOpActionScheduler {
      * cancel everything
      */
     public void cancelAll(){
-        actions.clear();
+        cancel((Action[]) actions.toArray());
     }
     public void CancelOnAnyOtherAction(Action... action){
         cancelOnAllOtherActions.addAll(Arrays.asList(action));
