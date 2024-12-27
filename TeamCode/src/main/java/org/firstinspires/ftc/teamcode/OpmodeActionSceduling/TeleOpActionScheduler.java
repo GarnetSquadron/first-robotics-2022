@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.InitialToggler;
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class TeleOpActionScheduler {
@@ -131,10 +132,10 @@ public class TeleOpActionScheduler {
     public void update(){
         ArrayList<Action> newActions = new ArrayList<>();
         for(Action action:actions){
-            if(!action.run(packet)){
-                runFailOvers(action);
+            if(action.run(packet)){
                 newActions.add(action);
             }
+
         }
         actions.clear();
         actions = newActions;
