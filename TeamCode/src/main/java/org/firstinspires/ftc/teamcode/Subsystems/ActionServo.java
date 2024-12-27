@@ -36,7 +36,7 @@ public class ActionServo {
     public class WaitForTargetReached implements Action{
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            return servo.targetReached();
+            return !servo.targetReached();
         }
     }
     public Action runToRatio(double ratio){
