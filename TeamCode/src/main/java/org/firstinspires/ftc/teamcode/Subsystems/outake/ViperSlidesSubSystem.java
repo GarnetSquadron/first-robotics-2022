@@ -25,9 +25,9 @@ public class ViperSlidesSubSystem{
         return l.targetReached()&&r.targetReached();
     }
     public Action Up() {
-        return new ParallelAction(l.GoToPos(0),r.GoToPos(0));
+        return new ParallelAction(l.GoToPos(1),r.GoToPos(1));
     }
     public Action Down() {
-        return new ParallelAction(l.GoToPos(1),r.GoToPos(1));
+        return new ParallelAction(l.GoToPos(0),r.GoToPos(0));
     }
 }
