@@ -15,7 +15,6 @@ public class ActionDcMotor {
     public ActionDcMotor(HardwareMap hardwareMap, String MotorName, int minPos, int maxPos, double posCoefficient){
         motor = new DcMotorSub(hardwareMap,MotorName,minPos, maxPos,posCoefficient);
     }
-    boolean Stopping = false;
     public class SetTgPos implements Action{
         double pos;
         public SetTgPos(double pos){
@@ -32,7 +31,8 @@ public class ActionDcMotor {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
                 motor.runToTgPos();
-                if (motor.TargetReached()&&!Stopping){
+                if (motor.TargetReached()){
+                    motor.stop();
                     return false;
                 }
                 else {
