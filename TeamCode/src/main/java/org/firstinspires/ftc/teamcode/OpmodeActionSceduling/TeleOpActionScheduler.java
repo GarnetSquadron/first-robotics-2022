@@ -55,8 +55,6 @@ public class TeleOpActionScheduler {
         start(action);
         AssignID(action,ID);
     }
-    public void start(Action action, Action CancelAction,String ID)
-
     /**
      * cancel with the id
      * @param ID
