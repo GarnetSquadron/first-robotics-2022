@@ -129,13 +129,15 @@ public class TeleOpActionScheduler {
         }
     }
     public void update(){
-        //ArrayList<Action> newActions;
+        ArrayList<Action> newActions = new ArrayList<>();
         for(Action action:actions){
             if(!action.run(packet)){
                 runFailOvers(action);
-                actions.remove(action);
+                newActions.add(action);
             }
         }
+        actions.clear();
+        actions = newActions;
     }
     public ArrayList<Action> getActions(){
         return actions;
