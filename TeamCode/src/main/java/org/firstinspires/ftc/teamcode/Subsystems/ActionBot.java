@@ -56,9 +56,9 @@ public class ActionBot {
     }
 
 
-    /**
-     * meant to be looped, like a lot of this stuff
-     */
+//    /**
+//     * meant to be looped, like a lot of this stuff
+//     */
 //    public void VisionGrab(){
 //        if(vision.streamOpened){
 //            SamplePipeline.AnalyzedStone Sample =  vision.getNearestSample();

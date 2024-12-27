@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.InitialToggler;
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.List;
 
 public class TeleOpActionScheduler {
@@ -54,9 +54,7 @@ public class TeleOpActionScheduler {
      * @param ID
      */
     public void cancel(String ID){
-        if(actions.contains(getActionFromID(ID))){
-            actions.remove(getActionFromID(ID));
-        }
+        actions.remove(getActionFromID(ID));
     }
 
     /**
@@ -65,11 +63,9 @@ public class TeleOpActionScheduler {
      */
     public void cancel(Action... listOfActions){
         for(Action action:listOfActions) {
-            if(actions.contains(action)) {
-                actions.remove(action);//put runFailOversAtSomePoint
-
-            }
+            actions.set(actions.indexOf(action),getFailOvers(action));
         }
+
     }
 
     /**
@@ -79,9 +75,7 @@ public class TeleOpActionScheduler {
         actions.clear();
     }
     public void CancelOnAnyOtherAction(Action... action){
-        for(Action a:action) {
-            cancelOnAllOtherActions.add(a);
-        }
+        cancelOnAllOtherActions.addAll(Arrays.asList(action));
     }
 //    public void onConditionStart(,Action action){
 //        if(){
@@ -115,20 +109,26 @@ public class TeleOpActionScheduler {
         cancelAll();
         start(action);
     }
-    public void runFailOvers(Action action){
+    public Action getFailOvers(Action action){
         if(action.getClass()== CancelableAction.class){
             ((CancelableAction) action).failover();
+            return action;
         }
         if(action.getClass() == SequentialAction.class){
             List<Action> initialActions = ((SequentialAction) action).getInitialActions();
+            List<Action> canceledActions = new ArrayList<>();
             for(Action a:initialActions)
-                runFailOvers(a);
+                canceledActions.add(getFailOvers(a));
+            return new SequentialAction(canceledActions);
         }
         if(action.getClass() == ParallelAction.class){
             List<Action> initialActions = ((ParallelAction) action).getInitialActions();
+            List<Action> canceledActions = new ArrayList<>();
             for(Action a:initialActions)
-                runFailOvers(a);
+                canceledActions.add(getFailOvers(a));
+            return new ParallelAction(canceledActions);
         }
+        return null;
     }
     public void update(){
         ArrayList<Action> newActions = new ArrayList<>();
