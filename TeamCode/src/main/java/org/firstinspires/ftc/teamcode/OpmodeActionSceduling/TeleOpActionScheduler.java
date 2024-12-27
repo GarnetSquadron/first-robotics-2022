@@ -20,11 +20,13 @@ public class TeleOpActionScheduler {
     public TeleOpActionScheduler(){
     }
     public void AssignID(Action action, String ID){
-        if(registeredActions.remove(action)){
+        if(registeredActions.contains(action)){
             registeredIDs.remove(getIDFromAction(action));
+            registeredActions.remove(action);
         }
-        if(registeredIDs.remove(ID)){
+        if(registeredIDs.contains(ID)){
             registeredActions.remove(getActionFromID(ID));
+            registeredIDs.remove(ID);
         }
         registeredActions.add(action);
         registeredIDs.add(ID);
