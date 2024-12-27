@@ -4,7 +4,6 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
-
 import org.firstinspires.ftc.teamcode.InitialToggler;
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
 
@@ -130,10 +129,11 @@ public class TeleOpActionScheduler {
         }
     }
     public void update(){
+        //ArrayList<Action> newActions;
         for(Action action:actions){
             if(!action.run(packet)){
+                runFailOvers(action);
                 actions.remove(action);
-
             }
         }
     }
