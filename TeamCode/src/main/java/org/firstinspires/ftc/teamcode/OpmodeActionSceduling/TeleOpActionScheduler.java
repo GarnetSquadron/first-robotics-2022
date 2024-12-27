@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.OpmodeActionSceduling;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.SequentialAction;
 
 import org.firstinspires.ftc.teamcode.InitialToggler;
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
@@ -120,13 +121,19 @@ public class TeleOpActionScheduler {
         cancelAll();
         start(action);
     }
+    public void runFailOvers(Action action){
+        if(action.getClass()== CancelableAction.class){
+            ((CancelableAction) action).failover();
+        }
+        if(action.getClass() == SequentialAction.class){
+            ((SequentialAction) action).getInitialActions();
+        }
+    }
     public void update(){
         for(Action action:actions){
             if(!action.run(packet)){
                 actions.remove(action);
-                if(action.getClass()== CancelableAction.class){
-                    ((CancelableAction) action).failover();
-                }
+
             }
         }
     }
