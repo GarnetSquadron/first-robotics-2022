@@ -17,19 +17,11 @@ public class TeleOpActionScheduler {
     TelemetryPacket packet = new TelemetryPacket();
     ArrayList <Action> registeredActions = new ArrayList<>();
     ArrayList <String> registeredIDs = new ArrayList<>();
-    public TeleOpActionScheduler(){
-    }
     public void AssignID(Action action, String ID){
-        if(registeredActions.contains(action)){
-            registeredIDs.remove(getIDFromAction(action));
-            registeredActions.remove(action);
+        if(!(registeredActions.indexOf(action)==registeredIDs.indexOf(ID)&&registeredActions.contains(action))){
+            registeredActions.add(action);
+            registeredIDs.add(ID);
         }
-        if(registeredIDs.contains(ID)){
-            registeredActions.remove(getActionFromID(ID));
-            registeredIDs.remove(ID);
-        }
-        registeredActions.add(action);
-        registeredIDs.add(ID);
     }
     public Action getActionFromID(String ID){
         return registeredActions.get(registeredIDs.indexOf(ID));
