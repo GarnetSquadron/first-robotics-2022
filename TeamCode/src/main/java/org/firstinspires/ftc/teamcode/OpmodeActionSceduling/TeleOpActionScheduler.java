@@ -2,12 +2,14 @@ package org.firstinspires.ftc.teamcode.OpmodeActionSceduling;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 
 import org.firstinspires.ftc.teamcode.InitialToggler;
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TeleOpActionScheduler {
     ArrayList <Action> actions = new ArrayList<>();
@@ -126,7 +128,14 @@ public class TeleOpActionScheduler {
             ((CancelableAction) action).failover();
         }
         if(action.getClass() == SequentialAction.class){
-            ((SequentialAction) action).getInitialActions();
+            List<Action> initialActions = ((SequentialAction) action).getInitialActions();
+            for(Action a:initialActions)
+                runFailOvers(a);
+        }
+        if(action.getClass() == ParallelAction.class){
+            List<Action> initialActions = ((ParallelAction) action).getInitialActions();
+            for(Action a:initialActions)
+                runFailOvers(a);
         }
     }
     public void update(){

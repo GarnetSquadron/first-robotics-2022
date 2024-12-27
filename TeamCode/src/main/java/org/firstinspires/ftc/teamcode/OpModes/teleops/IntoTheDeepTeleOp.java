@@ -70,27 +70,27 @@ public class IntoTheDeepTeleOp extends OpMode {
         outtakePivotToggle.updateValue();
         intakeDeployToggle.updateValue();
 
-        actionScheduler.actionTogglePair(intakeDeployToggle,bot.intake.deploy(1),"deploy intake",bot.intake.undeploy(),"undeploy intake");
-        actionScheduler.actionTogglePair(intakeClawToggle,bot.intake.claw.Open(),"open intake claw",bot.intake.claw.Close(),"close intake claw");
-        actionScheduler.actionTogglePair(outtakeClawToggle,bot.outtake.claw.Open(),"open outtake claw",bot.outtake.claw.Close(),"close outtake claw");
-        actionScheduler.actionTogglePair(viperToggle,bot.outtake.vipers.Up(),"vipers up",bot.outtake.vipers.Down(),"vipers down");
-        bot.intake.wrist.wrist.changePosBy(Math.signum(gamepad2.left_stick_x)*0.01);
+//        actionScheduler.actionTogglePair(intakeDeployToggle,bot.intake.deploy(1),"deploy intake",bot.intake.undeploy(),"undeploy intake");
+//        actionScheduler.actionTogglePair(intakeClawToggle,bot.intake.claw.Open(),"open intake claw",bot.intake.claw.Close(),"close intake claw");
+//        actionScheduler.actionTogglePair(outtakeClawToggle,bot.outtake.claw.Open(),"open outtake claw",bot.outtake.claw.Close(),"close outtake claw");
+//        actionScheduler.actionTogglePair(viperToggle,bot.outtake.vipers.Up(),"vipers up",bot.outtake.vipers.Down(),"vipers down");
+//        bot.intake.wrist.wrist.changePosBy(Math.signum(gamepad2.left_stick_x)*0.01);
 
-        if(gamepad2.dpad_left){
-            actionScheduler.cancelAll();
-            actionScheduler.start(bot.Transfer(),"transfer");
-        }
-        if(gamepad2.left_trigger>0.1) {
-            actionScheduler.cancelAll();
-            actionScheduler.start(bot.outtake.BasketDrop(),"basket drop");
-        }
+//        if(gamepad2.dpad_left){
+//            actionScheduler.cancelAll();
+//            actionScheduler.start(bot.Transfer(),"transfer");
+//        }
+//        if(gamepad2.left_trigger>0.1) {
+//            actionScheduler.cancelAll();
+//            actionScheduler.start(bot.outtake.BasketDrop(),"basket drop");
+//        }
         bot.headlessDriveCommand.execute();
 
-        telemetry.addData("outtake claw time left", bot.outtake.claw.claw.servo.timer.timeLeft());
+        //telemetry.addData("outtake claw time left", bot.outtake.claw.claw.servo.timer.timeLeft());
 
 
         telemetry.addData("CURRENT ACTIONS", actionScheduler.getActionIDs());
         telemetry.update();
-        actionScheduler.update();
+        //actionScheduler.update();
     }
 }
