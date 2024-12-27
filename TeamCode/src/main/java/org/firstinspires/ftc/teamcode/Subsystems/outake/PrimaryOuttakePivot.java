@@ -13,7 +13,7 @@ public class PrimaryOuttakePivot{
     public ActionServo pivot;
 
     public PrimaryOuttakePivot(HardwareMap hardwareMap, DoubleSupplier time) {
-         pivot = new ActionServo(hardwareMap,"primary pivot",0.95,0.3333333,time);
+         pivot = new ActionServo(hardwareMap,"primary pivot",0.9,0.3333333,time);
     }
 
     public Action BucketPos() {
