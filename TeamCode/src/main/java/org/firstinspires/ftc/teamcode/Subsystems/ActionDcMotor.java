@@ -28,25 +28,22 @@ public class ActionDcMotor {
             return false;
         }
     }
-    public Action goToTgtPos = new CancelableAction(
-        new Action(){
+    public Action goToTgtPos = new Action(){
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
                 motor.runToTgPos();
                 if (motor.TargetReached()&&!Stopping){
-                    motor.stop();
                     return false;
                 }
                 else {
                     return true;
                 }
             }
-        }
-    );
+        };
     public boolean targetReached(){
         return motor.TargetReached();
     }
     public Action GoToPos(double pos){
-        return new SequentialAction(new SetTgPos(pos),goToTgtPos);
+        return new CancelableAction(new SequentialAction(new SetTgPos(pos),goToTgtPos));
     }
 }

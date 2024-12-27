@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 
 import org.firstinspires.ftc.teamcode.InitialToggler;
+import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
 
 import java.util.ArrayList;
 
@@ -54,6 +55,7 @@ public class TeleOpActionScheduler {
         start(action);
         AssignID(action,ID);
     }
+    public void start(Action action, Action CancelAction,String ID)
 
     /**
      * cancel with the id
@@ -124,6 +126,9 @@ public class TeleOpActionScheduler {
         for(Action action:actions){
             if(!action.run(packet)){
                 actions.remove(action);
+                if(action.getClass()== CancelableAction.class){
+                    ((CancelableAction) action).failover();
+                }
             }
         }
     }
