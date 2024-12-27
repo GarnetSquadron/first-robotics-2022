@@ -46,4 +46,7 @@ public class ActionDcMotor {
     public Action GoToPos(double pos){
         return new CancelableAction(new SequentialAction(new SetTgPos(pos),goToTgtPos));
     }
+    public double getDistanceToTarget(){
+        return motor.getTargetPos()-motor.getPos();
+    }
 }

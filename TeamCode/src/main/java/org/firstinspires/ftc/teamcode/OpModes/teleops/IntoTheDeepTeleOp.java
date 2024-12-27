@@ -87,6 +87,7 @@ public class IntoTheDeepTeleOp extends OpMode {
         bot.headlessDriveCommand.execute();
 
         telemetry.addData("outtake claw time left", bot.outtake.claw.claw.servo.timer.timeLeft());
+        telemetry.addData("viper distance to target", bot.outtake.vipers.DistanceToTarget());
 
 
         telemetry.addData("CURRENT ACTIONS", actionScheduler.getActionIDs());

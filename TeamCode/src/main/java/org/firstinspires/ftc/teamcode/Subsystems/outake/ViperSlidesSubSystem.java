@@ -24,10 +24,19 @@ public class ViperSlidesSubSystem{
     public boolean targetReached(){
         return l.targetReached()&&r.targetReached();
     }
+    public double DistanceToTarget(){
+        return l.getDistanceToTarget();
+    }
     public Action Up() {
-        return new ParallelAction(l.GoToPos(1),r.GoToPos(1));
+        return new ParallelAction(l.GoToPos(0),r.GoToPos(0));
+    }
+    public Action TgtPosUp(){
+        return new ParallelAction(l.new SetTgPos(0),r.new SetTgPos(0));
     }
     public Action Down() {
-        return new ParallelAction(l.GoToPos(0),r.GoToPos(0));
+        return new ParallelAction(l.GoToPos(1),r.GoToPos(1));
+    }
+    public Action TgtPosDown(){
+        return new ParallelAction(l.new SetTgPos(1),r.new SetTgPos(1));
     }
 }
