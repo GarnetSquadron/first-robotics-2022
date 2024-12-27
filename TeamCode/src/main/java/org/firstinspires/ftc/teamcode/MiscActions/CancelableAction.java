@@ -15,7 +15,7 @@ public class CancelableAction implements Action {
         this.failoverAction = failoverAction;
     }
     public CancelableAction(Action mainAction){
-        this(mainAction,null);
+        this(mainAction,new NullAction());
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import org.firstinspires.ftc.teamcode.InitialToggler;
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
+import org.firstinspires.ftc.teamcode.MiscActions.NullAction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,13 +67,7 @@ public class TeleOpActionScheduler {
     public void cancel(Action... listOfActions){
         for(Action action:listOfActions) {
             if (actions.contains(action)){
-                int index = actions.indexOf(action);
-                Action failAction = getFailOvers(action);
-                if(failAction ==null){
-                    actions.remove(action);
-                }
-                else
-                    actions.set(index, failAction);
+                actions.set(actions.indexOf(action), getFailOvers(action));
             }
         }
 
@@ -140,9 +135,7 @@ public class TeleOpActionScheduler {
                 canceledActions.add(getFailOvers(a));
             return new ParallelAction(canceledActions);
         }
-        return new InstantAction(()->{
-
-        });
+        return new NullAction();
     }
     public void update(){
         ArrayList<Action> newActions = new ArrayList<>();
