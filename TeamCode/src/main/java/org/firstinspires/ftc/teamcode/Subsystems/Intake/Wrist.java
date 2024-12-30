@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.ServoSub;
 import java.util.function.DoubleSupplier;
 
 public class Wrist{
-    public static ActionServo wrist;
+    public ActionServo wrist;
     public Wrist(HardwareMap hardwareMap, DoubleSupplier time){
         wrist = new ActionServo(hardwareMap,"wrist",0,1,time,270);
     }

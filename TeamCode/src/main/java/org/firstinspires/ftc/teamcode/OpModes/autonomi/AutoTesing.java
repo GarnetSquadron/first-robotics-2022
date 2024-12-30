@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 
+import org.firstinspires.ftc.teamcode.Subsystems.ActionBot;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake.CrankSlideSubSystem;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake.IntakeClawSub;
 import org.firstinspires.ftc.teamcode.Subsystems.outake.Outtake;
@@ -17,19 +18,14 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 @Autonomous(name = "AUTOTESTING", group = "test")
 public class AutoTesing extends LinearOpMode {
-    MecanumDrive drive;
-    ViperSlidesSubSystem viperSlidesSubSystem;
-    CrankSlideSubSystem crankSlideSubSystem;
-    OuttakeClaw outtakeClaw;
-    IntakeClawSub intakeClawSub;
-    Outtake outtake;
+    ActionBot bot;
     double pushY = -45;
     double pushX = 47;
     @Override
     public void runOpMode() throws InterruptedException {
-        viperSlidesSubSystem =  new ViperSlidesSubSystem(hardwareMap);
+        bot =  new ActionBot(hardwareMap,);
         Pose2d beginPose = new Pose2d(0,0,0);
-        drive = new MecanumDrive(hardwareMap,beginPose);
+        bot.drive = new MecanumDrive(hardwareMap,beginPose);
         Pose2d depositSpot = new Pose2d(-55, -55, Math.toRadians(45));
 
         Action Deposit = drive.actionBuilder(beginPose)
@@ -85,8 +81,7 @@ outtake.ClawTransfer(),
         Actions.runBlocking(
                 new SequentialAction(
                         Deposit,
-                        viperSlidesSubSystem.Down(),
-                        viperSlidesSubSystem.Up(),
+
                         Sample1,
                         crankSlideSubSystem.deploy(),
                         crankSlideSubSystem.undeploy(),
