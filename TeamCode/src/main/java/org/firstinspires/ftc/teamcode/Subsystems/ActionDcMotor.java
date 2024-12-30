@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -43,10 +44,16 @@ public class ActionDcMotor {
     public boolean targetReached(){
         return motor.TargetReached();
     }
+
+    public Action Stop = new InstantAction(()->motor.stop());
+
     public Action GoToPos(double pos){
-        return new CancelableAction(new SequentialAction(new SetTgPos(pos),goToTgtPos));
+        return new CancelableAction(new SequentialAction(new SetTgPos(pos),goToTgtPos),Stop);
     }
     public double getDistanceToTarget(){
         return motor.getTargetPos()-motor.getPos();
+    }
+    public double getTargetPos(){
+        return motor.getTargetPos();
     }
 }

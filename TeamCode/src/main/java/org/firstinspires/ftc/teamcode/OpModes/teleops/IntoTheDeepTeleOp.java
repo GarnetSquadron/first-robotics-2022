@@ -1,20 +1,16 @@
 package org.firstinspires.ftc.teamcode.OpModes.teleops;
 
-import android.widget.ToggleButton;
-
 import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-import com.arcrobotics.ftclib.gamepad.ToggleButtonReader;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.BetterControllerClass;
-import org.firstinspires.ftc.teamcode.BooleanToggler;
 import org.firstinspires.ftc.teamcode.InitialToggler;
 import org.firstinspires.ftc.teamcode.OpmodeActionSceduling.TeleOpActionScheduler;
 import org.firstinspires.ftc.teamcode.Subsystems.ActionBot;
 import org.firstinspires.ftc.teamcode.enums.Color;
+import org.firstinspires.ftc.teamcode.risingEdgeDetector;
 
 @TeleOp(name = "INTOTHEDEEP TELEOP ", group = "AAA TELEOPS")
 public class IntoTheDeepTeleOp extends OpMode {
@@ -35,8 +31,7 @@ public class IntoTheDeepTeleOp extends OpMode {
 //    }
     GamepadButton intakeDeployButton;
     InitialToggler intakeDeployToggle, intakeClawToggle, outtakeClawToggle, viperToggle, outtakePivotToggle;
-    GamepadButton transferButton;
-    ToggleButtonReader transferToggle;
+    risingEdgeDetector transferDetector,wristGoLeft, wristGoRight;
     TeleOpActionScheduler actionScheduler;
     @Override
     public void init() {
@@ -53,10 +48,15 @@ public class IntoTheDeepTeleOp extends OpMode {
         outtakePivotToggle = new InitialToggler(Con2::LeftBumper);
         intakeClawToggle = new InitialToggler(Con2::Y);
         outtakeClawToggle = new InitialToggler(Con2::B);
+        transferDetector = new risingEdgeDetector(Con2::A);
+        wristGoLeft = new risingEdgeDetector(Con2::LeftTrigger);
+        wristGoRight = new risingEdgeDetector(Con2::RightTrigger);
 
 
         actionScheduler = new TeleOpActionScheduler();
-        actionScheduler.CancelOnAnyOtherAction(bot.Transfer(),bot.outtake.BasketDrop());
+        actionScheduler.CancelOnAnyOtherAction("transfer","basket drop");
+
+
     }
     boolean firstiter = true;
 
@@ -70,25 +70,39 @@ public class IntoTheDeepTeleOp extends OpMode {
         outtakePivotToggle.updateValue();
         intakeDeployToggle.updateValue();
 
-        actionScheduler.actionTogglePair(intakeDeployToggle,bot.intake.deploy(1),"deploy intake",bot.intake.undeploy(),"undeploy intake");
+        transferDetector.update();
+        wristGoLeft.update();
+        wristGoRight.update();
+
+
+        actionScheduler.actionTogglePair(intakeDeployToggle,bot.SafeUndeploy(),"undeploy intake",bot.SafeDeploy(1),"deploy intake");
         actionScheduler.actionTogglePair(intakeClawToggle,bot.intake.claw.Open(),"open intake claw",bot.intake.claw.Close(),"close intake claw");
         actionScheduler.actionTogglePair(outtakeClawToggle,bot.outtake.claw.Open(),"open outtake claw",bot.outtake.claw.Close(),"close outtake claw");
         actionScheduler.actionTogglePair(viperToggle,bot.outtake.vipers.Up(),"vipers up",bot.outtake.vipers.Down(),"vipers down");
-        bot.intake.wrist.wrist.changePosBy(Math.signum(gamepad2.left_stick_x)*0.05);
 
-        if(gamepad2.dpad_left){
+
+        if(wristGoLeft.getState()){
+            actionScheduler.start(bot.intake.wrist.wrist.changePosBy(0.05),"wrist turning");
+        }
+        if (wristGoRight.getState()){
+            actionScheduler.start(bot.intake.wrist.wrist.changePosBy(-0.05),"wrist turning");
+        }
+
+        if(transferDetector.getState()){
             actionScheduler.cancelAll();
             actionScheduler.start(bot.Transfer(),"transfer");
         }
-        if(gamepad2.left_trigger>0.1) {
+        if(gamepad2.dpad_left) {
             actionScheduler.cancelAll();
             actionScheduler.start(bot.outtake.BasketDrop(),"basket drop");
         }
         bot.headlessDriveCommand.execute();
 
-        telemetry.addData("outtake claw time left", bot.outtake.claw.claw.servo.timer.timeLeft());
-        telemetry.addData("viper distance to target", bot.outtake.vipers.DistanceToTarget());
+        //telemetry.addData("viper tgt pos", bot.outtake.vipers.GetTgtPos());
+        //telemetry.addData("viper distance to target", bot.outtake.vipers.DistanceToTarget());
 
+
+        telemetry.addData("",bot.outtake.pivot1.pivot.servo.timer.timeLeft());
 
         telemetry.addData("CURRENT ACTIONS", actionScheduler.getActionIDs());
         telemetry.update();

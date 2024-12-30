@@ -34,6 +34,12 @@ public class Outtake {
                 vipers.Down()
         );
     }
+    public Action OutOfTheWayOfTheIntakePos(){
+        return new ParallelAction(
+                pivot1.outOfTheWayOfIntakePos(),
+                pivot2.outOfTheWayOfIntakePos()
+        );
+    }
     public Action BasketDrop() {
         return new SequentialAction(
                 claw.Close(),

@@ -13,7 +13,7 @@ public class PrimaryOuttakePivot{
     public ActionServo pivot;
 
     public PrimaryOuttakePivot(HardwareMap hardwareMap, DoubleSupplier time) {
-         pivot = new ActionServo(hardwareMap,"primary pivot",0.9,0.3333333,time,2);
+         pivot = new ActionServo(hardwareMap,"primary pivot",0.9,0.3333333,0.5,time,270);
     }
 
     public Action BucketPos() {
@@ -21,6 +21,9 @@ public class PrimaryOuttakePivot{
     }
 
     public Action TransferPos() {
+        return pivot.runToRatio(0);
+    }
+    public Action outOfTheWayOfIntakePos(){
         return pivot.runToRatio(0);
     }
 }

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.NullAction;
 
 public class CancelableAction implements Action {
     private final Action mainAction;
@@ -29,5 +30,8 @@ public class CancelableAction implements Action {
 
     public void failover() {
         failedOver = true;
+    }
+    public Action getFailoverAction(){
+        return failoverAction;
     }
 }

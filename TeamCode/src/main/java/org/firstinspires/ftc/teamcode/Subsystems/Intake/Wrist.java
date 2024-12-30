@@ -1,24 +1,25 @@
 package org.firstinspires.ftc.teamcode.Subsystems.Intake;
 
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.Subsystems.ActionServo;
 import org.firstinspires.ftc.teamcode.Subsystems.ServoSub;
 
 import java.util.function.DoubleSupplier;
 
 public class Wrist{
-    public static ServoSub wrist;
-    static double rangeInDegrees = 270;
+    public static ActionServo wrist;
     public Wrist(HardwareMap hardwareMap, DoubleSupplier time){
-        wrist = new ServoSub(hardwareMap,"wrist",0,1,time);
+        wrist = new ActionServo(hardwareMap,"wrist",0,1,time,270);
     }
-    public void runToDegrees(double angle){
-        wrist.goToRatio(angle/rangeInDegrees);
+    public Action runToDegrees(double angle){
+        return wrist.runToDegrees(angle);
     }
-    public void runToRad(double angle){
-        runToDegrees(Math.toDegrees(angle));
+    public Action runToRad(double angle){
+        return wrist.runToRad(angle);
     }
-    public void runToRatio(double ratio){
-        wrist.goToRatio(ratio);
+    public Action runToRatio(double ratio){
+        return wrist.runToRatio(ratio);
     }
 }

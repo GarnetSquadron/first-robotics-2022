@@ -27,6 +27,9 @@ public class ViperSlidesSubSystem{
     public double DistanceToTarget(){
         return l.getDistanceToTarget();
     }
+    public double GetTgtPos(){
+        return l.getTargetPos();
+    }
     public Action Up() {
         return new ParallelAction(l.GoToPos(0),r.GoToPos(0));
     }

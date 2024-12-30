@@ -25,5 +25,11 @@ public class BetterControllerClass {
     public boolean LeftBumper(){
         return gamepad.left_bumper;
     }
+    public boolean LeftTrigger(){
+        return gamepad.left_trigger>0.1;
+    }
+    public boolean RightTrigger(){
+        return gamepad.right_trigger>0.1;
+    }
 
 }

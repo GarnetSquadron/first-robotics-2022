@@ -42,10 +42,10 @@ public class ServoSub {
     }
     public void goToRatio(double ratioPos){
         ratioPos = ExtraMath.Clamp(ratioPos,1,0);
-        if(servo.getPosition()!= getPosFromRatio(ratioPos)){
-            servo.setPosition(getPosFromRatio(ratioPos));
+        if(!ExtraMath.ApproximatelyEqualTo(servo.getPosition(), getPosFromRatio(ratioPos),0.1)){
             timer.StartTimer(runtime);//when the timer goes off, the servo should be at the correct position. this needs to be tuned
         }
+        servo.setPosition(getPosFromRatio(ratioPos));
     }
 
     public class goToRatio implements Action {

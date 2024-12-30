@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
-import androidx.annotation.NonNull;
-
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
@@ -15,7 +12,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.FieldDimensions;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
-import org.firstinspires.ftc.teamcode.Pipelines.SamplePipeline;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.outake.Outtake;
 import org.firstinspires.ftc.teamcode.Subsystems.outake.PrimaryOuttakePivot;
@@ -109,11 +105,24 @@ public class ActionBot {
                         outtake.claw.Open(),
                         intake.claw.Close()
                 ),
+                outtake.OutOfTheWayOfTheIntakePos(),
                 intake.DefaultPos(),
                 outtake.TransferPos(),
                 outtake.claw.Close(),
                 intake.claw.Open()
 
+        );
+    }
+    public Action SafeUndeploy(){
+        return new SequentialAction(
+                outtake.OutOfTheWayOfTheIntakePos(),
+                intake.undeploy()
+        );
+    }
+    public Action SafeDeploy(double distance){
+        return new SequentialAction(
+                outtake.OutOfTheWayOfTheIntakePos(),
+                intake.deploy(distance)
         );
     }
 

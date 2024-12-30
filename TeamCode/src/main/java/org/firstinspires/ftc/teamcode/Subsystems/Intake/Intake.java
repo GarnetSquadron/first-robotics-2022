@@ -10,8 +10,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import java.util.function.DoubleSupplier;
 
 public class Intake {
-    IntakePivot pivot;
-    public static IntakeClawSub claw;
+    public IntakePivot pivot;
+    public IntakeClawSub claw;
     public Wrist wrist;
     public double littleClawArmThingyLength = 5;
     public double CrankWidth = 9.57;
@@ -38,7 +38,8 @@ public class Intake {
     }
     public Action DefaultPos(){
         return new ParallelAction(
-
+                undeploy(),
+                wrist.runToRad(0)
         );
     }
 
