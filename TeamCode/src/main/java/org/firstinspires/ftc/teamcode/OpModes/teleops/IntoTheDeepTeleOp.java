@@ -44,13 +44,13 @@ public class IntoTheDeepTeleOp extends OpMode {
         bot = new ActionBot(hardwareMap,Gpad1,telemetry,this::getRuntime);
 
         intakeDeployToggle = new InitialToggler(Con2::X);
-        viperToggle = new InitialToggler(Con2::RightBumper);
-        outtakePivotToggle = new InitialToggler(Con2::LeftBumper);
+        viperToggle = new InitialToggler(Con2::LeftTrigger);
+        outtakePivotToggle = new InitialToggler(Con2::RightTrigger);
         intakeClawToggle = new InitialToggler(Con2::Y);
         outtakeClawToggle = new InitialToggler(Con2::B);
         transferDetector = new risingEdgeDetector(Con2::A);
-        wristGoLeft = new risingEdgeDetector(Con2::LeftTrigger);
-        wristGoRight = new risingEdgeDetector(Con2::RightTrigger);
+        wristGoLeft = new risingEdgeDetector(Con2::LeftBumper);
+        wristGoRight = new risingEdgeDetector(Con2::RightBumper);
 
 
         actionScheduler = new TeleOpActionScheduler();
@@ -82,10 +82,10 @@ public class IntoTheDeepTeleOp extends OpMode {
 
 
         if(wristGoLeft.getState()){
-            actionScheduler.start(bot.intake.wrist.wrist.changePosBy(0.05),"wrist turning");
+            actionScheduler.start(bot.intake.wrist.wrist.changePosBy(0.2),"wrist turning");
         }
         if (wristGoRight.getState()){
-            actionScheduler.start(bot.intake.wrist.wrist.changePosBy(-0.05),"wrist turning");
+            actionScheduler.start(bot.intake.wrist.wrist.changePosBy(-0.2),"wrist turning");
         }
 
         if(transferDetector.getState()){
