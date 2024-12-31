@@ -10,19 +10,12 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 import java.util.DoubleSummaryStatistics;
 import java.util.function.DoubleSupplier;
 
-public class HeadlessDriveCommand extends CommandBase {
+public class HeadlessDriveCommand{
     MecanumDrive drive;
-    DoubleSupplier xvel;
-    DoubleSupplier yvel;
-    DoubleSupplier AngularVel;
-    public HeadlessDriveCommand(MecanumDrive m, DoubleSupplier x, DoubleSupplier y, DoubleSupplier angle){
+    public HeadlessDriveCommand(MecanumDrive m){
         drive = m;
-        xvel=x;
-        yvel=y;
-        AngularVel = angle;
     }
-    @Override
-    public void execute(){
+    public void execute(DoubleSupplier xvel, DoubleSupplier yvel, DoubleSupplier AngularVel){
         drive.updatePoseEstimate();
         double direction = drive.pose.heading.toDouble();
         drive.setDrivePowers(new PoseVelocity2d(

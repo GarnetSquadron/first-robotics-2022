@@ -42,9 +42,9 @@ public class ActionBot {
 //            .build();
 
 
-    public ActionBot(HardwareMap hardwareMap, GamepadEx Gpad1, Telemetry telemetry, DoubleSupplier time){
+    public ActionBot(HardwareMap hardwareMap, Telemetry telemetry, DoubleSupplier time){
         drive = new MecanumDrive(hardwareMap,beginPose);
-        headlessDriveCommand = new HeadlessDriveCommand(drive,Gpad1::getLeftX,Gpad1::getLeftY,Gpad1::getRightX);
+        headlessDriveCommand = new HeadlessDriveCommand(drive);
         outtake = new Outtake(hardwareMap,time);
         outtakePivot = new PrimaryOuttakePivot(hardwareMap,time);
         intake = new Intake(hardwareMap,time);

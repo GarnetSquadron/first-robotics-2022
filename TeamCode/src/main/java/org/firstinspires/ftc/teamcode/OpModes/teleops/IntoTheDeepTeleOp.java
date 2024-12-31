@@ -41,7 +41,7 @@ public class IntoTheDeepTeleOp extends OpMode {
         Con2 = new BetterControllerClass(gamepad2);
 
 
-        bot = new ActionBot(hardwareMap,Gpad1,telemetry,this::getRuntime);
+        bot = new ActionBot(hardwareMap,telemetry,this::getRuntime);
 
         intakeDeployToggle = new InitialToggler(Con2::X);
         viperToggle = new InitialToggler(Con2::LeftTrigger);
@@ -96,7 +96,7 @@ public class IntoTheDeepTeleOp extends OpMode {
             actionScheduler.cancelAll();
             actionScheduler.start(bot.outtake.BasketDrop(),"basket drop");
         }
-        bot.headlessDriveCommand.execute();
+        bot.headlessDriveCommand.execute(Gpad1::getLeftX,Gpad1::getLeftY,Gpad1::getRightX);
 
         //telemetry.addData("viper tgt pos", bot.outtake.vipers.GetTgtPos());
         //telemetry.addData("viper distance to target", bot.outtake.vipers.DistanceToTarget());

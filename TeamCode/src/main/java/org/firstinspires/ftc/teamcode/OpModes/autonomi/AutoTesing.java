@@ -23,33 +23,32 @@ public class AutoTesing extends LinearOpMode {
     double pushX = 47;
     @Override
     public void runOpMode() throws InterruptedException {
-        bot =  new ActionBot(hardwareMap,);
+        bot =  new ActionBot(hardwareMap,telemetry,this::getRuntime);
         Pose2d beginPose = new Pose2d(0,0,0);
-        bot.drive = new MecanumDrive(hardwareMap,beginPose);
         Pose2d depositSpot = new Pose2d(-55, -55, Math.toRadians(45));
 
-        Action Deposit = drive.actionBuilder(beginPose)
+        Action Deposit = bot.drive.actionBuilder(beginPose)
                 .splineToLinearHeading(depositSpot, 10)
                 .build();
 
-        Action DepositTan = drive.actionBuilder(depositSpot)
+        Action DepositTan = bot.drive.actionBuilder(depositSpot)
                 .setTangent(-90)
                 .splineToLinearHeading(new Pose2d(-55, -55, Math.toRadians(45)), 10)
                 .build();
 
-        Action Sample1 = drive.actionBuilder(beginPose)
+        Action Sample1 = bot.drive.actionBuilder(beginPose)
                 .splineToLinearHeading(new Pose2d(-48, -48, Math.toRadians(90)), 45)
                 .build();
 
-        Action Sample2 = drive.actionBuilder(beginPose)
+        Action Sample2 = bot.drive.actionBuilder(beginPose)
                 .splineToLinearHeading(new Pose2d(-58, -48, Math.toRadians(90)), 90)
                 .build();
 
-        Action Sample3 = drive.actionBuilder(beginPose)
+        Action Sample3 = bot.drive.actionBuilder(beginPose)
                 .splineToLinearHeading(new Pose2d(-50, -46, Math.toRadians(133)), 90)
                 .build();
 
-        Action Park = drive.actionBuilder(beginPose)
+        Action Park = bot.drive.actionBuilder(beginPose)
                 .splineToLinearHeading(new Pose2d(-24, -12, Math.toRadians(0)), 0)
                 .build();
 
@@ -80,11 +79,16 @@ outtake.ClawTransfer(),
 
         Actions.runBlocking(
                 new SequentialAction(
-                        Deposit,
 
+                        new ParallelAction(
+                                Deposit,
+                                bot.outtake.BasketDrop()
+                                ),
+                        bot.outtake.claw.Open(),
                         Sample1,
-                        crankSlideSubSystem.deploy(),
-                        crankSlideSubSystem.undeploy(),
+                        bot.intake.deploy(1),
+                        bot.intake.claw.Close(),
+                        bot.intake.undeploy(),
                         Deposit,
                         outtakeClaw.Open(),
                         outtakeClaw.Close(),
