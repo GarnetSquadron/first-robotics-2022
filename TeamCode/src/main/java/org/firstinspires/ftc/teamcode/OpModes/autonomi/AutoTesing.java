@@ -78,32 +78,91 @@ outtake.ClawTransfer(),
 
 
         Actions.runBlocking(
+
                 new SequentialAction(
 
+                        bot.outtake.claw.Close(),
+
+                        bot.intake.claw.Open(),
+
                         new ParallelAction(
+
                                 Deposit,
-                                bot.outtake.BasketDrop()
-                                ),
+                                bot.outtake.BasketDrop()),
+
                         bot.outtake.claw.Open(),
-                        Sample1,
-                        bot.intake.deploy(1),
+
+                        new ParallelAction(
+
+                                bot.outtake.vipers.Down(),
+                                bot.outtake.TransferPos(),
+                                Sample1,
+                                bot.intake.deploy(1)),
+
                         bot.intake.claw.Close(),
+
                         bot.intake.undeploy(),
-                        Deposit,
-                        outtakeClaw.Open(),
-                        outtakeClaw.Close(),
-                        Sample2,
-                        intakeClawSub.Open(),
-                        intakeClawSub.Close(),
-                        Deposit,
-                        //outtake.ClawTransfer(),
-                        outtake.BasketDrop(),
-                        Sample3,
 
-                        DepositTan,
+                        bot.outtake.claw.Close(),
 
-                        Park)
+                        bot.intake.claw.Open(),
 
+                        new ParallelAction(
+
+                                Deposit,
+                                bot.outtake.BasketDrop()),
+
+                        bot.outtake.claw.Open(),
+
+                        new ParallelAction(
+
+                                bot.outtake.vipers.Down(),
+                                bot.outtake.TransferPos(),
+                                Sample2,
+                                bot.intake.deploy(1)),
+
+                        bot.intake.claw.Close(),
+
+                        bot.intake.undeploy(),
+
+                        bot.outtake.claw.Close(),
+
+                        bot.intake.claw.Open(),
+
+                        new ParallelAction(
+
+                                Deposit,
+                                bot.outtake.BasketDrop()),
+
+                        bot.outtake.claw.Open(),
+
+                        new ParallelAction(
+
+                                bot.outtake.vipers.Down(),
+                                bot.outtake.TransferPos(),
+                                Sample3,
+                                bot.intake.deploy(1)),
+
+                        bot.intake.claw.Close(),
+
+                        bot.intake.undeploy(),
+
+                        bot.outtake.claw.Close(),
+
+                        bot.intake.claw.Open(),
+
+                        new ParallelAction(
+
+                                DepositTan,
+                                bot.outtake.BasketDrop()),
+
+                        bot.outtake.claw.Open(),
+
+                        new ParallelAction(
+                                bot.outtake.vipers.Down(),
+                                bot.outtake.TransferPos(),
+                                Park)
+                )
         );
     }
 }
