@@ -75,10 +75,10 @@ public class IntoTheDeepTeleOp extends OpMode {
         wristGoRight.update();
 
 
-        actionScheduler.actionTogglePair(intakeDeployToggle,bot.SafeUndeploy(),"undeploy intake",bot.SafeDeploy(1),"deploy intake");
+        actionScheduler.actionTogglePair(intakeDeployToggle,bot.SafeDeploy(1),"deploy intake",bot.SafeUndeploy(),"undeploy intake");
         actionScheduler.actionTogglePair(intakeClawToggle,bot.intake.claw.Open(),"open intake claw",bot.intake.claw.Close(),"close intake claw");
-        actionScheduler.actionTogglePair(outtakeClawToggle,bot.outtake.claw.Open(),"open outtake claw",bot.outtake.claw.Close(),"close outtake claw");
-        actionScheduler.actionTogglePair(viperToggle,bot.outtake.vipers.Up(),"vipers up",bot.outtake.vipers.Down(),"vipers down");
+        actionScheduler.actionBooleanPair(outtakeClawToggle.JustChanged(),bot.outtake.claw.isOpen(),bot.outtake.claw.Close(),"close outtake claw",bot.outtake.claw.Open(),"open outtake claw");
+        actionScheduler.actionBooleanPair(viperToggle.JustChanged(),bot.outtake.vipers.isDown(),bot.outtake.vipers.Up(),"vipers up",bot.outtake.vipers.Down(),"vipers down");
 
 
         if(wristGoLeft.getState()){
@@ -102,7 +102,8 @@ public class IntoTheDeepTeleOp extends OpMode {
         //telemetry.addData("viper distance to target", bot.outtake.vipers.DistanceToTarget());
 
 
-        telemetry.addData("",bot.outtake.pivot1.pivot.servo.timer.timeLeft());
+        telemetry.addData("pivot powered",bot.intake.pivot.pivot.servo.isPowered());
+        telemetry.addData("pivot position", bot.intake.pivot.pivot.getPos());
 
         telemetry.addData("CURRENT ACTIONS", actionScheduler.getActionIDs());
         telemetry.update();

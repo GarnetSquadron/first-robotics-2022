@@ -23,6 +23,7 @@ public class AutoTesing extends LinearOpMode {
     double pushX = 47;
     @Override
     public void runOpMode() throws InterruptedException {
+        waitForStart();
         bot =  new ActionBot(hardwareMap,telemetry,this::getRuntime);
         Pose2d beginPose = new Pose2d(0,0,0);
         Pose2d depositSpot = new Pose2d(-55, -55, Math.toRadians(45));
@@ -31,7 +32,7 @@ public class AutoTesing extends LinearOpMode {
                 .splineToLinearHeading(depositSpot, 10)
                 .build();
 
-        Action DepositTan = bot.drive.actionBuilder(depositSpot)
+        Action DepositTan = bot.drive.actionBuilder(beginPose)
                 .setTangent(-90)
                 .splineToLinearHeading(new Pose2d(-55, -55, Math.toRadians(45)), 10)
                 .build();

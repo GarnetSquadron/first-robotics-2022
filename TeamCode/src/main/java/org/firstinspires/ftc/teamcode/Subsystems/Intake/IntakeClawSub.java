@@ -24,5 +24,8 @@ public class IntakeClawSub extends SubsystemBase {
     public Action Close() {
         return SERVO.runToRatio(0);
     }
+    public boolean isOpen(){
+        return SERVO.getPos()==1;
+    }
 }
 

@@ -10,7 +10,7 @@ public class MotorTickTest extends LinearOpMode {
     @Override
 
     public void runOpMode() throws InterruptedException {
-        motor = hardwareMap.get(DcMotor.class, "motor");
+        motor = hardwareMap.get(DcMotor.class, "LeftViper");
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         waitForStart();
         while(opModeIsActive()){

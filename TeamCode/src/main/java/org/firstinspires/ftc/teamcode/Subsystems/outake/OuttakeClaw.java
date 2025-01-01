@@ -22,4 +22,7 @@ public class OuttakeClaw {
     public Action Open() {
         return claw.runToRatio(1);
     }
+    public boolean isOpen(){
+        return claw.getPos()==1;
+    }
 }

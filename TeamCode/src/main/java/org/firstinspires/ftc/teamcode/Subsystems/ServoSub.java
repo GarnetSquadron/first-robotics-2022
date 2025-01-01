@@ -21,6 +21,7 @@ public class ServoSub {
     private double Min;
     public TTimer timer;
     double runtime;
+    private boolean powered = false;
 
     public ServoSub(HardwareMap hardwareMap, String name, double min, double max, DoubleSupplier time, double runtime) {
         servo = hardwareMap.get(Servo.class, name);
@@ -45,22 +46,10 @@ public class ServoSub {
         if(!ExtraMath.ApproximatelyEqualTo(servo.getPosition(), getPosFromRatio(ratioPos),0.1)){
             timer.StartTimer(runtime);//when the timer goes off, the servo should be at the correct position. this needs to be tuned
         }
+        if(!powered)
+            servo.setPosition(1);//on init, the servo position is set to 0, even though it isnt powered and probably isnt at 0. if you then run servo.setposition(0), it will not move because it already this
         servo.setPosition(getPosFromRatio(ratioPos));
-    }
-
-    public class goToRatio implements Action {
-        goToRatio(double ratioPos){;
-            goToRatio(ratioPos);
-        }
-
-        @Override
-        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            if(targetReached()){
-                return true;
-                //when the timer goes off, the servo should be at the correct position. this needs to be tuned
-            }
-            return false;
-        }
+        powered = true;
     }
 
     public void MoveToMax() {
@@ -84,5 +73,8 @@ public class ServoSub {
     public void changePosBy(double delta){
         goToRatio(getRatioPos()+delta);
     }
+    public boolean isPowered(){
+        return powered;
+    };
 
 }

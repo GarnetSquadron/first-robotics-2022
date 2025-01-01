@@ -2,15 +2,22 @@ package org.firstinspires.ftc.teamcode.OpmodeActionSceduling;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.Actions;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import org.firstinspires.ftc.teamcode.InitialToggler;
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
+import org.firstinspires.ftc.teamcode.risingEdgeDetector;
+
 import com.acmerobotics.roadrunner.NullAction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+/**
+ * this is for running actions in an opmode loop
+ */
 public class TeleOpActionScheduler {
     ArrayList <TeleOpAction> CurrentTeleOpActions = new ArrayList<>();
     ArrayList <String> cancelOnAllOtherActions = new ArrayList<>();
@@ -89,13 +96,20 @@ public class TeleOpActionScheduler {
 
     }
     public void actionTogglePair(InitialToggler toggler, Action action1, String ID1, Action action2, String ID2){
-        if(toggler.JustChanged()){
-            if (toggler.getState()) {
+        actionBooleanPair(toggler.JustChanged(),toggler.getState(),action1,ID1,action2,ID2);
+    }
+
+    /**
+     * not sure what to call this. i will probably change the name later. How it works: Depending on the value of a boolean, it will start one of the two actions supplied. I made this method because most of the mechanisms use this. Most of the time, the boolean represents the state of a mechanism, ie is the claw open or closed, is the viper up or down, etc.
+     */
+    public void actionBooleanPair(boolean REButtonDetector, boolean condition, Action action1,String ID1, Action action2, String ID2) {
+        if (REButtonDetector) {
+            if (condition) {
                 cancel(ID2);
-                start(action1,ID1);
+                start(action1, ID1);
             } else {
                 cancel(ID1);
-                start(action2,ID2);
+                start(action2, ID2);
             }
         }
     }
