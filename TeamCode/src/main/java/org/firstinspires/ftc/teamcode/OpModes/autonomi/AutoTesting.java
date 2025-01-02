@@ -19,7 +19,7 @@ public class AutoTesting extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         waitForStart();
         bot =  new ActionBot(hardwareMap,telemetry,this::getRuntime);
-        Pose2d beginPose = new Pose2d(-26, -62, Math.toRadians(180));
+        Pose2d beginPose = new Pose2d(-26, -62, Math.toRadians(90));
         Pose2d depositSpot = new Pose2d(-55, -55, Math.toRadians(45));
 
         Action Deposit = bot.drive.actionBuilder(beginPose)
