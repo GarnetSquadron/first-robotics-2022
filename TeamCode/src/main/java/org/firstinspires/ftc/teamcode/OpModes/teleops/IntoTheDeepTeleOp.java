@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes.teleops;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -41,7 +42,7 @@ public class IntoTheDeepTeleOp extends OpMode {
         Con2 = new BetterControllerClass(gamepad2);
 
 
-        bot = new ActionBot(hardwareMap,telemetry,this::getRuntime);
+        bot = new ActionBot(hardwareMap,telemetry,this::getRuntime,new Pose2d(0,0,0));
 
         intakeDeployToggle = new InitialToggler(Con2::X);
         viperToggle = new InitialToggler(Con2::LeftTrigger);

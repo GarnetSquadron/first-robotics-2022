@@ -42,7 +42,8 @@ public class ActionBot {
 //            .build();
 
 
-    public ActionBot(HardwareMap hardwareMap, Telemetry telemetry, DoubleSupplier time){
+    public ActionBot(HardwareMap hardwareMap, Telemetry telemetry, DoubleSupplier time,Pose2d beginPose){
+        this.beginPose = beginPose;
         drive = new MecanumDrive(hardwareMap,beginPose);
         headlessDriveCommand = new HeadlessDriveCommand(drive);
         outtake = new Outtake(hardwareMap,time);
