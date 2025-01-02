@@ -40,14 +40,14 @@ public class Outtake {
                 pivot2.outOfTheWayOfIntakePos()
         );
     }
-    public Action BasketDrop() {
+    public Action SafeVipersDown(){
         return new SequentialAction(
-                claw.Close(),
                 new ParallelAction(
-                        pivot1.BucketPos(),
-                        pivot2.BucketPos(),
-                        vipers.Up()
-                )
+                        pivot1.outOfTheWayOfIntakePos(),
+                        pivot2.outOfTheWayOfIntakePos()
+                ),
+                vipers.Down()
+
         );
     }
 }

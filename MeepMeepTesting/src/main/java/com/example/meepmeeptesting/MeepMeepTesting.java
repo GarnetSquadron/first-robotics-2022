@@ -3,17 +3,12 @@ package com.example.meepmeeptesting;
 import static java.lang.Math.PI;
 
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.Rotation2d;
-import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
-
-import java.util.Timer;
 
 public class MeepMeepTesting {
         static Pose2d[] excludeElement0(Pose2d[] arr){
@@ -79,8 +74,8 @@ public class MeepMeepTesting {
                     .build();
 
             //Auto routes
-            ThreeClip c = new ThreeClip(myBot); //c.run();
-            ThreeSample s = new ThreeSample(myBot); //s.run();
+            FourClip c = new FourClip(myBot); //c.run();
+            FourSample s = new FourSample(myBot); //s.run();
             SoloAuto SOLO = new SoloAuto(myBot); //SOLO.run();
             VisionAutoSixSamp vs = new VisionAutoSixSamp(myBot); //vs.run();
             VisionAutoClip vc = new VisionAutoClip(myBot); //vc.run();
@@ -88,7 +83,7 @@ public class MeepMeepTesting {
 
             Pose2d beginPose = new Pose2d(26,-62,Math.toRadians(90));
             Pose2d tgtPose = new Pose2d(20,20,Math.PI);
-            c.run();
+            s.run();
 
             meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)
                     .setDarkMode(true)

@@ -125,6 +125,16 @@ public class ActionBot {
                 intake.deploy(distance)
         );
     }
+    public Action BasketDrop() {
+        return new SequentialAction(
+                outtake.claw.Close(),
+                outtake.vipers.Up(),
+                new ParallelAction(
+                        outtake.pivot1.BucketPos(),
+                        outtake.pivot2.BucketPos()
+                )
+        );
+    }
 
     //endregion
 

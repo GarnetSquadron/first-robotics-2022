@@ -4,12 +4,12 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
-public class ThreeClip {
+public class FourClip {
     double pushY = -45;
     double pushX = 47;
     RoadRunnerBotEntity myBot;
     Pose2d beginPose = new Pose2d(26,-62, Math.toRadians(90));
-    ThreeClip(RoadRunnerBotEntity myBot){
+    FourClip(RoadRunnerBotEntity myBot){
         this.myBot = myBot;
     }
     public void run(){

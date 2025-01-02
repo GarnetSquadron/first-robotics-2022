@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.DcMotorSub;
 public class ViperSlidesSubSystem{
     public ActionDcMotor l;
     public ActionDcMotor r;
-    public boolean disabled = true;
+    public boolean disabled = false;
     private final int LMaxPos = -4000;
     private final int LMinPos = 0;
     private final int RMaxPos = 4000;

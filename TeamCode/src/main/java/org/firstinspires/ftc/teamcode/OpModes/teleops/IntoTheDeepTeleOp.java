@@ -94,16 +94,21 @@ public class IntoTheDeepTeleOp extends OpMode {
         }
         if(gamepad2.dpad_left) {
             actionScheduler.cancelAll();
-            actionScheduler.start(bot.outtake.BasketDrop(),"basket drop");
+            actionScheduler.start(bot.BasketDrop(),"basket drop");
         }
         bot.headlessDriveCommand.execute(Gpad1::getLeftX,Gpad1::getLeftY,Gpad1::getRightX);
 
-        //telemetry.addData("viper tgt pos", bot.outtake.vipers.GetTgtPos());
-        //telemetry.addData("viper distance to target", bot.outtake.vipers.DistanceToTarget());
+//        telemetry.addData("viper tgt pos", bot.outtake.vipers.GetTgtPos());
+//        telemetry.addData("viper distance to target", bot.outtake.vipers.DistanceToTarget());
+//        telemetry.addData("left viper current", bot.outtake.vipers.l.getCurrent());
+//        telemetry.addData("right viper current", bot.outtake.vipers.r.getCurrent());
+        telemetry.addData("x", bot.drive.pose.position.x);
+        telemetry.addData("y", bot.drive.pose.position.y);
 
 
-        telemetry.addData("pivot powered",bot.intake.pivot.pivot.servo.isPowered());
-        telemetry.addData("pivot position", bot.intake.pivot.pivot.getPos());
+
+//        telemetry.addData("pivot powered",bot.intake.pivot.pivot.servo.isPowered());
+//        telemetry.addData("pivot position", bot.intake.pivot.pivot.getPos());
 
         telemetry.addData("CURRENT ACTIONS", actionScheduler.getActionIDs());
         telemetry.update();

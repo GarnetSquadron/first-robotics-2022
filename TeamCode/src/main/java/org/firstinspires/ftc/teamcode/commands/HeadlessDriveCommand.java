@@ -20,10 +20,10 @@ public class HeadlessDriveCommand{
         double direction = drive.pose.heading.toDouble();
         drive.setDrivePowers(new PoseVelocity2d(
                 new Vector2d(
-                        -Math.sin(drive.pose.heading.toDouble())*xvel.getAsDouble()-Math.cos(drive.pose.heading.toDouble())*yvel.getAsDouble(),
-                        -Math.cos(drive.pose.heading.toDouble())*xvel.getAsDouble()+Math.sin(drive.pose.heading.toDouble())*yvel.getAsDouble()
+                        -Math.sin(drive.pose.heading.toDouble())*xvel.getAsDouble()+Math.cos(drive.pose.heading.toDouble())*yvel.getAsDouble(),
+                        -Math.cos(drive.pose.heading.toDouble())*xvel.getAsDouble()-Math.sin(drive.pose.heading.toDouble())*yvel.getAsDouble()
                 ),
-                -AngularVel.getAsDouble()
+                AngularVel.getAsDouble()
         ));
     }
 }

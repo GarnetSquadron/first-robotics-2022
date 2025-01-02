@@ -56,4 +56,7 @@ public class ActionDcMotor {
     public double getTargetPos(){
         return motor.getTargetPos();
     }
+    public double getCurrent(){
+        return motor.getCurrent();
+    }
 }

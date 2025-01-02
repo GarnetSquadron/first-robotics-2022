@@ -1,23 +1,17 @@
 package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 
 import org.firstinspires.ftc.teamcode.Subsystems.ActionBot;
-import org.firstinspires.ftc.teamcode.Subsystems.Intake.CrankSlideSubSystem;
-import org.firstinspires.ftc.teamcode.Subsystems.Intake.IntakeClawSub;
-import org.firstinspires.ftc.teamcode.Subsystems.outake.Outtake;
-import org.firstinspires.ftc.teamcode.Subsystems.outake.ViperSlidesSubSystem;
-import org.firstinspires.ftc.teamcode.Subsystems.outake.OuttakeClaw;
+
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.MecanumDrive;
 @Autonomous(name = "AUTOTESTING", group = "test")
-public class AutoTesing extends LinearOpMode {
+public class AutoTesting extends LinearOpMode {
     ActionBot bot;
     double pushY = -45;
     double pushX = 47;
@@ -25,7 +19,7 @@ public class AutoTesing extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         waitForStart();
         bot =  new ActionBot(hardwareMap,telemetry,this::getRuntime);
-        Pose2d beginPose = new Pose2d(0,0,0);
+        Pose2d beginPose = new Pose2d(-26, -62, Math.toRadians(180));
         Pose2d depositSpot = new Pose2d(-55, -55, Math.toRadians(45));
 
         Action Deposit = bot.drive.actionBuilder(beginPose)
@@ -89,7 +83,7 @@ outtake.ClawTransfer(),
                         new ParallelAction(
 
                                 Deposit,
-                                bot.outtake.BasketDrop()),
+                                bot.BasketDrop()),
 
                         bot.outtake.claw.Open(),
 
@@ -111,7 +105,7 @@ outtake.ClawTransfer(),
                         new ParallelAction(
 
                                 Deposit,
-                                bot.outtake.BasketDrop()),
+                                bot.BasketDrop()),
 
                         bot.outtake.claw.Open(),
 
@@ -133,7 +127,7 @@ outtake.ClawTransfer(),
                         new ParallelAction(
 
                                 Deposit,
-                                bot.outtake.BasketDrop()),
+                                bot.BasketDrop()),
 
                         bot.outtake.claw.Open(),
 
@@ -155,7 +149,7 @@ outtake.ClawTransfer(),
                         new ParallelAction(
 
                                 DepositTan,
-                                bot.outtake.BasketDrop()),
+                                bot.BasketDrop()),
 
                         bot.outtake.claw.Open(),
 

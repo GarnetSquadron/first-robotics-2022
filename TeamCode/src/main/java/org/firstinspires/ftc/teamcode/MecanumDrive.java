@@ -549,8 +549,8 @@ public class MecanumDrive {
     public static double getTangentAngle(Pose2d tgtPose, Pose2d beginPose){
         return Math.PI+Math.atan((tgtPose.position.y-beginPose.position.y)/(tgtPose.position.x-beginPose.position.x));
     }
-    public static Action EasyLine(Pose2d tgtPose, Pose2d beginPose, MecanumDrive drive){
-        return drive.actionBuilder(beginPose)
+    public Action EasyLine(Pose2d tgtPose, Pose2d beginPose){
+        return actionBuilder(beginPose)
                 .setTangent(getTangentAngle(beginPose,tgtPose))
                 .splineToSplineHeading(tgtPose, getTangentAngle(tgtPose,beginPose))
                 .build();

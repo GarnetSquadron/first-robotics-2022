@@ -7,8 +7,10 @@ import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.TankDrive;
 import org.firstinspires.ftc.teamcode.tuning.TuningOpModes;
@@ -17,6 +19,7 @@ import org.firstinspires.ftc.teamcode.tuning.TuningOpModes;
 @TeleOp(name = "Headless Drive")
 public class HeadlessDrive extends LinearOpMode {
     //ViperSlidesSubSystem viperSlidesSubSystem = new ViperSlidesSubSystem();
+    DcMotorEx lf,rf,lb,rb;
     /**
      * put this in a loop so that it updates the position
      * @param drive the MecanumDrive instance
@@ -35,6 +38,10 @@ public class HeadlessDrive extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        lb = hardwareMap.get(DcMotorEx.class,"lb");
+        rb = hardwareMap.get(DcMotorEx.class,"rb");
+        lf = hardwareMap.get(DcMotorEx.class,"lf");
+        rf = hardwareMap.get(DcMotorEx.class,"rf");
 
         if (TuningOpModes.DRIVE_CLASS.equals(MecanumDrive.class)) {
             MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
@@ -44,6 +51,11 @@ public class HeadlessDrive extends LinearOpMode {
             while (opModeIsActive()) {
                 drive.updatePoseEstimate();
                 RunHeadlessDrive(drive, gamepad1);
+                telemetry.addData("lb current", lb.getCurrent(CurrentUnit.AMPS));
+                telemetry.addData("rb current", rb.getCurrent(CurrentUnit.AMPS));
+                telemetry.addData("lf current", lf.getCurrent(CurrentUnit.AMPS));
+                telemetry.addData("rf current", rf.getCurrent(CurrentUnit.AMPS));
+                telemetry.update();
 
 //                telemetry.addData("x", drive.pose.position.x);
 //                telemetry.addData("y", drive.pose.position.y);
@@ -70,6 +82,11 @@ public class HeadlessDrive extends LinearOpMode {
                 ));
 
                 drive.updatePoseEstimate();
+                telemetry.addData("lb current", lb.getCurrent(CurrentUnit.AMPS));
+                telemetry.addData("rb current", rb.getCurrent(CurrentUnit.AMPS));
+                telemetry.addData("lf current", lf.getCurrent(CurrentUnit.AMPS));
+                telemetry.addData("rf current", rf.getCurrent(CurrentUnit.AMPS));
+                telemetry.update();
 
 //                telemetry.addData("x", drive.pose.position.x);
 //                telemetry.addData("y", drive.pose.position.y);
@@ -80,6 +97,7 @@ public class HeadlessDrive extends LinearOpMode {
 //                packet.fieldOverlay().setStroke("#3F51B5");
 //                Drawing.drawRobot(packet.fieldOverlay(), drive.pose);
 //                FtcDashboard.getInstance().sendTelemetryPacket(packet);
+
             }
         } else {
             throw new RuntimeException();

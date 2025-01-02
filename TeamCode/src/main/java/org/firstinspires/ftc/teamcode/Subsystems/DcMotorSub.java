@@ -2,19 +2,25 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 /**
  * Class to keep all DcMotor actions that can be used for multiple different motors
  */
 public class DcMotorSub extends SubsystemBase {
     private final Motor motor;
+    private final DcMotorEx m;
     private final int MaxPos;
     private final int MinPos;
     private double PosCoefficient;
     private int tgtPos;
     public DcMotorSub(HardwareMap hardwareMap, String MotorName, int minPos, int maxPos, double posCoefficient){
         motor = new Motor(hardwareMap,MotorName);
+        m = hardwareMap.get(DcMotorEx.class,MotorName);
         motor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         motor.resetEncoder();
         MaxPos = minPos;
@@ -65,6 +71,9 @@ public class DcMotorSub extends SubsystemBase {
     }
     public int getTargetPos(){
         return tgtPos;
+    }
+    public double getCurrent(){
+        return m.getCurrent(CurrentUnit.AMPS);
     }
 
 }
