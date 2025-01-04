@@ -38,6 +38,11 @@ public class FourClip {
                 .waitSeconds(0.7)
                 .setTangent(130)
                 .splineToConstantHeading(new Vector2d(56,-60),10)
+                .waitSeconds(0.7)
+                .splineToLinearHeading(new Pose2d(12,-34, Math.toRadians(90)), Math.toRadians(0))
+                .waitSeconds(0.7)
+                .setTangent(130)
+                .splineToConstantHeading(new Vector2d(56,-60),10)
                 .build());
     }
 }
