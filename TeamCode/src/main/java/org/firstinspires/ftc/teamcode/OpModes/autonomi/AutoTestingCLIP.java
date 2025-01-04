@@ -21,9 +21,7 @@ public class AutoTestingCLIP extends LinearOpMode {
         waitForStart();
         Pose2d beginPose = new Pose2d(-26, -62, Math.toRadians(180));
         bot =  new ActionBot(hardwareMap,telemetry,this::getRuntime,beginPose);
-        Pose2d clipgrab = new Pose2d
-                .setTangent(-90)
-                .splineToConstantHeading(new Vector2d(56,-60),6);
+        Pose2d clipgrab = new Pose2d .splineToConstantHeading(new Vector2d(56,-60));
 
         Action Home = bot.drive.actionBuilder(beginPose)
                 .setTangent(-90)
