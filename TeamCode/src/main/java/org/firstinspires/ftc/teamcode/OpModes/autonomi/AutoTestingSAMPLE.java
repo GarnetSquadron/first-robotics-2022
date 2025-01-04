@@ -13,8 +13,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 @Autonomous(name = "AUTOTESTINGSAMPLE", group = "test")
 public class AutoTestingSAMPLE extends LinearOpMode {
     ActionBot bot;
-    double pushY = -45;
-    double pushX = 47;
     @Override
     public void runOpMode() throws InterruptedException {
         waitForStart();

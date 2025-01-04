@@ -19,49 +19,45 @@ public class AutoTestingCLIP extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         waitForStart();
-        Pose2d beginPose = new Pose2d(-26, -62, Math.toRadians(180));
+        Pose2d beginPose = new Pose2d(26,-62, Math.toRadians(90));
         bot =  new ActionBot(hardwareMap,telemetry,this::getRuntime,beginPose);
-        Pose2d clipgrab = new Pose2d .splineToConstantHeading(new Vector2d(56,-60));
+        Pose2d clipgrab = new Pose2d (56,-60, 90);
 
-        Action Home = bot.drive.actionBuilder(beginPose)
+        Action Homegrab = bot.drive.actionBuilder(beginPose)
                 .setTangent(-90)
                 .splineToLinearHeading(clipgrab, 6)
                 .build();
 
         Action Push = bot.drive.actionBuilder(beginPose)
-
+                .splineToConstantHeading(new Vector2d(36,-30),45)
+                .splineToConstantHeading(new Vector2d(34,-0),0)
+                .splineToConstantHeading(new Vector2d(40,-0),5)
+                .splineToConstantHeading(new Vector2d(pushX, pushY),2)
+                .splineToConstantHeading(new Vector2d(43,-0),0)
+                .splineToConstantHeading(new Vector2d(pushX, pushY),2)
+                .splineToConstantHeading(new Vector2d(52,-0),0)
+                .splineToConstantHeading(new Vector2d(pushX, pushY),2)
                 .build();
 
         Action Deposit1 = bot.drive.actionBuilder(beginPose)
-
+                .splineToConstantHeading(new Vector2d(-0,-34),90)
                 .build();
 
         Action Deposit2 = bot.drive.actionBuilder(beginPose)
-
+                .splineToConstantHeading(new Vector2d(5,-34),0)
                 .build();
 
         Action Deposit3 = bot.drive.actionBuilder(beginPose)
-
+                .splineToConstantHeading(new Vector2d(7,-34),0)
                 .build();
 
         Action Deposit4 = bot.drive.actionBuilder(beginPose)
-
+                .splineToConstantHeading(new Vector2d(9,-34),0)
                 .build();
 
-        Action Sample1 = bot.drive.actionBuilder(beginPose)
-
-                .build();
-
-        Action Sample2 = bot.drive.actionBuilder(beginPose)
-
-                .build();
-
-        Action Sample3 = bot.drive.actionBuilder(beginPose)
-
-                .build();
 
         Action Park = bot.drive.actionBuilder(beginPose)
-
+                .splineToLinearHeading(clipgrab, 6)
                 .build();
 
 
@@ -69,87 +65,6 @@ public class AutoTestingCLIP extends LinearOpMode {
 
                 new SequentialAction(
 
-                        bot.outtake.claw.Close(),
-
-                        bot.intake.claw.Open(),
-
-                        new ParallelAction(
-
-                                Deposit,
-                                bot.BasketDrop()),
-
-                        bot.outtake.claw.Open(),
-
-                        new ParallelAction(
-
-                                bot.outtake.vipers.Down(),
-                                bot.outtake.TransferPos(),
-                                Sample1,
-                                bot.intake.deploy(1)),
-
-                        bot.intake.claw.Close(),
-
-                        bot.intake.undeploy(),
-
-                        bot.outtake.claw.Close(),
-
-                        bot.intake.claw.Open(),
-
-                        new ParallelAction(
-
-                                Deposit,
-                                bot.BasketDrop()),
-
-                        bot.outtake.claw.Open(),
-
-                        new ParallelAction(
-
-                                bot.outtake.vipers.Down(),
-                                bot.outtake.TransferPos(),
-                                Sample2,
-                                bot.intake.deploy(1)),
-
-                        bot.intake.claw.Close(),
-
-                        bot.intake.undeploy(),
-
-                        bot.outtake.claw.Close(),
-
-                        bot.intake.claw.Open(),
-
-                        new ParallelAction(
-
-                                Deposit,
-                                bot.BasketDrop()),
-
-                        bot.outtake.claw.Open(),
-
-                        new ParallelAction(
-
-                                bot.outtake.vipers.Down(),
-                                bot.outtake.TransferPos(),
-                                Sample3,
-                                bot.intake.deploy(1)),
-
-                        bot.intake.claw.Close(),
-
-                        bot.intake.undeploy(),
-
-                        bot.outtake.claw.Close(),
-
-                        bot.intake.claw.Open(),
-
-                        new ParallelAction(
-
-                                DepositTan,
-                                bot.BasketDrop()),
-
-                        bot.outtake.claw.Open(),
-
-                        new ParallelAction(
-                                bot.outtake.vipers.Down(),
-                                bot.outtake.TransferPos(),
-                                Park)
                 )
         );
     }
