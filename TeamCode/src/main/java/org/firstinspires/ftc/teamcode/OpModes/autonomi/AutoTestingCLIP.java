@@ -11,7 +11,7 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "AUTOTESTINGSAMPLE", group = "test")
+@Autonomous(name = "AUTOTESTINGCLIP", group = "test")
 public class AutoTestingCLIP extends LinearOpMode {
     ActionBot bot;
     double pushY = -45;
