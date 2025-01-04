@@ -10,8 +10,8 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "AUTOTESTING", group = "test")
-public class AutoTesting extends LinearOpMode {
+@Autonomous(name = "AUTOTESTINGSAMPLE", group = "test")
+public class AutoTestingSAMPLE extends LinearOpMode {
     ActionBot bot;
     double pushY = -45;
     double pushX = 47;
@@ -46,30 +46,6 @@ public class AutoTesting extends LinearOpMode {
         Action Park = bot.drive.actionBuilder(beginPose)
                 .splineToLinearHeading(new Pose2d(-24, -12, Math.toRadians(0)), 0)
                 .build();
-
-
-/*
-          AVAIL ACTIONS
-
-            *INTAKE*
-crankSlideSubSystem.Crankin(),
-crankSlideSubSystem.Crankout(),
-intakeClawSub.InClawOpen(),
-intakeClawSub.InClawClose(),
-
-           *OUTTAKE*
-viperSlidesSubSystem.Viperup(),
-viperSlidesSubSystem.Viperdown(),
-outtakeClaw.OutClawClose(),
-outtakeClaw.OutClawOpen(),
-outtake.OuttakeBucket(),
-
-           *EXTRA*
-outtake.ClawTransfer(),
-
-*/
-
-
 
 
         Actions.runBlocking(
