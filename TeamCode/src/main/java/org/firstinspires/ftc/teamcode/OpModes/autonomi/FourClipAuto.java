@@ -58,6 +58,7 @@ public class FourClipAuto extends LinearOpMode {
 
     @Override
     public void runOpMode(){
+        waitForStart();
         Actions.runBlocking(
                 new SequentialAction(
                         pushSamples,

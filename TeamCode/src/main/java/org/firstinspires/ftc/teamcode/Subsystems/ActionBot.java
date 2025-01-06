@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
@@ -18,6 +21,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.outake.PrimaryOuttakePivot;
 import org.firstinspires.ftc.teamcode.commands.HeadlessDriveCommand;
 import org.opencv.core.Point;
 
+import java.util.Objects;
 import java.util.function.DoubleSupplier;
 
 /**
@@ -26,7 +30,7 @@ import java.util.function.DoubleSupplier;
 public class ActionBot {
     public MecanumDrive drive;
     //public Vision vision;
-    public Pose2d beginPose = new Pose2d(0,0,0);
+    public Pose2d beginPose;
     public HeadlessDriveCommand headlessDriveCommand;
 
     public Outtake outtake;
@@ -36,7 +40,6 @@ public class ActionBot {
     public Intake intake;
     public boolean transfering = false;
     public final double robotWidth = 9;
-    Pose2d intakePos = new Pose2d(0,0,0);
 //    Action path = drive.actionBuilder(beginPose)
 //            .splineToSplineHeading(intakePos,0)
 //            .build();
@@ -50,6 +53,22 @@ public class ActionBot {
         outtakePivot = new PrimaryOuttakePivot(hardwareMap,time);
         intake = new Intake(hardwareMap,time);
         //vision = new Vision(hardwareMap,telemetry);
+    }
+    private class addTelemetry implements Action{
+        String description;
+        Object value;
+        private addTelemetry(String description, Object value){
+            this.description = description;
+            this.value = value;
+        }
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            telemetryPacket.put(description,value);
+            return true;
+        }
+    }
+    public Action addTelemetry(String description, Object value){
+        return new addTelemetry(description,value);
     }
 
 

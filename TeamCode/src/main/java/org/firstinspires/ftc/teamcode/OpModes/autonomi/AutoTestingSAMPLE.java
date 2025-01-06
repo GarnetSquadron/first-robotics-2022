@@ -47,26 +47,28 @@ public class AutoTestingSAMPLE extends LinearOpMode {
 
 
         Actions.runBlocking(
-
                 new SequentialAction(
 
                         bot.outtake.claw.Close(),
 
                         bot.intake.claw.Open(),
 
-                        new ParallelAction(
+                        bot.BasketDrop(),
 
-                                Deposit,
-                                bot.BasketDrop()),
+                        new ParallelAction(
+                                Deposit
+                        ),
 
                         bot.outtake.claw.Open(),
 
+                        bot.outtake.vipers.Down(),
+                        bot.outtake.TransferPos(),
+
                         new ParallelAction(
 
-                                bot.outtake.vipers.Down(),
-                                bot.outtake.TransferPos(),
                                 Sample1,
-                                bot.intake.deploy(1)),
+                                bot.intake.deploy(1)
+                        ),
 
                         bot.intake.claw.Close(),
 
@@ -76,17 +78,21 @@ public class AutoTestingSAMPLE extends LinearOpMode {
 
                         bot.intake.claw.Open(),
 
+                        bot.BasketDrop(),
+
                         new ParallelAction(
 
-                                Deposit,
-                                bot.BasketDrop()),
+                                Deposit
+                        ),
 
                         bot.outtake.claw.Open(),
 
+                        bot.outtake.vipers.Down(),
+                        bot.outtake.TransferPos(),
+
                         new ParallelAction(
 
-                                bot.outtake.vipers.Down(),
-                                bot.outtake.TransferPos(),
+
                                 Sample2,
                                 bot.intake.deploy(1)),
 
@@ -98,17 +104,21 @@ public class AutoTestingSAMPLE extends LinearOpMode {
 
                         bot.intake.claw.Open(),
 
+                        bot.BasketDrop(),
+
                         new ParallelAction(
 
-                                Deposit,
-                                bot.BasketDrop()),
+                                Deposit
+                        ),
 
                         bot.outtake.claw.Open(),
 
+                        bot.outtake.vipers.Down(),
+                        bot.outtake.TransferPos(),
+
                         new ParallelAction(
 
-                                bot.outtake.vipers.Down(),
-                                bot.outtake.TransferPos(),
+
                                 Sample3,
                                 bot.intake.deploy(1)),
 
@@ -120,17 +130,22 @@ public class AutoTestingSAMPLE extends LinearOpMode {
 
                         bot.intake.claw.Open(),
 
+                        bot.BasketDrop(),
+
                         new ParallelAction(
 
-                                DepositTan,
-                                bot.BasketDrop()),
+                                DepositTan
+                        ),
 
                         bot.outtake.claw.Open(),
 
+                        bot.outtake.vipers.Down(),
+                        bot.outtake.TransferPos(),
+
                         new ParallelAction(
-                                bot.outtake.vipers.Down(),
-                                bot.outtake.TransferPos(),
-                                Park)
+                                Park
+                        )
+
                 )
         );
     }
