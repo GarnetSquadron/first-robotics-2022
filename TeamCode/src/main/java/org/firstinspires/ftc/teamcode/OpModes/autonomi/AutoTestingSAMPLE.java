@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 
-import org.firstinspires.ftc.teamcode.Subsystems.ActionBot;
+import org.firstinspires.ftc.teamcode.Subsystems.Bot;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
@@ -12,12 +12,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 @Autonomous(name = "AUTOTESTINGSAMPLE", group = "test")
 public class AutoTestingSAMPLE extends LinearOpMode {
-    ActionBot bot;
+    Bot bot;
     @Override
     public void runOpMode() throws InterruptedException {
         waitForStart();
         Pose2d beginPose = new Pose2d(-26, -62, Math.toRadians(180));
-        bot =  new ActionBot(hardwareMap,telemetry,this::getRuntime,beginPose);
+        bot =  new Bot(hardwareMap,telemetry,this::getRuntime,beginPose);
         Pose2d depositSpot = new Pose2d(-55, -55, Math.toRadians(45));
 
         Action Deposit = bot.drive.actionBuilder(beginPose)
@@ -87,8 +87,7 @@ public class AutoTestingSAMPLE extends LinearOpMode {
 
                         bot.outtake.claw.Open(),
 
-                        bot.outtake.vipers.Down(),
-                        bot.outtake.TransferPos(),
+                        bot.Transfer(),
 
                         new ParallelAction(
 
@@ -113,8 +112,7 @@ public class AutoTestingSAMPLE extends LinearOpMode {
 
                         bot.outtake.claw.Open(),
 
-                        bot.outtake.vipers.Down(),
-                        bot.outtake.TransferPos(),
+                        bot.Transfer(),
 
                         new ParallelAction(
 
@@ -139,8 +137,7 @@ public class AutoTestingSAMPLE extends LinearOpMode {
 
                         bot.outtake.claw.Open(),
 
-                        bot.outtake.vipers.Down(),
-                        bot.outtake.TransferPos(),
+                        bot.Transfer(),
 
                         new ParallelAction(
                                 Park

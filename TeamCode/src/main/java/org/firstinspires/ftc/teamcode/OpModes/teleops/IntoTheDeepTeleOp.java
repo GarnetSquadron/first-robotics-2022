@@ -9,13 +9,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.BetterControllerClass;
 import org.firstinspires.ftc.teamcode.InitialToggler;
 import org.firstinspires.ftc.teamcode.OpmodeActionSceduling.TeleOpActionScheduler;
-import org.firstinspires.ftc.teamcode.Subsystems.ActionBot;
+import org.firstinspires.ftc.teamcode.Subsystems.Bot;
 import org.firstinspires.ftc.teamcode.enums.Color;
 import org.firstinspires.ftc.teamcode.risingEdgeDetector;
 
 @TeleOp(name = "INTOTHEDEEP TELEOP ", group = "AAA TELEOPS")
 public class IntoTheDeepTeleOp extends OpMode {
-    ActionBot bot;
+    Bot bot;
     GamepadEx Gpad1, Gpad2;
     BetterControllerClass Con1,Con2;
     Color AlianceColor = Color.RED;
@@ -42,7 +42,7 @@ public class IntoTheDeepTeleOp extends OpMode {
         Con2 = new BetterControllerClass(gamepad2);
 
 
-        bot = new ActionBot(hardwareMap,telemetry,this::getRuntime,new Pose2d(0,0,0));
+        bot = new Bot(hardwareMap,telemetry,this::getRuntime,new Pose2d(0,0,0));
 
         intakeDeployToggle = new InitialToggler(Con2::X);
         viperToggle = new InitialToggler(Con2::LeftTrigger);

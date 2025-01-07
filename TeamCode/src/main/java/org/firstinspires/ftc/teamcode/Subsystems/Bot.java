@@ -8,7 +8,6 @@ import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
-import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -21,13 +20,12 @@ import org.firstinspires.ftc.teamcode.Subsystems.outake.PrimaryOuttakePivot;
 import org.firstinspires.ftc.teamcode.commands.HeadlessDriveCommand;
 import org.opencv.core.Point;
 
-import java.util.Objects;
 import java.util.function.DoubleSupplier;
 
 /**
- * I need to make some big changes to the current structure of the bot class, so this is a temporary class that Im going to store the new version in case I still want to use the old version
+ * the class that holds everything
  */
-public class ActionBot {
+public class Bot {
     public MecanumDrive drive;
     //public Vision vision;
     public Pose2d beginPose;
@@ -45,7 +43,7 @@ public class ActionBot {
 //            .build();
 
 
-    public ActionBot(HardwareMap hardwareMap, Telemetry telemetry, DoubleSupplier time,Pose2d beginPose){
+    public Bot(HardwareMap hardwareMap, Telemetry telemetry, DoubleSupplier time, Pose2d beginPose){
         this.beginPose = beginPose;
         drive = new MecanumDrive(hardwareMap,beginPose);
         headlessDriveCommand = new HeadlessDriveCommand(drive);

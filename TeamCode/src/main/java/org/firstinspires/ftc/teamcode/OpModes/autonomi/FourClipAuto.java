@@ -7,11 +7,8 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.checkerframework.checker.units.qual.A;
-import org.firstinspires.ftc.teamcode.MecanumDrive;
-import org.firstinspires.ftc.teamcode.Subsystems.ActionBot;
+import org.firstinspires.ftc.teamcode.Subsystems.Bot;
 
 @Autonomous(name = "FourClip")
 public class FourClipAuto extends LinearOpMode {
@@ -20,7 +17,7 @@ public class FourClipAuto extends LinearOpMode {
     Vector2d pushPos = new Vector2d(pushX,pushY);
     Vector2d grabPos = new Vector2d(56,-60);
     double placeY = -34;
-    ActionBot bot;
+    Bot bot;
     Pose2d beginPose = new Pose2d(26,-62, Math.toRadians(90));
 
 
