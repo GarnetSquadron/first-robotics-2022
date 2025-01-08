@@ -19,7 +19,7 @@ public class ViperSlidesSubSystem{
     private final int LMinPos = 0;
     private final int RMaxPos = 4000;
     private final int RMinPos = 0;
-    private final double posCoefficient = 0.03;//0.05<-original, worked decently
+    private double posCoefficient = 0.03;//0.05<-original, worked decently
     public ViperSlidesSubSystem(HardwareMap hardwareMap){
          l = new ActionDcMotor(hardwareMap,"LeftViper",0,-3500,posCoefficient);
          r = new ActionDcMotor(hardwareMap,"RightViper",0,3500,posCoefficient);

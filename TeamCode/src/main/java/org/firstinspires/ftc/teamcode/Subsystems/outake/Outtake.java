@@ -28,10 +28,11 @@ public class Outtake {
      * this function is meant to be looped
      */
     public Action TransferPos() {
-        return new ParallelAction(
-                pivot1.TransferPos(),
+        return new SequentialAction(
+                pivot1.outOfTheWayOfIntakePos(),
                 pivot2.TransferPos(),
-                vipers.Down()
+                pivot1.TransferPos()
+                //vipers.Down()
         );
     }
     public Action OutOfTheWayOfTheIntakePos(){

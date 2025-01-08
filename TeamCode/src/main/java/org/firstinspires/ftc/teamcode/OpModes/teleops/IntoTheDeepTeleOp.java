@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.BetterControllerClass;
 import org.firstinspires.ftc.teamcode.InitialToggler;
 import org.firstinspires.ftc.teamcode.OpmodeActionSceduling.TeleOpActionScheduler;
 import org.firstinspires.ftc.teamcode.Subsystems.Bot;
+import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
 import org.firstinspires.ftc.teamcode.enums.Color;
 import org.firstinspires.ftc.teamcode.risingEdgeDetector;
 
@@ -34,6 +35,7 @@ public class IntoTheDeepTeleOp extends OpMode {
     InitialToggler intakeDeployToggle, intakeClawToggle, outtakeClawToggle, viperToggle, outtakePivotToggle;
     risingEdgeDetector transferDetector,wristGoLeft, wristGoRight;
     TeleOpActionScheduler actionScheduler;
+    double sensitivity = 1;
     @Override
     public void init() {
         Gpad1 = new GamepadEx(gamepad1);
@@ -42,7 +44,13 @@ public class IntoTheDeepTeleOp extends OpMode {
         Con2 = new BetterControllerClass(gamepad2);
 
 
-        bot = new Bot(hardwareMap,telemetry,this::getRuntime,new Pose2d(0,0,0));
+        if(StaticInfo.LastOpModeWasAuto){
+            bot = new Bot(hardwareMap, telemetry, this::getRuntime);
+        }
+        else{
+            bot = new Bot(hardwareMap, telemetry, this::getRuntime, new Pose2d(0, 0, 0));
+        }
+        StaticInfo.LastOpModeWasAuto = false;
 
         intakeDeployToggle = new InitialToggler(Con2::X);
         viperToggle = new InitialToggler(Con2::LeftTrigger);
@@ -56,7 +64,6 @@ public class IntoTheDeepTeleOp extends OpMode {
 
         actionScheduler = new TeleOpActionScheduler();
         actionScheduler.CancelOnAnyOtherAction("transfer","basket drop");
-
 
     }
     boolean firstiter = true;
@@ -79,7 +86,7 @@ public class IntoTheDeepTeleOp extends OpMode {
         actionScheduler.actionTogglePair(intakeDeployToggle,bot.SafeDeploy(1),"deploy intake",bot.SafeUndeploy(),"undeploy intake");
         actionScheduler.actionTogglePair(intakeClawToggle,bot.intake.claw.Open(),"open intake claw",bot.intake.claw.Close(),"close intake claw");
         actionScheduler.actionBooleanPair(outtakeClawToggle.JustChanged(),bot.outtake.claw.isOpen(),bot.outtake.claw.Close(),"close outtake claw",bot.outtake.claw.Open(),"open outtake claw");
-        actionScheduler.actionBooleanPair(viperToggle.JustChanged(),bot.outtake.vipers.isDown(),bot.outtake.vipers.Up(),"vipers up",bot.outtake.vipers.Down(),"vipers down");
+        actionScheduler.actionBooleanPair(viperToggle.JustChanged(),bot.outtake.vipers.isDown(),bot.BasketDrop(),"vipers up",bot.outtake.SafeVipersDown(),"vipers down");
 
 
         if(wristGoLeft.getState()){
@@ -97,14 +104,23 @@ public class IntoTheDeepTeleOp extends OpMode {
             actionScheduler.cancelAll();
             actionScheduler.start(bot.BasketDrop(),"basket drop");
         }
-        bot.headlessDriveCommand.execute(Gpad1::getLeftX,Gpad1::getLeftY,Gpad1::getRightX);
+        bot.headlessDriveCommand.execute(Gpad1::getLeftX,Gpad1::getLeftY,Gpad1::getRightX,sensitivity);
+        sensitivity = 0.5;
+        if(gamepad1.left_bumper){
+            sensitivity = 0.2;
+        }
+        if(gamepad1.right_bumper){
+            sensitivity = 1;
+        }
 
 //        telemetry.addData("viper tgt pos", bot.outtake.vipers.GetTgtPos());
 //        telemetry.addData("viper distance to target", bot.outtake.vipers.DistanceToTarget());
 //        telemetry.addData("left viper current", bot.outtake.vipers.l.getCurrent());
 //        telemetry.addData("right viper current", bot.outtake.vipers.r.getCurrent());
-        telemetry.addData("x", bot.drive.pose.position.x);
-        telemetry.addData("y", bot.drive.pose.position.y);
+//        telemetry.addData("left crank timer",bot.intake.crankSlide.CrankL.servo.timer.timeLeft());
+//        telemetry.addData("right crank timer",bot.intake.crankSlide.CrankR.servo.timer.timeLeft());
+//        telemetry.addData("intake claw timer",bot.intake.claw.SERVO.servo.timer);
+//        telemetry.addData("outtake claw timer",bot.outtake.);
 
 
 
@@ -115,4 +131,5 @@ public class IntoTheDeepTeleOp extends OpMode {
         telemetry.update();
         actionScheduler.update();
     }
+
 }

@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import org.firstinspires.ftc.teamcode.ExtraMath;
 
 /**
  * Class to keep all DcMotor actions that can be used for multiple different motors
@@ -18,6 +19,8 @@ public class DcMotorSub extends SubsystemBase {
     private final int MinPos;
     private double PosCoefficient;
     private int tgtPos;
+    private int PosError = 0;//the amount that its set position differs from the real position
+    double tolerance = 100;
     public DcMotorSub(HardwareMap hardwareMap, String MotorName, int minPos, int maxPos, double posCoefficient){
         motor = new Motor(hardwareMap,MotorName);
         m = hardwareMap.get(DcMotorEx.class,MotorName);
@@ -44,13 +47,21 @@ public class DcMotorSub extends SubsystemBase {
         motor.set(0);
 
 // set the tolerance
-        motor.setPositionTolerance(13.6);   // allowed maximum error
+        motor.setPositionTolerance(tolerance);   // allowed maximum error
 
 // perform the control loop
 
     }
     public void runToTgPos(){
-        if (!motor.atTargetPosition()) {
+        if (!TargetReached()) {
+            motor.set(1);
+        }
+        else {
+            motor.stopMotor();// stop the motor
+        }
+    }
+    public void runToTgPosApproximately(){
+        if (!TargetReached()) {
             motor.set(1);
         }
         else {
@@ -64,16 +75,19 @@ public class DcMotorSub extends SubsystemBase {
         return min+(int)Math.round(pos*(max-min));
     }
     public boolean TargetReached(){
-        return motor.atTargetPosition();
+        return ExtraMath.ApproximatelyEqualTo( motor.getCurrentPosition(), tgtPos,tolerance);
     }
     public int getPos(){
-        return motor.getCurrentPosition();
+        return motor.getCurrentPosition()+PosError;
     }
     public int getTargetPos(){
         return tgtPos;
     }
     public double getCurrent(){
         return m.getCurrent(CurrentUnit.AMPS);
+    }
+    public void setPosition(int position){
+        PosError = position-motor.getCurrentPosition();
     }
 
 }

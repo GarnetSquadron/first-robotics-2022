@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Bot;
+import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
@@ -66,5 +67,6 @@ public class AutoTestingCLIP extends LinearOpMode {
 
                 )
         );
+        StaticInfo.LastOpModeWasAuto = true;
     }
 }

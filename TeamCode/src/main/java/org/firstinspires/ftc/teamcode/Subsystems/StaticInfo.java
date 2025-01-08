@@ -1,7 +1,8 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
-import com.acmerobotics.roadrunner.Pose2d;
-
 public class StaticInfo {
-    public static Pose2d position;
+    /**
+     * If its true, it was last an auto, if its false, it was last teleop
+     */
+    public static boolean LastOpModeWasAuto;
 }

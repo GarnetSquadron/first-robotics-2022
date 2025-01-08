@@ -15,15 +15,15 @@ public class HeadlessDriveCommand{
     public HeadlessDriveCommand(MecanumDrive m){
         drive = m;
     }
-    public void execute(DoubleSupplier xvel, DoubleSupplier yvel, DoubleSupplier AngularVel){
+    public void execute(DoubleSupplier xvel, DoubleSupplier yvel, DoubleSupplier AngularVel,double sensitivity){
         drive.updatePoseEstimate();
-        double direction = drive.pose.heading.toDouble();
+        double direction = MecanumDrive.pose.heading.toDouble();
         drive.setDrivePowers(new PoseVelocity2d(
                 new Vector2d(
-                        -Math.sin(drive.pose.heading.toDouble())*xvel.getAsDouble()+Math.cos(drive.pose.heading.toDouble())*yvel.getAsDouble(),
-                        -Math.cos(drive.pose.heading.toDouble())*xvel.getAsDouble()-Math.sin(drive.pose.heading.toDouble())*yvel.getAsDouble()
-                ),
-                AngularVel.getAsDouble()
+                        -Math.sin(MecanumDrive.pose.heading.toDouble())*xvel.getAsDouble()+Math.cos(MecanumDrive.pose.heading.toDouble())*yvel.getAsDouble(),
+                        -Math.cos(MecanumDrive.pose.heading.toDouble())*xvel.getAsDouble()-Math.sin(MecanumDrive.pose.heading.toDouble())*yvel.getAsDouble()
+                ).times(sensitivity),
+                -AngularVel.getAsDouble()*sensitivity
         ));
     }
 }

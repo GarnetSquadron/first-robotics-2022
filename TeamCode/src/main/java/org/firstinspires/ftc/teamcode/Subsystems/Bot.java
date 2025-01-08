@@ -52,6 +52,15 @@ public class Bot {
         intake = new Intake(hardwareMap,time);
         //vision = new Vision(hardwareMap,telemetry);
     }
+    public Bot(HardwareMap hardwareMap, Telemetry telemetry, DoubleSupplier time){
+        this.beginPose = MecanumDrive.pose;
+        drive = new MecanumDrive(hardwareMap);
+        headlessDriveCommand = new HeadlessDriveCommand(drive);
+        outtake = new Outtake(hardwareMap,time);
+        outtakePivot = new PrimaryOuttakePivot(hardwareMap,time);
+        intake = new Intake(hardwareMap,time);
+        //vision = new Vision(hardwareMap,telemetry);
+    }
     private class addTelemetry implements Action{
         String description;
         Object value;

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Bot;
+import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
@@ -145,5 +146,6 @@ public class AutoTestingSAMPLE extends LinearOpMode {
 
                 )
         );
+        StaticInfo.LastOpModeWasAuto = true;
     }
 }

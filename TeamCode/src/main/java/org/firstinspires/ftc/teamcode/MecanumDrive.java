@@ -127,7 +127,7 @@ public class MecanumDrive {
     public final LazyImu lazyImu;
 
     public final Localizer localizer;
-    public Pose2d pose;
+    public static Pose2d pose = new Pose2d(0,0,0);
 
     private final LinkedList<Pose2d> poseHistory = new LinkedList<>();
 
@@ -223,8 +223,10 @@ public class MecanumDrive {
     }
 
     public MecanumDrive(HardwareMap hardwareMap, Pose2d pose) {
-        this.pose = pose;
-
+        this(hardwareMap);
+        MecanumDrive.pose = pose;
+    }
+    public MecanumDrive(HardwareMap hardwareMap){
         LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
 
         for (LynxModule module : hardwareMap.getAll(LynxModule.class)) {
@@ -568,6 +570,9 @@ public class MecanumDrive {
     }
     public Action Stop(){
         return new InstantAction(() -> setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0)));
+    }
+    public void SetPosTo(Pose2d pose){
+        MecanumDrive.pose = pose;
     }
 
 
