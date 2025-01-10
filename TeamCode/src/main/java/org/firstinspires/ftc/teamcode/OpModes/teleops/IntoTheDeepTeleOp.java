@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.OpModes.teleops;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
@@ -35,9 +38,14 @@ public class IntoTheDeepTeleOp extends OpMode {
     InitialToggler intakeDeployToggle, intakeClawToggle, outtakeClawToggle, viperToggle, outtakePivotToggle;
     risingEdgeDetector transferDetector,wristGoLeft, wristGoRight;
     TeleOpActionScheduler actionScheduler;
+    TelemetryPacket packet;
     double sensitivity = 1;
     @Override
     public void init() {
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+        packet = new TelemetryPacket();
+
+
         Gpad1 = new GamepadEx(gamepad1);
         Gpad2 = new GamepadEx(gamepad2);
         Con1 = new BetterControllerClass(gamepad1);
@@ -62,7 +70,7 @@ public class IntoTheDeepTeleOp extends OpMode {
         wristGoRight = new risingEdgeDetector(Con2::RightBumper);
 
 
-        actionScheduler = new TeleOpActionScheduler();
+        actionScheduler = new TeleOpActionScheduler(packet);
         actionScheduler.CancelOnAnyOtherAction("transfer","basket drop");
 
     }
@@ -83,7 +91,7 @@ public class IntoTheDeepTeleOp extends OpMode {
         wristGoRight.update();
 
 
-        actionScheduler.actionTogglePair(intakeDeployToggle,bot.SafeDeploy(1),"deploy intake",bot.SafeUndeploy(),"undeploy intake");
+        actionScheduler.actionBooleanPair(intakeDeployToggle.JustChanged(),!bot.intake.crankSlide.IsExtended(),bot.SafeDeploy(1),"deploy intake",bot.SafeUndeploy(),"undeploy intake");
         actionScheduler.actionTogglePair(intakeClawToggle,bot.intake.claw.Open(),"open intake claw",bot.intake.claw.Close(),"close intake claw");
         actionScheduler.actionBooleanPair(outtakeClawToggle.JustChanged(),bot.outtake.claw.isOpen(),bot.outtake.claw.Close(),"close outtake claw",bot.outtake.claw.Open(),"open outtake claw");
         actionScheduler.actionBooleanPair(viperToggle.JustChanged(),bot.outtake.vipers.isDown(),bot.BasketDrop(),"vipers up",bot.outtake.SafeVipersDown(),"vipers down");
@@ -113,22 +121,18 @@ public class IntoTheDeepTeleOp extends OpMode {
             sensitivity = 1;
         }
 
-//        telemetry.addData("viper tgt pos", bot.outtake.vipers.GetTgtPos());
-//        telemetry.addData("viper distance to target", bot.outtake.vipers.DistanceToTarget());
-//        telemetry.addData("left viper current", bot.outtake.vipers.l.getCurrent());
-//        telemetry.addData("right viper current", bot.outtake.vipers.r.getCurrent());
-//        telemetry.addData("left crank timer",bot.intake.crankSlide.CrankL.servo.timer.timeLeft());
-//        telemetry.addData("right crank timer",bot.intake.crankSlide.CrankR.servo.timer.timeLeft());
-//        telemetry.addData("intake claw timer",bot.intake.claw.SERVO.servo.timer);
-//        telemetry.addData("outtake claw timer",bot.outtake.);
 
 
+//        telemetry.addData("l viper ticks", bot.outtake.vipers.l.getPos());
+//        telemetry.addData("r viper ticks", bot.outtake.vipers.r.getPos());
+//        telemetry.addData("l viper power", bot.outtake.vipers.l.getPower());
+//        telemetry.addData("r viper power", bot.outtake.vipers.r.getPower());
 
-//        telemetry.addData("pivot powered",bot.intake.pivot.pivot.servo.isPowered());
-//        telemetry.addData("pivot position", bot.intake.pivot.pivot.getPos());
+        telemetry.addData("outtake claw open",bot.outtake.claw.isOpen());
 
         telemetry.addData("CURRENT ACTIONS", actionScheduler.getActionIDs());
         telemetry.update();
+        FtcDashboard.getInstance().sendTelemetryPacket(packet);
         actionScheduler.update();
     }
 

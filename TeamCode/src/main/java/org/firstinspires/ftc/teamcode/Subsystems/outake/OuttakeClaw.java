@@ -23,6 +23,6 @@ public class OuttakeClaw {
         return claw.runToRatio(1);
     }
     public boolean isOpen(){
-        return claw.getPos()==1;
+        return claw.AtMax();
     }
 }

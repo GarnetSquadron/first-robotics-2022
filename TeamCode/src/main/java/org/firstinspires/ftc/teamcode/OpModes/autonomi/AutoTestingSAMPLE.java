@@ -7,6 +7,7 @@ import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -21,30 +22,23 @@ public class AutoTestingSAMPLE extends LinearOpMode {
         bot =  new Bot(hardwareMap,telemetry,this::getRuntime,beginPose);
         Pose2d depositSpot = new Pose2d(-55, -55, Math.toRadians(45));
 
-        Action Deposit = bot.drive.actionBuilder(beginPose)
-                .splineToLinearHeading(depositSpot, 10)
-                .build();
-
-        Action DepositTan = bot.drive.actionBuilder(beginPose)
+        TrajectoryActionBuilder Deposit1 = bot.drive.actionBuilder(beginPose)
+                .splineToLinearHeading(depositSpot, 10);
+        TrajectoryActionBuilder Sample1 = Deposit1.endTrajectory().fresh()
+                .splineToLinearHeading(new Pose2d(-48, -48, Math.toRadians(90)), 45);
+        TrajectoryActionBuilder Deposit2 = Sample1.endTrajectory().fresh()
+                .splineToLinearHeading(depositSpot, 10);
+        TrajectoryActionBuilder Sample2 = Deposit2.endTrajectory().fresh()
+                .splineToLinearHeading(new Pose2d(-58, -48, Math.toRadians(90)), 90);
+        TrajectoryActionBuilder Deposit3 = Sample2.endTrajectory().fresh()
+                .splineToLinearHeading(depositSpot, 10);
+        TrajectoryActionBuilder Sample3 = Deposit3.endTrajectory().fresh()
+                .splineToLinearHeading(new Pose2d(-50, -46, Math.toRadians(133)), 90);
+        TrajectoryActionBuilder DepositTan = Deposit3.fresh()
                 .setTangent(-90)
-                .splineToLinearHeading(new Pose2d(-55, -55, Math.toRadians(45)), 10)
-                .build();
-
-        Action Sample1 = bot.drive.actionBuilder(beginPose)
-                .splineToLinearHeading(new Pose2d(-48, -48, Math.toRadians(90)), 45)
-                .build();
-
-        Action Sample2 = bot.drive.actionBuilder(beginPose)
-                .splineToLinearHeading(new Pose2d(-58, -48, Math.toRadians(90)), 90)
-                .build();
-
-        Action Sample3 = bot.drive.actionBuilder(beginPose)
-                .splineToLinearHeading(new Pose2d(-50, -46, Math.toRadians(133)), 90)
-                .build();
-
-        Action Park = bot.drive.actionBuilder(beginPose)
-                .splineToLinearHeading(new Pose2d(-24, -12, Math.toRadians(0)), 0)
-                .build();
+                .splineToLinearHeading(depositSpot, 10);
+        TrajectoryActionBuilder Park = DepositTan.endTrajectory().fresh()
+                .splineToLinearHeading(new Pose2d(-24, -12, Math.toRadians(0)), 0);
 
 
         Actions.runBlocking(
@@ -54,37 +48,32 @@ public class AutoTestingSAMPLE extends LinearOpMode {
 
                         bot.intake.claw.Open(),
 
-                        bot.BasketDrop(),
 
                         new ParallelAction(
-                                Deposit
+                                bot.BasketDrop(),
+                                Deposit1.build()
                         ),
 
                         bot.outtake.claw.Open(),
 
-                        bot.outtake.vipers.Down(),
                         bot.outtake.TransferPos(),
 
                         new ParallelAction(
 
-                                Sample1,
+                                Sample1.build(),
                                 bot.intake.deploy(1)
                         ),
 
                         bot.intake.claw.Close(),
 
-                        bot.intake.undeploy(),
-
-                        bot.outtake.claw.Close(),
-
-                        bot.intake.claw.Open(),
-
-                        bot.BasketDrop(),
-
                         new ParallelAction(
-
-                                Deposit
+                                new SequentialAction(
+                                        bot.Transfer(),
+                                        bot.BasketDrop()
+                                ),
+                                Deposit2.build()
                         ),
+
 
                         bot.outtake.claw.Open(),
 
@@ -93,56 +82,44 @@ public class AutoTestingSAMPLE extends LinearOpMode {
                         new ParallelAction(
 
 
-                                Sample2,
+                                Sample2.build(),
                                 bot.intake.deploy(1)),
 
-                        bot.intake.claw.Close(),
-
-                        bot.intake.undeploy(),
-
-                        bot.outtake.claw.Close(),
-
-                        bot.intake.claw.Open(),
+                        bot.Transfer(),
 
                         bot.BasketDrop(),
 
                         new ParallelAction(
 
-                                Deposit
+                                Deposit3.build()
                         ),
 
                         bot.outtake.claw.Open(),
 
-                        bot.Transfer(),
+                        bot.outtake.SafeVipersDown(),
 
                         new ParallelAction(
 
 
-                                Sample3,
+                                Sample3.build(),
                                 bot.intake.deploy(1)),
 
-                        bot.intake.claw.Close(),
-
-                        bot.intake.undeploy(),
-
-                        bot.outtake.claw.Close(),
-
-                        bot.intake.claw.Open(),
+                        bot.Transfer(),
 
                         bot.BasketDrop(),
 
                         new ParallelAction(
 
-                                DepositTan
+                                DepositTan.build()
                         ),
 
                         bot.outtake.claw.Open(),
 
-                        bot.Transfer(),
+                        bot.Transfer()
 
-                        new ParallelAction(
-                                Park
-                        )
+//                        new ParallelAction(
+//                                Park
+//                        )
 
                 )
         );

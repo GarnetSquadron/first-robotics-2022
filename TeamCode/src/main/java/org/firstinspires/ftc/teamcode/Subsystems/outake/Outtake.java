@@ -31,8 +31,8 @@ public class Outtake {
         return new SequentialAction(
                 pivot1.outOfTheWayOfIntakePos(),
                 pivot2.TransferPos(),
-                pivot1.TransferPos()
-                //vipers.Down()
+                pivot1.TransferPos(),
+                vipers.Down()
         );
     }
     public Action OutOfTheWayOfTheIntakePos(){

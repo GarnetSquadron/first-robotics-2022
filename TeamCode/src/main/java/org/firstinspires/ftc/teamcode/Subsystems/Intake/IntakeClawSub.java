@@ -22,10 +22,10 @@ public class IntakeClawSub extends SubsystemBase {
     }
 
     public Action Open() {
-        return SERVO.runToRatio(0);
+        return SERVO.runToRatio(0.3);
     }
     public boolean isOpen(){
-        return SERVO.getPos()==1;
+        return SERVO.AtMax();
     }
 }
 

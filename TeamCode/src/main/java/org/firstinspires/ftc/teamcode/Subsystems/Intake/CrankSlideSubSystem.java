@@ -64,4 +64,7 @@ public class CrankSlideSubSystem extends SubsystemBase {
         double angle = Math.acos((pow(secondaryLinkageLength,2)-pow(length,2)-pow(drivingLinkageLength,2))/(2*length*drivingLinkageLength));
         return goToPos(getRatioFromAngle(angle));
     }
+    public boolean IsExtended(){
+        return CrankL.getPos()==LeftMax;
+    }
 }

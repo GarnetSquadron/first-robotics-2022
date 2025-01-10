@@ -72,5 +72,8 @@ public class ActionServo {
     public Action changePosBy(double delta){
         return runToRatio(getPos()-delta);
     }
+    public boolean AtMax(){
+        return servo.atMax();
+    }
 
 }

@@ -22,6 +22,12 @@ public class TeleOpActionScheduler {
     ArrayList <TeleOpAction> CurrentTeleOpActions = new ArrayList<>();
     ArrayList <String> cancelOnAllOtherActions = new ArrayList<>();
     TelemetryPacket packet = new TelemetryPacket();
+    public TeleOpActionScheduler(){
+
+    }
+    public TeleOpActionScheduler(TelemetryPacket packet){
+        this.packet = packet;
+    }
     public TeleOpAction getTeleOpActionFromID(String ID){
         for(TeleOpAction teleOpAction:CurrentTeleOpActions){
             if(teleOpAction.ID == ID){

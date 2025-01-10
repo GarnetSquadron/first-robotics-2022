@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -30,7 +29,7 @@ public class DcMotorSub extends SubsystemBase {
         MinPos = maxPos;
         PosCoefficient = posCoefficient;
     }
-    public void setTgPos(double posRatio){
+    public void setTgPosRatio(double posRatio){
         // set the run mode
         motor.setRunMode(Motor.RunMode.PositionControl);
 
@@ -60,14 +59,6 @@ public class DcMotorSub extends SubsystemBase {
             motor.stopMotor();// stop the motor
         }
     }
-    public void runToTgPosApproximately(){
-        if (!TargetReached()) {
-            motor.set(1);
-        }
-        else {
-            motor.stopMotor();// stop the motor
-        }
-    }
     public void stop(){
         motor.stopMotor();
     }
@@ -88,6 +79,12 @@ public class DcMotorSub extends SubsystemBase {
     }
     public void setPosition(int position){
         PosError = position-motor.getCurrentPosition();
+    }
+    public double getPower(){
+        return motor.motor.getPower();
+    }
+    public double getSpeed(){
+        return motor.getRate();
     }
 
 }

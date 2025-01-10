@@ -21,7 +21,7 @@ public class PrimaryOuttakePivot{
     }
 
     public Action TransferPos() {
-        return pivot.runToRatio(0);
+        return pivot.runToRatio(0.03);
     }
     public Action outOfTheWayOfIntakePos(){
         return pivot.runToRatio(0.2);
