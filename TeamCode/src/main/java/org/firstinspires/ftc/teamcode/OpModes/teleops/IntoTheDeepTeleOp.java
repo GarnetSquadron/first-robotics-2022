@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
 import org.firstinspires.ftc.teamcode.enums.Color;
 import org.firstinspires.ftc.teamcode.risingEdgeDetector;
 
-@TeleOp(name = "INTOTHEDEEP TELEOP ", group = "AAA TELEOPS")
+@TeleOp(name = "\u1F41 ####INTOTHEDEEPTELEOP#### \u1F41", group = "AAA TELEOPS")
 public class IntoTheDeepTeleOp extends OpMode {
     Bot bot;
     GamepadEx Gpad1, Gpad2;
@@ -37,7 +37,7 @@ public class IntoTheDeepTeleOp extends OpMode {
 //    }
     GamepadButton intakeDeployButton;
     InitialToggler intakeDeployToggle, intakeClawToggle, outtakeClawToggle, viperToggle, outtakePivotToggle;
-    risingEdgeDetector transferDetector,wristGoLeft, wristGoRight;
+    risingEdgeDetector transferDetector,wristGoLeft, wristGoRight, IntakeTransferPosDet,OuttakeTransferPosDet;
     TeleOpActionScheduler actionScheduler;
     TelemetryPacket packet;
     double sensitivity = 1;
@@ -57,7 +57,7 @@ public class IntoTheDeepTeleOp extends OpMode {
             bot = new Bot(hardwareMap, telemetry, this::getRuntime);
         }
         else{
-            bot = new Bot(hardwareMap, telemetry, this::getRuntime, new Pose2d(0, 0, Math.toRadians(-90)));
+            bot = new Bot(hardwareMap, telemetry, this::getRuntime, new Pose2d(0, 0, Math.toRadians(90)));
         }
         StaticInfo.LastOpModeWasAuto = false;
 
@@ -67,6 +67,8 @@ public class IntoTheDeepTeleOp extends OpMode {
         intakeClawToggle = new InitialToggler(Con2::Y);
         outtakeClawToggle = new InitialToggler(Con2::B);
         transferDetector = new risingEdgeDetector(Con2::A);
+        IntakeTransferPosDet = new risingEdgeDetector(Con2::DpadUp);
+        OuttakeTransferPosDet = new risingEdgeDetector(Con2::DpadDown);
         wristGoLeft = new risingEdgeDetector(Con2::LeftBumper);
         wristGoRight = new risingEdgeDetector(Con2::RightBumper);
 
@@ -90,6 +92,8 @@ public class IntoTheDeepTeleOp extends OpMode {
         transferDetector.update();
         wristGoLeft.update();
         wristGoRight.update();
+        IntakeTransferPosDet.update();
+        OuttakeTransferPosDet.update();
 
 
         actionScheduler.actionBooleanPair(intakeDeployToggle.JustChanged(),!bot.intake.crankSlide.IsExtended(),bot.SafeDeploy(1),"deploy intake",bot.SafeUndeploy(),"undeploy intake");
@@ -108,6 +112,14 @@ public class IntoTheDeepTeleOp extends OpMode {
         if(transferDetector.getState()){
             actionScheduler.cancelAll();
             actionScheduler.start(bot.Transfer(),"transfer");
+        }
+        if(IntakeTransferPosDet.getState()){
+            actionScheduler.cancelAll();
+            actionScheduler.start(bot.intake.DefaultPos(),"Intaketransfer");
+        }
+        if(OuttakeTransferPosDet.getState()){
+            actionScheduler.cancelAll();
+            actionScheduler.start(bot.outtake.TransferPos(),"Outtaketransfer");
         }
         if(gamepad2.dpad_left) {
             actionScheduler.cancelAll();

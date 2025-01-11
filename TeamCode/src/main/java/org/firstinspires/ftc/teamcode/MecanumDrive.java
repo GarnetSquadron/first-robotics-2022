@@ -127,7 +127,7 @@ public class MecanumDrive {
     public final LazyImu lazyImu;
 
     public final Localizer localizer;
-    public static Pose2d pose = new Pose2d(0,0,0);
+    public static Pose2d pose = new Pose2d(0,0,Math.PI/2);
 
     private final LinkedList<Pose2d> poseHistory = new LinkedList<>();
 

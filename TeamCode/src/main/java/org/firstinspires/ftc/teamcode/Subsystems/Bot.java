@@ -18,6 +18,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Intake.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.outake.Outtake;
 import org.firstinspires.ftc.teamcode.Subsystems.outake.PrimaryOuttakePivot;
 import org.firstinspires.ftc.teamcode.commands.HeadlessDriveCommand;
+import org.firstinspires.ftc.teamcode.commands.RegularDrive;
 import org.opencv.core.Point;
 
 import java.util.function.DoubleSupplier;
@@ -30,6 +31,7 @@ public class Bot {
     //public Vision vision;
     public Pose2d beginPose;
     public HeadlessDriveCommand headlessDriveCommand;
+    public RegularDrive regularDrive;
 
     public Outtake outtake;
 
@@ -47,6 +49,7 @@ public class Bot {
         this.beginPose = beginPose;
         drive = new MecanumDrive(hardwareMap,beginPose);
         headlessDriveCommand = new HeadlessDriveCommand(drive);
+        regularDrive = new RegularDrive(drive);
         outtake = new Outtake(hardwareMap,time);
         outtakePivot = new PrimaryOuttakePivot(hardwareMap,time);
         intake = new Intake(hardwareMap,time);
@@ -56,6 +59,7 @@ public class Bot {
         this.beginPose = MecanumDrive.pose;
         drive = new MecanumDrive(hardwareMap);
         headlessDriveCommand = new HeadlessDriveCommand(drive);
+        regularDrive = new RegularDrive(drive);
         outtake = new Outtake(hardwareMap,time);
         outtakePivot = new PrimaryOuttakePivot(hardwareMap,time);
         intake = new Intake(hardwareMap,time);

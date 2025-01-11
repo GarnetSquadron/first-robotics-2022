@@ -17,7 +17,7 @@ public class IntakePivot extends SubsystemBase {
 
     }
     public Action deploy() {
-        return pivot.runToRatio(1);
+        return pivot.runToRatio(1.1);
     }
     public Action undeploy() {
         return pivot.runToRatio(0);

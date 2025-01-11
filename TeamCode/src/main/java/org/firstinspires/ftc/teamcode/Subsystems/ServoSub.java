@@ -41,7 +41,7 @@ public class ServoSub {
         return (pos-Min)/(Max-Min);
     }
     public void goToRatio(double ratioPos){
-        ratioPos = ExtraMath.Clamp(ratioPos,1,0);
+        //ratioPos = ExtraMath.Clamp(ratioPos,1,0);
         if(!ExtraMath.ApproximatelyEqualTo(servo.getPosition(), getPosFromRatio(ratioPos),0.1)){
             timer.StartTimer(runtime);//when the timer goes off, the servo should be at the correct position. this needs to be tuned
         }

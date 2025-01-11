@@ -4,29 +4,27 @@ import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.Actions;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.ExtraMath;
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
-import org.firstinspires.ftc.teamcode.TTimer;
 
 public class ActionDcMotor {
     private DcMotorSub motor;
     public ActionDcMotor(HardwareMap hardwareMap, String MotorName, int minPos, int maxPos, double posCoefficient){
         motor = new DcMotorSub(hardwareMap,MotorName,minPos, maxPos,posCoefficient);
     }
-    public class SetTgPos implements Action{
-        double pos;
-        public SetTgPos(double pos){
+    public class SetTgtPos implements Action{
+        double pos,tolerance;
+        public SetTgtPos(double pos, double tolerance){
             this.pos = pos;
+            this.tolerance = tolerance;
         }
 
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            motor.setTgPosRatio(pos);
+            motor.setTgPosRatio(pos,tolerance);
             return false;
         }
     }
@@ -43,6 +41,13 @@ public class ActionDcMotor {
                 }
             }
         };
+    public Action goToTgtPosAndHoldIt = new Action(){
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            motor.runToTgPos();
+            return true;
+        }
+    };
     public class goToTgtPosButIfStoppedAssumeTgtPosHasBeenReached implements Action {
         double tolerance, TimeOutTime;
         public goToTgtPosButIfStoppedAssumeTgtPosHasBeenReached(double tolerance,double TimeOutTime){
@@ -64,27 +69,20 @@ public class ActionDcMotor {
             return true;
         }
     }
-    public class holdPosition implements Action{
-        public holdPosition(double power){
-
-        }
-
-        @Override
-        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            return false;
-        }
-    }
     public boolean targetReached(){
         return motor.TargetReached();
     }
 
     public Action Stop = new InstantAction(()->motor.stop());
 
-    public Action GoToPos(double pos){
-        return new CancelableAction(new SequentialAction(new SetTgPos(pos),goToTgtPos),Stop);
+    public Action GoToPos(double pos,double tolerance){
+        return new CancelableAction(new SequentialAction(new SetTgtPos(pos,tolerance),goToTgtPos),Stop);
+    }
+    public Action GoToPosAndHoldIt(double pos,double tolerance){
+        return new CancelableAction(new SequentialAction(new SetTgtPos(pos,tolerance),goToTgtPosAndHoldIt),Stop);
     }
     public Action GoToPosButIfStoppedAssumePosHasBeenReached(double pos,double tolerance,double timeOutTime){
-        return new CancelableAction(new SequentialAction(new SetTgPos(pos),new goToTgtPosButIfStoppedAssumeTgtPosHasBeenReached(tolerance,timeOutTime)),Stop);
+        return new CancelableAction(new SequentialAction(new SetTgtPos(pos,tolerance),new goToTgtPosButIfStoppedAssumeTgtPosHasBeenReached(tolerance,timeOutTime)),Stop);
     }
     public double getDistanceToTarget(){
         return motor.getTargetPos()-motor.getPos();

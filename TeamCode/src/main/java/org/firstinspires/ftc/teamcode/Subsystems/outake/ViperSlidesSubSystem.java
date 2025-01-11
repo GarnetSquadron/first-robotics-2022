@@ -4,13 +4,10 @@ import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.NullAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.ExtraMath;
 import org.firstinspires.ftc.teamcode.Subsystems.ActionDcMotor;
-import org.firstinspires.ftc.teamcode.Subsystems.ActionServo;
-import org.firstinspires.ftc.teamcode.Subsystems.DcMotorSub;
 
 public class ViperSlidesSubSystem{
     public ActionDcMotor l;
@@ -42,22 +39,27 @@ public class ViperSlidesSubSystem{
             return new NullAction();
         }
         else
-            return new ParallelAction(l.GoToPos(0),r.GoToPos(0));
+            return new ParallelAction(l.GoToPos(1,0),r.GoToPos(1,0));
     }
-    public Action TgtPosUp(){
-        return new ParallelAction(l.new SetTgPos(0),r.new SetTgPos(0));
-    }
+
     public Action Down() {
         if(disabled){
             return new NullAction();
         }
         else
-            return new ParallelAction(l.GoToPosButIfStoppedAssumePosHasBeenReached(1,downTolerance,downWaitTime),r.GoToPosButIfStoppedAssumePosHasBeenReached(1,downTolerance,downWaitTime));
+            return new ParallelAction(l.GoToPosButIfStoppedAssumePosHasBeenReached(0,downTolerance,downWaitTime),r.GoToPosButIfStoppedAssumePosHasBeenReached(0,downTolerance,downWaitTime));
     }
-    public Action TgtPosDown(){
-        return new ParallelAction(l.new SetTgPos(1),r.new SetTgPos(1));
-    }
+
     public boolean isDown(){
         return ExtraMath.ApproximatelyEqualTo(GetTgtPos(),0,50);
     }
+
+    //region unused
+    public Action TgtPosUp(){
+        return new ParallelAction(l.new SetTgtPos(1,0),r.new SetTgtPos(1,0));
+    }
+    public Action TgtPosDown(){
+        return new ParallelAction(l.new SetTgtPos(0,0),r.new SetTgtPos(0,0));
+    }
+    //endregion
 }

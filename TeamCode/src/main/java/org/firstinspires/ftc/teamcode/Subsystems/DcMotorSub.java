@@ -25,11 +25,11 @@ public class DcMotorSub extends SubsystemBase {
         m = hardwareMap.get(DcMotorEx.class,MotorName);
         motor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         motor.resetEncoder();
-        MaxPos = minPos;
-        MinPos = maxPos;
+        MaxPos = maxPos;
+        MinPos = minPos;
         PosCoefficient = posCoefficient;
     }
-    public void setTgPosRatio(double posRatio){
+    public void setTgPosRatio(double posRatio,double tolerance){
         // set the run mode
         motor.setRunMode(Motor.RunMode.PositionControl);
 
