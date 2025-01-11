@@ -22,6 +22,6 @@ public class SecondaryOuttakePivot {
     }
 
     public Action TransferPos() {
-        return pivot.runToRatio(0);
+        return pivot.runToRatio(0.03);
     }
 }
