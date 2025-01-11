@@ -111,11 +111,12 @@ public class AutoTestingSAMPLE extends LinearOpMode {
 
                         new ParallelAction(
 
-
                                 Sample3.build(),
                                 bot.intake.PoiseToGrab(1)
                         ),
                         bot.intake.deploy(1),
+
+                        bot.intake.wrist.runToDegrees(45),
 
                         bot.Transfer(),
 
@@ -126,9 +127,7 @@ public class AutoTestingSAMPLE extends LinearOpMode {
                                 DepositTan.build()
                         ),
 
-                        bot.outtake.claw.Open(),
-
-                        bot.Transfer()
+                        bot.outtake.claw.Open()
 
 //                        new ParallelAction(
 //                                Park
