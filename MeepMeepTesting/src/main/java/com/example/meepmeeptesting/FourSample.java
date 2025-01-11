@@ -5,7 +5,7 @@ import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
 public class FourSample {
     RoadRunnerBotEntity myBot;
-    Pose2d beginPose = new Pose2d(-26, -62, Math.toRadians(90));
+    Pose2d beginPose = new Pose2d(-23, -62, Math.toRadians(90));
 
     FourSample(RoadRunnerBotEntity myBot) {
         this.myBot = myBot;
