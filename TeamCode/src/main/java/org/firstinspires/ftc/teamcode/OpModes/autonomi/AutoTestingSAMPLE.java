@@ -75,11 +75,10 @@ public class AutoTestingSAMPLE extends LinearOpMode {
 
                         bot.intake.claw.Close(),
 
+                        bot.Transfer(),
                         new ParallelAction(
-                                new SequentialAction(
-                                        bot.Transfer(),
-                                        bot.BasketDrop()
-                                ),
+
+                                bot.BasketDrop(),
                                 Deposit2.build()
                         ),
 
@@ -96,10 +95,9 @@ public class AutoTestingSAMPLE extends LinearOpMode {
 
                         bot.Transfer(),
 
-                        bot.BasketDrop(),
 
                         new ParallelAction(
-
+                                bot.BasketDrop(),
                                 Deposit3.build()
                         ),
 
