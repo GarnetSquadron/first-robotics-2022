@@ -32,7 +32,7 @@ public class AutoTestingSAMPLE extends LinearOpMode {
                 .splineToLinearHeading(depositSpot, 10);
 
         TrajectoryActionBuilder Sample2 = Deposit2.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(-57, -49, Math.toRadians(90)), 90);
+                .splineToLinearHeading(new Pose2d(-58, -49, Math.toRadians(90)), 90);
 
         TrajectoryActionBuilder Deposit3 = Sample2.endTrajectory().fresh()
                 .splineToLinearHeading(depositSpot, 10);
@@ -116,10 +116,10 @@ public class AutoTestingSAMPLE extends LinearOpMode {
 
                         bot.Transfer(),
 
-                        bot.BasketDrop(),
+
 
                         new ParallelAction(
-
+                                bot.BasketDrop(),
                                 DepositTan.build()
                         ),
 

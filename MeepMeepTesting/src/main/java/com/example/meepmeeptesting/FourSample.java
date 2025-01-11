@@ -19,7 +19,7 @@ public class FourSample {
                 .waitSeconds(0.7)
                 .splineToLinearHeading(new Pose2d(-56, -56, Math.toRadians(45)), 10)
                 .waitSeconds(0.7)
-                .splineToLinearHeading(new Pose2d(-57, -49, Math.toRadians(90)), 90)
+                .splineToLinearHeading(new Pose2d(-58, -49, Math.toRadians(90)), 90)
                 .waitSeconds(0.7)
                 .splineToLinearHeading(new Pose2d(-56, -56, Math.toRadians(45)), 10)
                 .waitSeconds(0.7)
