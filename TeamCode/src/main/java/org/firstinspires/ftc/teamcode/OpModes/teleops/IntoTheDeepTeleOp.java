@@ -57,7 +57,7 @@ public class IntoTheDeepTeleOp extends OpMode {
             bot = new Bot(hardwareMap, telemetry, this::getRuntime);
         }
         else{
-            bot = new Bot(hardwareMap, telemetry, this::getRuntime, new Pose2d(0, 0, 0));
+            bot = new Bot(hardwareMap, telemetry, this::getRuntime, new Pose2d(0, 0, Math.toRadians(-90)));
         }
         StaticInfo.LastOpModeWasAuto = false;
 
