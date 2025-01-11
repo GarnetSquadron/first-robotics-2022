@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
 import org.firstinspires.ftc.teamcode.enums.Color;
 import org.firstinspires.ftc.teamcode.risingEdgeDetector;
 
-@TeleOp(name = "\u1F41 ####INTOTHEDEEPTELEOP#### \u1F41", group = "AAA TELEOPS")
+@TeleOp(name = "\uD83E\uDD3F \uD83D\uDC1F ####INTOTHEDEEPTELEOP#### \uD83D\uDC1F \uD83E\uDD3F", group = "AAA TELEOPS")
 public class IntoTheDeepTeleOp extends OpMode {
     Bot bot;
     GamepadEx Gpad1, Gpad2;
