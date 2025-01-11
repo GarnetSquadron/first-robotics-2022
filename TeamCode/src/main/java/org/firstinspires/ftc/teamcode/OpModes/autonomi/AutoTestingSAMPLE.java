@@ -20,7 +20,7 @@ public class AutoTestingSAMPLE extends LinearOpMode {
         waitForStart();
         Pose2d beginPose = new Pose2d(-23, -62, Math.toRadians(90));
         bot =  new Bot(hardwareMap,telemetry,this::getRuntime,beginPose);
-        Pose2d depositSpot = new Pose2d(-55, -55, Math.toRadians(45));
+        Pose2d depositSpot = new Pose2d(-56, -56, Math.toRadians(45));
 
         TrajectoryActionBuilder Deposit1 = bot.drive.actionBuilder(beginPose)
                 .splineToLinearHeading(depositSpot, 10);
