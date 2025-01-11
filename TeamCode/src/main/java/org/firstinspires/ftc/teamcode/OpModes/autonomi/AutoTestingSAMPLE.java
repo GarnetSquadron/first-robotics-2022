@@ -130,9 +130,7 @@ public class AutoTestingSAMPLE extends LinearOpMode {
                         bot.outtake.claw.Open(),
 
 
-                                Park
-
-                                .build()
+                        Park.build()
 
                 )
         );
