@@ -81,13 +81,11 @@ public class AutoTestingSAMPLE extends LinearOpMode {
                                 Deposit2.build()
                         ),
 
-
                         bot.outtake.claw.Open(),
 
                         bot.Transfer(),
 
                         new ParallelAction(
-
 
                                 Sample2.build(),
                                 new SequentialAction(
@@ -127,11 +125,12 @@ public class AutoTestingSAMPLE extends LinearOpMode {
                                 DepositTan.build()
                         ),
 
-                        bot.outtake.claw.Open()
+                        bot.outtake.claw.Open(),
 
-//                        new ParallelAction(
-//                                Park
-//                        )
+
+                                Park
+
+                                .build()
 
                 )
         );
