@@ -18,7 +18,7 @@ public class AutoTestingSAMPLE extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         waitForStart();
-        Pose2d beginPose = new Pose2d(-26, -62, Math.toRadians(180));
+        Pose2d beginPose = new Pose2d(-26, -62, Math.toRadians(90));
         bot =  new Bot(hardwareMap,telemetry,this::getRuntime,beginPose);
         Pose2d depositSpot = new Pose2d(-55, -55, Math.toRadians(45));
 
@@ -26,13 +26,13 @@ public class AutoTestingSAMPLE extends LinearOpMode {
                 .splineToLinearHeading(depositSpot, 10);
 
         TrajectoryActionBuilder Sample1 = Deposit1.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(-48, -50, Math.toRadians(90)), 45);
+                .splineToLinearHeading(new Pose2d(-48, -53, Math.toRadians(90)), 45);
 
         TrajectoryActionBuilder Deposit2 = Sample1.endTrajectory().fresh()
                 .splineToLinearHeading(depositSpot, 10);
 
         TrajectoryActionBuilder Sample2 = Deposit2.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(-58, -50, Math.toRadians(90)), 90);
+                .splineToLinearHeading(new Pose2d(-58, -53, Math.toRadians(90)), 90);
 
         TrajectoryActionBuilder Deposit3 = Sample2.endTrajectory().fresh()
                 .splineToLinearHeading(depositSpot, 10);
