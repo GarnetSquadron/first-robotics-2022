@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.BetterControllerClass;
 import org.firstinspires.ftc.teamcode.InitialToggler;
+import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.OpmodeActionSceduling.TeleOpActionScheduler;
 import org.firstinspires.ftc.teamcode.Subsystems.Bot;
 import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
@@ -129,6 +130,8 @@ public class IntoTheDeepTeleOp extends OpMode {
 //        telemetry.addData("r viper power", bot.outtake.vipers.r.getPower());
 
         telemetry.addData("outtake claw open",bot.outtake.claw.isOpen());
+
+        telemetry.addData("direction", MecanumDrive.pose.heading.toDouble());
 
         telemetry.addData("CURRENT ACTIONS", actionScheduler.getActionIDs());
         telemetry.update();
