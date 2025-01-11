@@ -61,6 +61,8 @@ public class AutoTestingSAMPLE extends LinearOpMode {
                                 Deposit1.build()
                         ),
 
+                        bot.outtake.claw.Open(),
+
                         new ParallelAction(
 
                                 Sample1.build(),
