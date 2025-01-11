@@ -125,10 +125,11 @@ public class AutoTestingSAMPLE extends LinearOpMode {
                                 DepositTan.build()
                         ),
 
-                        bot.outtake.claw.Open(),
+                        bot.outtake.claw.Open()
 
 
-                        Park.build()
+                        //Park .build
+
 
                 )
         );
