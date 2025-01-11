@@ -83,8 +83,6 @@ public class AutoTestingSAMPLE extends LinearOpMode {
 
                         bot.outtake.claw.Open(),
 
-                        bot.Transfer(),
-
                         new ParallelAction(
 
                                 Sample2.build(),
