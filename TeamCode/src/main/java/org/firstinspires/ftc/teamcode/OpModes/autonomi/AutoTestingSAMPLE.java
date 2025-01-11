@@ -20,19 +20,19 @@ public class AutoTestingSAMPLE extends LinearOpMode {
         waitForStart();
         Pose2d beginPose = new Pose2d(-23, -62, Math.toRadians(90));
         bot =  new Bot(hardwareMap,telemetry,this::getRuntime,beginPose);
-        Pose2d depositSpot = new Pose2d(-55, -55, Math.toRadians(45));
+        Pose2d depositSpot = new Pose2d(-56, -56, Math.toRadians(45));
 
         TrajectoryActionBuilder Deposit1 = bot.drive.actionBuilder(beginPose)
                 .splineToLinearHeading(depositSpot, 10);
 
         TrajectoryActionBuilder Sample1 = Deposit1.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(-48, -49, Math.toRadians(90)), 45);
+                .splineToLinearHeading(new Pose2d(-48, -48, Math.toRadians(90)), 45);
 
         TrajectoryActionBuilder Deposit2 = Sample1.endTrajectory().fresh()
                 .splineToLinearHeading(depositSpot, 10);
 
         TrajectoryActionBuilder Sample2 = Deposit2.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(-57, -49, Math.toRadians(90)), 90);
+                .splineToLinearHeading(new Pose2d(-57, -48, Math.toRadians(90)), 90);
 
         TrajectoryActionBuilder Deposit3 = Sample2.endTrajectory().fresh()
                 .splineToLinearHeading(depositSpot, 10);
@@ -75,11 +75,10 @@ public class AutoTestingSAMPLE extends LinearOpMode {
 
                         bot.intake.claw.Close(),
 
+                        bot.Transfer(),
                         new ParallelAction(
-                                new SequentialAction(
-                                        bot.Transfer(),
-                                        bot.BasketDrop()
-                                ),
+
+                                bot.BasketDrop(),
                                 Deposit2.build()
                         ),
 
@@ -96,10 +95,9 @@ public class AutoTestingSAMPLE extends LinearOpMode {
 
                         bot.Transfer(),
 
-                        bot.BasketDrop(),
 
                         new ParallelAction(
-
+                                bot.BasketDrop(),
                                 Deposit3.build()
                         ),
 
@@ -118,17 +116,18 @@ public class AutoTestingSAMPLE extends LinearOpMode {
 
                         bot.Transfer(),
 
-                        bot.BasketDrop(),
+
 
                         new ParallelAction(
-
+                                bot.BasketDrop(),
                                 DepositTan.build()
                         ),
 
-                        bot.outtake.claw.Open(),
+                        bot.outtake.claw.Open()
 
 
-                        Park.build()
+                        //Park .build
+
 
                 )
         );
