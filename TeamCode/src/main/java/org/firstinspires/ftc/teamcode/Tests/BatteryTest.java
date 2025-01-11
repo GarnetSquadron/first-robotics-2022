@@ -16,10 +16,10 @@ public class BatteryTest extends OpMode {
 
     @Override
     public void init() {
-        lf = hardwareMap.get(DcMotor.class, "lf");
-        rf = hardwareMap.get(DcMotor.class, "rf");
-        lb = hardwareMap.get(DcMotor.class, "lb");
-        rb = hardwareMap.get(DcMotor.class, "rb");
+        lf = hardwareMap.get(DcMotor.class,"lf");
+        rf = hardwareMap.get(DcMotor.class,"rf");
+        lb = hardwareMap.get(DcMotor.class,"lb");
+        rb = hardwareMap.get(DcMotor.class,"rb");
         lf.setPower(-1);
         rf.setPower(1);
         lb.setPower(-1);

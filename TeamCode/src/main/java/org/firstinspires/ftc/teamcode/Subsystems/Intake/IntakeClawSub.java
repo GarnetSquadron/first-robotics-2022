@@ -14,7 +14,7 @@ public class IntakeClawSub extends SubsystemBase {
 
 
     public IntakeClawSub(HardwareMap hardwareMap, DoubleSupplier time) {
-        SERVO = new ActionServo(hardwareMap, "intake claw", 0.45, 0,time);
+        SERVO = new ActionServo(hardwareMap, "intake claw", 0, 0.45,time);
     }
 
     public Action Close() {
@@ -22,10 +22,10 @@ public class IntakeClawSub extends SubsystemBase {
     }
 
     public Action Open() {
-        return SERVO.runToRatio(0);
+        return SERVO.runToRatio(0.3);
     }
     public boolean isOpen(){
-        return SERVO.getPos()==1;
+        return SERVO.AtMax();
     }
 }
 

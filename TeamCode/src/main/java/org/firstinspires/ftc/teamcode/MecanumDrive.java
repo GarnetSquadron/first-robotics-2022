@@ -71,7 +71,7 @@ public class MecanumDrive {
         // TODO: fill in these values based on
         //   see https://ftc-docs.firstinspires.org/en/latest/programming_resources/imu/imu.html?highlight=imu#physical-hub-mounting
         public RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection =
-                RevHubOrientationOnRobot.LogoFacingDirection.BACKWARD;
+                RevHubOrientationOnRobot.LogoFacingDirection.LEFT;
         public RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection =
                 RevHubOrientationOnRobot.UsbFacingDirection.UP;
 
@@ -79,11 +79,11 @@ public class MecanumDrive {
         // drive model parameters
         public double inPerTick = 0.0029685;
         public double lateralInPerTick = 0.0024257832186920874;
-        public double trackWidthTicks =  4536.496586158054;//4418.884240665918;
+        public double trackWidthTicks =  4591.735905231049;//4536.496586158054;//4418.884240665918;
 
         // feedforward parameters (in tick units)
-        public double kS = 0.78105834686844;
-        public double kV =  0.0005353022058210014;
+        public double kS = 1.2288506750790495;//0.78105834686844;
+        public double kV =  0.0005216405419413284;//0.0005353022058210014;
         public double kA = 0.00005;
 
         // path profile parameters (in inches)
@@ -127,7 +127,7 @@ public class MecanumDrive {
     public final LazyImu lazyImu;
 
     public final Localizer localizer;
-    public Pose2d pose;
+    public static Pose2d pose = new Pose2d(0,0,0);
 
     private final LinkedList<Pose2d> poseHistory = new LinkedList<>();
 
@@ -154,8 +154,8 @@ public class MecanumDrive {
 
             // TODO: reverse encoders if needed
             //   leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-            rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
-            rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+            leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+            leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
         }
 
         @Override
@@ -223,8 +223,10 @@ public class MecanumDrive {
     }
 
     public MecanumDrive(HardwareMap hardwareMap, Pose2d pose) {
-        this.pose = pose;
-
+        this(hardwareMap);
+        MecanumDrive.pose = pose;
+    }
+    public MecanumDrive(HardwareMap hardwareMap){
         LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
 
         for (LynxModule module : hardwareMap.getAll(LynxModule.class)) {
@@ -245,8 +247,8 @@ public class MecanumDrive {
 
         // TODO: reverse motor directions if needed
         //   leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // TODO: make sure your config has an IMU with this name (can be BNO or BHI)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
@@ -568,6 +570,9 @@ public class MecanumDrive {
     }
     public Action Stop(){
         return new InstantAction(() -> setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0)));
+    }
+    public void SetPosTo(Pose2d pose){
+        MecanumDrive.pose = pose;
     }
 
 

@@ -23,7 +23,7 @@ public class LocalizationTest extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         if (TuningOpModes.DRIVE_CLASS.equals(MecanumDrive.class)) {
-            MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
+            MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(-26, -62, Math.toRadians(0)));
             OverflowEncoder par = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "par")));
             OverflowEncoder perp = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "perp/lift")));
             IMU imu = hardwareMap.get(IMU.class,"imu");

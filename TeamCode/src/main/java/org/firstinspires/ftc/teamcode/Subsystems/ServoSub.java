@@ -22,7 +22,6 @@ public class ServoSub {
     public TTimer timer;
     double runtime;
     private boolean powered = false;
-
     public ServoSub(HardwareMap hardwareMap, String name, double min, double max, DoubleSupplier time, double runtime) {
         servo = hardwareMap.get(Servo.class, name);
         Max = max;
@@ -76,5 +75,8 @@ public class ServoSub {
     public boolean isPowered(){
         return powered;
     };
+    public boolean atMax(){
+        return ExtraMath.ApproximatelyEqualTo(servo.getPosition(),Max,0.01);
+    }
 
 }

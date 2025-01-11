@@ -22,4 +22,7 @@ public class IntakePivot extends SubsystemBase {
     public Action undeploy() {
         return pivot.runToRatio(0);
     }
+    public Action poiseForTheGrab(){
+        return pivot.runToRatio(0.9);
+    }
 }
