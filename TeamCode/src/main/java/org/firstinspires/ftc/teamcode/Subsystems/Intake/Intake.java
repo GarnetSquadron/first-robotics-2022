@@ -42,11 +42,12 @@ public class Intake {
                 wrist.runToRad(0)
         );
     }
-//    public Action deployButaLittleHigher(){
-//        return new ParallelAction(
-//                crankSlide.goToPos()
-//        );
-//    }
+    public Action PoiseToGrab(double distance){
+        return new ParallelAction(
+                crankSlide.goToPos(distance),
+                pivot.poiseForTheGrab()
+        );
+    }
 
 
 

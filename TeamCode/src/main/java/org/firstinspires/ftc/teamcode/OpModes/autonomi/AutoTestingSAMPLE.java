@@ -61,15 +61,15 @@ public class AutoTestingSAMPLE extends LinearOpMode {
                                 Deposit1.build()
                         ),
 
-                        bot.outtake.claw.Open(),
-
-                        bot.outtake.TransferPos(),
-
                         new ParallelAction(
 
                                 Sample1.build(),
-                                bot.intake.deploy(1)
+                                bot.outtake.SafeVipersDown(),
+                                new SequentialAction(
+                                        bot.intake.PoiseToGrab(1)
+                                )
                         ),
+                        bot.intake.deploy(1),
 
                         bot.intake.claw.Close(),
 
@@ -90,7 +90,11 @@ public class AutoTestingSAMPLE extends LinearOpMode {
 
 
                                 Sample2.build(),
-                                bot.intake.deploy(1)),
+                                new SequentialAction(
+                                        bot.intake.PoiseToGrab(1)
+                                )
+                        ),
+                        bot.intake.deploy(1),
 
                         bot.Transfer(),
 
@@ -109,7 +113,9 @@ public class AutoTestingSAMPLE extends LinearOpMode {
 
 
                                 Sample3.build(),
-                                bot.intake.deploy(1)),
+                                bot.intake.PoiseToGrab(1)
+                        ),
+                        bot.intake.deploy(1),
 
                         bot.Transfer(),
 
