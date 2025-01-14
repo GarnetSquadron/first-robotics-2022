@@ -26,13 +26,13 @@ public class AutoTestingSAMPLE extends LinearOpMode {
                 .splineToLinearHeading(depositSpot, 10);
 
         TrajectoryActionBuilder Sample1 = Deposit1.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(-48, -48, Math.toRadians(90)), 45);
+                .splineToLinearHeading(new Pose2d(-48, -51, Math.toRadians(90)), 45);
 
         TrajectoryActionBuilder Deposit2 = Sample1.endTrajectory().fresh()
                 .splineToLinearHeading(depositSpot, 10);
 
         TrajectoryActionBuilder Sample2 = Deposit2.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(-57, -48, Math.toRadians(90)), 90);
+                .splineToLinearHeading(new Pose2d(-57, -51, Math.toRadians(90)), 90);
 
         TrajectoryActionBuilder Deposit3 = Sample2.endTrajectory().fresh()
                 .splineToLinearHeading(depositSpot, 10);
