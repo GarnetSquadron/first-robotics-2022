@@ -26,13 +26,13 @@ public class AutoTestingSAMPLE extends LinearOpMode {
                 .splineToLinearHeading(depositSpot, 10);
 
         TrajectoryActionBuilder Sample1 = Deposit1.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(-47, -50, Math.toRadians(90)), 45);
+                .splineToLinearHeading(new Pose2d(-46, -49, Math.toRadians(90)), 45);
 
         TrajectoryActionBuilder Deposit2 = Sample1.endTrajectory().fresh()
                 .splineToLinearHeading(depositSpot, 10);
 
         TrajectoryActionBuilder Sample2 = Deposit2.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(-57, -50, Math.toRadians(90)), 90);
+                .splineToLinearHeading(new Pose2d(-57, -49, Math.toRadians(90)), 90);
 
         TrajectoryActionBuilder Deposit3 = Sample2.endTrajectory().fresh()
                 .splineToLinearHeading(depositSpot, 10);
@@ -40,11 +40,11 @@ public class AutoTestingSAMPLE extends LinearOpMode {
         TrajectoryActionBuilder Sample3 = Deposit3.endTrajectory().fresh()
                 .splineToLinearHeading(new Pose2d(-53, -43, Math.toRadians(133)), 90);
 
-        TrajectoryActionBuilder DepositTan = Deposit3.fresh()
+        TrajectoryActionBuilder Deposit4Tan = Deposit3.fresh()
                 .setTangent(-90)
                 .splineToLinearHeading(depositSpot, 10);
 
-        TrajectoryActionBuilder Park = DepositTan.endTrajectory().fresh()
+        TrajectoryActionBuilder Park = Deposit4Tan.endTrajectory().fresh()
                 .splineToLinearHeading(new Pose2d(-24, -12, Math.toRadians(0)), 0);
 
 
@@ -87,6 +87,7 @@ public class AutoTestingSAMPLE extends LinearOpMode {
                         new ParallelAction(
 
                                 Sample2.build(),
+                                bot.outtake.SafeVipersDown(),
                                 new SequentialAction(
                                         bot.intake.PoiseToGrab(1)
                                 )
@@ -103,12 +104,13 @@ public class AutoTestingSAMPLE extends LinearOpMode {
 
                         bot.outtake.claw.Open(),
 
-                        bot.outtake.SafeVipersDown(),
-
                         new ParallelAction(
 
+                                bot.outtake.SafeVipersDown(),
                                 Sample3.build(),
-                                bot.intake.PoiseToGrab(1)
+                                new SequentialAction(
+                                        bot.intake.PoiseToGrab(1)
+                                )
                         ),
                         bot.intake.deploy(1),
 
@@ -120,7 +122,7 @@ public class AutoTestingSAMPLE extends LinearOpMode {
 
                         new ParallelAction(
                                 bot.BasketDrop(),
-                                DepositTan.build()
+                                Deposit4Tan.build()
                         ),
 
                         bot.outtake.claw.Open()
