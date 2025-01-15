@@ -43,7 +43,7 @@ public class AutoTestingSAMPLE extends LinearOpMode {
 
         TrajectoryActionBuilder Deposit4Tan = Deposit3.fresh()
                 .setTangent(-90)
-                .splineToLinearHeading(depositSpot, 10);
+                .splineToLinearHeading(new Pose2d(-56, -56, Math.toRadians(90)), 10);
 
         TrajectoryActionBuilder Park = Deposit4Tan.endTrajectory().fresh()
                 .splineToLinearHeading(new Pose2d(-24, -12, Math.toRadians(0)), 0);
@@ -63,7 +63,7 @@ public class AutoTestingSAMPLE extends LinearOpMode {
                                 bot.BasketDrop(),
                                 Deposit1.build()
                         ),
-                        new SleepAction(0.5),
+                        new SleepAction(0.3),
                         bot.outtake.claw.Open(),
 
                         new ParallelAction(
@@ -80,11 +80,12 @@ public class AutoTestingSAMPLE extends LinearOpMode {
 
                         bot.Transfer(),
                         new ParallelAction(
-
-                                bot.BasketDrop(),
+                                new SequentialAction(
+                                        bot.BasketDrop()
+                                ),
                                 Deposit2.build()
                         ),
-                        new SleepAction(0.5),
+                        new SleepAction(0.3),
                         bot.outtake.claw.Open(),
 
                         new ParallelAction(
@@ -97,14 +98,15 @@ public class AutoTestingSAMPLE extends LinearOpMode {
                         ),
                         bot.intake.deploy(1),
 
+
                         bot.Transfer(),
-
-
                         new ParallelAction(
-                                bot.BasketDrop(),
+                                new SequentialAction(
+                                        bot.BasketDrop()
+                                ),
                                 Deposit3.build()
                         ),
-                        new SleepAction(0.5),
+                        new SleepAction(0.3),
                         bot.outtake.claw.Open(),
 
                         new ParallelAction(
@@ -121,16 +123,13 @@ public class AutoTestingSAMPLE extends LinearOpMode {
 
 
 
-                        bot.Transfer(),
 
 
-
+                        bot.intake.claw.Close(),
+                        //bot.Transfer(),
                         new ParallelAction(
-                                bot.BasketDrop(),
                                 Deposit4Tan.build()
-                        ),
-                        new SleepAction(0.5),
-                        bot.outtake.claw.Open()
+                        )
 
 
                         //Park .build

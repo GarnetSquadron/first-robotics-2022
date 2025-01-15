@@ -42,13 +42,13 @@ public class IntoTheDeepTeleOp extends OpMode {
         Con2 = new BetterControllerClass(gamepad2);
 
 
-        if(StaticInfo.LastOpModeWasAuto){
-            bot = new Bot(hardwareMap, telemetry, this::getRuntime);
-        }
-        else{
+//        if(StaticInfo.LastOpModeWasAuto){
+//            bot = new Bot(hardwareMap, telemetry, this::getRuntime);
+//        }
+//        else{
             bot = new Bot(hardwareMap, telemetry, this::getRuntime,
                     new Pose2d(0, 0, Math.toRadians(90)));
-        }
+        //}
         StaticInfo.LastOpModeWasAuto = false;
 
         intakeDeployToggle = new InitialToggler(Con2::X);

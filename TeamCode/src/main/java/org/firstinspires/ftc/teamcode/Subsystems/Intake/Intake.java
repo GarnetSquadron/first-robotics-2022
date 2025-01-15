@@ -26,8 +26,8 @@ public class Intake {
     }
     public Action deploy(double distance){
         return new ParallelAction(
-            crankSlide.goToPos(distance),
-            pivot.deploy()
+                crankSlide.goToPos(distance),
+                pivot.deploy()
         );
     }
     public Action undeploy(){
@@ -40,6 +40,7 @@ public class Intake {
         return new ParallelAction(
                 undeploy(),
                 wrist.runToRad(0)
+                //claw.Open()
         );
     }
     public Action PoiseToGrab(double distance){
