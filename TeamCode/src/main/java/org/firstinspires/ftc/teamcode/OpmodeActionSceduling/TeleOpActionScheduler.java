@@ -19,7 +19,13 @@ import java.util.List;
  * this is for running actions in an opmode loop
  */
 public class TeleOpActionScheduler {
+    /**
+     * the current action que
+     */
     ArrayList <TeleOpAction> CurrentTeleOpActions = new ArrayList<>();
+    /**
+     * a list of actions that are to be canceled if any other actions are qued.
+     */
     ArrayList <String> cancelOnAllOtherActions = new ArrayList<>();
     TelemetryPacket packet = new TelemetryPacket();
     public TeleOpActionScheduler(){
@@ -39,10 +45,8 @@ public class TeleOpActionScheduler {
     public boolean TeleOpActionRunning(String ID){
         return getTeleOpActionFromID(ID) != null;
     }
-
     /**
      * adds an action to the que
-     * @param action
      */
     public void start(TeleOpAction action){
         for(String ID:cancelOnAllOtherActions){
@@ -60,7 +64,6 @@ public class TeleOpActionScheduler {
     }
     /**
      * cancel with the id
-     * @param ID
      */
     public void cancel(String ID){
         TeleOpAction teleAction = getTeleOpActionFromID(ID);
@@ -69,14 +72,8 @@ public class TeleOpActionScheduler {
             CurrentTeleOpActions.set(CurrentTeleOpActions.indexOf(teleAction),new TeleOpAction(ID+" canceling",getFailOvers(teleAction.action)));
         }
     }
-
     /**
-     * cancel the action
-     * @param listOfActions
-     */
-
-    /**
-     * cancel everything
+     * cancel everything in the que
      */
     public void cancelAll(){
         for(TeleOpAction action: CurrentTeleOpActions){
@@ -86,11 +83,6 @@ public class TeleOpActionScheduler {
     public void CancelOnAnyOtherAction(String... IDs){
         cancelOnAllOtherActions.addAll(Arrays.asList(IDs));
     }
-//    public void onConditionStart(,Action action){
-//        if(){
-//
-//        }
-//    }
 
     /**
      * does action one if toggled, and action 2 otherwise. doesn't automatically update the toggle though
@@ -106,7 +98,10 @@ public class TeleOpActionScheduler {
     }
 
     /**
-     * not sure what to call this. i will probably change the name later. How it works: Depending on the value of a boolean, it will start one of the two actions supplied. I made this method because most of the mechanisms use this. Most of the time, the boolean represents the state of a mechanism, ie is the claw open or closed, is the viper up or down, etc.
+     * not sure what to call this. i will probably change the name later. How it works: Depending on
+     * the value of a boolean, it will start one of the two actions supplied. I made this method
+     * because most of the mechanisms use this. Most of the time, the boolean represents the state
+     * of a mechanism, ie is the claw open or closed, is the viper up or down, etc.
      */
     public void actionBooleanPair(boolean REButtonDetector, boolean condition, Action action1,String ID1, Action action2, String ID2) {
         if (REButtonDetector) {
@@ -146,6 +141,10 @@ public class TeleOpActionScheduler {
         }
         return new NullAction();
     }
+
+    /**
+     * runs all the actions in the que
+     */
     public void update(){
         ArrayList<TeleOpAction> newActions = new ArrayList<>();
         for(TeleOpAction teleOpAction: CurrentTeleOpActions){

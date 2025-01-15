@@ -7,6 +7,7 @@ import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -26,19 +27,19 @@ public class AutoTestingSAMPLE extends LinearOpMode {
                 .splineToLinearHeading(depositSpot, 10);
 
         TrajectoryActionBuilder Sample1 = Deposit1.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(-46, -49, Math.toRadians(90)), 45);
+                .splineToLinearHeading(new Pose2d(-48, -49, Math.toRadians(90)), 45);
 
         TrajectoryActionBuilder Deposit2 = Sample1.endTrajectory().fresh()
                 .splineToLinearHeading(depositSpot, 10);
 
         TrajectoryActionBuilder Sample2 = Deposit2.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(-57, -49, Math.toRadians(90)), 90);
+                .splineToLinearHeading(new Pose2d(-59, -49, Math.toRadians(90)), 90);
 
         TrajectoryActionBuilder Deposit3 = Sample2.endTrajectory().fresh()
                 .splineToLinearHeading(depositSpot, 10);
 
         TrajectoryActionBuilder Sample3 = Deposit3.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(-53, -43, Math.toRadians(133)), 90);
+                .splineToLinearHeading(new Pose2d(-52, -43, Math.toRadians(133)), 90);
 
         TrajectoryActionBuilder Deposit4Tan = Deposit3.fresh()
                 .setTangent(-90)
@@ -51,16 +52,18 @@ public class AutoTestingSAMPLE extends LinearOpMode {
         Actions.runBlocking(
                 new SequentialAction(
 
-                        bot.outtake.claw.Close(),
+                        new ParallelAction(
+                                bot.outtake.claw.Close(),
 
-                        bot.intake.claw.Open(),
+                                bot.intake.claw.Open()
+                                ),
 
 
                         new ParallelAction(
                                 bot.BasketDrop(),
                                 Deposit1.build()
                         ),
-
+                        new SleepAction(0.5),
                         bot.outtake.claw.Open(),
 
                         new ParallelAction(
@@ -81,7 +84,7 @@ public class AutoTestingSAMPLE extends LinearOpMode {
                                 bot.BasketDrop(),
                                 Deposit2.build()
                         ),
-
+                        new SleepAction(0.5),
                         bot.outtake.claw.Open(),
 
                         new ParallelAction(
@@ -101,20 +104,22 @@ public class AutoTestingSAMPLE extends LinearOpMode {
                                 bot.BasketDrop(),
                                 Deposit3.build()
                         ),
-
+                        new SleepAction(0.5),
                         bot.outtake.claw.Open(),
 
                         new ParallelAction(
 
                                 bot.outtake.SafeVipersDown(),
-                                Sample3.build(),
-                                new SequentialAction(
-                                        bot.intake.PoiseToGrab(1)
-                                )
+                                Sample3.build()
+
                         ),
+                        bot.intake.wrist.runToDegrees(45),
+                        bot.intake.PoiseToGrab(1),
+
+
                         bot.intake.deploy(1),
 
-                        bot.intake.wrist.runToDegrees(45),
+
 
                         bot.Transfer(),
 
@@ -124,7 +129,7 @@ public class AutoTestingSAMPLE extends LinearOpMode {
                                 bot.BasketDrop(),
                                 Deposit4Tan.build()
                         ),
-
+                        new SleepAction(0.5),
                         bot.outtake.claw.Open()
 
 
