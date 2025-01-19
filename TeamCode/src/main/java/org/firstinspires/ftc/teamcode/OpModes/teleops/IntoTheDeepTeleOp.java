@@ -139,9 +139,9 @@ public class IntoTheDeepTeleOp extends OpMode {
                 Gpad1::getLeftX,Gpad1::getLeftY,
                 Gpad1::getRightX,sensitivity
         );
-//        if(gamepad1.a){
-//            bot.drive.SetPosTo(new Pose2d(0,0,0));
-//        }
+        if(gamepad1.y){
+            bot.drive.SetPosTo(new Pose2d(0,0,Math.PI/2));
+        }
         sensitivity = 0.5;
         if(gamepad1.left_bumper){
             sensitivity = 0.2;

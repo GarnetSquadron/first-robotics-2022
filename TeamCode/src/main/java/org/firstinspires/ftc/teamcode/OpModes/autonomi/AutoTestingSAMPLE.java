@@ -23,7 +23,7 @@ public class AutoTestingSAMPLE extends LinearOpMode {
         Pose2d beginPose = new Pose2d(-23, -62, Math.toRadians(90));
         //the class that contains all the subsystems
         bot =  new Bot(hardwareMap,telemetry,this::getRuntime,beginPose);
-        Pose2d depositSpot = new Pose2d(-56, -56, Math.toRadians(45));
+        Pose2d depositSpot = new Pose2d(-57, -57, Math.toRadians(45));
 
         //the trajectories that it will drive along the course of the auto
 
@@ -37,7 +37,7 @@ public class AutoTestingSAMPLE extends LinearOpMode {
                 .splineToLinearHeading(depositSpot, 10);
 
         TrajectoryActionBuilder Sample2 = Deposit2.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(-59, -49, Math.toRadians(90)), 90);
+                .splineToLinearHeading(new Pose2d(-58, -49, Math.toRadians(90)), 90);
 
         TrajectoryActionBuilder Deposit3 = Sample2.endTrajectory().fresh()
                 .splineToLinearHeading(depositSpot, 10);
@@ -47,7 +47,7 @@ public class AutoTestingSAMPLE extends LinearOpMode {
 
         TrajectoryActionBuilder Deposit4Tan = Deposit3.fresh()
                 .setTangent(-90)
-                .splineToLinearHeading(new Pose2d(-56, -56, Math.toRadians(90)), 10);
+                .splineToLinearHeading(new Pose2d(-57, -57, Math.toRadians(90)), 10);
 
         TrajectoryActionBuilder Park = Deposit4Tan.endTrajectory().fresh()
                 .splineToLinearHeading(new Pose2d(-24, -12, Math.toRadians(0)), 0);
