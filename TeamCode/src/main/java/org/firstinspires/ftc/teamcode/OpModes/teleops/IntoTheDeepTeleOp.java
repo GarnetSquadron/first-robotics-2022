@@ -98,8 +98,8 @@ public class IntoTheDeepTeleOp extends OpMode {
         actionScheduler.actionBooleanPair(
                 intakeClawToggle.JustChanged(),
                 bot.intake.claw.isOpen(),
-                bot.intake.claw.Open(),"open intake claw",
-                bot.intake.claw.Close(), "close intake claw"
+                bot.Drop(),"open intake claw",
+                bot.Grab(), "close intake claw"
         );
         actionScheduler.actionBooleanPair(
                 outtakeClawToggle.JustChanged(), bot.outtake.claw.isOpen(),

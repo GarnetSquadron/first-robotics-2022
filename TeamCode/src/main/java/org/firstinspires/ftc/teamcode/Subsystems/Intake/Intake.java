@@ -37,6 +37,7 @@ public class Intake {
                 pivot.undeploy()
         );
     }
+
     public Action DefaultPos(){
         return new ParallelAction(
                 undeploy(),

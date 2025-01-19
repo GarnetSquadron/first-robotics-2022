@@ -17,12 +17,12 @@ public class IntakePivot extends SubsystemBase {
 
     }
     public Action deploy() {
-        return pivot.runToRatio(1.1);
+        return pivot.runToRatio(1);
     }
     public Action undeploy() {
         return pivot.runToRatio(0);
     }
     public Action poiseForTheGrab(){
-        return pivot.runToRatio(0.9);
+        return pivot.runToRatio(0.95);
     }
 }

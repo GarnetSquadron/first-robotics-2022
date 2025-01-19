@@ -158,7 +158,21 @@ public class Bot {
     public Action SafeDeployIntake(double distance){
         return new SequentialAction(
                 outtake.OutOfTheWayOfTheIntakePos(),
-                intake.deploy(distance)
+                intake.PoiseToGrab(distance)
+        );
+    }
+    public Action Grab(){
+        return new SequentialAction(
+                outtake.OutOfTheWayOfTheIntakePos(),
+                intake.pivot.deploy(),
+                intake.claw.Close()
+        );
+    }
+    public Action Drop(){
+        return new SequentialAction(
+                outtake.OutOfTheWayOfTheIntakePos(),
+                intake.pivot.poiseForTheGrab(),
+                intake.claw.Open()
         );
     }
     /**
