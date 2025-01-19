@@ -41,7 +41,7 @@ public class ServoSub {
         return (pos-Min)/(Max-Min);
     }
     public void goToRatio(double ratioPos){
-        //ratioPos = ExtraMath.Clamp(ratioPos,1,0);
+        ratioPos = ExtraMath.Clamp(ratioPos,1,0);
         if(!powered)
             servo.setPosition(1);//on init, the servo position is set to 0, even though it isnt powered and probably isnt at 0. if you then run servo.setposition(0), it will not move because it already this
         if(!ExtraMath.ApproximatelyEqualTo(servo.getPosition(), getPosFromRatio(ratioPos),0.1)){

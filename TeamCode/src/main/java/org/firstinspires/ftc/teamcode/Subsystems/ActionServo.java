@@ -44,9 +44,18 @@ public class ActionServo {
     public Action runToRad(double angle){
         return runToDegrees(Math.toDegrees(angle));
     }
+    public double getPosInDegrees(){
+        return getRatioPos()*rangeInDegrees;
+    }
+    public double getPosInRad(){
+        return Math.toRadians(getPosInDegrees());
+    }
 
     public double getPos() {
         return servo.getPos();
+    }
+    public double getRatioPos() {
+        return servo.getRatioPos();
     }
 
     public class MoveServoToRatio implements Action{
@@ -70,7 +79,10 @@ public class ActionServo {
         return new SequentialAction(new MoveServoToRatio(ratio),new WaitForTargetReached());
     }
     public Action changePosBy(double delta){
-        return runToRatio(getPos()-delta);
+        return runToRatio(getRatioPos()-delta);
+    }
+    public Action changeAngleByRad(double deltaTheta){
+        return runToRad(getPosInRad()-deltaTheta);
     }
     public boolean AtMax(){
         return servo.atMax();

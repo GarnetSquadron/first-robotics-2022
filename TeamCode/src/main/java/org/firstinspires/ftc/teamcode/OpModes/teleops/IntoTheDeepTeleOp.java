@@ -114,10 +114,10 @@ public class IntoTheDeepTeleOp extends OpMode {
 
         //misc controls
         if(wristGoLeft.getState()){
-            actionScheduler.start(bot.intake.wrist.wrist.changePosBy(0.2),"wrist turning");
+            actionScheduler.start(bot.intake.wrist.wrist.changeAngleByRad(1),"wrist turning");
         }
         if (wristGoRight.getState()){
-            actionScheduler.start(bot.intake.wrist.wrist.changePosBy(-0.2),"wrist turning");
+            actionScheduler.start(bot.intake.wrist.wrist.changeAngleByRad(-1),"wrist turning");
         }
 
         if(transferDetector.getState()){
