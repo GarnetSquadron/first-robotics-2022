@@ -95,8 +95,9 @@ public class IntoTheDeepTeleOp extends OpMode {
                 bot.SafeDeployIntake(1), "deploy intake",
                 bot.SafeUndeployIntake(), "undeploy intake"
         );
-        actionScheduler.actionTogglePair(
-                intakeClawToggle,
+        actionScheduler.actionBooleanPair(
+                intakeClawToggle.JustChanged(),
+                bot.intake.claw.isOpen(),
                 bot.intake.claw.Open(),"open intake claw",
                 bot.intake.claw.Close(), "close intake claw"
         );

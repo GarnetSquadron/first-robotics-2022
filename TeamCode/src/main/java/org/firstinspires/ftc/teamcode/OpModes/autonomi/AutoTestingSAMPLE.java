@@ -18,7 +18,6 @@ public class AutoTestingSAMPLE extends LinearOpMode {
     Bot bot;
     @Override
     public void runOpMode() throws InterruptedException {
-        waitForStart();
         //the position the auto starts at
         Pose2d beginPose = new Pose2d(-23, -62, Math.toRadians(90));
         //the class that contains all the subsystems
@@ -52,6 +51,7 @@ public class AutoTestingSAMPLE extends LinearOpMode {
         TrajectoryActionBuilder Park = Deposit4Tan.endTrajectory().fresh()
                 .splineToLinearHeading(new Pose2d(-24, -12, Math.toRadians(0)), 0);
 
+        waitForStart();
 
         Actions.runBlocking(
                 new SequentialAction(

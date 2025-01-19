@@ -27,7 +27,8 @@ public class Intake {
     public Action deploy(double distance){
         return new ParallelAction(
                 crankSlide.goToPos(distance),
-                pivot.deploy()
+                pivot.deploy(),
+                claw.Open()
         );
     }
     public Action undeploy(){
