@@ -37,7 +37,7 @@ public class Outtake {
     }
     public Action grabSpecPos(){
         return new ParallelAction(
-                //vipers.Down(),
+                vipers.Down(),
                 pivot1.SpecimenOnWallPos(),
                 pivot2.SpecimenOnWallPos(),
                 claw.Open()

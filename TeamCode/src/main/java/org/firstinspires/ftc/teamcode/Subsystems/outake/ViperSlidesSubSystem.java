@@ -69,7 +69,10 @@ public class ViperSlidesSubSystem{
             return new NullAction();
         }
         else
-            return new ParallelAction(l.GoToPosButIfStoppedAssumePosHasBeenReached(0,downTolerance,downWaitTime),r.GoToPosButIfStoppedAssumePosHasBeenReached(0,downTolerance,downWaitTime));
+            return new ParallelAction(
+                    l.GoToPosButIfStoppedAssumePosHasBeenReached(0,downTolerance),
+                    r.GoToPosButIfStoppedAssumePosHasBeenReached(0,downTolerance)
+            );
     }
 
     public boolean isDown(){

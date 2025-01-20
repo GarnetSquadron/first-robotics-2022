@@ -155,6 +155,10 @@ public class IntoTheDeepTeleOp extends OpMode {
 
         telemetry.addData("l viper ticks", bot.outtake.vipers.l.getPos());
         telemetry.addData("r viper ticks", bot.outtake.vipers.r.getPos());
+        telemetry.addData("l viper target",bot.outtake.vipers.l.getTargetPos());
+        telemetry.addData("r viper target",bot.outtake.vipers.r.getTargetPos());
+        telemetry.addData("l viper speed",bot.outtake.vipers.l.getSpeed());
+        telemetry.addData("r viper speed",bot.outtake.vipers.r.getSpeed());
         telemetry.addData("l viper power", bot.outtake.vipers.l.getPower());
         telemetry.addData("r viper power", bot.outtake.vipers.r.getPower());
 
