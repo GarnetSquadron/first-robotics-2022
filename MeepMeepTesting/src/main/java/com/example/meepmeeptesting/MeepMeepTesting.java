@@ -73,17 +73,21 @@ public class MeepMeepTesting {
                     .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                     .build();
 
-            //Auto routes
-            FourClip c = new FourClip(myBot); //c.run();
+            //Working routes
             FourSample s = new FourSample(myBot); //s.run();
+            //WIP routes
+            FourClipHP HP = new FourClipHP(myBot); //HP.run();
+            FourClip c = new FourClip(myBot); //c.run();
+            FiveClip f = new FiveClip(myBot); //f.run();
             SoloAuto SOLO = new SoloAuto(myBot); //SOLO.run();
+            //Concept routes
             VisionAutoSixSamp vs = new VisionAutoSixSamp(myBot); //vs.run();
             VisionAutoClip vc = new VisionAutoClip(myBot); //vc.run();
             NewGAutoMM g = new NewGAutoMM(myBot); //g.run();
 
             Pose2d beginPose = new Pose2d(26,-62,Math.toRadians(90));
             Pose2d tgtPose = new Pose2d(20,20,Math.PI);
-            s.run();
+            c.run();
 
             meepMeep.setBackground(MeepMeep.Background.FIELD_INTO_THE_DEEP_JUICE_DARK)
                     .setDarkMode(true)
