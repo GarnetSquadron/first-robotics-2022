@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import org.firstinspires.ftc.teamcode.enums.AngleUnit;
+
 public class ExtraMath {
 
     /**
@@ -28,5 +30,22 @@ public class ExtraMath {
     }
     public static double convertToRatio(double min, double max,double val){
         return (val-min)/(max-min);
+    }
+    public static double getFullCircle(AngleUnit unit){
+        if(unit == AngleUnit.DEGREES){
+            return 360;
+        }
+        if(unit == AngleUnit.RADIANS){
+            return Tau;
+        }
+        if(unit == AngleUnit.RATIO){
+            return 1;
+        }
+        else {
+            return -1;//this is basically impossible
+        }
+    }
+    public static double ConvertUnit(double input,AngleUnit inputUnit,AngleUnit outputUnit){
+        return input*getFullCircle(outputUnit)/getFullCircle(inputUnit);
     }
 }

@@ -59,6 +59,14 @@ public class DcMotorSub extends SubsystemBase {
             motor.stopMotor();// stop the motor
         }
     }
+    public void runToTgPosAndHoldIt(double holdPower){
+        if (!TargetReached()) {
+            motor.set(1);
+        }
+        else {
+            motor.set(holdPower);// keep the motor up
+        }
+    }
     public void stop(){
         motor.stopMotor();
     }

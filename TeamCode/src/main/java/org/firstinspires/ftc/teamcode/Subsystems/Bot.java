@@ -28,23 +28,17 @@ import java.util.function.DoubleSupplier;
  */
 public class Bot {
     public MecanumDrive drive;
-    //public Vision vision;
     public Pose2d beginPose;
     public HeadlessDriveCommand headlessDriveCommand;
     public RegularDrive regularDrive;
-
     public Outtake outtake;
-
     public PrimaryOuttakePivot outtakePivot;
-
     public Intake intake;
     public boolean transfering = false;
     public final double robotWidth = 9;
 //    Action path = drive.actionBuilder(beginPose)
 //            .splineToSplineHeading(intakePos,0)
 //            .build();
-
-
     public Bot(HardwareMap hardwareMap, Telemetry telemetry, DoubleSupplier time, Pose2d beginPose){
         this.beginPose = beginPose;
         drive = new MecanumDrive(hardwareMap,beginPose);
@@ -82,7 +76,6 @@ public class Bot {
         return new addTelemetry(description,value);
     }
 
-
 //    /**
 //     * meant to be looped, like a lot of this stuff
 //     */
@@ -91,13 +84,11 @@ public class Bot {
 //            SamplePipeline.AnalyzedStone Sample =  vision.getNearestSample();
 //        }
 //    }
-
     //region actions
     /**
      * grabs at a sample givien its coords
      * @param p the coords of the sample relative to the midpoint of the barrier
      */
-
     public Action GrabInSub(Point p){
         Point q = new Point(p.x,FieldDimensions.subLength-p.y);
         double angle = 0;
@@ -122,14 +113,22 @@ public class Bot {
         return new SequentialAction(PositionClaw(p,angle,length));
 
     }
-
-
-
+    /**
+     * positions the claw at a sample given its coords, the desired angle, and the desired length of
+     * the extension
+     * @param tgtp target claw position
+     * @param length desired extension length
+     * @param angle the desired angle of the bot
+     */
     public Action PositionClaw(Point tgtp, double length, double angle){
         Pose2d botPos = new Pose2d(tgtp.x+length*Math.sin(angle),tgtp.y-length*Math.cos(angle), angle);
 
         return new CancelableAction( new ParallelAction( drive.StraightTo(botPos),new InstantAction(()->intake.crankSlide.goToLengthInInches(length))),drive.Stop());
     }
+
+    /**
+     * transfers the sample from the intake to the outtake
+     */
     public Action Transfer(){
         return new SequentialAction(
                 new ParallelAction(
@@ -144,25 +143,50 @@ public class Bot {
 
         );
     }
-    public Action SafeUndeploy(){
+    /**
+     * Undeploys the intake after moving the outtake out of the way
+     */
+    public Action SafeUndeployIntake(){
         return new SequentialAction(
                 outtake.OutOfTheWayOfTheIntakePos(),
                 intake.undeploy()
         );
     }
-    public Action SafeDeploy(double distance){
+    /**
+     * Deploys the intake after moving the outtake out of the way
+     */
+    public Action SafeDeployIntake(double distance){
         return new SequentialAction(
                 outtake.OutOfTheWayOfTheIntakePos(),
-                intake.deploy(distance)
+                intake.PoiseToGrab(distance),
+                intake.claw.Open()
         );
     }
+    public Action IntakeGrab(){
+        return new SequentialAction(
+                outtake.OutOfTheWayOfTheIntakePos(),
+                intake.pivot.deploy(),
+                intake.claw.Close()
+        );
+    }
+    public Action IntakeDropSample(){
+        return new SequentialAction(
+                outtake.OutOfTheWayOfTheIntakePos(),
+                intake.pivot.poiseForTheGrab(),
+                intake.claw.Open()
+        );
+    }
+    /**
+     * Deploys the outtake in a position to drop samples in the basket
+     */
     public Action BasketDrop() {
         return new SequentialAction(
                 outtake.claw.Close(),
                 outtake.vipers.Up(),
                 new ParallelAction(
                         outtake.pivot1.BucketPos(),
-                        outtake.pivot2.BucketPos()
+                        outtake.pivot2.BucketPos(),
+                        outtake.vipers.HoldUp()
                 )
         );
     }

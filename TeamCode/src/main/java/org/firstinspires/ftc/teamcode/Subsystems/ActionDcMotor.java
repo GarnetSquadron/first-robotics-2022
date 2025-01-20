@@ -41,23 +41,27 @@ public class ActionDcMotor {
                 }
             }
         };
-    public Action goToTgtPosAndHoldIt = new Action(){
+    public class goToTgtPosAndHoldIt implements Action{
+        double holdPower;
+        goToTgtPosAndHoldIt(double holdPower){
+            this.holdPower = holdPower;
+        }
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            motor.runToTgPos();
+            motor.runToTgPosAndHoldIt(holdPower);
             return true;
         }
     };
     public class goToTgtPosButIfStoppedAssumeTgtPosHasBeenReached implements Action {
-        double tolerance, TimeOutTime;
-        public goToTgtPosButIfStoppedAssumeTgtPosHasBeenReached(double tolerance,double TimeOutTime){
+        double tolerance;
+        boolean firstLoop=true;
+        public goToTgtPosButIfStoppedAssumeTgtPosHasBeenReached(double tolerance){
             this.tolerance = tolerance;
-            this.TimeOutTime = TimeOutTime;
         }
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             motor.runToTgPos();
-            if(getSpeed() == 0){
+            if(getSpeed() == 0&&!firstLoop){
                     motor.stop();
                     motor.setPosition(motor.getTargetPos());
                     return false;
@@ -66,6 +70,7 @@ public class ActionDcMotor {
                 motor.stop();
                 return false;
             }
+            firstLoop = false;
             return true;
         }
     }
@@ -78,11 +83,11 @@ public class ActionDcMotor {
     public Action GoToPos(double pos,double tolerance){
         return new CancelableAction(new SequentialAction(new SetTgtPos(pos,tolerance),goToTgtPos),Stop);
     }
-    public Action GoToPosAndHoldIt(double pos,double tolerance){
-        return new CancelableAction(new SequentialAction(new SetTgtPos(pos,tolerance),goToTgtPosAndHoldIt),Stop);
+    public Action GoToPosAndHoldIt(double pos,double tolerance,double holdPower){
+        return new CancelableAction(new SequentialAction(new SetTgtPos(pos,tolerance),new goToTgtPosAndHoldIt(holdPower)),Stop);
     }
-    public Action GoToPosButIfStoppedAssumePosHasBeenReached(double pos,double tolerance,double timeOutTime){
-        return new CancelableAction(new SequentialAction(new SetTgtPos(pos,tolerance),new goToTgtPosButIfStoppedAssumeTgtPosHasBeenReached(tolerance,timeOutTime)),Stop);
+    public Action GoToPosButIfStoppedAssumePosHasBeenReached(double pos,double tolerance){
+        return new CancelableAction(new SequentialAction(new SetTgtPos(pos,tolerance),new goToTgtPosButIfStoppedAssumeTgtPosHasBeenReached(tolerance)),Stop);
     }
     public double getDistanceToTarget(){
         return motor.getTargetPos()-motor.getPos();

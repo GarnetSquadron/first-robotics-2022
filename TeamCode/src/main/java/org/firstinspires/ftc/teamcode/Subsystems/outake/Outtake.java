@@ -35,6 +35,31 @@ public class Outtake {
                 vipers.Down()
         );
     }
+    public Action grabSpecPos(){
+        return new ParallelAction(
+                vipers.Down(),
+                pivot1.SpecimenOnWallPos(),
+                pivot2.SpecimenOnWallPos(),
+                claw.Open()
+        );
+    }
+    public Action placeSpecPos(){
+        return new SequentialAction(
+                new ParallelAction(
+                        vipers.prepareSpecimenPlace(),
+                        claw.Close(),
+                        pivot1.prepareForSpecimenOnChamberPos(),
+                        pivot2.prepareForSpecimenOnChamberPos()
+                ),
+                new ParallelAction(
+                        vipers.SpecimenPlace(),
+                        pivot1.SpecimenOnChamberPos(),
+                        pivot2.SpecimenOnChamberPos(),
+                        vipers.SpecimenHold()
+                ),
+                claw.Open()
+        );
+    }
     public Action OutOfTheWayOfTheIntakePos(){
         return new ParallelAction(
                 pivot1.outOfTheWayOfIntakePos(),

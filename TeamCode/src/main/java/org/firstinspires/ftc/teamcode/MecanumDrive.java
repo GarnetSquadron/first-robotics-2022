@@ -51,10 +51,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
-import org.firstinspires.ftc.teamcode.Subsystems.MecanumDriveSubSystem;
+import org.firstinspires.ftc.teamcode.enums.AngleUnit;
 import org.firstinspires.ftc.teamcode.messages.DriveCommandMessage;
 import org.firstinspires.ftc.teamcode.messages.MecanumCommandMessage;
 import org.firstinspires.ftc.teamcode.messages.MecanumLocalizerInputsMessage;
@@ -66,6 +65,9 @@ import java.util.List;
 
 @Config
 public class MecanumDrive {
+    /**
+     * this class contains all the parameters for mechanum drive roadrunner
+     */
     public static class Params {
         // IMU orientation
         // TODO: fill in these values based on
@@ -104,12 +106,10 @@ public class MecanumDrive {
         public double lateralVelGain = 0.0;
         public double headingVelGain = 0.0; // shared with turn
     }
-
     public static Params PARAMS = new Params();
-
+    //initializing the parameters
     public final MecanumKinematics kinematics = new MecanumKinematics(
             PARAMS.inPerTick * PARAMS.trackWidthTicks, PARAMS.inPerTick / PARAMS.lateralInPerTick);
-
     public final TurnConstraints defaultTurnConstraints = new TurnConstraints(
             PARAMS.maxAngVel, -PARAMS.maxAngAccel, PARAMS.maxAngAccel);
     public final VelConstraint defaultVelConstraint =
@@ -117,25 +117,21 @@ public class MecanumDrive {
                     kinematics.new WheelVelConstraint(PARAMS.maxWheelVel),
                     new AngularVelConstraint(PARAMS.maxAngVel)
             ));
-    public final AccelConstraint defaultAccelConstraint =
-            new ProfileAccelConstraint(PARAMS.minProfileAccel, PARAMS.maxProfileAccel);
-
+    public final AccelConstraint defaultAccelConstraint = new ProfileAccelConstraint(PARAMS.minProfileAccel, PARAMS.maxProfileAccel);
+    //the drive motors
     public final DcMotorEx leftFront, leftBack, rightBack, rightFront;
-
     public final VoltageSensor voltageSensor;
-
     public final LazyImu lazyImu;
-
     public final Localizer localizer;
     public static Pose2d pose = new Pose2d(0,0,Math.PI/2);
-
+//this is a list that the robot uses to store the history of the positions that it has sensed in the
+//past millisecond. it uses these to predict its next position.
     private final LinkedList<Pose2d> poseHistory = new LinkedList<>();
-
     private final DownsampledWriter estimatedPoseWriter = new DownsampledWriter("ESTIMATED_POSE", 50_000_000);
     private final DownsampledWriter targetPoseWriter = new DownsampledWriter("TARGET_POSE", 50_000_000);
     private final DownsampledWriter driveCommandWriter = new DownsampledWriter("DRIVE_COMMAND", 50_000_000);
     private final DownsampledWriter mecanumCommandWriter = new DownsampledWriter("MECANUM_COMMAND", 50_000_000);
-
+//this class is used to calculate the position of the robot using inputs from the deadwheels and imu
     public class DriveLocalizer implements Localizer {
         public final Encoder leftFront, leftBack, rightBack, rightFront;
         public final IMU imu;
@@ -170,7 +166,7 @@ public class MecanumDrive {
             FlightRecorder.write("MECANUM_LOCALIZER_INPUTS", new MecanumLocalizerInputsMessage(
                     leftFrontPosVel, leftBackPosVel, rightBackPosVel, rightFrontPosVel, angles));
 
-            Rotation2d heading = Rotation2d.exp(angles.getYaw(AngleUnit.RADIANS));
+            Rotation2d heading = Rotation2d.exp(angles.getYaw(org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.RADIANS));
 
             if (!initialized) {
                 initialized = true;
@@ -221,7 +217,6 @@ public class MecanumDrive {
             );
         }
     }
-
     public MecanumDrive(HardwareMap hardwareMap, Pose2d pose) {
         this(hardwareMap);
         MecanumDrive.pose = pose;
@@ -261,7 +256,6 @@ public class MecanumDrive {
 
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }
-
     public void setDrivePowers(PoseVelocity2d powers) {
         MecanumKinematics.WheelVelocities<Time> wheelVels = new MecanumKinematics(1).inverse(
                 PoseVelocity2dDual.constant(powers, 1));
@@ -276,7 +270,8 @@ public class MecanumDrive {
         rightBack.setPower(wheelVels.rightBack.get(0) / maxPowerMag);
         rightFront.setPower(wheelVels.rightFront.get(0) / maxPowerMag);
     }
-
+//this class takes a TimeTrajectory and uses it to calculate how much power the drive motors deliver
+// at any given moment
     public final class FollowTrajectoryAction implements Action {
         public final TimeTrajectory timeTrajectory;
         private double beginTs = -1;
@@ -384,7 +379,8 @@ public class MecanumDrive {
             c.strokePolyline(xPoints, yPoints);
         }
     }
-
+// this class takes a TimeTurn and like the above class calculates what is required to follow that
+// action
     public final class TurnAction implements Action {
         private final TimeTurn turn;
 
@@ -479,8 +475,6 @@ public class MecanumDrive {
             return twist.velocity().value();
 
     }
-
-
     private void drawPoseHistory(Canvas c) {
         double[] xPoints = new double[poseHistory.size()];
         double[] yPoints = new double[poseHistory.size()];
@@ -497,7 +491,6 @@ public class MecanumDrive {
         c.setStroke("#3F51B5");
         c.strokePolyline(xPoints, yPoints);
     }
-
     public TrajectoryActionBuilder actionBuilder(Pose2d beginPose) {
         return new TrajectoryActionBuilder(
                 TurnAction::new,
@@ -573,6 +566,9 @@ public class MecanumDrive {
     }
     public void SetPosTo(Pose2d pose){
         MecanumDrive.pose = pose;
+    }
+    public void SetDirectionTo(double direction, AngleUnit m){
+        SetPosTo(new Pose2d(MecanumDrive.pose.position,ExtraMath.ConvertUnit(direction,m,AngleUnit.RADIANS)));
     }
 
 
