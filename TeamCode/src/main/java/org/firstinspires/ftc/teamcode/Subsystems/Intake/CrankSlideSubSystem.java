@@ -30,8 +30,8 @@ public class CrankSlideSubSystem extends SubsystemBase {
     double drivingLinkageLength = 4,secondaryLinkageLength = 8;
 
     public CrankSlideSubSystem(HardwareMap hardwareMap, DoubleSupplier time) {
-        CrankL = new ActionServo(hardwareMap,"CrankLeft", LeftMin, LeftMax,1,time,270);
-        CrankR = new ActionServo(hardwareMap, "CrankRight", RightMin, RightMax,1,time,270);
+        CrankL = new ActionServo(hardwareMap,"CrankLeft", LeftMin, LeftMax,1,time);
+        CrankR = new ActionServo(hardwareMap, "CrankRight", RightMin, RightMax,1,time);
     }
     public Action goToPos(double ratio){
         return new ParallelAction

@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Subsystems.ActionServo;
 import org.firstinspires.ftc.teamcode.Subsystems.ServoSub;
+import org.firstinspires.ftc.teamcode.enums.AngleUnit;
 
 import java.util.function.DoubleSupplier;
 
@@ -13,11 +14,20 @@ public class PrimaryOuttakePivot{
     public ActionServo pivot;
 
     public PrimaryOuttakePivot(HardwareMap hardwareMap, DoubleSupplier time) {
-         pivot = new ActionServo(hardwareMap,"primary pivot",0.9,0.3333333,0.5,time,270);
+         pivot = new ActionServo(hardwareMap,"primary pivot",0.9,0,0.5,time);
     }
 
     public Action BucketPos() {
-        return pivot.runToRatio(1);
+        return pivot.runToDegrees(135);
+    }
+    public Action SpecimenOnWallPos() {
+        return pivot.runToDegrees(225);
+    }
+    public Action SpecimenOnChamberPos() {
+        return pivot.runToDegrees(0);
+    }
+    public Action prepareForSpecimenOnChamberPos() {
+        return pivot.runToDegrees(45);
     }
 
     public Action TransferPos() {

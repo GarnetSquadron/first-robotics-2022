@@ -7,13 +7,15 @@ import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
+import org.firstinspires.ftc.teamcode.ExtraMath;
+import org.firstinspires.ftc.teamcode.enums.AngleUnit;
 
 import java.util.function.DoubleSupplier;
 
 public class ActionServo {
     public ServoSub servo;
-    public double rangeInDegrees;
+    public double softwareAngleRangeInDegrees;//the range of motion in degrees that the software limits allow
+    public double min,max;
 
     /**
      * Servo that has a bunch of actions
@@ -23,29 +25,37 @@ public class ActionServo {
      * @param max maximum position (a number from 0 to 1)
      * @param time the system time supplier
      * @param t
-     * @param rangeInDegrees
+     * @param hardwareAngleRange
      */
-    public ActionServo(HardwareMap hardwareMap, String name, double min, double max, double t, DoubleSupplier time,double rangeInDegrees){
+    public ActionServo(HardwareMap hardwareMap, String name, double min, double max, double t, DoubleSupplier time,double hardwareAngleRange,AngleUnit unit){
         servo = new ServoSub(hardwareMap,name,min,max,time,t);
-        this.rangeInDegrees = rangeInDegrees;
+        this.min = min;
+        this.max = max;
+        SetHardwareAngleRange(hardwareAngleRange,unit);
     }
     public ActionServo(HardwareMap hardwareMap, String name,double min,double max, DoubleSupplier time){
-        this(hardwareMap,name,min,max,0.5,time,270);
+        this(hardwareMap,name,min,max,0.5,time);
     }
     public ActionServo(HardwareMap hardwareMap, String name,double min,double max, double t,DoubleSupplier time){
-        this(hardwareMap,name,min,max,t,time,270);
+        this(hardwareMap,name,min,max,t,time,255,AngleUnit.DEGREES);
     }
-    public ActionServo(HardwareMap hardwareMap, String name,double min,double max, DoubleSupplier time,double rangeInDegrees){
-        this(hardwareMap,name,min,max,0.5,time,rangeInDegrees);
+    public ActionServo(HardwareMap hardwareMap, String name,double min,double max, DoubleSupplier time,double hardwareAngleRange,AngleUnit unit){
+        this(hardwareMap,name,min,max,0.5,time,hardwareAngleRange,unit);
+    }
+    public void SetSoftwareAngleRange(double range, AngleUnit unit){
+        softwareAngleRangeInDegrees = ExtraMath.ConvertUnit(range,unit,AngleUnit.DEGREES);
+    }
+    public void SetHardwareAngleRange(double range, AngleUnit unit){
+        softwareAngleRangeInDegrees = ExtraMath.ConvertUnit(range,unit,AngleUnit.DEGREES)*Math.abs(max-min);
     }
     public Action runToDegrees(double angle){
-        return runToRatio(angle/rangeInDegrees);
+        return runToRatio(angle/ softwareAngleRangeInDegrees);
     }
     public Action runToRad(double angle){
         return runToDegrees(Math.toDegrees(angle));
     }
     public double getPosInDegrees(){
-        return getRatioPos()*rangeInDegrees;
+        return getRatioPos()* softwareAngleRangeInDegrees;
     }
     public double getPosInRad(){
         return Math.toRadians(getPosInDegrees());

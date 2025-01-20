@@ -51,10 +51,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
-import org.firstinspires.ftc.teamcode.Subsystems.MecanumDriveSubSystem;
+import org.firstinspires.ftc.teamcode.enums.AngleUnit;
 import org.firstinspires.ftc.teamcode.messages.DriveCommandMessage;
 import org.firstinspires.ftc.teamcode.messages.MecanumCommandMessage;
 import org.firstinspires.ftc.teamcode.messages.MecanumLocalizerInputsMessage;
@@ -167,7 +166,7 @@ public class MecanumDrive {
             FlightRecorder.write("MECANUM_LOCALIZER_INPUTS", new MecanumLocalizerInputsMessage(
                     leftFrontPosVel, leftBackPosVel, rightBackPosVel, rightFrontPosVel, angles));
 
-            Rotation2d heading = Rotation2d.exp(angles.getYaw(AngleUnit.RADIANS));
+            Rotation2d heading = Rotation2d.exp(angles.getYaw(org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.RADIANS));
 
             if (!initialized) {
                 initialized = true;
@@ -567,6 +566,9 @@ public class MecanumDrive {
     }
     public void SetPosTo(Pose2d pose){
         MecanumDrive.pose = pose;
+    }
+    public void SetDirectionTo(double direction, AngleUnit m){
+        SetPosTo(new Pose2d(MecanumDrive.pose.position,ExtraMath.ConvertUnit(direction,m,AngleUnit.RADIANS)));
     }
 
 

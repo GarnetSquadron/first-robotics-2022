@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.OpmodeActionSceduling.TeleOpActionScheduler;
 import org.firstinspires.ftc.teamcode.Subsystems.Bot;
 import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
+import org.firstinspires.ftc.teamcode.enums.AngleUnit;
 import org.firstinspires.ftc.teamcode.enums.Color;
 import org.firstinspires.ftc.teamcode.risingEdgeDetector;
 
@@ -25,8 +26,8 @@ public class IntoTheDeepTeleOp extends OpMode {
     BetterControllerClass Con1,Con2;
     Color AlianceColor = Color.RED;
     GamepadButton intakeDeployButton;
-    InitialToggler intakeDeployToggle, intakeClawToggle, outtakeClawToggle, viperToggle, outtakePivotToggle;
-    risingEdgeDetector transferDetector,wristGoLeft, wristGoRight, IntakeTransferPosDet,OuttakeTransferPosDet;
+    InitialToggler intakeDeployToggle, intakeClawToggle, outtakeClawToggle, viperToggle;
+    risingEdgeDetector transferDetector,wristGoLeft, wristGoRight, SpecimenGrabPosButton, SpecimenPlaceButton;
     TeleOpActionScheduler actionScheduler;
     TelemetryPacket packet;
     double sensitivity = 1;
@@ -53,12 +54,11 @@ public class IntoTheDeepTeleOp extends OpMode {
 
         intakeDeployToggle = new InitialToggler(Con2::X);
         viperToggle = new InitialToggler(Con2::LeftTrigger);
-        outtakePivotToggle = new InitialToggler(Con2::RightTrigger);
         intakeClawToggle = new InitialToggler(Con2::Y);
         outtakeClawToggle = new InitialToggler(Con2::B);
         transferDetector = new risingEdgeDetector(Con2::A);
-        IntakeTransferPosDet = new risingEdgeDetector(Con2::DpadUp);
-        OuttakeTransferPosDet = new risingEdgeDetector(Con2::DpadDown);
+        SpecimenGrabPosButton = new risingEdgeDetector(Con2::DpadUp);
+        SpecimenPlaceButton = new risingEdgeDetector(Con2::RightTrigger);
         wristGoLeft = new risingEdgeDetector(Con2::LeftBumper);
         wristGoRight = new risingEdgeDetector(Con2::RightBumper);
 
@@ -77,14 +77,13 @@ public class IntoTheDeepTeleOp extends OpMode {
         outtakeClawToggle.updateValue();
         intakeClawToggle.updateValue();
         viperToggle.updateValue();
-        outtakePivotToggle.updateValue();
         intakeDeployToggle.updateValue();
 
         transferDetector.update();
         wristGoLeft.update();
         wristGoRight.update();
-        IntakeTransferPosDet.update();
-        OuttakeTransferPosDet.update();
+        SpecimenGrabPosButton.update();
+        SpecimenPlaceButton.update();
 
         //These are the controls for several mechanisms that have two states.
         //These take the input of a rising edge detector and toggles between those states.
@@ -95,12 +94,14 @@ public class IntoTheDeepTeleOp extends OpMode {
                 bot.SafeDeployIntake(1), "deploy intake",
                 bot.SafeUndeployIntake(), "undeploy intake"
         );
-        actionScheduler.actionBooleanPair(
-                intakeClawToggle.JustChanged(),
-                bot.intake.claw.isOpen(),
-                bot.Drop(),"open intake claw",
-                bot.Grab(), "close intake claw"
-        );
+        if(bot.intake.crankSlide.IsExtended()){
+            actionScheduler.actionBooleanPair(
+                    intakeClawToggle.JustChanged(),
+                    bot.intake.claw.isOpen(),
+                    bot.IntakeDropSample(), "open intake claw",
+                    bot.IntakeGrab(), "close intake claw"
+            );
+        }
         actionScheduler.actionBooleanPair(
                 outtakeClawToggle.JustChanged(), bot.outtake.claw.isOpen(),
                 bot.outtake.claw.Close(), "close outtake claw",
@@ -124,24 +125,23 @@ public class IntoTheDeepTeleOp extends OpMode {
             actionScheduler.cancelAll();
             actionScheduler.start(bot.Transfer(),"transfer");
         }
-        if(IntakeTransferPosDet.getState()){
+        if(SpecimenGrabPosButton.getState()){
             actionScheduler.cancelAll();
-            actionScheduler.start(bot.intake.DefaultPos(),"Intaketransfer");
+            actionScheduler.start(bot.outtake.grabSpecPos(),"Grab Specimen");
         }
-        if(OuttakeTransferPosDet.getState()){
+        if(SpecimenPlaceButton.getState()){
             actionScheduler.cancelAll();
-            actionScheduler.start(bot.outtake.TransferPos(),"Outtaketransfer");
+            actionScheduler.start(bot.outtake.placeSpecPos(),"Place Specimen");
         }
-        if(gamepad2.dpad_left) {
-            actionScheduler.cancelAll();
-            actionScheduler.start(bot.BasketDrop(),"basket drop");
-        }
+
+
+        //wheels driver
         bot.headlessDriveCommand.execute(
                 Gpad1::getLeftX,Gpad1::getLeftY,
                 Gpad1::getRightX,sensitivity
         );
         if(gamepad1.y){
-            bot.drive.SetPosTo(new Pose2d(0,0,Math.PI/2));
+            bot.drive.SetDirectionTo(0, AngleUnit.RADIANS);
         }
         sensitivity = 0.5;
         if(gamepad1.left_bumper){
@@ -153,14 +153,14 @@ public class IntoTheDeepTeleOp extends OpMode {
 
 
 
-//        telemetry.addData("l viper ticks", bot.outtake.vipers.l.getPos());
-//        telemetry.addData("r viper ticks", bot.outtake.vipers.r.getPos());
-//        telemetry.addData("l viper power", bot.outtake.vipers.l.getPower());
-//        telemetry.addData("r viper power", bot.outtake.vipers.r.getPower());
+        telemetry.addData("l viper ticks", bot.outtake.vipers.l.getPos());
+        telemetry.addData("r viper ticks", bot.outtake.vipers.r.getPos());
+        telemetry.addData("l viper power", bot.outtake.vipers.l.getPower());
+        telemetry.addData("r viper power", bot.outtake.vipers.r.getPower());
 
-        telemetry.addData("outtake claw open",bot.outtake.claw.isOpen());
-
-        telemetry.addData("direction", MecanumDrive.pose.heading.toDouble());
+//        telemetry.addData("outtake claw open",bot.outtake.claw.isOpen());
+//
+//        telemetry.addData("direction", MecanumDrive.pose.heading.toDouble());
 
         telemetry.addData("CURRENT ACTIONS", actionScheduler.getActionIDs());
         telemetry.update();

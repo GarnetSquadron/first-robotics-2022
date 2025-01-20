@@ -158,17 +158,18 @@ public class Bot {
     public Action SafeDeployIntake(double distance){
         return new SequentialAction(
                 outtake.OutOfTheWayOfTheIntakePos(),
-                intake.PoiseToGrab(distance)
+                intake.PoiseToGrab(distance),
+                intake.claw.Open()
         );
     }
-    public Action Grab(){
+    public Action IntakeGrab(){
         return new SequentialAction(
                 outtake.OutOfTheWayOfTheIntakePos(),
                 intake.pivot.deploy(),
                 intake.claw.Close()
         );
     }
-    public Action Drop(){
+    public Action IntakeDropSample(){
         return new SequentialAction(
                 outtake.OutOfTheWayOfTheIntakePos(),
                 intake.pivot.poiseForTheGrab(),
@@ -184,7 +185,8 @@ public class Bot {
                 outtake.vipers.Up(),
                 new ParallelAction(
                         outtake.pivot1.BucketPos(),
-                        outtake.pivot2.BucketPos()
+                        outtake.pivot2.BucketPos(),
+                        outtake.vipers.HoldUp()
                 )
         );
     }

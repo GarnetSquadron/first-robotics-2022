@@ -34,12 +34,34 @@ public class ViperSlidesSubSystem{
     public double GetTgtPos(){
         return l.getTargetPos();
     }
+    public Action GoToPos(double pos,double tolerance){
+        return new ParallelAction(l.GoToPos(pos,tolerance),r.GoToPos(pos,tolerance));
+    }
+    public Action GoToPosAndHoldIt(double pos,double tolerance,double holdPower){
+        return new ParallelAction(l.GoToPosAndHoldIt(pos,tolerance,holdPower),r.GoToPosAndHoldIt(pos,tolerance,holdPower));
+    }
     public Action Up() {
         if(disabled){
             return new NullAction();
         }
         else
-            return new ParallelAction(l.GoToPos(1,0),r.GoToPos(1,0));
+            return GoToPos(1,0);
+    }
+    public Action HoldUp() {
+        if(disabled){
+            return new NullAction();
+        }
+        else
+            return GoToPosAndHoldIt(1,0,0.5);
+    }
+    public Action prepareSpecimenPlace(){
+        return GoToPos(0.1,0);
+    }
+    public Action SpecimenPlace(){
+        return GoToPos(0.4,0);
+    }
+    public Action SpecimenHold(){
+        return GoToPosAndHoldIt(0.4,0,0.5);
     }
 
     public Action Down() {
