@@ -124,8 +124,6 @@ public class MecanumDrive {
     public final LazyImu lazyImu;
     public final Localizer localizer;
     public static Pose2d pose = new Pose2d(0,0,Math.PI/2);
-//this is a list that the robot uses to store the history of the positions that it has sensed in the
-//past millisecond. it uses these to predict its next position.
     private final LinkedList<Pose2d> poseHistory = new LinkedList<>();
     private final DownsampledWriter estimatedPoseWriter = new DownsampledWriter("ESTIMATED_POSE", 50_000_000);
     private final DownsampledWriter targetPoseWriter = new DownsampledWriter("TARGET_POSE", 50_000_000);
@@ -570,7 +568,5 @@ public class MecanumDrive {
     public void SetDirectionTo(double direction, AngleUnit m){
         SetPosTo(new Pose2d(MecanumDrive.pose.position,ExtraMath.ConvertUnit(direction,m,AngleUnit.RADIANS)));
     }
-
-
 
 }

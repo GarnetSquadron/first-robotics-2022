@@ -17,6 +17,7 @@ import java.util.function.DoubleSupplier;
 public class ActionServo {
     public ServoSub servo;
     public double softwareAngleRangeInDegrees;//the range of motion in degrees that the software limits allow
+    public double zeroAngle = 0;//the ratio pos for 0 degrees
     public double min,max;
 
     /**
@@ -50,8 +51,11 @@ public class ActionServo {
     public void SetHardwareAngleRange(double range, AngleUnit unit){
         softwareAngleRangeInDegrees = ExtraMath.ConvertUnit(range,unit,AngleUnit.DEGREES)*Math.abs(max-min);
     }
+    public void Set0Angle(double ratio){
+        zeroAngle = ratio;
+    }
     public Action runToDegrees(double angle){
-        return runToRatio(angle/ softwareAngleRangeInDegrees);
+        return runToRatio(zeroAngle+angle/ softwareAngleRangeInDegrees);
     }
     public Action runToRad(double angle){
         return runToDegrees(Math.toDegrees(angle));

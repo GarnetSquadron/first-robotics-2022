@@ -6,6 +6,7 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
@@ -42,14 +43,19 @@ public class ActionDcMotor {
             }
         };
     public class goToTgtPosAndHoldIt implements Action{
-        double holdPower;
+        double holdPower,tgtPos;
+        boolean firstIter = true;
         goToTgtPosAndHoldIt(double holdPower){
             this.holdPower = holdPower;
         }
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            if(firstIter){
+                tgtPos = motor.getTargetPos();
+                firstIter = false;
+            }
             motor.runToTgPosAndHoldIt(holdPower);
-            return true;
+            return tgtPos == motor.getTargetPos();//if the target position is switched, stop the action
         }
     };
     public class goToTgtPosButIfStoppedAssumeTgtPosHasBeenReached implements Action {
@@ -106,5 +112,14 @@ public class ActionDcMotor {
     }
     public double getSpeed(){
         return motor.getSpeed();
+    }
+    public void setEncoder(Motor encoder){
+        motor.setEncoder(encoder);
+    }
+    public Motor getMotor(){
+        return motor.getMotor();
+    }
+    public void reverseMotor(){
+        motor.ReverseMotor();
     }
 }

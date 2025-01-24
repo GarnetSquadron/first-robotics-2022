@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.enums.AngleUnit;
 import org.firstinspires.ftc.teamcode.enums.Color;
 import org.firstinspires.ftc.teamcode.risingEdgeDetector;
 
-@TeleOp(name = "AA \uD83E\uDD3F \uD83D\uDC1F ####INTOTHEDEEPTELEOP#### \uD83D\uDC1F \uD83E\uDD3F", group = "AAA TELEOPS")
+@TeleOp(name = "AA \uD83E\uDD3F \uD83D\uDC1F ####INTOTHEDEEPTELEOP#### \uD83D\uDC1F \uD83E\uDD3F")
 public class IntoTheDeepTeleOp extends OpMode {
     Bot bot;
     GamepadEx Gpad1, Gpad2;
@@ -43,14 +43,14 @@ public class IntoTheDeepTeleOp extends OpMode {
         Con2 = new BetterControllerClass(gamepad2);
 
 
-//        if(StaticInfo.LastOpModeWasAuto){
-//            bot = new Bot(hardwareMap, telemetry, this::getRuntime);
-//        }
-//        else{
+        if(StaticInfo.LastOpModeWasAuto){
+            bot = new Bot(hardwareMap, telemetry, this::getRuntime);
+        }
+        else{
             bot = new Bot(hardwareMap, telemetry, this::getRuntime,
-                    new Pose2d(0, 0, Math.toRadians(90)));
-        //}
-        StaticInfo.LastOpModeWasAuto = false;
+                    new Pose2d(0, 0, Math.toRadians(90))
+            );
+        }
 
         intakeDeployToggle = new InitialToggler(Con2::X);
         viperToggle = new InitialToggler(Con2::LeftTrigger);
@@ -73,6 +73,7 @@ public class IntoTheDeepTeleOp extends OpMode {
 
     @Override
     public void loop() {
+        StaticInfo.LastOpModeWasAuto = false;
         //update the value of each rising edge button detector so we don't miss a button press
         outtakeClawToggle.updateValue();
         intakeClawToggle.updateValue();
@@ -153,18 +154,10 @@ public class IntoTheDeepTeleOp extends OpMode {
 
 
 
-        telemetry.addData("l viper ticks", bot.outtake.vipers.l.getPos());
-        telemetry.addData("r viper ticks", bot.outtake.vipers.r.getPos());
-        telemetry.addData("l viper target",bot.outtake.vipers.l.getTargetPos());
-        telemetry.addData("r viper target",bot.outtake.vipers.r.getTargetPos());
-        telemetry.addData("l viper speed",bot.outtake.vipers.l.getSpeed());
-        telemetry.addData("r viper speed",bot.outtake.vipers.r.getSpeed());
-        telemetry.addData("l viper power", bot.outtake.vipers.l.getPower());
-        telemetry.addData("r viper power", bot.outtake.vipers.r.getPower());
 
 //        telemetry.addData("outtake claw open",bot.outtake.claw.isOpen());
 //
-//        telemetry.addData("direction", MecanumDrive.pose.heading.toDouble());
+        telemetry.addData("direction", MecanumDrive.pose.heading.toDouble());
 
         telemetry.addData("CURRENT ACTIONS", actionScheduler.getActionIDs());
         telemetry.update();

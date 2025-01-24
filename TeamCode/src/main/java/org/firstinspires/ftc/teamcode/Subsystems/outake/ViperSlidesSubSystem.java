@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Subsystems.outake;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.NullAction;
 import com.acmerobotics.roadrunner.ParallelAction;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
@@ -23,7 +24,9 @@ public class ViperSlidesSubSystem{
     private double downTolerance = 10, downWaitTime = 1;
     public ViperSlidesSubSystem(HardwareMap hardwareMap){
          l = new ActionDcMotor(hardwareMap,"LeftViper",0,-3500,posCoefficient);
-         r = new ActionDcMotor(hardwareMap,"RightViper",0,3500,posCoefficient);
+         r = new ActionDcMotor(hardwareMap,"RightViper",0,-3500,posCoefficient);
+         r.reverseMotor();
+         r.setEncoder(l.getMotor());
     }
     public boolean targetReached(){
         return l.targetReached()&&r.targetReached();

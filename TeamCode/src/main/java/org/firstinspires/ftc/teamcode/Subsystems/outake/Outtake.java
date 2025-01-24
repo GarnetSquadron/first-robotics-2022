@@ -68,11 +68,13 @@ public class Outtake {
     }
     public Action SafeVipersDown(){
         return new SequentialAction(
+
                 new ParallelAction(
                         pivot1.outOfTheWayOfIntakePos(),
                         pivot2.outOfTheWayOfIntakePos()
                 ),
                 vipers.Down()
+
 
         );
     }
