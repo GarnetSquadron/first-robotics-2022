@@ -27,6 +27,11 @@ public class ServoSub {
 
     }
 
+    /**
+     * after all this effort to restrict the movement in code I find the function servo.scaleRange(). I guess its too late to change it now lol. maybe later
+     * @param ratio
+     * @return
+     */
     double getPosFromRatio(double ratio){
         return Min+ratio*(Max-Min);
     }
@@ -36,10 +41,13 @@ public class ServoSub {
     public void goToRatio(double ratioPos){
         ratioPos = ExtraMath.Clamp(ratioPos,1,0);
         double deltaPos = getPosFromRatio(ratioPos)-getPos();
+        double distanceToTgt = Math.abs(deltaPos);
+        boolean alreadyTargeted = ExtraMath.ApproximatelyEqualTo(distanceToTgt, 0, 0.01);
         if(!powered)
             servo.setPosition(1);//on init, the servo position is set to 0, even though it isnt powered and probably isnt at 0. if you then run servo.setposition(0), it will not move because it already this
-        else
-            timer.StartTimer(runtimeCoefficient*deltaPos);//when the timer goes off, the servo should be at the correct position. this needs to be tuned
+        else if (!alreadyTargeted) {//if not trying to get there
+            timer.StartTimer(runtimeCoefficient* distanceToTgt);//when the timer goes off, the servo should be at the correct position. this needs to be tuned
+        }
         servo.setPosition(getPosFromRatio(ratioPos));
         powered = true;
     }

@@ -133,7 +133,7 @@ public class Bot {
         return new SequentialAction(
                 new ParallelAction(
                         outtake.claw.Open(),
-                        intake.claw.Close()
+                        IntakeGrab()
                 ),
                 outtake.OutOfTheWayOfTheIntakePos(),
                 intake.DefaultPos(),

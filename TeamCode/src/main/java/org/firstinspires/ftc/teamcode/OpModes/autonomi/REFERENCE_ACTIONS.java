@@ -14,8 +14,11 @@ public class REFERENCE_ACTIONS {
                 bot.BasketDrop(),//move the outtake in a position to drop a sample in the basket
                 bot.outtake.SafeVipersDown(),//bring the vipers down, and this makes sure that the outtake is flipped first so that it doesn't attempt level 4 hang
                 bot.Transfer(),//transfer
-                bot.intake.claw.Open(),//open intake claw
-                bot.intake.claw.Close(),//close intake claw
+                bot.intake.wrist.runToDegrees(90),//run the wrist to a given number of degrees
+                bot.IntakeGrab(),//extend slides if not already, pivot intake down and then close claw
+                bot.IntakeDropSample(),//pivot the intake up a tad and drop the sample
+                bot.intake.claw.Open(),//just open intake claw and nothing else
+                bot.intake.claw.Close(),//just close intake claw and nothing else
                 bot.outtake.claw.Open(),//open outtake claw
                 bot.outtake.claw.Close(),//close outtake claw
                 bot.IntakeGrab(),//make the claw dip down to grab

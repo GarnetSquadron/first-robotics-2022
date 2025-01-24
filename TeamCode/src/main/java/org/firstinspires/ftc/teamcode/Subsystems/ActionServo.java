@@ -11,7 +11,9 @@ import org.firstinspires.ftc.teamcode.ExtraMath;
 import org.firstinspires.ftc.teamcode.enums.AngleUnit;
 
 import java.util.function.DoubleSupplier;
-
+/**
+ * Servo that has a bunch of actions
+ */
 public class ActionServo {
     public ServoSub servo;
     public double softwareAngleRangeInDegrees;//the range of motion in degrees that the software limits allow
