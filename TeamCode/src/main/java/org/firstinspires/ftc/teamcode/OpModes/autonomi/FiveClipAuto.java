@@ -14,8 +14,8 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "#FOUR CLIPS#", group = "test")
-public class FourClipAuto extends LinearOpMode {
+@Autonomous(name = "#FIVE CLIPS#", group = "test")
+public class FiveClipAuto extends LinearOpMode {
     Bot bot;
     @Override
     public void runOpMode() throws InterruptedException {
@@ -27,7 +27,7 @@ public class FourClipAuto extends LinearOpMode {
         //the trajectories that it will drive along the course of the auto
 
         TrajectoryActionBuilder StartDeposit = bot.drive.actionBuilder(beginPose)
-                .splineToConstantHeading(new Vector2d(-0,-34),90);
+                .splineToConstantHeading(new Vector2d(-5,-34),90);
 
         TrajectoryActionBuilder SampGrab1 = StartDeposit.endTrajectory().fresh()
                 .setTangent(182)
@@ -53,23 +53,30 @@ public class FourClipAuto extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(36, -60, Math.toRadians(90)), Math.toRadians(3));
 
         TrajectoryActionBuilder Deposit1 = WallGrab1.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(5, -34, Math.toRadians(90)), Math.toRadians(0));
+                .splineToLinearHeading(new Pose2d(0, -34, Math.toRadians(90)), Math.toRadians(0));
 
         TrajectoryActionBuilder WallGrab2 = Deposit1.endTrajectory().fresh()
                 .setTangent(-90)
                 .splineToConstantHeading(new Vector2d(36,-60),6);
 
         TrajectoryActionBuilder Deposit2 = WallGrab2.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(8,-34, Math.toRadians(90)), Math.toRadians(0));
+                .splineToLinearHeading(new Pose2d(5,-34, Math.toRadians(90)), Math.toRadians(0));
 
         TrajectoryActionBuilder WallGrab3 = Deposit2.endTrajectory().fresh()
                 .setTangent(-90)
                 .splineToConstantHeading(new Vector2d(36,-60),6);
 
         TrajectoryActionBuilder Deposit3 = WallGrab3.endTrajectory().fresh()
+                .splineToLinearHeading(new Pose2d(8,-34, Math.toRadians(90)), Math.toRadians(0));
+
+        TrajectoryActionBuilder WallGrab4 = Deposit3.endTrajectory().fresh()
+                .setTangent(-90)
+                .splineToConstantHeading(new Vector2d(36,-60),6);
+
+        TrajectoryActionBuilder Deposit4 = WallGrab4.endTrajectory().fresh()
                 .splineToLinearHeading(new Pose2d(12,-34, Math.toRadians(90)), Math.toRadians(0));
 
-        TrajectoryActionBuilder Park = Deposit3.endTrajectory().fresh()
+        TrajectoryActionBuilder Park = Deposit4.endTrajectory().fresh()
                 .setTangent(-90)
                 .splineToConstantHeading(new Vector2d(36,-60),6);
 
@@ -88,7 +95,7 @@ public class FourClipAuto extends LinearOpMode {
                                 bot.outtake.placeSpecPos()
                         ),
 
-                                bot.outtake.claw.Open(),
+                        bot.outtake.claw.Open(),
 
                         new ParallelAction(
                                 bot.outtake.SafeVipersDown(),
@@ -159,6 +166,22 @@ public class FourClipAuto extends LinearOpMode {
                         ),
 
                         bot.outtake.claw.Open(),
+
+
+                        new ParallelAction(
+                                WallGrab4.build(),
+                                bot.outtake.grabSpecPos()
+                        ),
+
+                        bot.outtake.claw.Close(),
+
+                        new ParallelAction(
+                                Deposit4.build(),
+                                bot.outtake.placeSpecPos()
+                        ),
+
+                        bot.outtake.claw.Open(),
+
 
                         Park.build()
 

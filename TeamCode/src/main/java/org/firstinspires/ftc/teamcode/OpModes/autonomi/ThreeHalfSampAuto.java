@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 import org.firstinspires.ftc.teamcode.Subsystems.Bot;
 import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
 
-import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -13,8 +12,8 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "AUTOTESTINGSAMPLE", group = "test")
-public class AutoTestingSAMPLE extends LinearOpMode {
+@Autonomous(name = "#THREE HALF SAMPLE#", group = "test")
+public class ThreeHalfSampAuto extends LinearOpMode {
     Bot bot;
     @Override
     public void runOpMode() throws InterruptedException {
