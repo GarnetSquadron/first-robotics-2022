@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Subsystems.outake;
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.SequentialAction;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -25,6 +26,9 @@ public class PrimaryOuttakePivot{
     }
     public Action SpecimenOnChamberPos() {
         return pivot.runToDegrees(0);
+    }
+    public Action SpecimenOnChamberPosV2() {
+        return new SequentialAction(pivot.runToDegrees(0),pivot.runToDegrees(70));
     }
     public Action prepareForSpecimenOnChamberPos() {
         return pivot.runToDegrees(45);
