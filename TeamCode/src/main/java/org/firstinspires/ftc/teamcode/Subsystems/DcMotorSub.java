@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
@@ -20,6 +21,7 @@ public class DcMotorSub extends SubsystemBase {
     private int tgtPos;
     private int PosError = 0;//the amount that its set position differs from the real position
     double tolerance = 100;
+    HardwareMap hardwareMap;
     public DcMotorSub(HardwareMap hardwareMap, String MotorName, int minPos, int maxPos, double posCoefficient){
         motor = new Motor(hardwareMap,MotorName);
         m = hardwareMap.get(DcMotorEx.class,MotorName);
@@ -93,6 +95,15 @@ public class DcMotorSub extends SubsystemBase {
     }
     public double getSpeed(){
         return motor.getRate();
+    }
+    public void setEncoder(Motor encoder){
+        motor.encoder = encoder.encoder;
+    }
+    public Motor getMotor(){
+        return motor;
+    }
+    public void ReverseMotor(){
+        motor.motor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
 }

@@ -21,10 +21,11 @@ public class CrankSlideSubSystem extends SubsystemBase {
     private double getToothSize(int teeth){
         return 4.0/(teeth*3.0);
     }
+    private double inchOff = 0.111;
     private double LeftMin = 0.3333-getToothSize(SplineTeeth)/2.0;
     private double RightMin = 1;
-    private double LeftMax = 1-getToothSize(SplineTeeth)/2.0;
-    private double RightMax = 0.3333;
+    private double LeftMax = 1-getToothSize(SplineTeeth)/2.0-inchOff;
+    private double RightMax = 0.3333-inchOff;
     double maxExtensionInInches = 12;// needs to be updated
     double minExtensionInInches = 0;
     double drivingLinkageLength = 4,secondaryLinkageLength = 8;
@@ -65,6 +66,6 @@ public class CrankSlideSubSystem extends SubsystemBase {
         return goToPos(getRatioFromAngle(angle));
     }
     public boolean IsExtended(){
-        return CrankL.getPos()==LeftMax;
+        return CrankL.AtMax();
     }
 }
