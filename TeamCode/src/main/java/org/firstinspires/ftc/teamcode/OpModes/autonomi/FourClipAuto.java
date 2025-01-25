@@ -14,7 +14,7 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "FOUR CLIPS", group = "test")
+@Autonomous(name = "#FOUR CLIPS#", group = "test")
 public class FourClipAuto extends LinearOpMode {
     Bot bot;
     @Override
