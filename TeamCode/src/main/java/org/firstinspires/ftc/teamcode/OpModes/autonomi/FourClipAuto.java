@@ -1,69 +1,170 @@
 package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 
+import org.firstinspires.ftc.teamcode.Subsystems.Bot;
+import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
+
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.ftc.Actions;
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
+import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Subsystems.Bot;
-
-@Autonomous(name = "FourClip")
+@Autonomous(name = "FOUR CLIPS", group = "test")
 public class FourClipAuto extends LinearOpMode {
-    double pushY = -45;
-    double pushX = 47;
-    Vector2d pushPos = new Vector2d(pushX,pushY);
-    Vector2d grabPos = new Vector2d(56,-60);
-    double placeY = -34;
     Bot bot;
-    Pose2d beginPose = new Pose2d(26,-62, Math.toRadians(90));
-
-
-    Action pushSamples = bot.drive.actionBuilder(beginPose)
-            .splineToConstantHeading(new Vector2d(-0,-34),90)
-            .waitSeconds(0.7)
-            .setTangent(182)
-            .splineToConstantHeading(new Vector2d(36,-30),45)
-            .splineToConstantHeading(new Vector2d(34,-0),0)
-            .splineToConstantHeading(new Vector2d(40,-0),5)
-            .splineToConstantHeading(pushPos,2)
-            .splineToConstantHeading(new Vector2d(43,-0),0)
-            .splineToConstantHeading(pushPos,2)
-            .splineToConstantHeading(new Vector2d(52,-0),0)
-            .splineToConstantHeading(pushPos,2)
-            .build();
-    Action grabSpecimen1 = bot.drive.actionBuilder(beginPose)
-            .setTangent(-90)
-            .splineToConstantHeading(grabPos,6)
-            .build();
-    Action placeSpecimen1 = bot.drive.actionBuilder(beginPose)
-            .splineToLinearHeading(new Pose2d(5, placeY, Math.toRadians(90)), Math.toRadians(0))
-            .build();
-    Action grabSpecimen2 = bot.drive.actionBuilder(beginPose)
-            .setTangent(130)
-            .splineToConstantHeading(grabPos,10)
-            .build();
-    Action getPlaceSpecimen2 = bot.drive.actionBuilder(beginPose)
-            .splineToLinearHeading(new Pose2d(8,placeY, Math.toRadians(90)), Math.toRadians(0))
-            .build();
-    Action grabSpecimen3 = bot.drive.actionBuilder(beginPose)
-            .splineToConstantHeading(grabPos,10)
-            .build();
-
-
     @Override
-    public void runOpMode(){
+    public void runOpMode() throws InterruptedException {
+        //the position the auto starts at
+        Pose2d beginPose = new Pose2d(-23, -62, Math.toRadians(90));
+        //the class that contains all the subsystems
+        bot =  new Bot(hardwareMap,telemetry,this::getRuntime,beginPose);
+
+        //the trajectories that it will drive along the course of the auto
+
+        TrajectoryActionBuilder StartDeposit = bot.drive.actionBuilder(beginPose)
+                .splineToConstantHeading(new Vector2d(-0,-34),90);
+
+        TrajectoryActionBuilder SampGrab1 = StartDeposit.endTrajectory().fresh()
+                .setTangent(182)
+                .splineToLinearHeading(new Pose2d(30, -41, Math.toRadians(30)), Math.toRadians(0));
+
+        TrajectoryActionBuilder SampDrop1 = SampGrab1.endTrajectory().fresh()
+                .splineToLinearHeading(new Pose2d(35, -41, Math.toRadians(-40)), Math.toRadians(3));
+
+        TrajectoryActionBuilder SampGrab2 = SampDrop1.endTrajectory().fresh()
+                .splineToLinearHeading(new Pose2d(35, -41, Math.toRadians(30)), Math.toRadians(0));
+
+        TrajectoryActionBuilder SampDrop2 = SampGrab2.endTrajectory().fresh()
+                .splineToLinearHeading(new Pose2d(42, -41, Math.toRadians(-40)), Math.toRadians(3));
+
+        TrajectoryActionBuilder SampGrab3 = SampDrop2.endTrajectory().fresh()
+                .splineToLinearHeading(new Pose2d(42, -41, Math.toRadians(30)), Math.toRadians(0));
+
+        TrajectoryActionBuilder SampDrop3 = SampGrab3.endTrajectory().fresh()
+                .splineToLinearHeading(new Pose2d(41, -41, Math.toRadians(-40)), Math.toRadians(3));
+
+        TrajectoryActionBuilder WallGrab1 = SampDrop3.endTrajectory().fresh()
+                .setTangent(-75)
+                .splineToLinearHeading(new Pose2d(36, -60, Math.toRadians(90)), Math.toRadians(3));
+
+        TrajectoryActionBuilder Deposit1 = WallGrab1.endTrajectory().fresh()
+                .splineToLinearHeading(new Pose2d(5, -34, Math.toRadians(90)), Math.toRadians(0));
+
+        TrajectoryActionBuilder WallGrab2 = Deposit1.endTrajectory().fresh()
+                .setTangent(-90)
+                .splineToConstantHeading(new Vector2d(36,-60),6);
+
+        TrajectoryActionBuilder Deposit2 = WallGrab2.endTrajectory().fresh()
+                .splineToLinearHeading(new Pose2d(8,-34, Math.toRadians(90)), Math.toRadians(0));
+
+        TrajectoryActionBuilder WallGrab3 = Deposit2.endTrajectory().fresh()
+                .setTangent(-90)
+                .splineToConstantHeading(new Vector2d(36,-60),6);
+
+        TrajectoryActionBuilder Deposit3 = WallGrab3.endTrajectory().fresh()
+                .splineToLinearHeading(new Pose2d(12,-34, Math.toRadians(90)), Math.toRadians(0));
+
+        TrajectoryActionBuilder Park = Deposit3.endTrajectory().fresh()
+                .setTangent(-90)
+                .splineToConstantHeading(new Vector2d(36,-60),6);
+
         waitForStart();
+
         Actions.runBlocking(
                 new SequentialAction(
-                        pushSamples,
-                        grabSpecimen1,
 
-                        placeSpecimen1
+                        new ParallelAction(
+                                bot.outtake.claw.Close(),
+                                bot.intake.claw.Open()
+                        ),
+
+                        new ParallelAction(
+                                StartDeposit.build(),
+                                bot.outtake.placeSpecPos()
+                        ),
+
+                                bot.outtake.claw.Open(),
+
+                        new ParallelAction(
+                                bot.outtake.SafeVipersDown(),
+                                SampGrab1.build(),
+                                bot.intake.PoiseToGrab(1)
+                        ),
+
+                        bot.IntakeGrab(),
+
+                        SampDrop1.build(),
+
+                        bot.IntakeDropSample(),
+
+                        SampGrab2.build(),
+
+                        bot.IntakeGrab(),
+
+                        SampDrop2.build(),
+
+                        bot.IntakeDropSample(),
+
+                        SampGrab3.build(),
+
+                        bot.IntakeGrab(),
+
+                        SampDrop3.build(),
+
+                        bot.IntakeDropSample(),
+
+                        new ParallelAction(
+                                WallGrab1.build(),
+                                bot.outtake.grabSpecPos()
+                        ),
+
+                        bot.outtake.claw.Close(),
+
+                        new ParallelAction(
+                                Deposit1.build(),
+                                bot.outtake.placeSpecPos()
+                        ),
+
+                        bot.outtake.claw.Open(),
+
+                        new ParallelAction(
+                                WallGrab2.build(),
+                                bot.outtake.grabSpecPos()
+                        ),
+
+                        bot.outtake.claw.Close(),
+
+                        new ParallelAction(
+                                Deposit2.build(),
+                                bot.outtake.placeSpecPos()
+                        ),
+
+                        bot.outtake.claw.Open(),
+
+                        new ParallelAction(
+                                WallGrab3.build(),
+                                bot.outtake.grabSpecPos()
+                        ),
+
+                        bot.outtake.claw.Close(),
+
+                        new ParallelAction(
+                                Deposit3.build(),
+                                bot.outtake.placeSpecPos()
+                        ),
+
+                        bot.outtake.claw.Open(),
+
+                        Park.build()
+
+
                 )
         );
+        StaticInfo.LastOpModeWasAuto = true;
     }
 }
-
