@@ -190,6 +190,16 @@ public class Bot {
                 )
         );
     }
+    Pose2d ChamberPos = new Pose2d(0,-20,Math.PI/2);
+
+
+    public Action placeSpecPos(){
+        return new SequentialAction(
+                outtake.prepareToPlaceSpec(),
+                //drive.StraightTo(ChamberPos),
+                outtake.placeSpecPos()
+        );
+    }
 
     //endregion
 

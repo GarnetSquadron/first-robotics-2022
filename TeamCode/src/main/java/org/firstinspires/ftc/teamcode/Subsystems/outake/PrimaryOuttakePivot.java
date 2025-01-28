@@ -1,23 +1,18 @@
 package org.firstinspires.ftc.teamcode.Subsystems.outake;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.SequentialAction;
-import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Subsystems.ActionServo;
-import org.firstinspires.ftc.teamcode.Subsystems.ServoSub;
-import org.firstinspires.ftc.teamcode.enums.AngleUnit;
 
 import java.util.function.DoubleSupplier;
 
 
 public class PrimaryOuttakePivot{
     public ActionServo pivot;
-
     public PrimaryOuttakePivot(HardwareMap hardwareMap, DoubleSupplier time) {
          pivot = new ActionServo(hardwareMap,"primary pivot",0.9,0,2,time);
     }
-
     public Action BucketPos() {
         return pivot.runToDegrees(135);
     }
@@ -28,7 +23,7 @@ public class PrimaryOuttakePivot{
         return pivot.runToDegrees(0);
     }
     public Action SpecimenOnChamberPosV2() {
-        return new SequentialAction(pivot.runToDegrees(0),pivot.runToDegrees(70));
+        return new SequentialAction(pivot.runToDegrees(0), pivot.runToDegrees(70));
     }
     public Action prepareForSpecimenOnChamberPos() {
         return pivot.runToDegrees(45);

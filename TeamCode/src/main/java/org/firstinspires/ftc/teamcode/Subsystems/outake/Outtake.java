@@ -1,11 +1,7 @@
 package org.firstinspires.ftc.teamcode.Subsystems.outake;
 
-import androidx.annotation.NonNull;
-
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.SleepAction;
-import com.acmerobotics.roadrunner.ftc.Actions;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -45,20 +41,17 @@ public class Outtake {
                 claw.Open()
         );
     }
+    public Action prepareToPlaceSpec(){
+        return new ParallelAction(
+                claw.Close(),
+                pivot1.SpecimenOnChamberPos(),
+                pivot2.SpecimenOnChamberPos(),
+                vipers.Down()
+        );
+    }
     public Action placeSpecPos(){
         return new SequentialAction(
-                new ParallelAction(
-                        vipers.prepareSpecimenPlace(),
-                        claw.Close(),
-                        pivot1.prepareForSpecimenOnChamberPos(),
-                        pivot2.prepareForSpecimenOnChamberPos()
-                ),
-                new ParallelAction(
-                        vipers.SpecimenPlace(),
-                        pivot1.SpecimenOnChamberPos(),
-                        pivot2.SpecimenOnChamberPos(),
-                        vipers.SpecimenHold()
-                ),
+                vipers.SpecimenHold(),
                 claw.Open()
         );
     }
