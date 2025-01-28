@@ -14,6 +14,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.FieldDimensions;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
+import org.firstinspires.ftc.teamcode.PinpointDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.outake.Outtake;
 import org.firstinspires.ftc.teamcode.Subsystems.outake.PrimaryOuttakePivot;
@@ -27,7 +28,7 @@ import java.util.function.DoubleSupplier;
  * the class that holds everything
  */
 public class Bot {
-    public MecanumDrive drive;
+    public PinpointDrive drive;
     public Pose2d beginPose;
     public HeadlessDriveCommand headlessDriveCommand;
     public RegularDrive regularDrive;
@@ -41,7 +42,7 @@ public class Bot {
 //            .build();
     public Bot(HardwareMap hardwareMap, Telemetry telemetry, DoubleSupplier time, Pose2d beginPose){
         this.beginPose = beginPose;
-        drive = new MecanumDrive(hardwareMap,beginPose);
+        drive = new PinpointDrive(hardwareMap,beginPose);
         headlessDriveCommand = new HeadlessDriveCommand(drive);
         regularDrive = new RegularDrive(drive);
         outtake = new Outtake(hardwareMap,time);
@@ -51,7 +52,7 @@ public class Bot {
     }
     public Bot(HardwareMap hardwareMap, Telemetry telemetry, DoubleSupplier time){
         this.beginPose = MecanumDrive.pose;
-        drive = new MecanumDrive(hardwareMap);
+        drive = new PinpointDrive(hardwareMap);
         headlessDriveCommand = new HeadlessDriveCommand(drive);
         regularDrive = new RegularDrive(drive);
         outtake = new Outtake(hardwareMap,time);

@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.ServoSub;
 
 import java.util.function.DoubleSupplier;
 
-public class CrankSlideSubSystem extends SubsystemBase {
+public class CrankSlideSubSystem {
     public final ActionServo CrankL;
     public final ActionServo CrankR;
     private int SplineTeeth = 25;
