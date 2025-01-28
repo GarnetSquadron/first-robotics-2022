@@ -100,7 +100,8 @@ public class FiveClipAuto extends LinearOpMode {
                         new ParallelAction(
                                 bot.outtake.SafeVipersDown(),
                                 SampGrab1.build(),
-                                bot.intake.PoiseToGrab(1)
+                                bot.intake.PoiseToGrab(1),
+                                bot.intake.wrist.runToDegrees(-70)
                         ),
 
                         bot.IntakeGrab(),
