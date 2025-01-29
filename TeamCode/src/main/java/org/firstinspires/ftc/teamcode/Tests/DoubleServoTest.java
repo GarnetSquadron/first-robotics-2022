@@ -62,8 +62,6 @@ public class DoubleServoTest extends LinearOpMode {
             telemetry.addData("rightPos", rightServo.getPosition());
             telemetry.addData("leftAngle", leftServo.getAngle());
             telemetry.addData("rightAngle", rightServo.getAngle());
-            telemetry.addData("rightAngle", rightServo.getVoltage());
-
 
             telemetry.update();
         }
