@@ -12,7 +12,7 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "THREE HALF SAMPLE", group = "test")
+@Autonomous(name = "#THREE HALF SAMPLE#", group = "test")
 public class ThreeHalfSampAuto extends LinearOpMode {
     Bot bot;
     @Override

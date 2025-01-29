@@ -61,10 +61,13 @@ public class ViperSlidesSubSystem{
         return GoToPos(0.1,0);
     }
     public Action SpecimenPlace(){
-        return GoToPos(0.4,0);
+        return GoToPos(0.5,0);
+    }
+    public Action SpecimenPlaceV2(){
+        return GoToPos(0.1,0);
     }
     public Action SpecimenHold(){
-        return GoToPosAndHoldIt(0.4,0,0.5);
+        return GoToPosAndHoldIt(0.5,0,0.5);
     }
 
     public Action Down() {

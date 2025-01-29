@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.SleepAction;
+import com.acmerobotics.roadrunner.ftc.Actions;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -57,6 +59,18 @@ public class Outtake {
                         pivot2.SpecimenOnChamberPos(),
                         vipers.SpecimenHold()
                 ),
+                claw.Open()
+        );
+    }
+    public Action placeSpecPosV2(){
+        return new SequentialAction(
+                pivot1.SpecimenOnChamberPos(),
+                new ParallelAction(
+                        vipers.SpecimenPlaceV2(),
+                        pivot1.SpecimenOnChamberPosV2(),
+                        pivot2.SpecimenOnChamberPos()
+                ),
+                new SleepAction(0.5),
                 claw.Open()
         );
     }
