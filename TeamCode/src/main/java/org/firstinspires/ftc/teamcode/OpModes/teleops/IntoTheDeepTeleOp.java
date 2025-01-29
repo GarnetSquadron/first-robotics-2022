@@ -158,7 +158,8 @@ public class IntoTheDeepTeleOp extends OpMode {
 //        telemetry.addData("outtake claw open",bot.outtake.claw.isOpen());
 //
         telemetry.addData("direction", MecanumDrive.pose.heading.toDouble());
-
+        telemetry.addData("x", MecanumDrive.pose.position.x);
+        telemetry.addData("y", MecanumDrive.pose.position.y);
         telemetry.addData("CURRENT ACTIONS", actionScheduler.getActionIDs());
         telemetry.update();
         FtcDashboard.getInstance().sendTelemetryPacket(packet);
