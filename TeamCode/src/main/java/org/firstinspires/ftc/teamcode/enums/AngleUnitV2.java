@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.enums;
 
-public enum AngleUnit {
+public enum AngleUnitV2 {
     DEGREES,
     RADIANS,
     RATIO//number from 0 to 1

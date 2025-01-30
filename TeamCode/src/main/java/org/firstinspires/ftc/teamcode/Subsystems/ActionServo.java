@@ -8,7 +8,7 @@ import com.acmerobotics.roadrunner.SequentialAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.ExtraMath;
-import org.firstinspires.ftc.teamcode.enums.AngleUnit;
+import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
 import java.util.function.DoubleSupplier;
 /**
@@ -30,7 +30,7 @@ public class ActionServo {
      * @param t
      * @param hardwareAngleRange
      */
-    public ActionServo(HardwareMap hardwareMap, String name, double min, double max, double t, DoubleSupplier time,double hardwareAngleRange,AngleUnit unit){
+    public ActionServo(HardwareMap hardwareMap, String name, double min, double max, double t, DoubleSupplier time, double hardwareAngleRange, AngleUnitV2 unit){
         servo = new ServoSub(hardwareMap,name,min,max,time,t);
         this.min = min;
         this.max = max;
@@ -40,16 +40,16 @@ public class ActionServo {
         this(hardwareMap,name,min,max,0.5,time);
     }
     public ActionServo(HardwareMap hardwareMap, String name,double min,double max, double t,DoubleSupplier time){
-        this(hardwareMap,name,min,max,t,time,255,AngleUnit.DEGREES);
+        this(hardwareMap,name,min,max,t,time,255, AngleUnitV2.DEGREES);
     }
-    public ActionServo(HardwareMap hardwareMap, String name,double min,double max, DoubleSupplier time,double hardwareAngleRange,AngleUnit unit){
+    public ActionServo(HardwareMap hardwareMap, String name, double min, double max, DoubleSupplier time, double hardwareAngleRange, AngleUnitV2 unit){
         this(hardwareMap,name,min,max,0.5,time,hardwareAngleRange,unit);
     }
-    public void SetSoftwareAngleRange(double range, AngleUnit unit){
-        softwareAngleRangeInDegrees = ExtraMath.ConvertUnit(range,unit,AngleUnit.DEGREES);
+    public void SetSoftwareAngleRange(double range, AngleUnitV2 unit){
+        softwareAngleRangeInDegrees = ExtraMath.ConvertUnit(range,unit, AngleUnitV2.DEGREES);
     }
-    public void SetHardwareAngleRange(double range, AngleUnit unit){
-        softwareAngleRangeInDegrees = ExtraMath.ConvertUnit(range,unit,AngleUnit.DEGREES)*Math.abs(max-min);
+    public void SetHardwareAngleRange(double range, AngleUnitV2 unit){
+        softwareAngleRangeInDegrees = ExtraMath.ConvertUnit(range,unit, AngleUnitV2.DEGREES)*Math.abs(max-min);
     }
     public void Set0Angle(double ratio){
         zeroAngle = ratio;
