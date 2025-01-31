@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.OpmodeActionSceduling.TeleOpActionScheduler;
 import org.firstinspires.ftc.teamcode.Subsystems.Bot;
 import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
-import org.firstinspires.ftc.teamcode.enums.AngleUnit;
+import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 import org.firstinspires.ftc.teamcode.enums.Color;
 import org.firstinspires.ftc.teamcode.risingEdgeDetector;
 
@@ -150,7 +150,7 @@ public class IntoTheDeepTeleOp extends OpMode {
                 Gpad1::getRightX,sensitivity
         );
         if(gamepad1.y){
-            bot.drive.SetDirectionTo(0, AngleUnit.RADIANS);
+            bot.drive.SetDirectionTo(0, AngleUnitV2.RADIANS);
         }
         sensitivity = 0.5;
         if(gamepad1.left_bumper){
@@ -167,7 +167,8 @@ public class IntoTheDeepTeleOp extends OpMode {
 
 
         telemetry.addData("direction", MecanumDrive.pose.heading.toDouble());
-
+        telemetry.addData("x", MecanumDrive.pose.position.x);
+        telemetry.addData("y", MecanumDrive.pose.position.y);
         telemetry.addData("CURRENT ACTIONS", actionScheduler.getActionIDs());
         telemetry.update();
         FtcDashboard.getInstance().sendTelemetryPacket(packet);
