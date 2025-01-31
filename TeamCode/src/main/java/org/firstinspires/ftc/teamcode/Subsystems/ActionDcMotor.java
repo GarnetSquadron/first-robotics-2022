@@ -10,7 +10,7 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
-import org.firstinspires.ftc.teamcode.enums.AngleUnit;
+import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
 public class ActionDcMotor {
     private DcMotorSub motor;
@@ -42,13 +42,13 @@ public class ActionDcMotor {
     public class SetTgtPosAngle implements Action{
         double pos,tolerance;
         boolean ChangingTolerance = true;
-        AngleUnit unit;
-        public SetTgtPosAngle(double pos, AngleUnit unit){
+        AngleUnitV2 unit;
+        public SetTgtPosAngle(double pos, AngleUnitV2 unit){
             this.pos = pos;
             this.unit = unit;
             ChangingTolerance = false;
         }
-        public SetTgtPosAngle(double pos, AngleUnit unit,double tolerance){
+        public SetTgtPosAngle(double pos, AngleUnitV2 unit,double tolerance){
             this.pos = pos;
             this.unit = unit;
             this.tolerance = tolerance;
@@ -150,16 +150,16 @@ public class ActionDcMotor {
     public Action goUntilStoppedAndAssumeTgtPosHasBeenReached(double pos){
         return new CancelableAction(new SequentialAction(new SetTgtPosRatio(pos),new goUntilStoppedAndAssumeTgtPosHasBeenReached()),Stop);
     }
-    public Action GoToAngle(double angle,AngleUnit unit){
+    public Action GoToAngle(double angle,AngleUnitV2 unit){
         return new CancelableAction(new SequentialAction(new SetTgtPosAngle(angle,unit),goToTgtPos),Stop);
     }
-    public Action GoToAngleAndHoldIt(double angle,double tolerance,double holdPower,AngleUnit unit){
+    public Action GoToAngleAndHoldIt(double angle,double tolerance,double holdPower,AngleUnitV2 unit){
         return new CancelableAction(new SequentialAction(new SetTgtPosAngle(angle,unit,tolerance),new goToTgtPosAndHoldIt(holdPower)),Stop);
     }
-    public Action GoToAngleButIfStoppedAssumePosHasBeenReached(double angle,double tolerance,AngleUnit unit){
+    public Action GoToAngleButIfStoppedAssumePosHasBeenReached(double angle,double tolerance,AngleUnitV2 unit){
         return new CancelableAction(new SequentialAction(new SetTgtPosAngle(angle,unit,tolerance),new goToTgtPosButIfStoppedAssumeTgtPosHasBeenReached()),Stop);
     }
-    public Action goUntilStoppedAndAssumeTgtAngleHasBeenReached(double angle,double tolerance,AngleUnit unit){
+    public Action goUntilStoppedAndAssumeTgtAngleHasBeenReached(double angle,double tolerance,AngleUnitV2 unit){
         return new CancelableAction(new SequentialAction(new SetTgtPosAngle(angle,unit,tolerance),new goUntilStoppedAndAssumeTgtPosHasBeenReached()),Stop);
     }
     public double getDistanceToTarget(){
@@ -168,7 +168,7 @@ public class ActionDcMotor {
     public double getTargetPos(){
         return motor.getTargetPos();
     }
-    public double getTargetAngle(AngleUnit unit){
+    public double getTargetAngle(AngleUnitV2 unit){
         return motor.getTargetAngle(unit);
     }
     public double getCurrent(){
@@ -177,7 +177,7 @@ public class ActionDcMotor {
     public double getPos(){
         return motor.getPos();
     }
-    public double getAngle(AngleUnit unit){
+    public double getAngle(AngleUnitV2 unit){
         return motor.getPosInAngle(unit);
     }
     public double getPower(){

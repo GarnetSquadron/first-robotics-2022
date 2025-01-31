@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.ExtraMath;
-import org.firstinspires.ftc.teamcode.enums.AngleUnit;
+import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
 /**
  * Class to keep all DcMotor actions that can be used for multiple different motors
@@ -63,10 +63,10 @@ public class DcMotorSub extends SubsystemBase {
     public void setTgPosRatio(double posRatio){
         setTgPosRatio(posRatio,tolerance);
     }
-    public void setTgPosAngle(double angle,AngleUnit unit,double tolerance){
-        setTgPosTick((int)Math.round(ticksInFullCircle*ExtraMath.ConvertUnit(angle,unit,AngleUnit.REVOLUTIONS)),tolerance);
+    public void setTgPosAngle(double angle,AngleUnitV2 unit,double tolerance){
+        setTgPosTick((int)Math.round(ticksInFullCircle*ExtraMath.ConvertUnit(angle,unit,AngleUnitV2.REVOLUTIONS)),tolerance);
     }
-    public void setTgPosAngle(double angle,AngleUnit unit){
+    public void setTgPosAngle(double angle,AngleUnitV2 unit){
         setTgPosAngle(angle,unit,tolerance);
     }
     public void runToTgPos(){
@@ -100,13 +100,13 @@ public class DcMotorSub extends SubsystemBase {
     public double getRatioPos(){
         return ExtraMath.convertToRatio(getPos(),MinPos,MaxPos);
     }
-    public double getPosInAngle(AngleUnit unit){
-        return ExtraMath.ConvertUnit(getPos()/ticksInFullCircle,AngleUnit.REVOLUTIONS,unit);
+    public double getPosInAngle(AngleUnitV2 unit){
+        return ExtraMath.ConvertUnit(getPos()/ticksInFullCircle,AngleUnitV2.REVOLUTIONS,unit);
     }
     public int getTargetPos(){
         return tgtPos;
     }
-    public double getTargetAngle(AngleUnit unit){
+    public double getTargetAngle(AngleUnitV2 unit){
         return ExtraMath.getFullCircle(unit)*tgtPos/ticksInFullCircle;
     }
     public double getCurrent(){
