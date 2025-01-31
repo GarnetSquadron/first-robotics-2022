@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Subsystems.ActionDcMotor;
 import org.firstinspires.ftc.teamcode.Subsystems.DcMotorSub;
-import org.firstinspires.ftc.teamcode.enums.AngleUnit;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
 import java.util.function.DoubleSupplier;
@@ -27,7 +26,7 @@ public class DcMotorPrimaryOuttakePivot{
         return pivot.GoToAngleAndHoldIt(0,0,0.5, AngleUnitV2.DEGREES);
     }
     public Action SpecimenOnChamberPosV2() {
-        return new SequentialAction(pivot.GoToAngleAndHoldIt(0,0,0.5, AngleUnitV2.DEGREES), pivot.GoToAngleAndHoldIt(70,0,0.5,AngleUnit.DEGREES));
+        return new SequentialAction(pivot.GoToAngleAndHoldIt(0,0,0.5, AngleUnitV2.DEGREES), pivot.GoToAngleAndHoldIt(70,0,0.5,AngleUnitV2.DEGREES));
     }
     public Action prepareForSpecimenOnChamberPos() {
         return pivot.GoToAngleAndHoldIt(45,0,0.5,AngleUnitV2.DEGREES);
