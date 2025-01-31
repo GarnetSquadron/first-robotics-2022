@@ -38,7 +38,7 @@ public class ExtraMath {
         if(unit == AngleUnit.RADIANS){
             return Tau;
         }
-        if(unit == AngleUnit.RATIO){
+        if(unit == AngleUnit.REVOLUTIONS){
             return 1;
         }
         else {

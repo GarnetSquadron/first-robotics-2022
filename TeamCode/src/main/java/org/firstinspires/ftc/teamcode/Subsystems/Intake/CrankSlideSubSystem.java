@@ -28,7 +28,7 @@ public class CrankSlideSubSystem extends SubsystemBase {
     private double RightMax = 0.3333-inchOff;
     double maxExtensionInInches = 12;// needs to be updated
     double minExtensionInInches = 0;
-    double drivingLinkageLength = 4,secondaryLinkageLength = 8;
+    double drivingLinkageLength = 7,secondaryLinkageLength = 13;
 
     public CrankSlideSubSystem(HardwareMap hardwareMap, DoubleSupplier time) {
         CrankL = new ActionServo(hardwareMap,"CrankLeft", LeftMin, LeftMax,1,time);
@@ -41,11 +41,15 @@ public class CrankSlideSubSystem extends SubsystemBase {
                         CrankR.runToRatio(ratio)
                 );
     }
+    public Action goToRad(double angle){
+        return new ParallelAction
+                (
+                        CrankL.runToRad(angle),
+                        CrankR.runToRad(angle)
+                );
+    }
     public double getAngleFromRatio(double ratio){
         return ratio*PI;
-    }
-    public double getRatioFromAngle(double angle){
-        return angle/PI;
     }
     public Action undeploy() {
         return goToPos(0);
@@ -62,8 +66,11 @@ public class CrankSlideSubSystem extends SubsystemBase {
      * @return
      */
     public Action goToLengthInInches(double length){
+        if(length == 0){
+            return goToPos(0);
+        }
         double angle = Math.acos((pow(secondaryLinkageLength,2)-pow(length,2)-pow(drivingLinkageLength,2))/(2*length*drivingLinkageLength));
-        return goToPos(getRatioFromAngle(angle));
+        return goToRad(angle);
     }
     public boolean IsExtended(){
         return CrankL.AtMax();

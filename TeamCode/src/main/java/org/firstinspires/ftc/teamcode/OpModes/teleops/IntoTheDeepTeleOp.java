@@ -134,6 +134,14 @@ public class IntoTheDeepTeleOp extends OpMode {
             actionScheduler.cancelAll();
             actionScheduler.start(bot.outtake.placeSpecPos(),"Place Specimen");
         }
+//        if(!(
+//                actionScheduler.TeleOpActionRunning("transfer")||
+//                        actionScheduler.TeleOpActionRunning("deploy intake")||
+//                        actionScheduler.TeleOpActionRunning("undeploy intake")
+//        )||gamepad2.left_stick_y>0){
+//            actionScheduler.start(bot.intake.crankSlide.goToLengthInInches(18-11*gamepad2.left_stick_y),"adjusting length");
+//        }
+        //^^^ coming soon!!!
 
 
         //wheels driver
@@ -155,8 +163,9 @@ public class IntoTheDeepTeleOp extends OpMode {
 
 
 
-//        telemetry.addData("outtake claw open",bot.outtake.claw.isOpen());
-//
+        telemetry.addData("left stick y", gamepad2.left_stick_y);
+
+
         telemetry.addData("direction", MecanumDrive.pose.heading.toDouble());
 
         telemetry.addData("CURRENT ACTIONS", actionScheduler.getActionIDs());

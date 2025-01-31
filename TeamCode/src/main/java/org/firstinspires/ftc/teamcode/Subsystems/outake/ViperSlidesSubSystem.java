@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.Subsystems.outake;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.NullAction;
 import com.acmerobotics.roadrunner.ParallelAction;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
@@ -23,8 +22,8 @@ public class ViperSlidesSubSystem{
     private double posCoefficient = 0.03;//0.05<-original, worked decently
     private double downTolerance = 10, downWaitTime = 1;
     public ViperSlidesSubSystem(HardwareMap hardwareMap){
-         l = new ActionDcMotor(hardwareMap,"LeftViper",0,-3500,posCoefficient);
-         r = new ActionDcMotor(hardwareMap,"RightViper",0,-3500,posCoefficient);
+         l = new ActionDcMotor(hardwareMap,"LeftViper",0,-3500,posCoefficient,100);
+         r = new ActionDcMotor(hardwareMap,"RightViper",0,-3500,posCoefficient,100);
          r.reverseMotor();
          r.setEncoder(l.getMotor());
     }
@@ -37,37 +36,37 @@ public class ViperSlidesSubSystem{
     public double GetTgtPos(){
         return l.getTargetPos();
     }
-    public Action GoToPos(double pos,double tolerance){
-        return new ParallelAction(l.GoToPos(pos,tolerance),r.GoToPos(pos,tolerance));
+    public Action GoToPos(double pos){
+        return new ParallelAction(l.GoToPos(pos),r.GoToPos(pos));
     }
-    public Action GoToPosAndHoldIt(double pos,double tolerance,double holdPower){
-        return new ParallelAction(l.GoToPosAndHoldIt(pos,tolerance,holdPower),r.GoToPosAndHoldIt(pos,tolerance,holdPower));
+    public Action GoToPosAndHoldIt(double pos,double holdPower){
+        return new ParallelAction(l.GoToPosAndHoldIt(pos,holdPower),r.GoToPosAndHoldIt(pos,holdPower));
     }
     public Action Up() {
         if(disabled){
             return new NullAction();
         }
         else
-            return GoToPos(1,0);
+            return GoToPos(1);
     }
     public Action HoldUp() {
         if(disabled){
             return new NullAction();
         }
         else
-            return GoToPosAndHoldIt(1,0,0.5);
+            return GoToPosAndHoldIt(1,0.5);
     }
     public Action prepareSpecimenPlace(){
-        return GoToPos(0.1,0);
+        return GoToPos(0.1);
     }
     public Action SpecimenPlace(){
-        return GoToPos(0.5,0);
+        return GoToPos(0.5);
     }
     public Action SpecimenPlaceV2(){
-        return GoToPos(0.1,0);
+        return GoToPos(0.1);
     }
     public Action SpecimenHold(){
-        return GoToPosAndHoldIt(0.5,0,0.5);
+        return GoToPosAndHoldIt(0.5,0.5);
     }
 
     public Action Down() {
@@ -87,10 +86,10 @@ public class ViperSlidesSubSystem{
 
     //region unused
     public Action TgtPosUp(){
-        return new ParallelAction(l.new SetTgtPos(1,0),r.new SetTgtPos(1,0));
+        return new ParallelAction(l.new SetTgtPosRatio(1,0),r.new SetTgtPosRatio(1,0));
     }
     public Action TgtPosDown(){
-        return new ParallelAction(l.new SetTgtPos(0,0),r.new SetTgtPos(0,0));
+        return new ParallelAction(l.new SetTgtPosRatio(0,0),r.new SetTgtPosRatio(0,0));
     }
     //endregion
 }
