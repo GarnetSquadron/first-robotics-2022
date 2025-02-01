@@ -115,14 +115,40 @@ public class ActionDcMotor {
     }
     public class goUntilStoppedAndAssumeTgtPosHasBeenReached implements Action {
         boolean firstLoop=true;
-        public goUntilStoppedAndAssumeTgtPosHasBeenReached(){
+        double power;
+        int pos;
+        public goUntilStoppedAndAssumeTgtPosHasBeenReached(double power, int pos){
+            this.power = power;
+            this.pos = pos;
         }
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            motor.runToTgPos();
+            motor.JustKeepRunning(power);
             if(getSpeed() == 0&&!firstLoop){
                 motor.stop();
-                motor.setPosition(motor.getTargetPos());
+                motor.setPosition(pos);
+                return false;
+            }
+            firstLoop = false;
+            return true;
+        }
+    }
+    public class goUntilStoppedAndAssumeTgtAngleHasBeenReached implements Action {
+        boolean firstLoop=true;
+        double power;
+        double angle;
+        AngleUnitV2 unit;
+        public goUntilStoppedAndAssumeTgtAngleHasBeenReached(double power, double angle,AngleUnitV2 unit){
+            this.power = power;
+            this.angle = angle;
+            this.unit = unit;
+        }
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            motor.JustKeepRunning(power);
+            if(getSpeed() == 0&&!firstLoop){
+                motor.stop();
+                motor.setAngle(angle,unit);
                 return false;
             }
             firstLoop = false;
@@ -147,8 +173,8 @@ public class ActionDcMotor {
     public Action GoToPosButIfStoppedAssumePosHasBeenReached(double pos,double tolerance){
         return new CancelableAction(new SequentialAction(new SetTgtPosRatio(pos,tolerance),new goToTgtPosButIfStoppedAssumeTgtPosHasBeenReached()),Stop);
     }
-    public Action goUntilStoppedAndAssumeTgtPosHasBeenReached(double pos){
-        return new CancelableAction(new SequentialAction(new SetTgtPosRatio(pos),new goUntilStoppedAndAssumeTgtPosHasBeenReached()),Stop);
+    public Action goUntilStoppedAndAssumeTgtPosHasBeenReached(int pos,double power){
+        return new CancelableAction(new goUntilStoppedAndAssumeTgtPosHasBeenReached(power,pos),Stop);
     }
     public Action GoToAngle(double angle,AngleUnitV2 unit){
         return new CancelableAction(new SequentialAction(new SetTgtPosAngle(angle,unit),goToTgtPos),Stop);
@@ -159,8 +185,8 @@ public class ActionDcMotor {
     public Action GoToAngleButIfStoppedAssumePosHasBeenReached(double angle,double tolerance,AngleUnitV2 unit){
         return new CancelableAction(new SequentialAction(new SetTgtPosAngle(angle,unit,tolerance),new goToTgtPosButIfStoppedAssumeTgtPosHasBeenReached()),Stop);
     }
-    public Action goUntilStoppedAndAssumeTgtAngleHasBeenReached(double angle,double tolerance,AngleUnitV2 unit){
-        return new CancelableAction(new SequentialAction(new SetTgtPosAngle(angle,unit,tolerance),new goUntilStoppedAndAssumeTgtPosHasBeenReached()),Stop);
+    public Action goUntilStoppedAndAssumeTgtAngleHasBeenReached(double angle,double power,AngleUnitV2 unit){
+        return new CancelableAction(new goUntilStoppedAndAssumeTgtAngleHasBeenReached(power,angle,unit),Stop);
     }
     public double getDistanceToTarget(){
         return motor.getTargetPos()-motor.getPos();

@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.ExtraMath;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
@@ -85,6 +86,10 @@ public class DcMotorSub extends SubsystemBase {
             motor.set(holdPower);// keep the motor up
         }
     }
+    public void JustKeepRunning(double power){
+        motor.setRunMode(Motor.RunMode.RawPower);
+        motor.set(power);
+    }
     public void stop(){
         motor.stopMotor();
     }
@@ -114,6 +119,9 @@ public class DcMotorSub extends SubsystemBase {
     }
     public void setPosition(int position){
         PosError = position-motor.getCurrentPosition();
+    }
+    public void setAngle(double angle, AngleUnitV2 unit){
+        PosError = (int)Math.round(ticksInFullCircle*ExtraMath.ConvertUnit(angle,unit,AngleUnitV2.REVOLUTIONS))-motor.getCurrentPosition();
     }
     public double getPower(){
         return motor.motor.getPower();
