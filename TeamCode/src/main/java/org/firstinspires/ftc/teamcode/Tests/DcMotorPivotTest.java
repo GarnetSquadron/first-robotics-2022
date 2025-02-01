@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.BooleanChangeDetector;
 import org.firstinspires.ftc.teamcode.BooleanToggler;
 import org.firstinspires.ftc.teamcode.OpmodeActionSceduling.TeleOpActionScheduler;
 import org.firstinspires.ftc.teamcode.Subsystems.outake.DcMotorPrimaryOuttakePivot;
-import org.firstinspires.ftc.teamcode.enums.AngleUnit;
+import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
 @TeleOp(name = "pivot motor test",group = "test")
 public class DcMotorPivotTest extends OpMode {
@@ -40,12 +40,12 @@ public class DcMotorPivotTest extends OpMode {
             scheduler.start(pivot.SpecimenOnChamberPos(),"bucket");
         }
         if(X.getState()){
-            scheduler.start(pivot.pivot.GoToAngle(180,AngleUnit.DEGREES),"bucket");
+            scheduler.start(pivot.pivot.GoToAngle(180,AngleUnitV2.DEGREES),"bucket");
         }
         telemetry.addData("ticks",pivot.pivot.getPos());
-        telemetry.addData("angle",pivot.pivot.getAngle(AngleUnit.DEGREES));
+        telemetry.addData("angle",pivot.pivot.getAngle(AngleUnitV2.DEGREES));
         telemetry.addData("tgtTicks",pivot.pivot.getTargetPos());
-        telemetry.addData("tgtAngle",pivot.pivot.getTargetAngle(AngleUnit.DEGREES));
+        telemetry.addData("tgtAngle",pivot.pivot.getTargetAngle(AngleUnitV2.DEGREES));
         telemetry.update();
         scheduler.update();
     }
