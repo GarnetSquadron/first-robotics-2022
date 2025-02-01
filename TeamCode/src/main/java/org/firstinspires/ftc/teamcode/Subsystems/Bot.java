@@ -124,7 +124,7 @@ public class Bot {
     public Action PositionClaw(Point tgtp, double length, double angle){
         Pose2d botPos = new Pose2d(tgtp.x+length*Math.sin(angle),tgtp.y-length*Math.cos(angle), angle);
 
-        return new CancelableAction( new ParallelAction( drive.StraightTo(botPos),new InstantAction(()->intake.crankSlide.goToLengthInInches(length))),drive.Stop());
+        return new CancelableAction( new ParallelAction( drive.StraightTo(botPos),intake.crankSlide.goToLengthInInches(length)),drive.Stop());
     }
 
     /**

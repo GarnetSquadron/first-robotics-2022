@@ -9,6 +9,7 @@ import com.acmerobotics.roadrunner.ParallelAction;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.ExtraMath;
 import org.firstinspires.ftc.teamcode.Subsystems.ActionServo;
 import org.firstinspires.ftc.teamcode.Subsystems.ServoSub;
 
@@ -59,7 +60,7 @@ public class CrankSlideSubSystem {
     }
 
     public double getExtensionInInches() {
-        return minExtensionInInches+CrankL.getPos()*(maxExtensionInInches-minExtensionInInches);
+        return Math.hypot(drivingLinkageLength*Math.sin(CrankL.getPosInRad()),secondaryLinkageLength)+drivingLinkageLength*Math.cos(CrankL.getPosInRad());
     }
     /**
      * in inches
@@ -69,7 +70,9 @@ public class CrankSlideSubSystem {
         if(length == 0){
             return goToPos(0);
         }
-        double angle = Math.acos((pow(secondaryLinkageLength,2)-pow(length,2)-pow(drivingLinkageLength,2))/(2*length*drivingLinkageLength));
+        double cos = (pow(secondaryLinkageLength,2)-pow(length,2)-pow(drivingLinkageLength,2))/(2*length*drivingLinkageLength);
+        cos = ExtraMath.Clamp(cos,1,-1);
+        double angle = Math.acos(cos);
         return goToRad(angle);
     }
     public boolean IsExtended(){
