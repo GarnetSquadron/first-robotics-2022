@@ -83,110 +83,113 @@ public class FiveClipAuto extends LinearOpMode {
         waitForStart();
 
         Actions.runBlocking(
-                new SequentialAction(
+                new ParallelAction(
+                        bot.UpdateMotorPowers(),
+                        new SequentialAction(
 
-                        new ParallelAction(
+                                new ParallelAction(
+                                        bot.outtake.claw.Close(),
+                                        bot.intake.claw.Open()
+                                ),
+
+                                new ParallelAction(
+                                        StartDeposit.build(),
+                                        bot.outtake.placeSpecPos()
+                                ),
+
+                                bot.outtake.claw.Open(),
+
+                                new ParallelAction(
+                                        bot.outtake.SafeVipersDown(),
+                                        SampGrab1.build(),
+                                        bot.intake.PoiseToGrab(1),
+                                        bot.intake.wrist.runToDegrees(-70)
+                                ),
+
+                                bot.IntakeGrab(),
+
+                                SampDrop1.build(),
+
+                                bot.IntakeDropSample(),
+
+                                SampGrab2.build(),
+
+                                bot.IntakeGrab(),
+
+                                SampDrop2.build(),
+
+                                bot.IntakeDropSample(),
+
+                                SampGrab3.build(),
+
+                                bot.IntakeGrab(),
+
+                                SampDrop3.build(),
+
+                                bot.IntakeDropSample(),
+
+                                new ParallelAction(
+                                        WallGrab1.build(),
+                                        bot.outtake.grabSpecPos()
+                                ),
+
                                 bot.outtake.claw.Close(),
-                                bot.intake.claw.Open()
-                        ),
 
-                        new ParallelAction(
-                                StartDeposit.build(),
-                                bot.outtake.placeSpecPos()
-                        ),
+                                new ParallelAction(
+                                        Deposit1.build(),
+                                        bot.outtake.placeSpecPos()
+                                ),
 
-                        bot.outtake.claw.Open(),
+                                bot.outtake.claw.Open(),
 
-                        new ParallelAction(
-                                bot.outtake.SafeVipersDown(),
-                                SampGrab1.build(),
-                                bot.intake.PoiseToGrab(1),
-                                bot.intake.wrist.runToDegrees(-70)
-                        ),
+                                new ParallelAction(
+                                        WallGrab2.build(),
+                                        bot.outtake.grabSpecPos()
+                                ),
 
-                        bot.IntakeGrab(),
+                                bot.outtake.claw.Close(),
 
-                        SampDrop1.build(),
+                                new ParallelAction(
+                                        Deposit2.build(),
+                                        bot.outtake.placeSpecPos()
+                                ),
 
-                        bot.IntakeDropSample(),
+                                bot.outtake.claw.Open(),
 
-                        SampGrab2.build(),
+                                new ParallelAction(
+                                        WallGrab3.build(),
+                                        bot.outtake.grabSpecPos()
+                                ),
 
-                        bot.IntakeGrab(),
+                                bot.outtake.claw.Close(),
 
-                        SampDrop2.build(),
+                                new ParallelAction(
+                                        Deposit3.build(),
+                                        bot.outtake.placeSpecPos()
+                                ),
 
-                        bot.IntakeDropSample(),
-
-                        SampGrab3.build(),
-
-                        bot.IntakeGrab(),
-
-                        SampDrop3.build(),
-
-                        bot.IntakeDropSample(),
-
-                        new ParallelAction(
-                                WallGrab1.build(),
-                                bot.outtake.grabSpecPos()
-                        ),
-
-                        bot.outtake.claw.Close(),
-
-                        new ParallelAction(
-                                Deposit1.build(),
-                                bot.outtake.placeSpecPos()
-                        ),
-
-                        bot.outtake.claw.Open(),
-
-                        new ParallelAction(
-                                WallGrab2.build(),
-                                bot.outtake.grabSpecPos()
-                        ),
-
-                        bot.outtake.claw.Close(),
-
-                        new ParallelAction(
-                                Deposit2.build(),
-                                bot.outtake.placeSpecPos()
-                        ),
-
-                        bot.outtake.claw.Open(),
-
-                        new ParallelAction(
-                                WallGrab3.build(),
-                                bot.outtake.grabSpecPos()
-                        ),
-
-                        bot.outtake.claw.Close(),
-
-                        new ParallelAction(
-                                Deposit3.build(),
-                                bot.outtake.placeSpecPos()
-                        ),
-
-                        bot.outtake.claw.Open(),
+                                bot.outtake.claw.Open(),
 
 
-                        new ParallelAction(
-                                WallGrab4.build(),
-                                bot.outtake.grabSpecPos()
-                        ),
+                                new ParallelAction(
+                                        WallGrab4.build(),
+                                        bot.outtake.grabSpecPos()
+                                ),
 
-                        bot.outtake.claw.Close(),
+                                bot.outtake.claw.Close(),
 
-                        new ParallelAction(
-                                Deposit4.build(),
-                                bot.outtake.placeSpecPos()
-                        ),
+                                new ParallelAction(
+                                        Deposit4.build(),
+                                        bot.outtake.placeSpecPos()
+                                ),
 
-                        bot.outtake.claw.Open(),
-
-
-                        Park.build()
+                                bot.outtake.claw.Open(),
 
 
+                                Park.build()
+
+
+                        )
                 )
         );
         StaticInfo.LastOpModeWasAuto = true;
