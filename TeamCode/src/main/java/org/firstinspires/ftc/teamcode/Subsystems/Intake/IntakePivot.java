@@ -12,7 +12,7 @@ import java.util.function.DoubleSupplier;
 public class IntakePivot extends SubsystemBase {
     public ActionServo pivot;
     public IntakePivot(HardwareMap hardwaremap, DoubleSupplier time){
-        pivot = new ActionServo(hardwaremap,"pivot",1,0,time);
+        pivot = new ActionServo(hardwaremap,"pivot",1,0,0.5,time);
     //hardwaremap.get(Servo.class, "pivot");
 
     }

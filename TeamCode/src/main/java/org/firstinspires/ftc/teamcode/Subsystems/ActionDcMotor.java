@@ -77,11 +77,27 @@ public class ActionDcMotor {
                 }
             }
         };
+
+    /**
+     * runs to a position and then proceeds to hold that position. This function will not work unless you are also updating the motor speed continuously
+     */
     public class goToTgtPosAndHoldIt implements Action{
-        double holdPower,tgtPos;
+        double holdPower,tgtPos,runPower = 1;
         boolean firstIter = true;
+        /**
+         * runs at max vel because speeeeeeeeeeeeeeed
+         * @param holdPower
+         */
         goToTgtPosAndHoldIt(double holdPower){
             this.holdPower = holdPower;
+        }
+        /**
+         * runs at whatever power you want because mechanical doesn't like fun things.
+         * @param holdPower
+         */
+        goToTgtPosAndHoldIt(double holdPower,double runPower){
+            this.holdPower = holdPower;
+            this.runPower = runPower;
         }
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
@@ -89,14 +105,15 @@ public class ActionDcMotor {
                 tgtPos = motor.getTargetPos();
                 firstIter = false;
             }
-            motor.runToTgPosAndHoldIt(holdPower);
+            motor.runToTgPosAndHoldIt(holdPower,runPower);
+            if(motor.TargetReached()){//just added this part because it makes life simpler. I feel like I would have done this a while back, so maybe theres a reason it wasnt like this? Im just going to try it
+                return false;
+            }
             return tgtPos == motor.getTargetPos();//if the target position is switched, stop the action
         }
     };
     public class goToTgtPosButIfStoppedAssumeTgtPosHasBeenReached implements Action {
         boolean firstLoop=true;
-        public goToTgtPosButIfStoppedAssumeTgtPosHasBeenReached(){
-        }
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             motor.runToTgPos();
@@ -116,39 +133,34 @@ public class ActionDcMotor {
     public class goUntilStoppedAndAssumeTgtPosHasBeenReached implements Action {
         boolean firstLoop=true;
         double power;
-        int pos;
-        public goUntilStoppedAndAssumeTgtPosHasBeenReached(double power, int pos){
-            this.power = power;
-            this.pos = pos;
-        }
-        @Override
-        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            motor.JustKeepRunning(power);
-            if(getSpeed() == 0&&!firstLoop){
-                motor.stop();
-                motor.setPosition(pos);
-                return false;
-            }
-            firstLoop = false;
-            return true;
-        }
-    }
-    public class goUntilStoppedAndAssumeTgtAngleHasBeenReached implements Action {
-        boolean firstLoop=true;
-        double power;
+        int ticks;
         double angle;
         AngleUnitV2 unit;
-        public goUntilStoppedAndAssumeTgtAngleHasBeenReached(double power, double angle,AngleUnitV2 unit){
+        boolean AsAnAngle;
+        public goUntilStoppedAndAssumeTgtPosHasBeenReached(double power, int ticks){
+            this.power = power;
+            this.ticks = ticks;
+            AsAnAngle = false;
+        }
+        public goUntilStoppedAndAssumeTgtPosHasBeenReached(double power, double angle,AngleUnitV2 unit){
             this.power = power;
             this.angle = angle;
             this.unit = unit;
+            AsAnAngle = true;
         }
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            motor.JustKeepRunning(power);
+            if(firstLoop){
+                motor.JustKeepRunning(power);
+            }
             if(getSpeed() == 0&&!firstLoop){
                 motor.stop();
-                motor.setAngle(angle,unit);
+                if(AsAnAngle){
+                    motor.setAngle(angle,unit);
+                }
+                else{
+                    motor.setPosition(ticks);
+                }
                 return false;
             }
             firstLoop = false;
@@ -160,12 +172,27 @@ public class ActionDcMotor {
     }
 
     public Action Stop = new InstantAction(()->motor.stop());
+    private class UpdatePower implements Action{
 
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            motor.updatePower();
+            return true;
+        }
+    }
+    public Action updatePower(){
+        return new UpdatePower();
+    }
+    //public Action updatePower = new InstantAction(()->motor.updatePower());
     public Action GoToPos(double pos){
         return new CancelableAction(new SequentialAction(new SetTgtPosRatio(pos),goToTgtPos),Stop);
     }
+
     public Action GoToPosAndHoldIt(double pos,double holdPower){
         return new CancelableAction(new SequentialAction(new SetTgtPosRatio(pos),new goToTgtPosAndHoldIt(holdPower)),Stop);
+    }
+    public Action GoToPosAndHoldIt(double pos,double holdPower,double runPower){
+        return new CancelableAction(new SequentialAction(new SetTgtPosRatio(pos),new goToTgtPosAndHoldIt(holdPower,runPower)),Stop);
     }
     public Action GoToPosButIfStoppedAssumePosHasBeenReached(double pos){
         return new CancelableAction(new SequentialAction(new SetTgtPosRatio(pos),new goToTgtPosButIfStoppedAssumeTgtPosHasBeenReached()),Stop);
@@ -182,11 +209,14 @@ public class ActionDcMotor {
     public Action GoToAngleAndHoldIt(double angle,double tolerance,double holdPower,AngleUnitV2 unit){
         return new CancelableAction(new SequentialAction(new SetTgtPosAngle(angle,unit,tolerance),new goToTgtPosAndHoldIt(holdPower)),Stop);
     }
+    public Action GoToAngleAndHoldIt(double angle,double tolerance,double holdPower,double runPower,AngleUnitV2 unit){
+        return new CancelableAction(new SequentialAction(new SetTgtPosAngle(angle,unit,tolerance),new goToTgtPosAndHoldIt(holdPower,runPower)),Stop);
+    }
     public Action GoToAngleButIfStoppedAssumePosHasBeenReached(double angle,double tolerance,AngleUnitV2 unit){
         return new CancelableAction(new SequentialAction(new SetTgtPosAngle(angle,unit,tolerance),new goToTgtPosButIfStoppedAssumeTgtPosHasBeenReached()),Stop);
     }
     public Action goUntilStoppedAndAssumeTgtAngleHasBeenReached(double angle,double power,AngleUnitV2 unit){
-        return new CancelableAction(new goUntilStoppedAndAssumeTgtAngleHasBeenReached(power,angle,unit),Stop);
+        return new CancelableAction(new goUntilStoppedAndAssumeTgtPosHasBeenReached(power,angle,unit),Stop);
     }
     public double getDistanceToTarget(){
         return motor.getTargetPos()-motor.getPos();

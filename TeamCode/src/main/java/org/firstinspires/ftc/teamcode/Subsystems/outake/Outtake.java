@@ -6,18 +6,20 @@ import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.MiscActions.ConditionalAction;
+
 import java.util.function.DoubleSupplier;
 
 public class Outtake {
     public ViperSlidesSubSystem vipers;
     public OuttakeClaw claw;
-    public PrimaryOuttakePivot pivot1;
+    public DcMotorPrimaryOuttakePivot pivot1;
     public SecondaryOuttakePivot pivot2;
     boolean BasketDropping = false;
 
     public Outtake(HardwareMap hardwareMap, DoubleSupplier time) {
         claw = new OuttakeClaw(hardwareMap, time);
-        pivot1 = new PrimaryOuttakePivot(hardwareMap, time);
+        pivot1 = new DcMotorPrimaryOuttakePivot(hardwareMap);
         pivot2 = new SecondaryOuttakePivot(hardwareMap, time);
         vipers = new ViperSlidesSubSystem(hardwareMap);
     }

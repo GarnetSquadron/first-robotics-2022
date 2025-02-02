@@ -65,6 +65,7 @@ public class IntoTheDeepTeleOp extends OpMode {
 
         actionScheduler = new TeleOpActionScheduler(packet);
         actionScheduler.CancelOnAnyOtherAction("transfer","basket drop");
+        //actionScheduler.addCancelGroup("antiTransfer",);
 
     }
     boolean firstiter = true;
@@ -73,6 +74,11 @@ public class IntoTheDeepTeleOp extends OpMode {
 
     @Override
     public void loop() {
+        if(firstiter){
+            actionScheduler.start(bot.outtake.pivot1.zeroMotor(),"zero outtake pivot");
+            actionScheduler.start(bot.UpdateMotorPowers(),"updating motor powers");
+            firstiter = false;
+        }
         StaticInfo.LastOpModeWasAuto = false;
         //update the value of each rising edge button detector so we don't miss a button press
         outtakeClawToggle.updateValue();
@@ -123,15 +129,15 @@ public class IntoTheDeepTeleOp extends OpMode {
         }
 
         if(transferDetector.getState()){
-            actionScheduler.cancelAll();
+            //actionScheduler.cancelAll();
             actionScheduler.start(bot.Transfer(),"transfer");
         }
         if(SpecimenGrabPosButton.getState()){
-            actionScheduler.cancelAll();
+            //actionScheduler.cancelAll();
             actionScheduler.start(bot.outtake.grabSpecPos(),"Grab Specimen");
         }
         if(SpecimenPlaceButton.getState()){
-            actionScheduler.cancelAll();
+            //actionScheduler.cancelAll();
             actionScheduler.start(bot.outtake.placeSpecPos(),"Place Specimen");
         }
 //        if(!(
@@ -163,7 +169,17 @@ public class IntoTheDeepTeleOp extends OpMode {
 
 
 
-        telemetry.addData("left stick y", gamepad2.left_stick_y);
+        //telemetry.addData("left stick y", gamepad2.left_stick_y);
+
+        telemetry.addData("outtake pivot power",bot.outtake.pivot1.pivot.getPower());
+        telemetry.addData("outtake pivot ticks", bot.outtake.pivot1.pivot.getPos());
+        telemetry.addData("outtake pivot tgt ticks", bot.outtake.pivot1.pivot.getTargetPos());
+        telemetry.addData("outtake pivot target reached", bot.outtake.pivot1.pivot.targetReached());
+
+//        telemetry.addData("viper power",bot.outtake.vipers.l.getPower());
+//        telemetry.addData("viper ticks",bot.outtake.vipers.l.getPos());
+//        telemetry.addData("viper tgt ticks",bot.outtake.vipers.l.getTargetPos());
+//        telemetry.addData("viper tgt reached",bot.outtake.vipers.l.targetReached());
 
 
         telemetry.addData("direction", MecanumDrive.pose.heading.toDouble());

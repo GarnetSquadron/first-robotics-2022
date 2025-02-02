@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -21,10 +22,13 @@ public class DcMotorSub extends SubsystemBase {
     private final int MinPos;
     private double PosCoefficient;
     private int tgtPos;
+    private double power;
+    /**
+     * actual encoder position-position that we want to call it
+     */
     private int PosError = 0;//the amount that its set position differs from the real position
     double tolerance = 10;
     double ticksInFullCircle = 1425.1;
-    HardwareMap hardwareMap;
     public DcMotorSub(HardwareMap hardwareMap, String MotorName, int minPos, int maxPos, double posCoefficient,double tolerance){
         motor = new Motor(hardwareMap,MotorName);
         m = hardwareMap.get(DcMotorEx.class,MotorName);
@@ -44,7 +48,7 @@ public class DcMotorSub extends SubsystemBase {
         motor.setPositionCoefficient(PosCoefficient);
 
 
-        tgtPos = pos;// an integer representing//um shouldnt this be pos+PosError? not gonna change it now cause it seems to work but
+        tgtPos = pos;// an integer representing
         // desired tick count
 // set the target position
         motor.setTargetPosition(tgtPos+PosError);
@@ -70,27 +74,47 @@ public class DcMotorSub extends SubsystemBase {
     public void setTgPosAngle(double angle,AngleUnitV2 unit){
         setTgPosAngle(angle,unit,tolerance);
     }
+    private void setPower(double power){
+        this.power = power;
+        motor.set(power);
+    }
+    public void updatePower(){
+        motor.set(power);
+    }
     public void runToTgPos(){
         if (!TargetReached()) {
-            motor.set(1);
+            setPower(1);
         }
         else {
-            motor.stopMotor();// stop the motor
+            stop();// stop the motor
         }
     }
+
+    /**
+     * runs at max vel because speeeeeeeeeeeeeeed
+     * @param holdPower
+     */
     public void runToTgPosAndHoldIt(double holdPower){
+        runToTgPosAndHoldIt(holdPower,1);
+    }
+    /**
+     * runs at whatever power you want because mechanical doesn't like fun things.
+     * @param holdPower
+     */
+    public void runToTgPosAndHoldIt(double holdPower,double runningPower){
         if (!TargetReached()) {
-            motor.set(1);
+            setPower(runningPower);
         }
         else {
-            motor.set(holdPower);// keep the motor up
+            setPower(holdPower);// keep the motor up
         }
     }
     public void JustKeepRunning(double power){
         motor.setRunMode(Motor.RunMode.RawPower);
-        motor.set(power);
+        setPower(power);
     }
     public void stop(){
+        power = 0;
         motor.stopMotor();
     }
     int getPosFromRatio(int min, int max, double pos){
@@ -100,7 +124,7 @@ public class DcMotorSub extends SubsystemBase {
         return motor.atTargetPosition();
     }
     public int getPos(){
-        return motor.getCurrentPosition()+PosError;
+        return motor.getCurrentPosition()-PosError;
     }
     public double getRatioPos(){
         return ExtraMath.convertToRatio(getPos(),MinPos,MaxPos);
@@ -118,10 +142,10 @@ public class DcMotorSub extends SubsystemBase {
         return m.getCurrent(CurrentUnit.AMPS);
     }
     public void setPosition(int position){
-        PosError = position-motor.getCurrentPosition();
+        PosError = motor.getCurrentPosition()-position;
     }
     public void setAngle(double angle, AngleUnitV2 unit){
-        PosError = (int)Math.round(ticksInFullCircle*ExtraMath.ConvertUnit(angle,unit,AngleUnitV2.REVOLUTIONS))-motor.getCurrentPosition();
+        setPosition((int)Math.round(ticksInFullCircle*ExtraMath.ConvertUnit(angle,unit,AngleUnitV2.REVOLUTIONS)));
     }
     public double getPower(){
         return motor.motor.getPower();

@@ -14,7 +14,7 @@ public class IntakeClawSub extends SubsystemBase {
 
 
     public IntakeClawSub(HardwareMap hardwareMap, DoubleSupplier time) {
-        SERVO = new ActionServo(hardwareMap, "intake claw", 0.45, 0,time);
+        SERVO = new ActionServo(hardwareMap, "intake claw", 0.45, 0,1,time);
     }
 
     public Action Close() {

@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -200,6 +199,9 @@ public class Bot {
                 //drive.StraightTo(ChamberPos),
                 outtake.placeSpecPos()
         );
+    }
+    public Action UpdateMotorPowers(){
+        return new CancelableAction(new ParallelAction(outtake.vipers.updatePower(),outtake.pivot1.pivot.updatePower()));
     }
 
     //endregion
