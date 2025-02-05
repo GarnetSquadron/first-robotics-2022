@@ -12,6 +12,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
+import java.util.function.Function;
+
 public class ActionDcMotor {
     private DcMotorSub motor;
     public ActionDcMotor(HardwareMap hardwareMap, String MotorName, int minPos, int maxPos, double posCoefficient,double tolerance){
@@ -106,6 +108,22 @@ public class ActionDcMotor {
                 firstIter = false;
             }
             motor.runToTgPosAndHoldIt(holdPower,runPower);
+            if(motor.TargetReached()){//just added this part because it makes life simpler. I feel like I would have done this a while back, so maybe theres a reason it wasnt like this? Im just going to try it
+                return false;
+            }
+            return tgtPos == motor.getTargetPos();//if the target position is switched, stop the action
+        }
+    };
+    public class goToTgtPosAndHoldItAccountingForExtForces implements Action{
+        double tgtPos;
+        boolean firstIter = true;
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            if(firstIter){
+                tgtPos = motor.getTargetPos();
+                firstIter = false;
+            }
+            motor.AccountForExtForces();
             if(motor.TargetReached()){//just added this part because it makes life simpler. I feel like I would have done this a while back, so maybe theres a reason it wasnt like this? Im just going to try it
                 return false;
             }
@@ -212,6 +230,9 @@ public class ActionDcMotor {
     public Action GoToAngleAndHoldIt(double angle,double tolerance,double holdPower,double runPower,AngleUnitV2 unit){
         return new CancelableAction(new SequentialAction(new SetTgtPosAngle(angle,unit,tolerance),new goToTgtPosAndHoldIt(holdPower,runPower)),Stop);
     }
+    public Action GoToAngleAndHoldItAccountingForExternalForces(double angle,double tolerance,AngleUnitV2 unit){
+        return new CancelableAction(new SequentialAction(new SetTgtPosAngle(angle,unit,tolerance),new goToTgtPosAndHoldItAccountingForExtForces()));
+    }
     public Action GoToAngleButIfStoppedAssumePosHasBeenReached(double angle,double tolerance,AngleUnitV2 unit){
         return new CancelableAction(new SequentialAction(new SetTgtPosAngle(angle,unit,tolerance),new goToTgtPosButIfStoppedAssumeTgtPosHasBeenReached()),Stop);
     }
@@ -253,5 +274,8 @@ public class ActionDcMotor {
     }
     public double getError(){
         return motor.getError();
+    }
+    public void setExtTorqueFunction(Function<Double,Double> function){
+        motor.setExtTorqueFunction(function);
     }
 }

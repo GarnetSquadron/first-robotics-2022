@@ -1,16 +1,17 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import com.acmerobotics.dashboard.Mutex;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.ExtraMath;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
+
+import java.util.function.Function;
 
 /**
  * Class to keep all DcMotor actions that can be used for multiple different motors
@@ -23,6 +24,12 @@ public class DcMotorSub extends SubsystemBase {
     private double PosCoefficient;
     private int tgtPos;
     private double power;
+    /**
+     * takes the angle in radians and returns the external force at that point
+     */
+    Function<Double,Double> extTorqueFunction = x->0.0;
+    Function<Integer,Double> desiredNetTorqueFunction;
+    boolean externalForceAccountingMode = false;
     /**
      * actual encoder position-position that we want to call it
      */
@@ -38,12 +45,13 @@ public class DcMotorSub extends SubsystemBase {
         MinPos = minPos;
         PosCoefficient = posCoefficient;
         this.tolerance = tolerance;
+        desiredNetTorqueFunction = x->PosCoefficient*x;
     }
     public void setTgPosTick(int pos,double tolerance){
         ExtraMath.Clamp(pos,MaxPos,MinPos);//prevent the motor from moving outside of its range, to avoid accidently breaking stuff
         // set the run mode
         motor.setRunMode(Motor.RunMode.PositionControl);
-
+        externalForceAccountingMode = false;//my code is scuffed rn and I apologize
 // set and get the position coefficient
         motor.setPositionCoefficient(PosCoefficient);
 
@@ -74,12 +82,42 @@ public class DcMotorSub extends SubsystemBase {
     public void setTgPosAngle(double angle,AngleUnitV2 unit){
         setTgPosAngle(angle,unit,tolerance);
     }
-    private void setPower(double power){
+    public void setPower(double power){
         this.power = power;
-        motor.set(power);
+    }
+
+    /**
+     * subtracts the external torques from the
+     */
+    public void setNetTorque(double power){
+        motor.set(power- extTorqueFunction.apply(getPosInAngle(AngleUnitV2.RADIANS)));
+    }
+    public void setExtTorqueFunction(Function<Double,Double> function){
+        extTorqueFunction = function;
+    }
+    public void setDesiredNetTorqueFunction(Function<Integer,Double> function){
+        desiredNetTorqueFunction = function;
+    }
+    public void AccountForExtForces(){
+        externalForceAccountingMode = true;
+        power = 1;
+    }
+    public void StopAccountingForExtForces(){
+        externalForceAccountingMode = false;
     }
     public void updatePower(){
-        motor.set(power);
+        if(externalForceAccountingMode) {
+            if(power==0){
+                motor.set(0);
+            }
+            else {
+                motor.setRunMode(Motor.RunMode.RawPower);
+                setNetTorque(desiredNetTorqueFunction.apply(getTargetPos() - getPos()));
+            }
+        }
+        else {
+            motor.set(power);
+        }
     }
     public void runToTgPos(){
         if (!TargetReached()) {
@@ -111,6 +149,7 @@ public class DcMotorSub extends SubsystemBase {
     }
     public void JustKeepRunning(double power){
         motor.setRunMode(Motor.RunMode.RawPower);
+        externalForceAccountingMode = false;
         setPower(power);
     }
     public void stop(){
@@ -121,7 +160,7 @@ public class DcMotorSub extends SubsystemBase {
         return min+(int)Math.round(pos*(max-min));
     }
     public boolean TargetReached(){
-        return motor.atTargetPosition();
+        return ExtraMath.ApproximatelyEqualTo(getPos(),tgtPos,tolerance);
     }
     public int getPos(){
         return motor.getCurrentPosition()-PosError;
@@ -162,7 +201,6 @@ public class DcMotorSub extends SubsystemBase {
     public void ReverseMotor(){
         motor.motor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
-
     public double getError(){
         return PosError;
     }
