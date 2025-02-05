@@ -20,7 +20,7 @@ public class FourClipAuto extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         //the position the auto starts at
-        Pose2d beginPose = new Pose2d(-23, -62, Math.toRadians(90));
+        Pose2d beginPose = new Pose2d(26, -62, Math.toRadians(90));
         //the class that contains all the subsystems
         bot =  new Bot(hardwareMap,telemetry,this::getRuntime,beginPose);
 
@@ -76,6 +76,8 @@ public class FourClipAuto extends LinearOpMode {
         waitForStart();
 
         Actions.runBlocking(
+                new ParallelAction(
+                        bot.UpdateMotorPowers(),
                 new SequentialAction(
 
                         new ParallelAction(
@@ -95,8 +97,7 @@ public class FourClipAuto extends LinearOpMode {
                                 SampGrab1.build(),
                                 bot.intake.PoiseToGrab(1),
                                 bot.intake.wrist.runToDegrees(-70)
-
-                                ),
+                        ),
 
 
                         bot.IntakeGrab(),
@@ -167,6 +168,7 @@ public class FourClipAuto extends LinearOpMode {
 
 
                 )
+        )
         );
         StaticInfo.LastOpModeWasAuto = true;
     }

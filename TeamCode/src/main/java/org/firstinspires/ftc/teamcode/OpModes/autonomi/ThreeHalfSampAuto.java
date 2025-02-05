@@ -53,6 +53,9 @@ public class ThreeHalfSampAuto extends LinearOpMode {
         waitForStart();
 
         Actions.runBlocking(
+
+                new ParallelAction(
+                        bot.UpdateMotorPowers(),
                 new SequentialAction(
                         //make sure that the outtake claw is closed around the sample, and that the intake claw is opened
                         new ParallelAction(
@@ -146,7 +149,9 @@ public class ThreeHalfSampAuto extends LinearOpMode {
 
 
                 )
+        )
         );
+
         StaticInfo.LastOpModeWasAuto = true;
     }
 }

@@ -20,7 +20,7 @@ public class FiveClipAuto extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         //the position the auto starts at
-        Pose2d beginPose = new Pose2d(-23, -62, Math.toRadians(90));
+        Pose2d beginPose = new Pose2d(26, -62, Math.toRadians(90));
         //the class that contains all the subsystems
         bot =  new Bot(hardwareMap,telemetry,this::getRuntime,beginPose);
 
