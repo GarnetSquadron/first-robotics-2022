@@ -10,11 +10,11 @@ import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 @Config
 public class DcMotorPrimaryOuttakePivot{
     public ActionDcMotor pivot;
-    double tolerance = 30;
+    double tolerance = 50;
     double powerCoefficient, minHeight;
     double ExtForceCoefficient = 0.2;
     public DcMotorPrimaryOuttakePivot(HardwareMap hardwareMap) {
-        pivot = new ActionDcMotor(hardwareMap,"Primary Pivot",0,950,0.002,30);//min and max need to be tuned
+        pivot = new ActionDcMotor(hardwareMap,"Primary Pivot",0,950,0.002,tolerance);//min and max need to be tuned
         pivot.setExtTorqueFunction(theta-> -ExtForceCoefficient *Math.cos(theta));
     }
     public Action goToPosWithCorrectSpeed(double angle, AngleUnitV2 unit){
@@ -31,7 +31,7 @@ public class DcMotorPrimaryOuttakePivot{
         return goToPosWithCorrectSpeed(0,AngleUnitV2.DEGREES);
     }
     public Action SpecimenOnChamberPosV2() {
-        return new SequentialAction(goToPosWithCorrectSpeed(0,AngleUnitV2.DEGREES), goToPosWithCorrectSpeed(70,AngleUnitV2.DEGREES));
+        return new SequentialAction(goToPosWithCorrectSpeed(0,AngleUnitV2.DEGREES), goToPosWithCorrectSpeed(120,AngleUnitV2.DEGREES));
     }
     public Action prepareForSpecimenOnChamberPos() {
         return goToPosWithCorrectSpeed(45,AngleUnitV2.DEGREES);

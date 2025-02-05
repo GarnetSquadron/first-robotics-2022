@@ -21,7 +21,7 @@ public class WaitForConditionAction implements Action {
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
         if(conditionMet){
-            action.run(telemetryPacket);
+            return action.run(telemetryPacket);
         }
         else {
             conditionMet = condition.getAsBoolean();

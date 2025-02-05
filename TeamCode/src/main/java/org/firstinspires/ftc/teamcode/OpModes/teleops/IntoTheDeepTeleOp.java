@@ -138,7 +138,7 @@ public class IntoTheDeepTeleOp extends OpMode {
         }
         if(SpecimenPlaceButton.getState()){
             //actionScheduler.cancelAll();
-            actionScheduler.start(bot.outtake.placeSpecPos(),"Place Specimen");
+            actionScheduler.start(bot.outtake.placeSpecPosV2(),"Place Specimen");
         }
 //        if(!(
 //                actionScheduler.TeleOpActionRunning("transfer")||

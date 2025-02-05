@@ -47,6 +47,7 @@ public class DcMotorSub extends SubsystemBase {
         this.tolerance = tolerance;
         desiredNetTorqueFunction = x->PosCoefficient*x;
     }
+    //region setTgPos
     public void setTgPosTick(int pos,double tolerance){
         ExtraMath.Clamp(pos,MaxPos,MinPos);//prevent the motor from moving outside of its range, to avoid accidently breaking stuff
         // set the run mode
@@ -65,6 +66,7 @@ public class DcMotorSub extends SubsystemBase {
         motor.set(0);
 
 // set the tolerance
+
         motor.setPositionTolerance(tolerance);   // allowed maximum error
     }
     public void setTgPosTick(int pos){
@@ -82,6 +84,7 @@ public class DcMotorSub extends SubsystemBase {
     public void setTgPosAngle(double angle,AngleUnitV2 unit){
         setTgPosAngle(angle,unit,tolerance);
     }
+    //endregion setTgPos
     public void setPower(double power){
         this.power = power;
     }
@@ -119,6 +122,7 @@ public class DcMotorSub extends SubsystemBase {
             motor.set(power);
         }
     }
+    //region runToTgPos
     public void runToTgPos(){
         if (!TargetReached()) {
             setPower(1);
@@ -147,6 +151,7 @@ public class DcMotorSub extends SubsystemBase {
             setPower(holdPower);// keep the motor up
         }
     }
+    //endregion
     public void JustKeepRunning(double power){
         motor.setRunMode(Motor.RunMode.RawPower);
         externalForceAccountingMode = false;
