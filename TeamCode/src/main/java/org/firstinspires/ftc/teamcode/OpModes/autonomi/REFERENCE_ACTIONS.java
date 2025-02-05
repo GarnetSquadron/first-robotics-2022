@@ -26,7 +26,7 @@ public class REFERENCE_ACTIONS {
                 bot.IntakeDropSample(),//make the intake drop the sample and come up
                 bot.outtake.grabSpecPos(),//position the outtake for grabbing specimens
                 bot.outtake.GrabSpecOfWall(),//closes the claw(presumably around a specimen), and safely raises the vipers to get it off the wall, and then rotates the outtake pivot for placing specimens
-                bot.outtake.placeSpecPosV2()//position the outtake for placing specimens on the high chamber
+                bot.outtake.placeSpecPosV2()//place specimens on the high chamber
         );
     }
 }
