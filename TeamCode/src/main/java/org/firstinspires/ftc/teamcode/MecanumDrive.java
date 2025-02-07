@@ -71,7 +71,7 @@ public class MecanumDrive {
         // drive model parameters
         public double inPerTick = 1; //0.0029685;
         public double lateralInPerTick = 0.6638234946446094;//
-        public double trackWidthTicks =  4591.735905231049;//4536.496586158054;//4418.884240665918;
+        public double trackWidthTicks =  12.7;//4536.496586158054;//4418.884240665918;
 
         // feedforward parameters (in tick units)
         public double kS = 1.0501776046464413;//0.78105834686844;
@@ -397,7 +397,13 @@ public class MecanumDrive {
                 t = Actions.now() - beginTs;
             }
 
-            if (t >= turn.duration) {
+            Pose2dDual<Time> txWorldTarget = turn.get(t);
+            targetPoseWriter.write(new PoseMessage(txWorldTarget.value()));
+            PoseVelocity2d robotVelRobot = updatePoseEstimate();
+            Pose2d error = txWorldTarget.value().minusExp(pose);
+            if (t >= turn.duration && error.position.norm() < 2
+                    && robotVelRobot.linearVel.norm() < 0.5
+                    || t >= turn.duration + 3) {
                 leftFront.setPower(0);
                 leftBack.setPower(0);
                 rightBack.setPower(0);
@@ -406,10 +412,6 @@ public class MecanumDrive {
                 return false;
             }
 
-            Pose2dDual<Time> txWorldTarget = turn.get(t);
-            targetPoseWriter.write(new PoseMessage(txWorldTarget.value()));
-
-            PoseVelocity2d robotVelRobot = updatePoseEstimate();
 
             PoseVelocity2dDual<Time> command = new HolonomicController(
                     PARAMS.axialGain, PARAMS.lateralGain, PARAMS.headingGain,

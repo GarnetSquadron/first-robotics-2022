@@ -51,6 +51,7 @@ public class ThreeHalfSampAuto extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(-24, -12, Math.toRadians(0)), 0);
 
         waitForStart();
+        StaticInfo.LastOpModeWasAuto = true;
 
         Actions.runBlocking(
 
@@ -61,7 +62,8 @@ public class ThreeHalfSampAuto extends LinearOpMode {
                         new ParallelAction(
                                 bot.outtake.claw.Close(),
 
-                                bot.intake.claw.Open()
+                                bot.intake.claw.Open()//,
+                                //bot.outtake.pivot1.zeroMotor()
                                 ),
 
                         //drive to the basket and move the outtake to a position where it can drop the sample in a basket by extending the vipers
@@ -150,13 +152,11 @@ public class ThreeHalfSampAuto extends LinearOpMode {
 
 
 
-                        Park.build
+                        Park.build()
 
 
                 )
         )
         );
-
-        StaticInfo.LastOpModeWasAuto = true;
     }
 }

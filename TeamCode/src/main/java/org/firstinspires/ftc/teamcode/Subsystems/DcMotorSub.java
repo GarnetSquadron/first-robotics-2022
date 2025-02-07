@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.acmerobotics.dashboard.Mutex;
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.arcrobotics.ftclib.controller.PController;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -23,6 +24,8 @@ public class DcMotorSub extends SubsystemBase {
     private final int MinPos;
     private double PosCoefficient;
     private int tgtPos;
+    double zeroDegreesTick = 0;
+    PController controller;
     private double power;
     /**
      * takes the angle in radians and returns the external force at that point
@@ -45,6 +48,7 @@ public class DcMotorSub extends SubsystemBase {
         MinPos = minPos;
         PosCoefficient = posCoefficient;
         this.tolerance = tolerance;
+        //controller = new PController(posCoefficient);
         desiredNetTorqueFunction = x->PosCoefficient*x;
     }
     //region setTgPos
@@ -79,7 +83,7 @@ public class DcMotorSub extends SubsystemBase {
         setTgPosRatio(posRatio,tolerance);
     }
     public void setTgPosAngle(double angle,AngleUnitV2 unit,double tolerance){
-        setTgPosTick((int)Math.round(ticksInFullCircle*ExtraMath.ConvertUnit(angle,unit,AngleUnitV2.REVOLUTIONS)),tolerance);
+        setTgPosTick(getTicksFromAngle(angle,unit),tolerance);
     }
     public void setTgPosAngle(double angle,AngleUnitV2 unit){
         setTgPosAngle(angle,unit,tolerance);
@@ -144,6 +148,7 @@ public class DcMotorSub extends SubsystemBase {
      * @param holdPower
      */
     public void runToTgPosAndHoldIt(double holdPower,double runningPower){
+        StopAccountingForExtForces();
         if (!TargetReached()) {
             setPower(runningPower);
         }
@@ -174,13 +179,13 @@ public class DcMotorSub extends SubsystemBase {
         return ExtraMath.convertToRatio(getPos(),MinPos,MaxPos);
     }
     public double getPosInAngle(AngleUnitV2 unit){
-        return ExtraMath.ConvertUnit(getPos()/ticksInFullCircle,AngleUnitV2.REVOLUTIONS,unit);
+        return getAngleFromTicks(getPos(),unit);
     }
     public int getTargetPos(){
         return tgtPos;
     }
     public double getTargetAngle(AngleUnitV2 unit){
-        return ExtraMath.getFullCircle(unit)*tgtPos/ticksInFullCircle;
+        return getAngleFromTicks(tgtPos,unit);
     }
     public double getCurrent(){
         return m.getCurrent(CurrentUnit.AMPS);
@@ -189,7 +194,7 @@ public class DcMotorSub extends SubsystemBase {
         PosError = motor.getCurrentPosition()-position;
     }
     public void setAngle(double angle, AngleUnitV2 unit){
-        setPosition((int)Math.round(ticksInFullCircle*ExtraMath.ConvertUnit(angle,unit,AngleUnitV2.REVOLUTIONS)));
+        setPosition(getTicksFromAngle(angle,unit));
     }
     public double getPower(){
         return motor.motor.getPower();
@@ -208,6 +213,15 @@ public class DcMotorSub extends SubsystemBase {
     }
     public double getError(){
         return PosError;
+    }
+    public void setZeroDegrees(int ticks){
+        zeroDegreesTick = ticks;
+    }
+    public double getAngleFromTicks(int ticks,AngleUnitV2 unit){
+        return ExtraMath.getFullCircle(unit)*(ticks+zeroDegreesTick)/ticksInFullCircle;
+    }
+    public int getTicksFromAngle(double angle,AngleUnitV2 unit){
+        return (int)Math.round(angle*ticksInFullCircle/ExtraMath.getFullCircle(unit)-zeroDegreesTick);
     }
 }
 
