@@ -4,13 +4,10 @@ import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.NullAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.ExtraMath;
 import org.firstinspires.ftc.teamcode.Subsystems.ActionDcMotor;
-import org.firstinspires.ftc.teamcode.Subsystems.ActionServo;
-import org.firstinspires.ftc.teamcode.Subsystems.DcMotorSub;
 
 public class ViperSlidesSubSystem{
     public ActionDcMotor l;
@@ -25,8 +22,10 @@ public class ViperSlidesSubSystem{
     private double posCoefficient = 0.03;//0.05<-original, worked decently
     private double downTolerance = 10, downWaitTime = 1;
     public ViperSlidesSubSystem(HardwareMap hardwareMap){
-         l = new ActionDcMotor(hardwareMap,"LeftViper",0,-3500,posCoefficient);
-         r = new ActionDcMotor(hardwareMap,"RightViper",0,3500,posCoefficient);
+         l = new ActionDcMotor(hardwareMap,"LeftViper",0,-3100,posCoefficient,100);
+         r = new ActionDcMotor(hardwareMap,"RightViper",0,-3100,posCoefficient,100);
+         r.reverseMotor();
+         r.setEncoder(l.getMotor());
     }
     public boolean targetReached(){
         return l.targetReached()&&r.targetReached();
@@ -37,27 +36,64 @@ public class ViperSlidesSubSystem{
     public double GetTgtPos(){
         return l.getTargetPos();
     }
+    public Action GoToPos(double pos){
+        return new ParallelAction(l.GoToPos(pos),r.GoToPos(pos));
+    }
+    public Action GoToPosAndHoldIt(double pos,double holdPower){
+        return new ParallelAction(l.GoToPosAndHoldIt(pos,holdPower),r.GoToPosAndHoldIt(pos,holdPower));
+    }
     public Action Up() {
         if(disabled){
             return new NullAction();
         }
         else
-            return new ParallelAction(l.GoToPos(0),r.GoToPos(0));
+            return GoToPos(1);
     }
-    public Action TgtPosUp(){
-        return new ParallelAction(l.new SetTgPos(0),r.new SetTgPos(0));
+    public Action HoldUp() {
+        if(disabled){
+            return new NullAction();
+        }
+        else
+            return GoToPosAndHoldIt(1,0.5);
     }
+    public Action prepareSpecimenPlace(){
+        return GoToPos(0.1);
+    }
+    public Action SpecimenPlace(){
+        return GoToPos(0.5);
+    }
+    public Action SpecimenPlaceV2(){
+        return GoToPos(0.175);
+    }
+    public Action SpecimenHold(){
+        return GoToPosAndHoldIt(0.5,0.5);
+    }
+
     public Action Down() {
         if(disabled){
             return new NullAction();
         }
         else
-            return new ParallelAction(l.GoToPosButIfStoppedAssumePosHasBeenReached(1,downTolerance,downWaitTime),r.GoToPosButIfStoppedAssumePosHasBeenReached(1,downTolerance,downWaitTime));
+            return new ParallelAction(
+                    l.GoToPosButIfStoppedAssumePosHasBeenReached(0,downTolerance),
+                    r.GoToPosButIfStoppedAssumePosHasBeenReached(0,downTolerance)
+            );
     }
-    public Action TgtPosDown(){
-        return new ParallelAction(l.new SetTgPos(1),r.new SetTgPos(1));
-    }
+
     public boolean isDown(){
         return ExtraMath.ApproximatelyEqualTo(GetTgtPos(),0,50);
     }
+
+    public Action updatePower(){
+        return new ParallelAction(l.updatePower(),r.updatePower());
+    }
+
+    //region unused
+    public Action TgtPosUp(){
+        return new ParallelAction(l.new SetTgtPosRatio(1,0),r.new SetTgtPosRatio(1,0));
+    }
+    public Action TgtPosDown(){
+        return new ParallelAction(l.new SetTgtPosRatio(0,0),r.new SetTgtPosRatio(0,0));
+    }
+    //endregion
 }

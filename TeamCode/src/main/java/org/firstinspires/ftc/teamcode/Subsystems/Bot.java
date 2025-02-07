@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -14,10 +13,12 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.FieldDimensions;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
+import org.firstinspires.ftc.teamcode.PinpointDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.outake.Outtake;
 import org.firstinspires.ftc.teamcode.Subsystems.outake.PrimaryOuttakePivot;
 import org.firstinspires.ftc.teamcode.commands.HeadlessDriveCommand;
+import org.firstinspires.ftc.teamcode.commands.RegularDrive;
 import org.opencv.core.Point;
 
 import java.util.function.DoubleSupplier;
@@ -26,27 +27,23 @@ import java.util.function.DoubleSupplier;
  * the class that holds everything
  */
 public class Bot {
-    public MecanumDrive drive;
-    //public Vision vision;
+    public PinpointDrive drive;
     public Pose2d beginPose;
     public HeadlessDriveCommand headlessDriveCommand;
-
+    public RegularDrive regularDrive;
     public Outtake outtake;
-
     public PrimaryOuttakePivot outtakePivot;
-
     public Intake intake;
     public boolean transfering = false;
     public final double robotWidth = 9;
 //    Action path = drive.actionBuilder(beginPose)
 //            .splineToSplineHeading(intakePos,0)
 //            .build();
-
-
     public Bot(HardwareMap hardwareMap, Telemetry telemetry, DoubleSupplier time, Pose2d beginPose){
         this.beginPose = beginPose;
-        drive = new MecanumDrive(hardwareMap,beginPose);
+        drive = new PinpointDrive(hardwareMap,beginPose);
         headlessDriveCommand = new HeadlessDriveCommand(drive);
+        regularDrive = new RegularDrive(drive);
         outtake = new Outtake(hardwareMap,time);
         outtakePivot = new PrimaryOuttakePivot(hardwareMap,time);
         intake = new Intake(hardwareMap,time);
@@ -54,8 +51,9 @@ public class Bot {
     }
     public Bot(HardwareMap hardwareMap, Telemetry telemetry, DoubleSupplier time){
         this.beginPose = MecanumDrive.pose;
-        drive = new MecanumDrive(hardwareMap);
+        drive = new PinpointDrive(hardwareMap);
         headlessDriveCommand = new HeadlessDriveCommand(drive);
+        regularDrive = new RegularDrive(drive);
         outtake = new Outtake(hardwareMap,time);
         outtakePivot = new PrimaryOuttakePivot(hardwareMap,time);
         intake = new Intake(hardwareMap,time);
@@ -78,7 +76,6 @@ public class Bot {
         return new addTelemetry(description,value);
     }
 
-
 //    /**
 //     * meant to be looped, like a lot of this stuff
 //     */
@@ -87,13 +84,11 @@ public class Bot {
 //            SamplePipeline.AnalyzedStone Sample =  vision.getNearestSample();
 //        }
 //    }
-
     //region actions
     /**
      * grabs at a sample givien its coords
      * @param p the coords of the sample relative to the midpoint of the barrier
      */
-
     public Action GrabInSub(Point p){
         Point q = new Point(p.x,FieldDimensions.subLength-p.y);
         double angle = 0;
@@ -118,19 +113,27 @@ public class Bot {
         return new SequentialAction(PositionClaw(p,angle,length));
 
     }
-
-
-
+    /**
+     * positions the claw at a sample given its coords, the desired angle, and the desired length of
+     * the extension
+     * @param tgtp target claw position
+     * @param length desired extension length
+     * @param angle the desired angle of the bot
+     */
     public Action PositionClaw(Point tgtp, double length, double angle){
         Pose2d botPos = new Pose2d(tgtp.x+length*Math.sin(angle),tgtp.y-length*Math.cos(angle), angle);
 
-        return new CancelableAction( new ParallelAction( drive.StraightTo(botPos),new InstantAction(()->intake.crankSlide.goToLengthInInches(length))),drive.Stop());
+        return new CancelableAction( new ParallelAction( drive.StraightTo(botPos),intake.crankSlide.goToLengthInInches(length)),drive.Stop());
     }
+
+    /**
+     * transfers the sample from the intake to the outtake
+     */
     public Action Transfer(){
         return new SequentialAction(
                 new ParallelAction(
                         outtake.claw.Open(),
-                        intake.claw.Close()
+                        IntakeGrab()
                 ),
                 outtake.OutOfTheWayOfTheIntakePos(),
                 intake.DefaultPos(),
@@ -140,27 +143,65 @@ public class Bot {
 
         );
     }
-    public Action SafeUndeploy(){
+    /**
+     * Undeploys the intake after moving the outtake out of the way
+     */
+    public Action SafeUndeployIntake(){
         return new SequentialAction(
                 outtake.OutOfTheWayOfTheIntakePos(),
                 intake.undeploy()
         );
     }
-    public Action SafeDeploy(double distance){
+    /**
+     * Deploys the intake after moving the outtake out of the way
+     */
+    public Action SafeDeployIntake(double distance){
         return new SequentialAction(
                 outtake.OutOfTheWayOfTheIntakePos(),
-                intake.deploy(distance)
+                intake.PoiseToGrab(distance),
+                intake.claw.Open()
         );
     }
+    public Action IntakeGrab(){
+        return new SequentialAction(
+                outtake.OutOfTheWayOfTheIntakePos(),
+                intake.pivot.deploy(),
+                intake.claw.Close()
+        );
+    }
+    public Action IntakeDropSample(){
+        return new SequentialAction(
+                outtake.OutOfTheWayOfTheIntakePos(),
+                intake.pivot.poiseForTheGrab(),
+                intake.claw.Open()
+        );
+    }
+    /**
+     * Deploys the outtake in a position to drop samples in the basket
+     */
     public Action BasketDrop() {
         return new SequentialAction(
                 outtake.claw.Close(),
                 outtake.vipers.Up(),
                 new ParallelAction(
                         outtake.pivot1.BucketPos(),
-                        outtake.pivot2.BucketPos()
+                        outtake.pivot2.BucketPos(),
+                        outtake.vipers.HoldUp()
                 )
         );
+    }
+    Pose2d ChamberPos = new Pose2d(0,-20,Math.PI/2);
+
+
+    public Action placeSpecPos(){
+        return new SequentialAction(
+                outtake.prepareToPlaceSpec(),
+                //drive.StraightTo(ChamberPos),
+                outtake.placeSpecPos()
+        );
+    }
+    public Action UpdateMotorPowers(){
+        return new CancelableAction(new ParallelAction(outtake.vipers.updatePower(),outtake.pivot1.pivot.updatePower()));
     }
 
     //endregion

@@ -1,12 +1,5 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
-import androidx.annotation.NonNull;
-
-import com.acmerobotics.dashboard.canvas.Canvas;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.Actions;
-import com.acmerobotics.roadrunner.InstantAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -20,20 +13,25 @@ public class ServoSub {
     private double Max;
     private double Min;
     public TTimer timer;
-    double runtime;
+    double runtimeCoefficient;
     private boolean powered = false;
-    public ServoSub(HardwareMap hardwareMap, String name, double min, double max, DoubleSupplier time, double runtime) {
+    public ServoSub(HardwareMap hardwareMap, String name, double min, double max, DoubleSupplier time, double runtimeCoefficient/*the time it takes for the servo to rotate to its maximum position*/) {
         servo = hardwareMap.get(Servo.class, name);
         Max = max;
         Min = min;
         timer = new TTimer(time);
-        this.runtime = runtime;
+        this.runtimeCoefficient = runtimeCoefficient;
     }
     public ServoSub(HardwareMap hardwareMap, String name, double min, double max, DoubleSupplier time){
-        this(hardwareMap, name, min, max,time,1);
+        this(hardwareMap, name, min, max,time,2);
 
     }
 
+    /**
+     * after all this effort to restrict the movement in code I find the function servo.scaleRange(). I guess its too late to change it now lol. maybe later
+     * @param ratio
+     * @return
+     */
     double getPosFromRatio(double ratio){
         return Min+ratio*(Max-Min);
     }
@@ -42,11 +40,14 @@ public class ServoSub {
     }
     public void goToRatio(double ratioPos){
         ratioPos = ExtraMath.Clamp(ratioPos,1,0);
-        if(!ExtraMath.ApproximatelyEqualTo(servo.getPosition(), getPosFromRatio(ratioPos),0.1)){
-            timer.StartTimer(runtime);//when the timer goes off, the servo should be at the correct position. this needs to be tuned
-        }
+        double deltaPos = getPosFromRatio(ratioPos)-getPos();
+        double distanceToTgt = Math.abs(deltaPos);
+        boolean alreadyTargeted = ExtraMath.ApproximatelyEqualTo(distanceToTgt, 0, 0.01);
         if(!powered)
             servo.setPosition(1);//on init, the servo position is set to 0, even though it isnt powered and probably isnt at 0. if you then run servo.setposition(0), it will not move because it already this
+        else if (!alreadyTargeted) {//if not trying to get there
+            timer.StartTimer(runtimeCoefficient* distanceToTgt);//when the timer goes off, the servo should be at the correct position. this needs to be tuned
+        }
         servo.setPosition(getPosFromRatio(ratioPos));
         powered = true;
     }

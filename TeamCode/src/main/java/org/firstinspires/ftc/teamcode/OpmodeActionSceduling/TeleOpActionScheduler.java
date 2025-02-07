@@ -19,8 +19,15 @@ import java.util.List;
  * this is for running actions in an opmode loop
  */
 public class TeleOpActionScheduler {
+    /**
+     * the current action que
+     */
     ArrayList <TeleOpAction> CurrentTeleOpActions = new ArrayList<>();
+    /**
+     * a list of actions that are to be canceled if any other actions are qued.
+     */
     ArrayList <String> cancelOnAllOtherActions = new ArrayList<>();
+    ArrayList <TeleOpCancelGroup> cancelGroups = new ArrayList<>();
     TelemetryPacket packet = new TelemetryPacket();
     public TeleOpActionScheduler(){
 
@@ -39,10 +46,8 @@ public class TeleOpActionScheduler {
     public boolean TeleOpActionRunning(String ID){
         return getTeleOpActionFromID(ID) != null;
     }
-
     /**
      * adds an action to the que
-     * @param action
      */
     public void start(TeleOpAction action){
         for(String ID:cancelOnAllOtherActions){
@@ -50,7 +55,7 @@ public class TeleOpActionScheduler {
                 cancel(ID);
             }
         }
-        if(!CurrentTeleOpActions.contains(action)) {
+        if(!CurrentTeleOpActions.contains(action)&&!TeleOpActionRunning(action.ID)) {//not sure why the CurrentTeleOpActions.contains(action) is there, but Im going to leave it for now.
             CurrentTeleOpActions.add(action);
         }
 
@@ -60,23 +65,22 @@ public class TeleOpActionScheduler {
     }
     /**
      * cancel with the id
-     * @param ID
      */
     public void cancel(String ID){
         TeleOpAction teleAction = getTeleOpActionFromID(ID);
+        TeleOpCancelGroup cancelGroup = getCancelGroup(ID);
         if (TeleOpActionRunning(ID)){
 
             CurrentTeleOpActions.set(CurrentTeleOpActions.indexOf(teleAction),new TeleOpAction(ID+" canceling",getFailOvers(teleAction.action)));
         }
+        if (isACancelGroup(ID)){
+            for(String TeleID:cancelGroup.getActionIDs()){
+                cancel(TeleID);
+            }
+        }
     }
-
     /**
-     * cancel the action
-     * @param listOfActions
-     */
-
-    /**
-     * cancel everything
+     * cancel everything in the que
      */
     public void cancelAll(){
         for(TeleOpAction action: CurrentTeleOpActions){
@@ -86,17 +90,9 @@ public class TeleOpActionScheduler {
     public void CancelOnAnyOtherAction(String... IDs){
         cancelOnAllOtherActions.addAll(Arrays.asList(IDs));
     }
-//    public void onConditionStart(,Action action){
-//        if(){
-//
-//        }
-//    }
 
     /**
      * does action one if toggled, and action 2 otherwise. doesn't automatically update the toggle though
-     * @param toggler
-     * @param action1
-     * @param action2
      */
     public void actionTogglePair(InitialToggler toggler, Action action1, Action action2){
 
@@ -106,7 +102,10 @@ public class TeleOpActionScheduler {
     }
 
     /**
-     * not sure what to call this. i will probably change the name later. How it works: Depending on the value of a boolean, it will start one of the two actions supplied. I made this method because most of the mechanisms use this. Most of the time, the boolean represents the state of a mechanism, ie is the claw open or closed, is the viper up or down, etc.
+     * not sure what to call this. i will probably change the name later. How it works: Depending on
+     * the value of a boolean, it will start one of the two actions supplied. I made this method
+     * because most of the mechanisms use this. Most of the time, the boolean represents the state
+     * of a mechanism, ie is the claw open or closed, is the viper up or down, etc.
      */
     public void actionBooleanPair(boolean REButtonDetector, boolean condition, Action action1,String ID1, Action action2, String ID2) {
         if (REButtonDetector) {
@@ -146,6 +145,10 @@ public class TeleOpActionScheduler {
         }
         return new NullAction();
     }
+
+    /**
+     * runs all the actions in the que
+     */
     public void update(){
         ArrayList<TeleOpAction> newActions = new ArrayList<>();
         for(TeleOpAction teleOpAction: CurrentTeleOpActions){
@@ -169,6 +172,12 @@ public class TeleOpActionScheduler {
         }
         return IDs;
     }
+
+    /**
+     * Doesnt work!!!
+     * @param ID
+     * @return
+     */
     public ArrayList<Action> getCurrentSubActionsFromAGivenAction(String ID) {
         ArrayList<String> IDs = new ArrayList<>();
         TeleOpAction action = getTeleOpActionFromID(ID);
@@ -177,5 +186,19 @@ public class TeleOpActionScheduler {
             }
         }
         return null;
+    }
+    public void addCancelGroup(String name,String ...actions){
+        cancelGroups.add(new TeleOpCancelGroup(name,actions));
+    }
+    public TeleOpCancelGroup getCancelGroup(String name){
+        for(TeleOpCancelGroup teleOpCancelGroup:cancelGroups){
+            if(teleOpCancelGroup.name == name){
+                return teleOpCancelGroup;
+            }
+        }
+        return null;
+    }
+    public boolean isACancelGroup(String name){
+        return getCancelGroup(name) != null;
     }
 }

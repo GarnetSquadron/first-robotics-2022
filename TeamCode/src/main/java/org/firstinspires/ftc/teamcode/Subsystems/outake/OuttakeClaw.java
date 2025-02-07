@@ -12,7 +12,7 @@ public class OuttakeClaw {
     public ActionServo claw;
 
     public OuttakeClaw(HardwareMap hardwareMap, DoubleSupplier time) {
-        claw = new ActionServo(hardwareMap, "outtake claw", 0, 0.4, 1,time);//TODO: tune this
+        claw = new ActionServo(hardwareMap, "outtake claw", 0.4, 0, 1.5,time);//TODO: tune this
     }
 
     public Action Close() {

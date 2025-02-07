@@ -31,5 +31,17 @@ public class BetterControllerClass {
     public boolean RightTrigger(){
         return gamepad.right_trigger>0.1;
     }
+    public boolean DpadLeft(){
+        return gamepad.dpad_left;
+    }
+    public boolean DpadRight(){
+        return gamepad.dpad_right;
+    }
+    public boolean DpadUp(){
+        return gamepad.dpad_up;
+    }
+    public boolean DpadDown(){
+        return gamepad.dpad_down;
+    }
 
 }
