@@ -139,7 +139,7 @@ public class ThreeHalfSampAuto extends LinearOpMode {
 
 
                         bot.intake.claw.Close(),
-                        //bot.Transfer(),
+                        bot.Transfer(),
                         new ParallelAction(
                                 Deposit4Tan.build()
                         )
