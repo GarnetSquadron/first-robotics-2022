@@ -6,7 +6,9 @@ import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.ExtraMath;
 import org.firstinspires.ftc.teamcode.MiscActions.ConditionalAction;
+import org.firstinspires.ftc.teamcode.MiscActions.WaitForConditionAction;
 
 import java.util.function.DoubleSupplier;
 
@@ -60,13 +62,19 @@ public class Outtake {
     public Action placeSpecPosV2(){
         return new SequentialAction(
                 pivot1.SpecimenOnChamberPos(),
+                vipers.SpecimenPlaceV2(),
                 new ParallelAction(
-                        vipers.SpecimenPlaceV2(),
                         pivot1.SpecimenOnChamberPosV2(),
-                        pivot2.SpecimenOnChamberPos()
-                ),
-                new SleepAction(0.5),
-                claw.Open()
+                        pivot2.SpecimenOnChamberPos(),
+                        new WaitForConditionAction(claw.Open(), ()-> pivot1.pivot.getSpeed()==0)
+                )
+        );
+    }
+    public Action GrabSpecOfWall(){
+        return new SequentialAction(
+                claw.Close(),
+                vipers.SpecimenPlaceV2(),
+                pivot1.SpecimenOnChamberPos()
         );
     }
     public Action OutOfTheWayOfTheIntakePos(){

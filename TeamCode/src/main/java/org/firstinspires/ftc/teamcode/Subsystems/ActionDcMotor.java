@@ -4,12 +4,14 @@ import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.Actions;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
+import org.firstinspires.ftc.teamcode.TTimer;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
 import java.util.function.Function;
@@ -155,6 +157,7 @@ public class ActionDcMotor {
         double angle;
         AngleUnitV2 unit;
         boolean AsAnAngle;
+        TTimer timer = new TTimer(Actions::now);
         public goUntilStoppedAndAssumeTgtPosHasBeenReached(double power, int ticks){
             this.power = power;
             this.ticks = ticks;
@@ -170,8 +173,9 @@ public class ActionDcMotor {
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             if(firstLoop){
                 motor.JustKeepRunning(power);
+                timer.StartTimer(0.1);
             }
-            if(getSpeed() == 0&&!firstLoop){
+            if(getSpeed() == 0&&timer.timeover()){
                 motor.stop();
                 if(AsAnAngle){
                     motor.setAngle(angle,unit);
