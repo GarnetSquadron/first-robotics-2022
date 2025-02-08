@@ -9,7 +9,9 @@ import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.robocol.TelemetryMessage;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
 import org.firstinspires.ftc.teamcode.TTimer;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
@@ -142,6 +144,13 @@ public class ActionDcMotor {
                     motor.setPosition(motor.getTargetPos());
                     return false;
             }
+            /* Andrew Suggestion LOOK DJ TODO Also could be bad for viper though so maybe not
+            else if(getSpeed() == 0&&!firstLoop){
+                    motor.stop();
+
+                    return false;
+            }
+             */
             if(motor.TargetReached()){
                 motor.stop();
                 return false;
