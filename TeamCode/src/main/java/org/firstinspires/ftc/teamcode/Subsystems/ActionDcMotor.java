@@ -135,7 +135,7 @@ public class ActionDcMotor {
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             motor.runToTgPos();
-            if(getSpeed() == 0&&!firstLoop){
+            if(getSpeed() == 0&&!firstLoop&&Math.abs(motor.getTargetPos()-motor.getPos())<motor.tolerance){
                     motor.stop();
                     motor.setPosition(motor.getTargetPos());
                     return false;
