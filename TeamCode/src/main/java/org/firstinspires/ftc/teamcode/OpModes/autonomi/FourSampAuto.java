@@ -12,8 +12,8 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "#THREE HALF SAMPLE#", group = "test")
-public class ThreeHalfSampAuto extends LinearOpMode {
+@Autonomous(name = "#FOUR SAMPLE#", group = "test")
+public class FourSampAuto extends LinearOpMode {
     Bot bot;
     @Override
     public void runOpMode() throws InterruptedException {
@@ -97,7 +97,7 @@ public class ThreeHalfSampAuto extends LinearOpMode {
                                 Deposit2.build()
                         ),
                         //open the claw
-                        new SleepAction(0.3),
+                        new SleepAction(0.25),
                         bot.outtake.claw.Open(),
                         //again, go grab the next sample as the vipers come down and as the intake extends
                         new ParallelAction(
@@ -121,7 +121,7 @@ public class ThreeHalfSampAuto extends LinearOpMode {
                                 Deposit3.build()
                         ),
                         //drop sample
-                        new SleepAction(0.3),
+                        new SleepAction(0.25),
                         bot.outtake.claw.Open(),
                         //etc
                         new ParallelAction(
@@ -149,7 +149,8 @@ public class ThreeHalfSampAuto extends LinearOpMode {
                                 ),
                                 Deposit4Tan.build()
                         ),
-
+                        new SleepAction(0.25),
+                        bot.outtake.claw.Open(),
 
 
                         Park.build()
