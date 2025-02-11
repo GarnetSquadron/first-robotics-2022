@@ -282,4 +282,7 @@ public class ActionDcMotor {
     public void setExtTorqueFunction(Function<Double,Double> function){
         motor.setExtTorqueFunction(function);
     }
+    public boolean inExtForceMode(){
+        return motor.inExtForceMode();
+    }
 }

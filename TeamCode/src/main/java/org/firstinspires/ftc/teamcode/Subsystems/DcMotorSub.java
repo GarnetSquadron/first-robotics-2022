@@ -97,7 +97,7 @@ public class DcMotorSub extends SubsystemBase {
      * subtracts the external torques from the
      */
     public void setNetTorque(double power){
-        motor.set(power- extTorqueFunction.apply(getPosInAngle(AngleUnitV2.RADIANS)));
+        motor.set(power - extTorqueFunction.apply(getPosInAngle(AngleUnitV2.RADIANS)));
     }
     public void setExtTorqueFunction(Function<Double,Double> function){
         extTorqueFunction = function;
@@ -222,6 +222,9 @@ public class DcMotorSub extends SubsystemBase {
     }
     public int getTicksFromAngle(double angle,AngleUnitV2 unit){
         return (int)Math.round(angle*ticksInFullCircle/ExtraMath.getFullCircle(unit)-zeroDegreesTick);
+    }
+    public boolean inExtForceMode(){
+        return externalForceAccountingMode;
     }
 }
 

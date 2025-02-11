@@ -45,7 +45,7 @@ public class ThreeHalfSampAuto extends LinearOpMode {
 
         TrajectoryActionBuilder Deposit4Tan = Deposit3.fresh()
                 .setTangent(-90)
-                .splineToLinearHeading(new Pose2d(-57, -57, Math.toRadians(90)), 10);
+                .splineToLinearHeading(depositSpot, 10);
 
         TrajectoryActionBuilder Park = Deposit4Tan.endTrajectory().fresh()
                 .splineToLinearHeading(new Pose2d(-24, -12, Math.toRadians(0)), 0);
@@ -62,8 +62,8 @@ public class ThreeHalfSampAuto extends LinearOpMode {
                         new ParallelAction(
                                 bot.outtake.claw.Close(),
 
-                                bot.intake.claw.Open()//,
-                                //bot.outtake.pivot1.zeroMotor()
+                                bot.intake.claw.Open(),
+                                bot.outtake.pivot1.zeroMotor()
                                 ),
 
                         //drive to the basket and move the outtake to a position where it can drop the sample in a basket by extending the vipers
@@ -148,11 +148,11 @@ public class ThreeHalfSampAuto extends LinearOpMode {
                                         bot.BasketDrop()
                                 ),
                                 Deposit4Tan.build()
-                        ),
+                        )//,
 
 
 
-                        Park.build()
+                        //Park.build()
 
 
                 )
