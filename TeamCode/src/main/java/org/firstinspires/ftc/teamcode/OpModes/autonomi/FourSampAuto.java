@@ -151,7 +151,7 @@ public class FourSampAuto extends LinearOpMode {
                         ),
                         new SleepAction(0.25),
                         bot.outtake.claw.Open(),
-
+                        bot.outtake.SafeVipersDown(),
 
                         Park.build()
 
