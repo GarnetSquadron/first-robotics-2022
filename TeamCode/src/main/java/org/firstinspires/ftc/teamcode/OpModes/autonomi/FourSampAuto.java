@@ -21,7 +21,7 @@ public class FourSampAuto extends LinearOpMode {
         Pose2d beginPose = new Pose2d(-23, -62, Math.toRadians(90));
         //the class that contains all the subsystems
         bot =  new Bot(hardwareMap,telemetry,this::getRuntime,beginPose);
-        Pose2d depositSpot = new Pose2d(-57, -57, Math.toRadians(45));
+        Pose2d depositSpot = new Pose2d(-55, -56, Math.toRadians(45));
 
         //the trajectories that it will drive along the course of the auto
 
@@ -29,19 +29,19 @@ public class FourSampAuto extends LinearOpMode {
                 .splineToLinearHeading(depositSpot, 10);
 
         TrajectoryActionBuilder Sample1 = Deposit1.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(-48, -49, Math.toRadians(90)), 45);
+                .splineToLinearHeading(new Pose2d(-50, -48, Math.toRadians(90)), 45);
 
         TrajectoryActionBuilder Deposit2 = Sample1.endTrajectory().fresh()
                 .splineToLinearHeading(depositSpot, 10);
 
         TrajectoryActionBuilder Sample2 = Deposit2.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(-58, -49, Math.toRadians(90)), 90);
+                .splineToLinearHeading(new Pose2d(-60, -48, Math.toRadians(90)), 90);
 
         TrajectoryActionBuilder Deposit3 = Sample2.endTrajectory().fresh()
                 .splineToLinearHeading(depositSpot, 10);
 
         TrajectoryActionBuilder Sample3 = Deposit3.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(-52, -43, Math.toRadians(133)), 90);
+                .splineToLinearHeading(new Pose2d(-53, -42, Math.toRadians(133)), 90);
 
         TrajectoryActionBuilder Deposit4Tan = Deposit3.fresh()
                 .setTangent(-90)
@@ -151,9 +151,8 @@ public class FourSampAuto extends LinearOpMode {
                         ),
                         new SleepAction(0.25),
                         bot.outtake.claw.Open(),
-                        bot.outtake.SafeVipersDown(),
+                        bot.outtake.SafeVipersDown()
 
-                        Park.build()
 
 
                 )
