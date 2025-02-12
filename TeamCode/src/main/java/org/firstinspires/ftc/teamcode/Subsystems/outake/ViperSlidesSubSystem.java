@@ -22,8 +22,8 @@ public class ViperSlidesSubSystem{
     private double posCoefficient = 0.03;//0.05<-original, worked decently
     private double downTolerance = 10, downWaitTime = 1;
     public ViperSlidesSubSystem(HardwareMap hardwareMap){
-         l = new ActionDcMotor(hardwareMap,"LeftViper",0,-3100,posCoefficient,100);
-         r = new ActionDcMotor(hardwareMap,"RightViper",0,-3100,posCoefficient,100);
+         l = new ActionDcMotor(hardwareMap,"LeftViper",0,-3300,posCoefficient,100);
+         r = new ActionDcMotor(hardwareMap,"RightViper",0,-3300,posCoefficient,100);
          r.reverseMotor();
          r.setEncoder(l.getMotor());
     }
