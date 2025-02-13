@@ -42,7 +42,7 @@ public class ViperSlidesSubSystem{
         return new ParallelAction(l.GoToPos(pos),r.GoToPos(pos));
     }
     public Action GoToInches(double inches){
-        double rev = inches*revPerInch;
+        double rev = -inches*revPerInch;
         return new ParallelAction(l.GoToAngle(rev, AngleUnitV2.REVOLUTIONS),r.GoToAngle(rev,AngleUnitV2.REVOLUTIONS));
     }
     public Action GoToPosAndHoldIt(double pos,double holdPower){
