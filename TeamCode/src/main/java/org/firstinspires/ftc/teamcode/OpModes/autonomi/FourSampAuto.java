@@ -12,8 +12,8 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "#THREE HALF SAMPLE#", group = "test")
-public class ThreeHalfSampAuto extends LinearOpMode {
+@Autonomous(name = "#FOUR SAMPLE#", group = "test")
+public class FourSampAuto extends LinearOpMode {
     Bot bot;
     @Override
     public void runOpMode() throws InterruptedException {
@@ -21,7 +21,7 @@ public class ThreeHalfSampAuto extends LinearOpMode {
         Pose2d beginPose = new Pose2d(-23, -62, Math.toRadians(90));
         //the class that contains all the subsystems
         bot =  new Bot(hardwareMap,telemetry,this::getRuntime,beginPose);
-        Pose2d depositSpot = new Pose2d(-57, -57, Math.toRadians(45));
+        Pose2d depositSpot = new Pose2d(-55, -56, Math.toRadians(45));
 
         //the trajectories that it will drive along the course of the auto
 
@@ -29,28 +29,29 @@ public class ThreeHalfSampAuto extends LinearOpMode {
                 .splineToLinearHeading(depositSpot, 10);
 
         TrajectoryActionBuilder Sample1 = Deposit1.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(-48, -49, Math.toRadians(90)), 45);
+                .splineToLinearHeading(new Pose2d(-50, -48, Math.toRadians(90)), 45);
 
         TrajectoryActionBuilder Deposit2 = Sample1.endTrajectory().fresh()
                 .splineToLinearHeading(depositSpot, 10);
 
         TrajectoryActionBuilder Sample2 = Deposit2.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(-58, -49, Math.toRadians(90)), 90);
+                .splineToLinearHeading(new Pose2d(-60, -48, Math.toRadians(90)), 90);
 
         TrajectoryActionBuilder Deposit3 = Sample2.endTrajectory().fresh()
                 .splineToLinearHeading(depositSpot, 10);
 
         TrajectoryActionBuilder Sample3 = Deposit3.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(-52, -43, Math.toRadians(133)), 90);
+                .splineToLinearHeading(new Pose2d(-53, -42, Math.toRadians(133)), 90);
 
         TrajectoryActionBuilder Deposit4Tan = Deposit3.fresh()
                 .setTangent(-90)
-                .splineToLinearHeading(new Pose2d(-57, -57, Math.toRadians(90)), 10);
+                .splineToLinearHeading(depositSpot, 10);
 
         TrajectoryActionBuilder Park = Deposit4Tan.endTrajectory().fresh()
                 .splineToLinearHeading(new Pose2d(-24, -12, Math.toRadians(0)), 0);
 
         waitForStart();
+        StaticInfo.LastOpModeWasAuto = true;
 
         Actions.runBlocking(
 
@@ -61,7 +62,8 @@ public class ThreeHalfSampAuto extends LinearOpMode {
                         new ParallelAction(
                                 bot.outtake.claw.Close(),
 
-                                bot.intake.claw.Open()
+                                bot.intake.claw.Open(),
+                                bot.outtake.pivot1.zeroMotor()
                                 ),
 
                         //drive to the basket and move the outtake to a position where it can drop the sample in a basket by extending the vipers
@@ -95,7 +97,7 @@ public class ThreeHalfSampAuto extends LinearOpMode {
                                 Deposit2.build()
                         ),
                         //open the claw
-                        new SleepAction(0.3),
+                        new SleepAction(0.25),
                         bot.outtake.claw.Open(),
                         //again, go grab the next sample as the vipers come down and as the intake extends
                         new ParallelAction(
@@ -119,7 +121,7 @@ public class ThreeHalfSampAuto extends LinearOpMode {
                                 Deposit3.build()
                         ),
                         //drop sample
-                        new SleepAction(0.3),
+                        new SleepAction(0.25),
                         bot.outtake.claw.Open(),
                         //etc
                         new ParallelAction(
@@ -147,16 +149,14 @@ public class ThreeHalfSampAuto extends LinearOpMode {
                                 ),
                                 Deposit4Tan.build()
                         ),
+                        new SleepAction(0.25),
+                        bot.outtake.claw.Open(),
+                        bot.outtake.SafeVipersDown()
 
-
-
-                        Park.build
 
 
                 )
         )
         );
-
-        StaticInfo.LastOpModeWasAuto = true;
     }
 }

@@ -53,7 +53,7 @@ public class CrankSlideSubSystem {
         return ratio*PI;
     }
     public Action undeploy() {
-        return goToPos(0);
+        return goToRad(2*PI/9);
     }
     public Action deploy() {
         return goToPos(1);

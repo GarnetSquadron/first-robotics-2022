@@ -18,9 +18,11 @@ public class DirectionTest extends LinearOpMode {
         Pose2d beginPose = new Pose2d(0,0,0);
         MecanumDrive drive = new PinpointDrive(hardwareMap,beginPose);
         waitForStart();
-        Actions.runBlocking(
-                drive.actionBuilder(beginPose).turn(Math.PI/2).build()
-        );
+        while (opModeIsActive()){
+            Actions.runBlocking(
+                    drive.actionBuilder(beginPose).turn(Math.PI).build()
+            );
+        }
         StaticInfo.LastOpModeWasAuto = true;
     }
 }

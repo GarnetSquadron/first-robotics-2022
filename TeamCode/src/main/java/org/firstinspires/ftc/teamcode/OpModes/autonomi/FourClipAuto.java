@@ -85,20 +85,21 @@ public class FourClipAuto extends LinearOpMode {
                                 bot.intake.claw.Open()
                         ),
 
-                        new ParallelAction(
                                 StartDeposit.build(),
-                                bot.outtake.placeSpecPos()
-                        ),
+
+                                bot.outtake.placeSpecPosV2(),
 
                                 bot.outtake.claw.Open(),
 
                         new ParallelAction(
                                 bot.outtake.SafeVipersDown(),
-                                SampGrab1.build(),
+                                SampGrab1.build()
+                        ),
+
+                        new ParallelAction(
                                 bot.intake.PoiseToGrab(1),
                                 bot.intake.wrist.runToDegrees(-70)
                         ),
-
 
                         bot.IntakeGrab(),
 
@@ -122,45 +123,47 @@ public class FourClipAuto extends LinearOpMode {
 
                         bot.IntakeDropSample(),
 
+                        bot.SafeUndeployIntake(),
+
                         new ParallelAction(
+                                bot.outtake.prepareToPlaceSpec(),
                                 WallGrab1.build(),
                                 bot.outtake.grabSpecPos()
                         ),
 
-                        bot.outtake.claw.Close(),
+                        bot.outtake.GrabSpecOfWall(),
 
-                        new ParallelAction(
-                                Deposit1.build(),
-                                bot.outtake.placeSpecPos()
-                        ),
+                        Deposit1.build(),
+
+                        bot.outtake.placeSpecPosV2(),
 
                         bot.outtake.claw.Open(),
 
                         new ParallelAction(
+                                bot.outtake.prepareToPlaceSpec(),
                                 WallGrab2.build(),
                                 bot.outtake.grabSpecPos()
                         ),
 
-                        bot.outtake.claw.Close(),
+                        bot.outtake.GrabSpecOfWall(),
 
-                        new ParallelAction(
-                                Deposit2.build(),
-                                bot.outtake.placeSpecPos()
-                        ),
+                        Deposit2.build(),
+
+                        bot.outtake.placeSpecPosV2(),
 
                         bot.outtake.claw.Open(),
 
                         new ParallelAction(
+                                bot.outtake.prepareToPlaceSpec(),
                                 WallGrab3.build(),
                                 bot.outtake.grabSpecPos()
                         ),
 
-                        bot.outtake.claw.Close(),
+                        bot.outtake.GrabSpecOfWall(),
 
-                        new ParallelAction(
-                                Deposit3.build(),
-                                bot.outtake.placeSpecPos()
-                        ),
+                        Deposit3.build(),
+
+                        bot.outtake.placeSpecPosV2(),
 
                         bot.outtake.claw.Open(),
 

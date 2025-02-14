@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.ExtraMath;
 import org.firstinspires.ftc.teamcode.Subsystems.ActionDcMotor;
+import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
 public class ViperSlidesSubSystem{
     public ActionDcMotor l;
@@ -21,9 +22,10 @@ public class ViperSlidesSubSystem{
     private final int RMinPos = 0;
     private double posCoefficient = 0.03;//0.05<-original, worked decently
     private double downTolerance = 10, downWaitTime = 1;
+    double revPerInch = 8.1/38.425;//based on gobuilda site
     public ViperSlidesSubSystem(HardwareMap hardwareMap){
-         l = new ActionDcMotor(hardwareMap,"LeftViper",0,-3100,posCoefficient,100);
-         r = new ActionDcMotor(hardwareMap,"RightViper",0,-3100,posCoefficient,100);
+         l = new ActionDcMotor(hardwareMap,"LeftViper",0,-3300,posCoefficient,100);
+         r = new ActionDcMotor(hardwareMap,"RightViper",0,-3300,posCoefficient,100);
          r.reverseMotor();
          r.setEncoder(l.getMotor());
     }
@@ -38,6 +40,10 @@ public class ViperSlidesSubSystem{
     }
     public Action GoToPos(double pos){
         return new ParallelAction(l.GoToPos(pos),r.GoToPos(pos));
+    }
+    public Action GoToInches(double inches){
+        double rev = -inches*revPerInch;
+        return new ParallelAction(l.GoToAngle(rev, AngleUnitV2.REVOLUTIONS),r.GoToAngle(rev,AngleUnitV2.REVOLUTIONS));
     }
     public Action GoToPosAndHoldIt(double pos,double holdPower){
         return new ParallelAction(l.GoToPosAndHoldIt(pos,holdPower),r.GoToPosAndHoldIt(pos,holdPower));
@@ -64,6 +70,9 @@ public class ViperSlidesSubSystem{
     }
     public Action SpecimenPlaceV2(){
         return GoToPos(0.175);
+    }
+    public Action RemoveSpecimenFromWall(){
+        return GoToInches(6);
     }
     public Action SpecimenHold(){
         return GoToPosAndHoldIt(0.5,0.5);

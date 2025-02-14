@@ -48,7 +48,7 @@ public class Outtake {
     public Action prepareToPlaceSpec(){
         return new ParallelAction(
                 claw.Close(),
-                pivot1.SpecimenOnChamberPos(),
+                pivot1.prepareForSpecimenOnChamberPos(),
                 pivot2.SpecimenOnChamberPos(),
                 vipers.Down()
         );
@@ -73,7 +73,7 @@ public class Outtake {
     public Action GrabSpecOfWall(){
         return new SequentialAction(
                 claw.Close(),
-                vipers.SpecimenPlaceV2(),
+                vipers.RemoveSpecimenFromWall(),
                 pivot1.SpecimenOnChamberPos()
         );
     }

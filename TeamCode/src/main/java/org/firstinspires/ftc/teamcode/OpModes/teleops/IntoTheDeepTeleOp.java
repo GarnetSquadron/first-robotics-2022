@@ -176,10 +176,16 @@ public class IntoTheDeepTeleOp extends OpMode {
         telemetry.addData("outtake pivot tgt ticks", bot.outtake.pivot1.pivot.getTargetPos());
         telemetry.addData("outtake pivot target reached", bot.outtake.pivot1.pivot.targetReached());
 
-//        telemetry.addData("viper power",bot.outtake.vipers.l.getPower());
-//        telemetry.addData("viper ticks",bot.outtake.vipers.l.getPos());
-//        telemetry.addData("viper tgt ticks",bot.outtake.vipers.l.getTargetPos());
-//        telemetry.addData("viper tgt reached",bot.outtake.vipers.l.targetReached());
+        telemetry.addData("viper power",bot.outtake.vipers.l.getPower());
+        telemetry.addData("viper ticks",bot.outtake.vipers.l.getPos());
+        telemetry.addData("viper tgt ticks",bot.outtake.vipers.l.getTargetPos());
+        telemetry.addData("viper tgt reached",bot.outtake.vipers.l.targetReached());
+        telemetry.addData("viper ext force mode", bot.outtake.vipers.l.inExtForceMode());
+        telemetry.addData("viper power",bot.outtake.vipers.r.getPower());
+        telemetry.addData("viper ticks",bot.outtake.vipers.r.getPos());
+        telemetry.addData("viper tgt ticks",bot.outtake.vipers.r.getTargetPos());
+        telemetry.addData("viper tgt reached",bot.outtake.vipers.r.targetReached());
+        telemetry.addData("viper ext force mode", bot.outtake.vipers.r.inExtForceMode());
 
 
         telemetry.addData("direction", MecanumDrive.pose.heading.toDouble());

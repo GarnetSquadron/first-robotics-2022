@@ -80,4 +80,11 @@ public class ServoSub {
         return ExtraMath.ApproximatelyEqualTo(servo.getPosition(),Max,0.01);
     }
 
+    /**
+     * I believe that this will turn off all the servos conne
+     */
+    public void turnOffController(){
+        servo.getController().pwmDisable();
+    }
+
 }

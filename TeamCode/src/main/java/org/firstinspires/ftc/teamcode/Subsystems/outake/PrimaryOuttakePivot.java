@@ -42,10 +42,10 @@ public class PrimaryOuttakePivot{
         return gotodegrees(0);
     }
     public Action SpecimenOnChamberPosV2() {
-        return new SequentialAction(gotodegrees(0), gotodegrees(70));
+        return new SequentialAction(gotodegrees(20), gotodegrees(70));
     }
-    public Action prepareForSpecimenOnChamberPos() {
-        return gotodegrees(45);
+    public Action prepareForSpecimenOnChamberPosV2() {
+        return gotodegrees(20);
     }
 
     public Action TransferPos() {
