@@ -7,6 +7,7 @@ import com.acmerobotics.roadrunner.SequentialAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.ExtraMath;
+import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
 import org.firstinspires.ftc.teamcode.MiscActions.ConditionalAction;
 import org.firstinspires.ftc.teamcode.MiscActions.WaitForConditionAction;
 
@@ -67,10 +68,11 @@ public class Outtake {
                 pivot1.prepareForSpecimenOnChamberPos(),
                 vipers.SpecimenPlaceV2(),
                 new ParallelAction(
+                        //new CancelableAction(pivot1.SpecimenOnChamberPosV2(),pivot1.);
                         pivot1.SpecimenOnChamberPosV2(),
                         pivot2.SpecimenOnChamberPos(),
                         new SequentialAction(
-                                new SleepAction(0.5),
+                                new SleepAction(0.4),
                                 claw.Open()
                         )
                 )
