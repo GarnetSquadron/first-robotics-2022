@@ -252,6 +252,30 @@ public class ActionDcMotor {
     public Action goUntilStoppedAndAssumeTgtAngleHasBeenReached(double angle,double power,AngleUnitV2 unit){
         return new CancelableAction(new goUntilStoppedAndAssumeTgtPosHasBeenReached(power,angle,unit),Stop);
     }
+
+
+    public class runWithRawPower implements Action{
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            return false;
+        }
+    }
+    public class HoldCurrentPos implements Action{
+        public HoldCurrentPos(){
+
+        }
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            motor.setTgPosTick(getPos());
+            motor.runToTgPos();
+            return false;
+        }
+    }
+//    public Action HoldPos(){
+//
+//    }
     public double getDistanceToTarget(){
         return motor.getTargetPos()-motor.getPos();
     }
@@ -264,7 +288,7 @@ public class ActionDcMotor {
     public double getCurrent(){
         return motor.getCurrent();
     }
-    public double getPos(){
+    public int getPos(){
         return motor.getPos();
     }
     public double getAngle(AngleUnitV2 unit){

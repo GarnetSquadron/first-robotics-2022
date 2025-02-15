@@ -101,6 +101,8 @@ public class FourClipAuto extends LinearOpMode {
                                 bot.intake.wrist.runToDegrees(-70)
                         ),
 
+                        bot.intake.wrist.runToRad(Math.toRadians(30)),
+
                         bot.IntakeGrab(),
 
                         SampDrop1.build(),
@@ -126,12 +128,13 @@ public class FourClipAuto extends LinearOpMode {
                         bot.SafeUndeployIntake(),
 
                         new ParallelAction(
-                                bot.outtake.prepareToPlaceSpec(),
                                 WallGrab1.build(),
                                 bot.outtake.grabSpecPos()
                         ),
 
                         bot.outtake.GrabSpecOfWall(),
+
+                        bot.outtake.prepareToPlaceSpec(),
 
                         Deposit1.build(),
 
@@ -140,12 +143,13 @@ public class FourClipAuto extends LinearOpMode {
                         bot.outtake.claw.Open(),
 
                         new ParallelAction(
-                                bot.outtake.prepareToPlaceSpec(),
                                 WallGrab2.build(),
                                 bot.outtake.grabSpecPos()
                         ),
 
                         bot.outtake.GrabSpecOfWall(),
+
+                        bot.outtake.prepareToPlaceSpec(),
 
                         Deposit2.build(),
 
@@ -154,12 +158,13 @@ public class FourClipAuto extends LinearOpMode {
                         bot.outtake.claw.Open(),
 
                         new ParallelAction(
-                                bot.outtake.prepareToPlaceSpec(),
                                 WallGrab3.build(),
                                 bot.outtake.grabSpecPos()
                         ),
 
                         bot.outtake.GrabSpecOfWall(),
+
+                        bot.outtake.prepareToPlaceSpec(),
 
                         Deposit3.build(),
 
