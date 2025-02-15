@@ -25,7 +25,7 @@ public class DcMotorPrimaryOuttakePivot{
         return goToPosWithCorrectSpeed(135,AngleUnitV2.DEGREES);
     }
     public Action SpecimenOnWallPos() {
-        return goToPosWithCorrectSpeed(225,AngleUnitV2.DEGREES);
+        return goToPosWithCorrectSpeed(210,AngleUnitV2.DEGREES);
     }
     public Action SpecimenOnChamberPos() {
         return goToPosWithCorrectSpeed(0,AngleUnitV2.DEGREES);

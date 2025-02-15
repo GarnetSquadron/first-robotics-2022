@@ -59,14 +59,20 @@ public class Outtake {
                 claw.Open()
         );
     }
+    boolean pivotMoving(){
+        return ExtraMath.ApproximatelyEqualTo( pivot1.pivot.getSpeed(),0,0.02);
+    }
     public Action placeSpecPosV2(){
         return new SequentialAction(
-                pivot1.SpecimenOnChamberPos(),
+                pivot1.prepareForSpecimenOnChamberPos(),
                 vipers.SpecimenPlaceV2(),
                 new ParallelAction(
                         pivot1.SpecimenOnChamberPosV2(),
                         pivot2.SpecimenOnChamberPos(),
-                        new WaitForConditionAction(claw.Open(), ()-> pivot1.pivot.getSpeed()==0)
+                        new SequentialAction(
+                                new SleepAction(0.5),
+                                claw.Open()
+                        )
                 )
         );
     }

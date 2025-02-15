@@ -26,48 +26,58 @@ public class FourClipAuto extends LinearOpMode {
 
         //the trajectories that it will drive along the course of the auto
 
+        Vector2d WallPos =  new Vector2d(36,-56);
+        Vector2d prepWallPos = new Vector2d(36,-50);
+        double SubPos = -30;
+        double SampleDistanceX = 4;
+        double SampleDistanceY = 4;
+        double dropAngle = -50;
+
         TrajectoryActionBuilder StartDeposit = bot.drive.actionBuilder(beginPose)
-                .splineToConstantHeading(new Vector2d(-0,-34),90);
+                .splineToConstantHeading(new Vector2d(-0,SubPos),90);
 
         TrajectoryActionBuilder SampGrab1 = StartDeposit.endTrajectory().fresh()
-                .setTangent(182)
-                .splineToLinearHeading(new Pose2d(30, -41, Math.toRadians(30)), Math.toRadians(0));
+                .setTangent(-Math.PI/2)
+                .splineToLinearHeading(new Pose2d(25+SampleDistanceX, -41+SampleDistanceY, Math.toRadians(30)), Math.toRadians(0));
 
         TrajectoryActionBuilder SampDrop1 = SampGrab1.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(35, -41, Math.toRadians(-40)), Math.toRadians(3));
+                .splineToLinearHeading(new Pose2d(35, -41, Math.toRadians(dropAngle)), Math.toRadians(3));
 
         TrajectoryActionBuilder SampGrab2 = SampDrop1.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(35, -41, Math.toRadians(30)), Math.toRadians(0));
+                .splineToLinearHeading(new Pose2d(35+SampleDistanceX, -41+SampleDistanceY, Math.toRadians(30)), Math.toRadians(0));
 
         TrajectoryActionBuilder SampDrop2 = SampGrab2.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(42, -41, Math.toRadians(-40)), Math.toRadians(3));
+                .splineToLinearHeading(new Pose2d(42, -41, Math.toRadians(dropAngle)), Math.toRadians(3));
 
         TrajectoryActionBuilder SampGrab3 = SampDrop2.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(42, -41, Math.toRadians(30)), Math.toRadians(0));
+                .splineToLinearHeading(new Pose2d(42+SampleDistanceX, -41+SampleDistanceY, Math.toRadians(30)), Math.toRadians(0));
 
         TrajectoryActionBuilder SampDrop3 = SampGrab3.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(41, -41, Math.toRadians(-40)), Math.toRadians(3));
+                .splineToLinearHeading(new Pose2d(41, -41, Math.toRadians(dropAngle)), Math.toRadians(3));
 
         TrajectoryActionBuilder WallGrab1 = SampDrop3.endTrajectory().fresh()
                 .setTangent(-75)
-                .splineToLinearHeading(new Pose2d(36, -60, Math.toRadians(90)), Math.toRadians(3));
+                .splineToLinearHeading(new Pose2d(prepWallPos, Math.toRadians(90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(WallPos, Math.toRadians(90)), Math.toRadians(-90));
 
         TrajectoryActionBuilder Deposit1 = WallGrab1.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(5, -34, Math.toRadians(90)), Math.toRadians(0));
+                .splineToLinearHeading(new Pose2d(5, SubPos, Math.toRadians(90)), Math.toRadians(0));
 
         TrajectoryActionBuilder WallGrab2 = Deposit1.endTrajectory().fresh()
                 .setTangent(-90)
-                .splineToConstantHeading(new Vector2d(36,-60),6);
+                .splineToLinearHeading(new Pose2d(prepWallPos, Math.toRadians(90)), Math.toRadians(-90))
+                .splineToConstantHeading(WallPos,-90);
 
         TrajectoryActionBuilder Deposit2 = WallGrab2.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(8,-34, Math.toRadians(90)), Math.toRadians(0));
+                .splineToLinearHeading(new Pose2d(8,SubPos, Math.toRadians(90)), Math.toRadians(0));
 
         TrajectoryActionBuilder WallGrab3 = Deposit2.endTrajectory().fresh()
                 .setTangent(-90)
-                .splineToConstantHeading(new Vector2d(36,-60),6);
+                .splineToLinearHeading(new Pose2d(prepWallPos, Math.toRadians(90)), Math.toRadians(-90))
+                .splineToConstantHeading(WallPos,-90);
 
         TrajectoryActionBuilder Deposit3 = WallGrab3.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(12,-34, Math.toRadians(90)), Math.toRadians(0));
+                .splineToLinearHeading(new Pose2d(12,SubPos, Math.toRadians(90)), Math.toRadians(0));
 
         TrajectoryActionBuilder Park = Deposit3.endTrajectory().fresh()
                 .setTangent(-90)
@@ -85,6 +95,8 @@ public class FourClipAuto extends LinearOpMode {
                                 bot.intake.claw.Open()
                         ),
 
+                                bot.outtake.prepareToPlaceSpec(),
+
                                 StartDeposit.build(),
 
                                 bot.outtake.placeSpecPosV2(),
@@ -98,12 +110,12 @@ public class FourClipAuto extends LinearOpMode {
 
                         new ParallelAction(
                                 bot.intake.PoiseToGrab(1),
-                                bot.intake.wrist.runToDegrees(-70)
+                                bot.intake.wrist.runToDegrees(120)
                         ),
 
-                        bot.intake.wrist.runToRad(Math.toRadians(30)),
-
                         bot.IntakeGrab(),
+
+                        new SleepAction(0.3),
 
                         SampDrop1.build(),
 
@@ -114,14 +126,6 @@ public class FourClipAuto extends LinearOpMode {
                         bot.IntakeGrab(),
 
                         SampDrop2.build(),
-
-                        bot.IntakeDropSample(),
-
-                        SampGrab3.build(),
-
-                        bot.IntakeGrab(),
-
-                        SampDrop3.build(),
 
                         bot.IntakeDropSample(),
 
