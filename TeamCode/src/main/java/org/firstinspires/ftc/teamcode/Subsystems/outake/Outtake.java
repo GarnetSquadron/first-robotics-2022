@@ -7,9 +7,6 @@ import com.acmerobotics.roadrunner.SequentialAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.ExtraMath;
-import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
-import org.firstinspires.ftc.teamcode.MiscActions.ConditionalAction;
-import org.firstinspires.ftc.teamcode.MiscActions.WaitForConditionAction;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
 import java.util.function.DoubleSupplier;
@@ -20,6 +17,10 @@ public class Outtake {
     public DcMotorPrimaryOuttakePivot pivot1;
     public SecondaryOuttakePivot pivot2;
     boolean BasketDropping = false;
+
+    double grabOffWallAngle = 211-180;
+    double pivotHeight = 15;
+    double outtakeLength = 8.375;
 
     public Outtake(HardwareMap hardwareMap, DoubleSupplier time) {
         claw = new OuttakeClaw(hardwareMap, time);
@@ -40,10 +41,9 @@ public class Outtake {
         );
     }
     public Action grabSpecPos(){
-        double angle = 211-180;
         return new ParallelAction(
                 vipers.Down(),
-                moveToAngleAndMakeTheClawStraight(angle),
+                moveToAngleAndMakeTheClawStraight(grabOffWallAngle),
                 claw.Open()
         );
     }
@@ -60,10 +60,15 @@ public class Outtake {
      * @return
      */
     public Action moveToHeightAndMakeTheClawStraight(double height){
-        double pivotHeight = 15;
-        double outtakeLength = 8.375;
-        double angle = Math.asin((pivotHeight-height)/outtakeLength);
+
+        double angle = getAngleFromHeight(height);
         return moveToAngleAndMakeTheClawStraight(angle);
+    }
+    public double getAngleFromHeight(double height){
+        return Math.asin((pivotHeight-height)/outtakeLength);
+    }
+    public boolean isGrabbingOffWall(){
+        return ExtraMath.ApproximatelyEqualTo(pivot1.pivot.getTargetAngle(AngleUnitV2.DEGREES),grabOffWallAngle,1);
     }
     public Action prepareToPlaceSpec(){
         return new ParallelAction(
@@ -97,7 +102,7 @@ public class Outtake {
                 )
         );
     }
-    public Action GrabSpecOfWall(){
+    public Action grabSpecOfWall(){
         return new SequentialAction(
                 claw.Close(),
                 vipers.RemoveSpecimenFromWall(),

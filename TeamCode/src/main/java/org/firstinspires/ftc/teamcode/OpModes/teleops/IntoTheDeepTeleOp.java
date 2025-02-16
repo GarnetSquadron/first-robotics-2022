@@ -26,7 +26,7 @@ public class IntoTheDeepTeleOp extends OpMode {
     BetterControllerClass Con1,Con2;
     Color AlianceColor = Color.RED;
     GamepadButton intakeDeployButton;
-    InitialToggler intakeDeployToggle, intakeClawToggle, outtakeClawToggle, viperToggle;
+    InitialToggler intakeDeployToggle, intakeClawToggle, outtakeClawToggle, viperToggle, grabOffWallToggle;
     risingEdgeDetector transferDetector,wristGoLeft, wristGoRight, SpecimenGrabPosButton, SpecimenPlaceButton;
     TeleOpActionScheduler actionScheduler;
     TelemetryPacket packet;
@@ -56,6 +56,7 @@ public class IntoTheDeepTeleOp extends OpMode {
         viperToggle = new InitialToggler(Con2::LeftTrigger);
         intakeClawToggle = new InitialToggler(Con2::Y);
         outtakeClawToggle = new InitialToggler(Con2::B);
+        grabOffWallToggle = new InitialToggler(Con2::DpadUp);
         transferDetector = new risingEdgeDetector(Con2::A);
         SpecimenGrabPosButton = new risingEdgeDetector(Con2::DpadUp);
         SpecimenPlaceButton = new risingEdgeDetector(Con2::RightTrigger);
@@ -85,11 +86,12 @@ public class IntoTheDeepTeleOp extends OpMode {
         intakeClawToggle.updateValue();
         viperToggle.updateValue();
         intakeDeployToggle.updateValue();
+        grabOffWallToggle.updateValue();
 
         transferDetector.update();
         wristGoLeft.update();
         wristGoRight.update();
-        SpecimenGrabPosButton.update();
+        //SpecimenGrabPosButton.update();
         SpecimenPlaceButton.update();
 
         //These are the controls for several mechanisms that have two states.
@@ -119,6 +121,11 @@ public class IntoTheDeepTeleOp extends OpMode {
                 bot.BasketDrop(),"vipers up",
                 bot.outtake.SafeVipersDown(),"vipers down"
         );
+        actionScheduler.actionBooleanPair(
+                grabOffWallToggle.JustChanged(),bot.outtake.isGrabbingOffWall(),
+                bot.outtake.grabSpecPos(),"preparing to grab spec",
+                bot.outtake.grabSpecOfWall(),"grabbing spec"
+        );
 
         //misc controls
         if(wristGoLeft.getState()){
@@ -132,10 +139,10 @@ public class IntoTheDeepTeleOp extends OpMode {
             //actionScheduler.cancelAll();
             actionScheduler.start(bot.Transfer(),"transfer");
         }
-        if(SpecimenGrabPosButton.getState()){
-            //actionScheduler.cancelAll();
-            actionScheduler.start(bot.outtake.grabSpecPos(),"Grab Specimen");
-        }
+//        if(SpecimenGrabPosButton.getState()){
+//            //actionScheduler.cancelAll();
+//            actionScheduler.start(bot.outtake.grabSpecPos(),"Grab Specimen");
+//        }
         if(SpecimenPlaceButton.getState()){
             //actionScheduler.cancelAll();
             actionScheduler.start(bot.outtake.placeSpecPosV2(),"Place Specimen");

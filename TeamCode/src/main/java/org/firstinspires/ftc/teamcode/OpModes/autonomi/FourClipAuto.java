@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 import org.firstinspires.ftc.teamcode.Subsystems.Bot;
 import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
 
-import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -149,7 +148,7 @@ public class FourClipAuto extends LinearOpMode {
                                 bot.outtake.grabSpecPos()
                         ),
 
-                        bot.outtake.GrabSpecOfWall(),
+                        bot.outtake.grabSpecOfWall(),
 
                         bot.outtake.prepareToPlaceSpec(),
 
@@ -164,7 +163,7 @@ public class FourClipAuto extends LinearOpMode {
                                 bot.outtake.grabSpecPos()
                         ),
 
-                        bot.outtake.GrabSpecOfWall(),
+                        bot.outtake.grabSpecOfWall(),
 
                         bot.outtake.prepareToPlaceSpec(),
 
@@ -179,7 +178,7 @@ public class FourClipAuto extends LinearOpMode {
                                 bot.outtake.grabSpecPos()
                         ),
 
-                        bot.outtake.GrabSpecOfWall(),
+                        bot.outtake.grabSpecOfWall(),
 
                         bot.outtake.prepareToPlaceSpec(),
 
