@@ -123,8 +123,8 @@ public class IntoTheDeepTeleOp extends OpMode {
         );
         actionScheduler.actionBooleanPair(
                 grabOffWallToggle.JustChanged(),bot.outtake.isGrabbingOffWall(),
-                bot.outtake.grabSpecPos(),"preparing to grab spec",
-                bot.outtake.grabSpecOfWall(),"grabbing spec"
+                bot.outtake.grabSpecOfWall(),"preparing to grab spec",
+                bot.outtake.grabSpecPos(),"grabbing spec"
         );
 
         //misc controls
