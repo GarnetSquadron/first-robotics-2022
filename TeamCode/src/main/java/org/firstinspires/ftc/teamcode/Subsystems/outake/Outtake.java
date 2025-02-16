@@ -68,7 +68,7 @@ public class Outtake {
         return Math.asin((pivotHeight-height)/outtakeLength);
     }
     public boolean isGrabbingOffWall(){
-        return ExtraMath.ApproximatelyEqualTo(pivot1.pivot.getTargetAngle(AngleUnitV2.DEGREES),grabOffWallAngle,1);
+        return ExtraMath.ApproximatelyEqualTo(pivot1.pivot.getTargetAngle(AngleUnitV2.DEGREES),grabOffWallAngle,5);
     }
     public Action prepareToPlaceSpec(){
         return new ParallelAction(
