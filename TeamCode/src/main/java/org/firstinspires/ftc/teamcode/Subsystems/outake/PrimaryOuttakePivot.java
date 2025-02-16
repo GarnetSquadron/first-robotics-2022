@@ -33,7 +33,7 @@ public class PrimaryOuttakePivot{
     }
 
     public Action BucketPos() {
-        return gotodegrees(135);
+        return gotodegrees(125);
     }
     public Action SpecimenOnWallPos() {
         return gotodegrees(225);
