@@ -115,13 +115,12 @@ public class FourClipAuto extends LinearOpMode {
                                 bot.outtake.claw.Open(),
 
                         new ParallelAction(
-                                bot.outtake.SafeVipersDown(),
-                                SampGrab1.build()
+                                SampGrab1.build(),
+                                bot.intake.PoiseToGrab(1),
+                                bot.intake.wrist.runToDegrees(120)
                         ),
 
                         new ParallelAction(
-                                bot.intake.PoiseToGrab(1),
-                                bot.intake.wrist.runToDegrees(120)
                         ),
                         new SleepAction(0.5),
 
@@ -141,11 +140,12 @@ public class FourClipAuto extends LinearOpMode {
 
                         bot.IntakeDropSample(),
 
-                        bot.SafeUndeployIntake(),
-
                         new ParallelAction(
                                 WallGrab1.build(),
-                                bot.outtake.grabSpecPos()
+                                new ParallelAction(
+                                        bot.outtake.grabSpecPos(),
+                                        bot.SafeUndeployIntake()
+                                )
                         ),
 
                         bot.outtake.grabSpecOfWall(),
