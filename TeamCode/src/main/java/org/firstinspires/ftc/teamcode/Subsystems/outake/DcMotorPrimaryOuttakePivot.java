@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 @Config
 public class DcMotorPrimaryOuttakePivot{
     public ActionDcMotor pivot;
-    double tolerance = 40;
+    double tolerance = 50;
     double powerCoefficient, minHeight;
     double ExtForceCoefficient = 0.1;
     public DcMotorPrimaryOuttakePivot(HardwareMap hardwareMap) {
