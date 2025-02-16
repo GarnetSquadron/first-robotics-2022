@@ -69,7 +69,7 @@ public class ViperSlidesSubSystem{
         return GoToPos(0.5);
     }
     public Action SpecimenPlaceV2(){
-        return GoToPos(0.175);
+        return GoToPos(0.10);
     }
     public Action RemoveSpecimenFromWall(){
         return GoToInches(3);

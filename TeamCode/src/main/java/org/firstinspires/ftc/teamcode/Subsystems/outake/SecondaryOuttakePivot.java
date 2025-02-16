@@ -18,7 +18,7 @@ public class SecondaryOuttakePivot {
         return pivot.runToRatio(1);
     }
     public Action SpecimenOnWallPos(){
-        return pivot.runToDegrees(45);
+        return pivot.runToDegrees(50);
     }
     public Action SpecimenOnChamberPos() {
         return pivot.runToRatio(0.5);
@@ -32,5 +32,11 @@ public class SecondaryOuttakePivot {
 
     public Action TransferPos() {
         return pivot.runToRatio(0.00);
+    }
+//    public boolean grabbingOffWall(){
+//        return pivot.get
+//    }
+    public Action goToDegrees(double angle){
+        return pivot.runToDegrees(angle);
     }
 }

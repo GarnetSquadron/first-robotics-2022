@@ -156,7 +156,7 @@ public class IntoTheDeepTeleOp extends OpMode {
                 Gpad1::getRightX,sensitivity
         );
         if(gamepad1.y){
-            bot.drive.SetDirectionTo(0, AngleUnitV2.RADIANS);
+            bot.drive.SetDirectionTo(Math.PI/2, AngleUnitV2.RADIANS);
         }
         sensitivity = 0.5;
         if(gamepad1.left_bumper){

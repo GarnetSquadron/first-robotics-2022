@@ -24,8 +24,8 @@ public class DcMotorPrimaryOuttakePivot{
     public Action BucketPos() {
         return goToPosWithCorrectSpeed(135,AngleUnitV2.DEGREES);
     }
-    public Action SpecimenOnWallPos() {
-        return goToPosWithCorrectSpeed(210,AngleUnitV2.DEGREES);
+    public Action SpecimenOnWallPos(double angle) {
+        return goToPosWithCorrectSpeed(angle,AngleUnitV2.DEGREES);
     }
     public Action SpecimenOnChamberPos() {
         return goToPosWithCorrectSpeed(0,AngleUnitV2.DEGREES);
@@ -43,5 +43,8 @@ public class DcMotorPrimaryOuttakePivot{
     public Action outOfTheWayOfIntakePos(){
         return goToPosWithCorrectSpeed(55,AngleUnitV2.DEGREES);}
     public Action zeroMotor(){return pivot.goUntilStoppedAndAssumeTgtAngleHasBeenReached(0,-0.5,AngleUnitV2.DEGREES);}
+    public double getTargetDegrees(){
+        return pivot.getTargetAngle(AngleUnitV2.DEGREES);
+    }
 
 }

@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.ExtraMath;
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
 import org.firstinspires.ftc.teamcode.MiscActions.ConditionalAction;
 import org.firstinspires.ftc.teamcode.MiscActions.WaitForConditionAction;
+import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
 import java.util.function.DoubleSupplier;
 
@@ -39,12 +40,30 @@ public class Outtake {
         );
     }
     public Action grabSpecPos(){
+        double angle = 211-180;
         return new ParallelAction(
                 vipers.Down(),
-                pivot1.SpecimenOnWallPos(),
-                pivot2.SpecimenOnWallPos(),
+                moveToAngleAndMakeTheClawStraight(angle),
                 claw.Open()
         );
+    }
+    public Action moveToAngleAndMakeTheClawStraight(double angle){
+        return new ParallelAction(
+                pivot1.SpecimenOnWallPos(angle+180),
+                pivot2.goToDegrees(103-angle)
+        );
+    }
+
+    /**
+     * doesnt work
+     * @param height
+     * @return
+     */
+    public Action moveToHeightAndMakeTheClawStraight(double height){
+        double pivotHeight = 15;
+        double outtakeLength = 8.375;
+        double angle = Math.asin((pivotHeight-height)/outtakeLength);
+        return moveToAngleAndMakeTheClawStraight(angle);
     }
     public Action prepareToPlaceSpec(){
         return new ParallelAction(
@@ -103,4 +122,7 @@ public class Outtake {
 
         );
     }
+//    public boolean atWallPos(){
+//        return
+//    }
 }
