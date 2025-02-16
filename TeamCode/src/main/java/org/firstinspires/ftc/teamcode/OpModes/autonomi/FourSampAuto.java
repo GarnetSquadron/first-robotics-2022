@@ -21,7 +21,7 @@ public class FourSampAuto extends LinearOpMode {
         Pose2d beginPose = new Pose2d(-23, -62, Math.toRadians(90));
         //the class that contains all the subsystems
         bot =  new Bot(hardwareMap,telemetry,this::getRuntime,beginPose);
-        Pose2d depositSpot = new Pose2d(-55, -56, Math.toRadians(45));
+        Pose2d depositSpot = new Pose2d(-55, -55, Math.toRadians(45));
 
         //the trajectories that it will drive along the course of the auto
 
