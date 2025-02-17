@@ -142,9 +142,9 @@ public class FourClipAuto extends LinearOpMode {
 
                         new ParallelAction(
                                 WallGrab1.build(),
-                                new ParallelAction(
-                                        bot.outtake.grabSpecPos(),
-                                        bot.SafeUndeployIntake()
+                                new SequentialAction(
+                                        bot.SafeUndeployIntake(),
+                                        bot.outtake.grabSpecPos()
                                 )
                         ),
 
