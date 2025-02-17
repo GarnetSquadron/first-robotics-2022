@@ -31,7 +31,7 @@ public class SecondaryOuttakePivot {
     }
 
     public Action TransferPos() {
-        return pivot.runToRatio(0.00);
+        return pivot.runToRatio(0.03);
     }
 //    public boolean grabbingOffWall(){
 //        return pivot.get
