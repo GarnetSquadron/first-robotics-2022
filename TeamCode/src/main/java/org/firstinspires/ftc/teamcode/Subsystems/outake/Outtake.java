@@ -21,6 +21,7 @@ public class Outtake {
     double grabOffWallAngle = 211-180;
     double pivotHeight = 15;
     double outtakeLength = 8.375;
+    double wallGrabHeight = 9.75;
 
     public Outtake(HardwareMap hardwareMap, DoubleSupplier time) {
         claw = new OuttakeClaw(hardwareMap, time);
@@ -42,6 +43,7 @@ public class Outtake {
     }
     public Action grabSpecPos(){
         return new ParallelAction(
+                //vipers.GoToInches(wallGrabHeight+Math.sin(Math.toRadians(grabOffWallAngle))-pivotHeight),
                 vipers.Down(),
                 moveToAngleAndMakeTheClawStraight(grabOffWallAngle),
                 claw.Open()

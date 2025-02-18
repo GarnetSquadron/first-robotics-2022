@@ -14,8 +14,8 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name = "#FOUR CLIPS#", group = "test")
-public class FourClipAuto extends LinearOpMode {
+@Autonomous(name = "#THREE CLIPS#", group = "test")
+public class ThreeClipAuto extends LinearOpMode {
     Bot bot;
     @Override
     public void runOpMode() throws InterruptedException {
@@ -132,13 +132,13 @@ public class FourClipAuto extends LinearOpMode {
 
                         bot.IntakeDropSample(),
 
-                        SampGrab2.build(),
-
-                        bot.IntakeGrab(),
-
-                        SampDrop2.build(),
-
-                        bot.IntakeDropSample(),
+//                        SampGrab2.build(),
+//
+//                        bot.IntakeGrab(),
+//
+//                        SampDrop2.build(),
+//
+//                        bot.IntakeDropSample(),
 
                         new ParallelAction(
                                 WallGrab1.build(),
@@ -171,24 +171,24 @@ public class FourClipAuto extends LinearOpMode {
 
                         bot.outtake.placeSpecPosV2(),
 
-                        bot.outtake.claw.Open(),
+                        bot.outtake.claw.Open()
 
-                        new ParallelAction(
-                                WallGrab3.build(),
-                                bot.outtake.grabSpecPos()
-                        ),
-
-                        bot.outtake.grabSpecOfWall(),
-
-                        bot.outtake.prepareToPlaceSpec(),
-
-                        Deposit3.build(),
-
-                        bot.outtake.placeSpecPosV2(),
-
-                        bot.outtake.claw.Open(),
-
-                        Park.build()
+//                        new ParallelAction(
+//                                WallGrab3.build(),
+//                                bot.outtake.grabSpecPos()
+//                        ),
+//
+//                        bot.outtake.grabSpecOfWall(),
+//
+//                        bot.outtake.prepareToPlaceSpec(),
+//
+//                        Deposit3.build(),
+//
+//                        bot.outtake.placeSpecPosV2(),
+//
+//                        bot.outtake.claw.Open(),
+//
+//                        Park.build()
 
 
                 )
