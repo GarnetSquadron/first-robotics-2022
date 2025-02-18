@@ -40,7 +40,11 @@ public class ThreeClipAuto extends LinearOpMode {
 
         TrajectoryActionBuilder SampGrab1 = StartDeposit.endTrajectory().fresh()
                 .setTangent(-Math.PI/2)
-                .splineToLinearHeading(new Pose2d(25+SampleDistanceX, -41+SampleDistanceY, Math.toRadians(30)), Math.toRadians(0));
+                .splineToLinearHeading(new Pose2d(25+SampleDistanceX, -41+SampleDistanceY, Math.toRadians(30)), Math.toRadians(0))
+                .afterDisp(20,new ParallelAction(
+                        bot.intake.PoiseToGrab(1),
+                        bot.intake.wrist.runToDegrees(120)
+                ));
 
         TrajectoryActionBuilder SampDrop1 = SampGrab1.endTrajectory().fresh()
                 .splineToLinearHeading(new Pose2d(35, -41, Math.toRadians(dropAngle)), Math.toRadians(3));
@@ -115,9 +119,7 @@ public class ThreeClipAuto extends LinearOpMode {
                                 bot.outtake.claw.Open(),
 
                         new ParallelAction(
-                                SampGrab1.build(),
-                                bot.intake.PoiseToGrab(1),
-                                bot.intake.wrist.runToDegrees(120)
+                                SampGrab1.build()
                         ),
 
                         new ParallelAction(
