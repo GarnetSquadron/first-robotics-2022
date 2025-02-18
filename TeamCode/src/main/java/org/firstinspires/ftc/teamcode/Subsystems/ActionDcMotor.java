@@ -154,10 +154,10 @@ public class ActionDcMotor {
                     return false;
             }
              */
-            if(motor.TargetReached()){
-                motor.stop();
-                return false;
-            }
+//            if(motor.TargetReached()){
+//                motor.stop();
+//                return false;
+//            }
             firstLoop = false;
             return true;
         }
