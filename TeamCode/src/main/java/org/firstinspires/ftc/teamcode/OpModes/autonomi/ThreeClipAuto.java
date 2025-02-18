@@ -26,7 +26,7 @@ public class ThreeClipAuto extends LinearOpMode {
 
         //the trajectories that it will drive along the course of the auto
 
-        Vector2d WallPos =  new Vector2d(34,-54.5);
+        Vector2d WallPos =  new Vector2d(34,-54.75);
         Vector2d prepWallPos = new Vector2d(34,-52);
         double SubPos = -30;
         double prepSubPos = -40;
