@@ -20,8 +20,10 @@ import java.util.function.Function;
 
 public class ActionDcMotor {
     private DcMotorSub motor;
+    private String motorName;
     public ActionDcMotor(HardwareMap hardwareMap, String MotorName, int minPos, int maxPos, double posCoefficient,double tolerance){
         motor = new DcMotorSub(hardwareMap,MotorName,minPos, maxPos,posCoefficient,tolerance);
+        motorName = MotorName;
     }
     public class SetTgtPosRatio implements Action{
         double pos,tolerance;
@@ -123,6 +125,7 @@ public class ActionDcMotor {
         boolean firstIter = true;
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            telemetryPacket.put(motorName+" targetReached",motor.TargetReached());
             if(firstIter){
                 tgtPos = motor.getTargetPos();
                 firstIter = false;
