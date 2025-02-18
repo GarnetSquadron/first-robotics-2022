@@ -70,7 +70,7 @@ public class ThreeClipAuto extends LinearOpMode {
 
         TrajectoryActionBuilder WallGrab2 = Deposit1.endTrajectory().fresh()
                 .setTangent(-90)
-                .splineToLinearHeading(new Pose2d(prepWallPos, Math.toRadians(90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(prepWallPos.minus(new Vector2d(0.5,0)), Math.toRadians(90)), Math.toRadians(-90))
                 .waitSeconds(0.5)
                 .splineToLinearHeading(new Pose2d(WallPos.minus(new Vector2d(0.5,0)), Math.toRadians(90)), Math.toRadians(-90),new TranslationalVelConstraint(10));
 
