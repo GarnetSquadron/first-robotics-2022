@@ -63,8 +63,8 @@ public class TuningPrimaryOuttakePivot extends OpMode {
         telemetry.addData("pivot velocity", pivot.getSpeed());
         telemetry.addData("pivot degrees", pivot.getPosInAngle(AngleUnitV2.DEGREES));
         telemetry.addData("pivot ticks", pivot.getPos());
-        telemetry.addData("P", velCoefficient);
-        telemetry.addData("D", posCoefficient);
+        telemetry.addData("P", posCoefficient);
+        telemetry.addData("D", velCoefficient);
         telemetry.update();
     }
 }
