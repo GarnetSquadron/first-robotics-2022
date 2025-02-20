@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Subsystems.outake;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Subsystems.ActionDcMotor;
@@ -32,7 +33,7 @@ public class DcMotorPrimaryOuttakePivot{
         return goToPosWithCorrectSpeed(0,AngleUnitV2.DEGREES);
     }
     public Action SpecimenOnChamberPosV2() {
-        return new SequentialAction(prepareForSpecimenOnChamberPos(), pivot.goUntilStoppedAndThenRampPowerUntilItsStoppedAgain(1,0.001)/*goToPosWithCorrectSpeed(120,AngleUnitV2.DEGREES)*/);
+        return new SequentialAction(prepareForSpecimenOnChamberPos(),new SleepAction(0.1), pivot.goUntilStoppedAndThenRampPowerUntilItsStoppedAgain(1,0.001)/*goToPosWithCorrectSpeed(120,AngleUnitV2.DEGREES)*/);
     }
     public Action prepareForSpecimenOnChamberPos() {
         return goToPosWithCorrectSpeed(45,AngleUnitV2.DEGREES);
