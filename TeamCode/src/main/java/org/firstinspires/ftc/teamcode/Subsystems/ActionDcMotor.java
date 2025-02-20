@@ -6,6 +6,7 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Actions;
 import com.acmerobotics.roadrunner.InstantAction;
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -207,6 +208,61 @@ public class ActionDcMotor {
             return true;
         }
     }
+    public class GoUntilStopped implements Action {
+        boolean firstLoop=true;
+        double power;
+        TTimer timer = new TTimer(Actions::now);
+        public GoUntilStopped(double power){
+            this.power = power;
+        }
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            if(firstLoop){
+                motor.JustKeepRunning(power);
+                timer.StartTimer(0.1);
+            }
+            if(getSpeed() == 0&&timer.timeover()){
+                motor.stop();
+                return false;
+            }
+            firstLoop = false;
+            return true;
+        }
+    }
+    public class IncreaseForceUntilStoppedOnceMore implements Action {
+        boolean firstLoop=true;
+        boolean secondStage = false;
+        double rampedForce = 0;
+        double power;
+        TTimer timer = new TTimer(Actions::now);
+        public IncreaseForceUntilStoppedOnceMore(double power){
+            this.power = power;
+        }
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            if(firstLoop){
+                timer.StartTimer(5);
+            }
+            if(!secondStage){
+                motor.JustKeepRunning(rampedForce);
+                rampedForce+=power;
+                if(motor.getSpeed()!=0){
+                    secondStage = true;
+                }
+            }
+            if(secondStage){
+                if(motor.getSpeed()==0){
+                    motor.setPower(0);
+                    return false;
+                }
+            }
+            if(timer.timeover()){
+                return false;
+            }
+            firstLoop = false;
+            return true;
+        }
+    }
     public boolean targetReached(){
         return motor.TargetReached();
     }
@@ -260,6 +316,9 @@ public class ActionDcMotor {
     }
     public Action goUntilStoppedAndAssumeTgtAngleHasBeenReached(double angle,double power,AngleUnitV2 unit){
         return new CancelableAction(new goUntilStoppedAndAssumeTgtPosHasBeenReached(power,angle,unit),Stop);
+    }
+    public Action goUntilStoppedAndThenRampPowerUntilItsStoppedAgain(double power1,double power2){
+        return new ParallelAction(new GoUntilStopped(power1),new IncreaseForceUntilStoppedOnceMore(power2));
     }
 
 
