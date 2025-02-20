@@ -51,7 +51,9 @@ public class TuningPrimaryOuttakePivot extends OpMode {
         }
         pivot.setPD(posCoefficient,velCoefficient);
         pivot.updatePower();
-        telemetry.addLine("press x and b to adjust P, and left and right bumper to adjust D");
+        telemetry.addLine("press x and b to adjust P");
+        telemetry.addLine("press left and right bumper to adjust D");
+        telemetry.addLine("hold a to run the motor");
         telemetry.addData("tgtReached", pivot.TargetReached());
         telemetry.addData("pivot power", pivot.getPower());
         telemetry.addData("P", velCoefficient);
