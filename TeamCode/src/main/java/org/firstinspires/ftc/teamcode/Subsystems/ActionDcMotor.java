@@ -219,7 +219,7 @@ public class ActionDcMotor {
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             if(firstLoop){
                 motor.JustKeepRunning(power);
-                timer.StartTimer(0.1);
+                timer.StartTimer(1);
             }
             if(getSpeed() == 0&&timer.timeover()){
                 motor.stop();
