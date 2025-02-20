@@ -14,8 +14,9 @@ public class DcMotorPrimaryOuttakePivot{
     double powerCoefficient, minHeight;
     double ExtForceCoefficient = 0.1;
     public DcMotorPrimaryOuttakePivot(HardwareMap hardwareMap) {
-        pivot = new ActionDcMotor(hardwareMap,"Primary Pivot",0,950,0.004,tolerance);//min and max need to be tuned
+        pivot = new ActionDcMotor(hardwareMap,"Primary Pivot",0,950,0.004,0,tolerance);//min and max need to be tuned
         pivot.setExtTorqueFunction(theta-> -ExtForceCoefficient *Math.cos(theta));
+        //pivot.setNewCoefficient(0.002);
     }
     public Action goToPosWithCorrectSpeed(double angle, AngleUnitV2 unit){
         //return pivot.GoToAngleAndHoldIt(angle,tolerance,1,unit);

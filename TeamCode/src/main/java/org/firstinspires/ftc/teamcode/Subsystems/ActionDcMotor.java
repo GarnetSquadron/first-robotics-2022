@@ -9,9 +9,7 @@ import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.robocol.TelemetryMessage;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
 import org.firstinspires.ftc.teamcode.TTimer;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
@@ -24,6 +22,13 @@ public class ActionDcMotor {
     public ActionDcMotor(HardwareMap hardwareMap, String MotorName, int minPos, int maxPos, double posCoefficient,double tolerance){
         motor = new DcMotorSub(hardwareMap,MotorName,minPos, maxPos,posCoefficient,tolerance);
         motorName = MotorName;
+    }
+    public ActionDcMotor(HardwareMap hardwareMap, String MotorName, int minPos, int maxPos, double posCoefficient,double velCoefficient,double tolerance){
+        motor = new DcMotorSub(hardwareMap,MotorName,minPos, maxPos,posCoefficient,velCoefficient,tolerance);
+        motorName = MotorName;
+    }
+    public void setNewCoefficient(double c){
+        motor.setNewPosCoefficient(c);
     }
     public class SetTgtPosRatio implements Action{
         double pos,tolerance;
@@ -141,6 +146,7 @@ public class ActionDcMotor {
         boolean firstLoop=true;
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            telemetryPacket.put(motorName+" target reached",motor.TargetReached());
             motor.runToTgPos();
             if(getSpeed() == 0&&!firstLoop&&Math.abs(motor.getTargetPos()-motor.getPos())<motor.tolerance){
                     motor.stop();

@@ -14,6 +14,8 @@ import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
 import java.util.function.Function;
 
+import kotlin.jvm.functions.Function2;
+
 /**
  * Class to keep all DcMotor actions that can be used for multiple different motors
  */
@@ -22,7 +24,7 @@ public class DcMotorSub extends SubsystemBase {
     private final DcMotorEx m;
     private final int MaxPos;
     private final int MinPos;
-    private double PosCoefficient;
+    private double PosCoefficient, newPosCoefficient, velCoefficient;
     private int tgtPos;
     double zeroDegreesTick = 0;
     PController controller;
@@ -31,7 +33,8 @@ public class DcMotorSub extends SubsystemBase {
      * takes the angle in radians and returns the external force at that point
      */
     Function<Double,Double> extTorqueFunction = x->0.0;
-    Function<Integer,Double> desiredNetTorqueFunction;
+    Function2<Integer,Double,Double> desiredNetTorqueFunction;
+    Function<Integer,Double> newDesiredNetTorqueFunction;
     boolean externalForceAccountingMode = false;
     /**
      * actual encoder position-position that we want to call it
@@ -39,7 +42,7 @@ public class DcMotorSub extends SubsystemBase {
     private int PosError = 0;//the amount that its set position differs from the real position
     double tolerance = 10;
     double ticksInFullCircle = 1425.1;
-    public DcMotorSub(HardwareMap hardwareMap, String MotorName, int minPos, int maxPos, double posCoefficient,double tolerance){
+    public DcMotorSub(HardwareMap hardwareMap, String MotorName, int minPos, int maxPos, double posCoefficient,double velCoefficient,double tolerance){
         motor = new Motor(hardwareMap,MotorName);
         m = hardwareMap.get(DcMotorEx.class,MotorName);
         motor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
@@ -47,9 +50,23 @@ public class DcMotorSub extends SubsystemBase {
         MaxPos = maxPos;
         MinPos = minPos;
         PosCoefficient = posCoefficient;
+        newPosCoefficient = posCoefficient;
+        this.velCoefficient = velCoefficient;
         this.tolerance = tolerance;
         //controller = new PController(posCoefficient);
-        desiredNetTorqueFunction = x->PosCoefficient*x;
+        //desiredNetTorqueFunction = (x,v)->PosCoefficient*x+velCoefficient*v;
+        setPD(PosCoefficient,velCoefficient);
+        //newDesiredNetTorqueFunction = x->newPosCoefficient*x;
+    }
+    public DcMotorSub(HardwareMap hardwareMap, String MotorName, int minPos, int maxPos, double posCoefficient,double tolerance){
+        this(hardwareMap,MotorName,minPos,maxPos,posCoefficient,0,tolerance);
+    }
+    public void setNewPosCoefficient(double c){
+        newPosCoefficient = c;
+        newDesiredNetTorqueFunction = x->newPosCoefficient*x;
+    }
+    public void setPD(double p,double d){
+        desiredNetTorqueFunction = (x,v)->p*x+d*v;
     }
     //region setTgPos
     public void setTgPosTick(int pos,double tolerance){
@@ -102,7 +119,7 @@ public class DcMotorSub extends SubsystemBase {
     public void setExtTorqueFunction(Function<Double,Double> function){
         extTorqueFunction = function;
     }
-    public void setDesiredNetTorqueFunction(Function<Integer,Double> function){
+    public void setDesiredNetTorqueFunction(Function2<Integer,Double,Double> function){
         desiredNetTorqueFunction = function;
     }
     public void AccountForExtForces(){
@@ -119,7 +136,15 @@ public class DcMotorSub extends SubsystemBase {
             }
             else {
                 motor.setRunMode(Motor.RunMode.RawPower);
-                setNetTorque(desiredNetTorqueFunction.apply(getTargetPos() - getPos()));
+                int deltaPos = getTargetPos() - getPos();
+                double velocity = motor.getRate();
+                double toler = 40;
+                //if(ExtraMath.withinRange(deltaPos,toler,-toler)){
+                    setNetTorque(desiredNetTorqueFunction.invoke(deltaPos,motor.getRate()));
+//                }
+//                else {
+//                    setNetTorque(newDesiredNetTorqueFunction.apply(deltaPos));
+//                }
             }
         }
         else {

@@ -194,6 +194,9 @@ public class IntoTheDeepTeleOp extends OpMode {
         telemetry.addData("viper tgt reached",bot.outtake.vipers.r.targetReached());
         telemetry.addData("viper ext force mode", bot.outtake.vipers.r.inExtForceMode());
 
+        telemetry.addData("grabbing ",bot.outtake.isGrabbingOffWall());
+        //telemetry.addData("pivot target ",bot.outtake.pivot1.pivot.getTargetPos());
+
 
         telemetry.addData("direction", MecanumDrive.pose.heading.toDouble());
         telemetry.addData("x", MecanumDrive.pose.position.x);
