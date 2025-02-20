@@ -208,6 +208,28 @@ public class ActionDcMotor {
             return true;
         }
     }
+    public class setPowerForDurration implements Action{
+        boolean firstLoop=true;
+        double power,duration;
+        TTimer timer = new TTimer(Actions::now);
+        public setPowerForDurration(double power,double duration){
+            this.power = power;
+            this.duration = duration;
+        }
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            if(firstLoop){
+                motor.JustKeepRunning(power);
+                timer.StartTimer(duration);
+            }
+            if(timer.timeover()){
+                motor.stop();
+                return false;
+            }
+            firstLoop = false;
+            return true;
+        }
+    }
     public class GoUntilStopped implements Action {
         boolean firstLoop=true;
         double power;
@@ -219,7 +241,7 @@ public class ActionDcMotor {
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             if(firstLoop){
                 motor.JustKeepRunning(power);
-                timer.StartTimer(1);
+                timer.StartTimer(1000);
             }
             if(getSpeed() == 0&&timer.timeover()){
                 motor.stop();
