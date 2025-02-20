@@ -57,6 +57,7 @@ public class TuningPrimaryOuttakePivot extends OpMode {
         telemetry.addLine("hold a to run the motor");
         telemetry.addData("tgtReached", pivot.TargetReached());
         telemetry.addData("pivot power", pivot.getPower());
+        telemetry.addData("pivot velocity", pivot.getSpeed());
         telemetry.addData("P", velCoefficient);
         telemetry.addData("D", posCoefficient);
         telemetry.update();
