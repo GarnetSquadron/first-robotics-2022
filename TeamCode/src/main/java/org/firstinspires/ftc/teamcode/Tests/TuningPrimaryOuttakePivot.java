@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.DcMotorSub;
 @TeleOp(name = "AATuning pivot")
 public class TuningPrimaryOuttakePivot extends OpMode {
     DcMotorSub pivot;
-    double ExtForceCoefficient = 0.4;
+    double ExtForceCoefficient = 0.1;
     double velCoefficient = 0;
     double posCoefficient = 0.004;
     double tolerance = 60;
