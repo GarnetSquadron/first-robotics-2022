@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Subsystems.ActionDcMotor;
 import org.firstinspires.ftc.teamcode.Subsystems.DcMotorSub;
-@TeleOp(name = "Tuning pivot")
+@TeleOp(name = "AATuning pivot")
 public class TuningPrimaryOuttakePivot extends OpMode {
     DcMotorSub pivot;
     double ExtForceCoefficient = 0.4;
