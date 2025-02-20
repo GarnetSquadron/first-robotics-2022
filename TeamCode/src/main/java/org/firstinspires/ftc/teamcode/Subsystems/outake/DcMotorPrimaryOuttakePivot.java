@@ -33,7 +33,7 @@ public class DcMotorPrimaryOuttakePivot{
         return goToPosWithCorrectSpeed(0,AngleUnitV2.DEGREES);
     }
     public Action SpecimenOnChamberPosV2() {
-        return new SequentialAction(prepareForSpecimenOnChamberPos(),/*new SleepAction(0.1), pivot.goUntilStoppedAndThenRampPowerUntilItsStoppedAgain(1,0.001)*//*goToPosWithCorrectSpeed(120,AngleUnitV2.DEGREES)*/pivot.new setPowerForDurration(0.75,3));
+        return new SequentialAction(prepareForSpecimenOnChamberPos(),/*new SleepAction(0.1), pivot.goUntilStoppedAndThenRampPowerUntilItsStoppedAgain(1,0.001)*//*goToPosWithCorrectSpeed(120,AngleUnitV2.DEGREES)*/pivot.new setPowerForDurration(0.75,1));
     }
     public Action prepareForSpecimenOnChamberPos() {
         return goToPosWithCorrectSpeed(45,AngleUnitV2.DEGREES);
