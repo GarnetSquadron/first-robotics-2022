@@ -11,6 +11,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Subsystems.ActionDcMotor;
 import org.firstinspires.ftc.teamcode.Subsystems.DcMotorSub;
+import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
+
 @TeleOp(name = "AATuning pivot")
 public class TuningPrimaryOuttakePivot extends OpMode {
     DcMotorSub pivot;
@@ -23,6 +25,7 @@ public class TuningPrimaryOuttakePivot extends OpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         pivot = new DcMotorSub(hardwareMap,"Primary Pivot",0,950,0.004,0,tolerance);//min and max need to be tuned
         pivot.setExtTorqueFunction(theta-> -ExtForceCoefficient *Math.cos(theta));
+        pivot.setPosition(0);
         //pivot.setDesiredNetTorqueFunction((x,v)->0.0);
     }
 
@@ -58,6 +61,8 @@ public class TuningPrimaryOuttakePivot extends OpMode {
         telemetry.addData("tgtReached", pivot.TargetReached());
         telemetry.addData("pivot power", pivot.getPower());
         telemetry.addData("pivot velocity", pivot.getSpeed());
+        telemetry.addData("pivot degrees", pivot.getPosInAngle(AngleUnitV2.DEGREES));
+        telemetry.addData("pivot ticks", pivot.getPos());
         telemetry.addData("P", velCoefficient);
         telemetry.addData("D", posCoefficient);
         telemetry.update();
