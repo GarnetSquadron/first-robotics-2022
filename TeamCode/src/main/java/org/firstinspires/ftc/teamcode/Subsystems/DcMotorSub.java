@@ -42,7 +42,7 @@ public class DcMotorSub extends SubsystemBase {
     private int PosError = 0;//the amount that its set position differs from the real position
     double tolerance = 10;
     double ticksInFullCircle = 1425.1;
-    public DcMotorSub(HardwareMap hardwareMap, String MotorName, int minPos, int maxPos, double posCoefficient,double velCoefficient,double tolerance){
+    public DcMotorSub(HardwareMap hardwareMap, String MotorName, int minPos, int maxPos, double posCoefficient,double velCoefficient,double maxPower,double tolerance){
         motor = new Motor(hardwareMap,MotorName);
         m = hardwareMap.get(DcMotorEx.class,MotorName);
         motor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
@@ -55,18 +55,21 @@ public class DcMotorSub extends SubsystemBase {
         this.tolerance = tolerance;
         //controller = new PController(posCoefficient);
         //desiredNetTorqueFunction = (x,v)->PosCoefficient*x+velCoefficient*v;
-        setPD(PosCoefficient,velCoefficient);
+        setPD(PosCoefficient,velCoefficient,maxPower);
         //newDesiredNetTorqueFunction = x->newPosCoefficient*x;
     }
     public DcMotorSub(HardwareMap hardwareMap, String MotorName, int minPos, int maxPos, double posCoefficient,double tolerance){
-        this(hardwareMap,MotorName,minPos,maxPos,posCoefficient,0,tolerance);
+        this(hardwareMap,MotorName,minPos,maxPos,posCoefficient,0,1,tolerance);
     }
     public void setNewPosCoefficient(double c){
         newPosCoefficient = c;
         newDesiredNetTorqueFunction = x->newPosCoefficient*x;
     }
     public void setPD(double p,double d){
-        desiredNetTorqueFunction = (x,v)->p*x+d*v;
+        setPD(p,d,1);
+    }
+    public void setPD(double p,double d,double maxPower){
+        desiredNetTorqueFunction = (x,v)->ExtraMath.Clamp(p*x+d*v,maxPower,-maxPower);
     }
     //region setTgPos
     public void setTgPosTick(int pos,double tolerance){
@@ -139,12 +142,7 @@ public class DcMotorSub extends SubsystemBase {
                 int deltaPos = getTargetPos() - getPos();
                 double velocity = motor.getRate();
                 double toler = 40;
-                //if(ExtraMath.withinRange(deltaPos,toler,-toler)){
-                    setNetTorque(desiredNetTorqueFunction.invoke(deltaPos,motor.getRate()));
-//                }
-//                else {
-//                    setNetTorque(newDesiredNetTorqueFunction.apply(deltaPos));
-//                }
+                setNetTorque(desiredNetTorqueFunction.invoke(deltaPos,motor.getRate()));
             }
         }
         else {

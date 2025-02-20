@@ -24,8 +24,8 @@ public class ActionDcMotor {
         motor = new DcMotorSub(hardwareMap,MotorName,minPos, maxPos,posCoefficient,tolerance);
         motorName = MotorName;
     }
-    public ActionDcMotor(HardwareMap hardwareMap, String MotorName, int minPos, int maxPos, double posCoefficient,double velCoefficient,double tolerance){
-        motor = new DcMotorSub(hardwareMap,MotorName,minPos, maxPos,posCoefficient,velCoefficient,tolerance);
+    public ActionDcMotor(HardwareMap hardwareMap, String MotorName, int minPos, int maxPos, double posCoefficient,double velCoefficient,double maxPower,double tolerance){
+        motor = new DcMotorSub(hardwareMap,MotorName,minPos, maxPos,posCoefficient,velCoefficient,maxPower,tolerance);
         motorName = MotorName;
     }
     public void setNewCoefficient(double c){
