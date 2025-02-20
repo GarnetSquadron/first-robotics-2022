@@ -38,11 +38,11 @@ public class TuningPrimaryOuttakePivot extends OpMode {
             pivot.setPower(1);
         }
         if (gamepad1.b){
-            velCoefficient +=0.005;
+            velCoefficient +=0.0005;
             sleep(200);
         }
         if (gamepad1.x){
-            velCoefficient -=0.005;
+            velCoefficient -=0.0005;
             sleep(200);
         }
         if (gamepad1.right_bumper){
@@ -55,8 +55,8 @@ public class TuningPrimaryOuttakePivot extends OpMode {
         }
         pivot.setPD(posCoefficient,velCoefficient);
         pivot.updatePower();
-        telemetry.addLine("press x and b to adjust P");
-        telemetry.addLine("press left and right bumper to adjust D");
+        telemetry.addLine("press x and b to adjust D");
+        telemetry.addLine("press left and right bumper to adjust P");
         telemetry.addLine("hold a to run the motor");
         telemetry.addData("tgtReached", pivot.TargetReached());
         telemetry.addData("pivot power", pivot.getPower());
