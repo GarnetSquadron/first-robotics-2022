@@ -17,17 +17,18 @@ public class TuningPrimaryOuttakePivot extends OpMode {
     double ExtForceCoefficient = 0.4;
     double velCoefficient = 0;
     double posCoefficient = 0.004;
+    double tolerance = 60;
     @Override
     public void init() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        pivot = new DcMotorSub(hardwareMap,"Primary Pivot",-450,450,0.0004,velCoefficient,30);
-        pivot.setExtTorqueFunction(theta-> ExtForceCoefficient *Math.sin(theta));
+        pivot = new DcMotorSub(hardwareMap,"Primary Pivot",0,950,0.004,0,tolerance);//min and max need to be tuned
+        pivot.setExtTorqueFunction(theta-> -ExtForceCoefficient *Math.cos(theta));
         //pivot.setDesiredNetTorqueFunction((x,v)->0.0);
     }
 
     @Override
     public void loop() {
-        pivot.setTgPosTick(0);
+        pivot.setTgPosTick(450);
         pivot.AccountForExtForces();
         pivot.setPower(0);
         if (gamepad1.a){
