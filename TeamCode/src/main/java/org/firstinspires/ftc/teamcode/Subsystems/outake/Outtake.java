@@ -108,7 +108,7 @@ public class Outtake {
         return new SequentialAction(
                 claw.Close(),
                 vipers.RemoveSpecimenFromWall(),
-                pivot1.prepareForSpecimenOnChamberPos()
+                pivot1.prepareForSpecimenOnChamberPos()//TODO: maybe change to this.prepareToPlaceSpec
         );
     }
     public Action OutOfTheWayOfTheIntakePos(){
