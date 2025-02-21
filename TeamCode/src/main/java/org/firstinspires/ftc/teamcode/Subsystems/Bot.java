@@ -151,7 +151,7 @@ public class Bot {
     public Action SafeUndeployIntake(){
         return new SequentialAction(
                 outtake.OutOfTheWayOfTheIntakePos(),
-                intake.undeploy()
+                intake.DefaultPos()
         );
     }
     /**

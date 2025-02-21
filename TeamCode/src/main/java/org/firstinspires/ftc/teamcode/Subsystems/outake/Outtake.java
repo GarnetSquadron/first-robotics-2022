@@ -91,14 +91,14 @@ public class Outtake {
     }
     public Action placeSpecPosV2(){
         return new SequentialAction(
-                pivot1.prepareForSpecimenOnChamberPos(),
+                pivot1.SpecimenOnChamberPos(),
                 vipers.SpecimenPlaceV2(),
                 new ParallelAction(
                         //new CancelableAction(pivot1.SpecimenOnChamberPosV2(),pivot1.);
                         pivot1.SpecimenOnChamberPosV2(),
                         pivot2.SpecimenOnChamberPos(),
                         new SequentialAction(
-                                new SleepAction(0.4),
+                                new SleepAction(0.6),
                                 claw.Open()
                         )
                 )
@@ -108,7 +108,7 @@ public class Outtake {
         return new SequentialAction(
                 claw.Close(),
                 vipers.RemoveSpecimenFromWall(),
-                pivot1.SpecimenOnChamberPos()
+                pivot1.prepareForSpecimenOnChamberPos()
         );
     }
     public Action OutOfTheWayOfTheIntakePos(){
