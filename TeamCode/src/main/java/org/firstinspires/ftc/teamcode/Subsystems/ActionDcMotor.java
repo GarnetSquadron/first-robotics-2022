@@ -208,11 +208,11 @@ public class ActionDcMotor {
             return true;
         }
     }
-    public class setPowerForDurration implements Action{
+    public class setPowerForDuration implements Action{
         boolean firstLoop=true;
         double power,duration;
         TTimer timer = new TTimer(Actions::now);
-        public setPowerForDurration(double power,double duration){
+        public setPowerForDuration(double power, double duration){
             this.power = power;
             this.duration = duration;
         }
