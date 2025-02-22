@@ -21,7 +21,7 @@ public class FourSampAuto extends LinearOpMode {
         Pose2d beginPose = new Pose2d(-23, -62, Math.toRadians(90));
         //the class that contains all the subsystems
         bot =  new Bot(hardwareMap,telemetry,this::getRuntime,beginPose);
-        Pose2d depositSpot = new Pose2d(-55, -55, Math.toRadians(45));
+        Pose2d depositSpot = new Pose2d(-55.5, -55.5, Math.toRadians(45));
 
         //the trajectories that it will drive along the course of the auto
 
@@ -35,7 +35,7 @@ public class FourSampAuto extends LinearOpMode {
                 .splineToLinearHeading(depositSpot, 10);
 
         TrajectoryActionBuilder Sample2 = Deposit2.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(-60, -47, Math.toRadians(90)), 90);
+                .splineToLinearHeading(new Pose2d(-59, -47, Math.toRadians(90)), 90);
 
         TrajectoryActionBuilder Deposit3 = Sample2.endTrajectory().fresh()
                 .splineToLinearHeading(depositSpot, 10);
