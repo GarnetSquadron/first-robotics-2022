@@ -36,7 +36,7 @@ public class DcMotorPrimaryOuttakePivot{
         /*   new SleepAction(0.1), pivot.goUntilStoppedAndThenRampPowerUntilItsStoppedAgain(1,0.001)*//*goToPosWithCorrectSpeed(120,AngleUnitV2.DEGREES)*/
     }
     public Action prepareForSpecimenOnChamberPos() {
-        return goToPosWithCorrectSpeed(20,AngleUnitV2.DEGREES);
+        return goToPosWithCorrectSpeed(25,AngleUnitV2.DEGREES);
     }
 
     public Action TransferPos() {

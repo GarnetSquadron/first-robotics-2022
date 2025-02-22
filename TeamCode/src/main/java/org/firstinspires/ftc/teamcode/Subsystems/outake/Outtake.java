@@ -44,7 +44,7 @@ public class Outtake {
     public Action grabSpecPos(){
         return new ParallelAction(
                 //vipers.GoToInches(wallGrabHeight+Math.sin(Math.toRadians(grabOffWallAngle))-pivotHeight),
-                vipers.Down(),
+                vipers.GoToInches(0.75),
                 moveToAngleAndMakeTheClawStraight(grabOffWallAngle),
                 claw.Open()
         );
@@ -77,7 +77,7 @@ public class Outtake {
                 claw.Close(),
                 pivot1.prepareForSpecimenOnChamberPos(),
                 pivot2.SpecimenOnChamberPos(),
-                vipers.Down()
+                vipers.SpecimenPlaceV2()
         );
     }
     public Action placeSpecPos(){
@@ -91,7 +91,7 @@ public class Outtake {
     }
     public Action placeSpecPosV2(){
         return new SequentialAction(
-                pivot1.SpecimenOnChamberPos(),
+                pivot1.prepareForSpecimenOnChamberPos(),
                 vipers.SpecimenPlaceV2(),
                 new ParallelAction(
                         //new CancelableAction(pivot1.SpecimenOnChamberPosV2(),pivot1.);
@@ -108,7 +108,7 @@ public class Outtake {
         return new SequentialAction(
                 claw.Close(),
                 vipers.RemoveSpecimenFromWall(),
-                pivot1.prepareForSpecimenOnChamberPos()//TODO: maybe change to this.prepareToPlaceSpec
+                prepareToPlaceSpec()//TODO: maybe change to this.prepareToPlaceSpec
         );
     }
     public Action OutOfTheWayOfTheIntakePos(){

@@ -77,6 +77,7 @@ public class IntoTheDeepTeleOp extends OpMode {
     public void loop() {
         if(firstiter){
             actionScheduler.start(bot.outtake.pivot1.zeroMotor(),"zero outtake pivot");
+            //actionScheduler.start(bot.outtake.vipers.zeroMotor(),"zero vipers");
             actionScheduler.start(bot.UpdateMotorPowers(),"updating motor powers");
             firstiter = false;
         }
