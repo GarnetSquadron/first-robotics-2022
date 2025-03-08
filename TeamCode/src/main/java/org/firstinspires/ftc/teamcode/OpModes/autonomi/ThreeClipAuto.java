@@ -51,7 +51,7 @@ public class ThreeClipAuto extends LinearOpMode {
                         bot.intake.PoiseToGrab(1),
                         bot.intake.wrist.runToDegrees(120)
                 ));
-
+//auto route
         TrajectoryActionBuilder SampDrop1 = SampGrab1.endTrajectory().fresh()
                 .splineToLinearHeading(new Pose2d(35, -45, Math.toRadians(dropAngle)), Math.toRadians(3));
 
