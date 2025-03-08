@@ -53,7 +53,7 @@ public class ThreeClipAuto extends LinearOpMode {
                 ));
 
         TrajectoryActionBuilder SampDrop1 = SampGrab1.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(35, -45, Math.toRadians(dropAngle)), Math.toRadians(3));
+                .splineToLinearHeading(new Pose2d(35, -47.5, Math.toRadians(dropAngle)), Math.toRadians(3));
 
         TrajectoryActionBuilder SampGrab2 = SampDrop1.endTrajectory().fresh()
                 .splineToLinearHeading(new Pose2d(35+SampleDistanceX, -41+SampleDistanceY, Math.toRadians(30)), Math.toRadians(0));
@@ -74,8 +74,6 @@ public class ThreeClipAuto extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(WallPos, Math.toRadians(90)), Math.toRadians(-90),new TranslationalVelConstraint(10));
 
         TrajectoryActionBuilder Deposit1 = WallGrab1.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(-0.5, SubPos-30, Math.toRadians(90)), Math.toRadians(0))
-                .waitSeconds(0.1)
                 .splineToLinearHeading(new Pose2d(-0.5, SubPos, Math.toRadians(90)), Math.toRadians(90), new TranslationalVelConstraint(30));
 
         TrajectoryActionBuilder WallGrab2 = Deposit1.endTrajectory().fresh()
