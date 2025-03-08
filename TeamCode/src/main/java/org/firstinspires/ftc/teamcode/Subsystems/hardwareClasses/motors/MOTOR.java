@@ -34,6 +34,9 @@ public class MOTOR extends RAWMOTOR {
     public void setPID(double kp, double ki, double kd){
         setPositionController(new PIDCon(kp,ki,kd, encoder));
     }
+    public void setTolerance(double tolerance){
+        positionController.setTolerance(tolerance);
+    }
 
     /**
      * hello

@@ -4,12 +4,15 @@ import org.firstinspires.ftc.teamcode.ExtraMath;
 import org.firstinspires.ftc.teamcode.Subsystems.Encoder;
 
 public abstract class PositionController extends Controller{
-    double targetPosition, tolerance;
+    double targetPosition, tolerance = 0;
     PositionController(Encoder encoder) {
         super(encoder);
     }
     public void setTargetPosition(double targetPosition){
         this.targetPosition = targetPosition;
+    }
+    public void setTolerance(double tolerance){
+        this.tolerance = tolerance;
     }
     public double getTargetPosition(){
         return targetPosition;
