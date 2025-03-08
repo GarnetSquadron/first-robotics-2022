@@ -6,12 +6,13 @@ import org.firstinspires.ftc.teamcode.Subsystems.Encoder;
 import org.firstinspires.ftc.teamcode.Subsystems.controllers.Controller;
 import org.firstinspires.ftc.teamcode.Subsystems.controllers.NullController;
 import org.firstinspires.ftc.teamcode.Subsystems.controllers.PIDCon;
+import org.firstinspires.ftc.teamcode.Subsystems.controllers.PositionController;
 
 import java.util.function.DoubleSupplier;
 
 public class MOTOR extends RAWMOTOR {
     Controller extTorqueController = new NullController();
-    Controller controller;
+    PositionController positionController;
     Encoder encoder;
     DoubleSupplier velocitySupplier;
     public MOTOR(HardwareMap hardwareMap, String name){
@@ -27,11 +28,11 @@ public class MOTOR extends RAWMOTOR {
     public void setExtTorqueController(Controller controller){
         extTorqueController = controller;
     }
-    public void setController(Controller controller){
-        this.controller = controller;
+    public void setPositionController(PositionController positionController){
+        this.positionController = positionController;
     }
     public void setPID(double kp, double ki, double kd){
-        setController(new PIDCon(kp,ki,kd, encoder));
+        setPositionController(new PIDCon(kp,ki,kd, encoder));
     }
 
     /**
@@ -39,22 +40,22 @@ public class MOTOR extends RAWMOTOR {
      * @param targetPosition
      */
     public void setTargetPosition(double targetPosition){
-        controller.setTargetPosition(targetPosition);
+        positionController.setTargetPosition(targetPosition);
     }
     public void runToTargetPosition(){
-        setNetTorque(controller.calculate());
+        setNetTorque(positionController.calculate());
     }
     public void setNetTorque(double power){
         motor.set(power-extTorqueController.calculate());
     }
     public void runToPos(double tgtPos) {
-        if(controller.getTargetPosition()!=tgtPos){
+        if(positionController.getTargetPosition()!=tgtPos){
             setTargetPosition(tgtPos);
         }
         runToTargetPosition();
     }
     public boolean targetReached(){
-        return controller.targetReached();
+        return positionController.targetReached();
     }
 
 }

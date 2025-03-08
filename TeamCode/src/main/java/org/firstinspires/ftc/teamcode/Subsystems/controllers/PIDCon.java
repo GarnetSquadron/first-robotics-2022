@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.ValueAtTimeStamp;
 
 import java.util.function.DoubleSupplier;
 
-public class PIDCon extends Controller {
+public class PIDCon extends PositionController {
     double kp,ki,kd;
 //    double prevTimeStamp;
 //    double prevPos;
