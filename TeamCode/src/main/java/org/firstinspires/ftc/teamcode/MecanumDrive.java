@@ -39,7 +39,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
@@ -79,9 +78,9 @@ public class MecanumDrive {
         public double kA = 0.00005;
 
         // path profile parameters (in inches)
-        public double maxWheelVel = 50;
-        public double minProfileAccel = -30;
-        public double maxProfileAccel = 50;
+        public double maxWheelVel = 100;
+        public double minProfileAccel = -200;
+        public double maxProfileAccel = 200;
 
         // turn profile parameters (in radians)
         public double maxAngVel = Math.PI; // shared with path
@@ -98,6 +97,11 @@ public class MecanumDrive {
     }
 
     public static Params PARAMS = new Params();
+    public double posTolerance = 2;
+    public double velTolerance = 0.5;
+    public double angleTolerance = 2;
+    public double angularVelTolerance = 0.5;
+
 
     public final MecanumKinematics kinematics = new MecanumKinematics(
             PARAMS.inPerTick * PARAMS.trackWidthTicks, PARAMS.inPerTick / PARAMS.lateralInPerTick);
@@ -304,8 +308,8 @@ public class MecanumDrive {
 
             PoseVelocity2d robotVelRobot = updatePoseEstimate();
             Pose2d error = txWorldTarget.value().minusExp(pose);
-            if (t >= timeTrajectory.duration && error.position.norm() < 2
-                    && robotVelRobot.linearVel.norm() < 0.5
+            if (t >= timeTrajectory.duration && error.position.norm() < posTolerance
+                    && robotVelRobot.linearVel.norm() < velTolerance
                     || t >= timeTrajectory.duration + 3) {
                 leftFront.setPower(0);
                 leftBack.setPower(0);
@@ -401,8 +405,8 @@ public class MecanumDrive {
             targetPoseWriter.write(new PoseMessage(txWorldTarget.value()));
             PoseVelocity2d robotVelRobot = updatePoseEstimate();
             Pose2d error = txWorldTarget.value().minusExp(pose);
-            if (t >= turn.duration && error.position.norm() < 2
-                    && robotVelRobot.linearVel.norm() < 0.5
+            if (t >= turn.duration && error.heading.toDouble() < angleTolerance
+                    && robotVelRobot.angVel < angularVelTolerance
                     || t >= turn.duration + 3) {
                 leftFront.setPower(0);
                 leftBack.setPower(0);
@@ -567,7 +571,23 @@ public class MecanumDrive {
         MecanumDrive.pose = pose;
     }
     public void SetDirectionTo(double direction, AngleUnitV2 m){
-        SetPosTo(new Pose2d(MecanumDrive.pose.position, ExtraMath.ConvertUnit(direction,m, AngleUnitV2.RADIANS)));
+        SetPosTo(new Pose2d(MecanumDrive.pose.position, ExtraMath.ConvertAngleUnit(direction,m, AngleUnitV2.RADIANS)));
+    }
+
+    public Action SetPosTolerance(double tolerance){
+        return new InstantAction(()-> posTolerance = tolerance);
+    }
+    public Action SetVelTolerance(double tolerance){
+        return new InstantAction(()-> velTolerance = tolerance);
+    }
+    public Action SetAngleTolerance(double tolerance){
+        return new InstantAction(()-> angleTolerance = tolerance);
+    }
+    public Action SetAngularVelTolerance(double tolerance){
+        return new InstantAction(()-> angularVelTolerance = tolerance);
+    }
+    public Action ResetToleranceToDefault(double posTolerance){
+        return new SequentialAction(SetPosTolerance(2),SetVelTolerance(0.5),SetAngleTolerance(2),SetAngularVelTolerance(0.5));
     }
 
 }

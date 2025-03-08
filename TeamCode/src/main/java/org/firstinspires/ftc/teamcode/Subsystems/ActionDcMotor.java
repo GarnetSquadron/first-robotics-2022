@@ -6,12 +6,11 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Actions;
 import com.acmerobotics.roadrunner.InstantAction;
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.robocol.TelemetryMessage;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
 import org.firstinspires.ftc.teamcode.TTimer;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
@@ -20,8 +19,17 @@ import java.util.function.Function;
 
 public class ActionDcMotor {
     private DcMotorSub motor;
+    private String motorName;
     public ActionDcMotor(HardwareMap hardwareMap, String MotorName, int minPos, int maxPos, double posCoefficient,double tolerance){
         motor = new DcMotorSub(hardwareMap,MotorName,minPos, maxPos,posCoefficient,tolerance);
+        motorName = MotorName;
+    }
+    public ActionDcMotor(HardwareMap hardwareMap, String MotorName, int minPos, int maxPos, double posCoefficient,double velCoefficient,double maxPower,double tolerance){
+        motor = new DcMotorSub(hardwareMap,MotorName,minPos, maxPos,posCoefficient,velCoefficient,maxPower,tolerance);
+        motorName = MotorName;
+    }
+    public void setNewCoefficient(double c){
+        motor.setNewPosCoefficient(c);
     }
     public class SetTgtPosRatio implements Action{
         double pos,tolerance;
@@ -123,6 +131,7 @@ public class ActionDcMotor {
         boolean firstIter = true;
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            telemetryPacket.put(motorName+" targetReached",motor.TargetReached());
             if(firstIter){
                 tgtPos = motor.getTargetPos();
                 firstIter = false;
@@ -138,6 +147,7 @@ public class ActionDcMotor {
         boolean firstLoop=true;
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            telemetryPacket.put(motorName+" target reached",motor.TargetReached());
             motor.runToTgPos();
             if(getSpeed() == 0&&!firstLoop&&Math.abs(motor.getTargetPos()-motor.getPos())<motor.tolerance){
                     motor.stop();
@@ -151,10 +161,10 @@ public class ActionDcMotor {
                     return false;
             }
              */
-            if(motor.TargetReached()){
-                motor.stop();
-                return false;
-            }
+//            if(motor.TargetReached()){
+//                motor.stop();
+//                return false;
+//            }
             firstLoop = false;
             return true;
         }
@@ -192,6 +202,83 @@ public class ActionDcMotor {
                 else{
                     motor.setPosition(ticks);
                 }
+                return false;
+            }
+            firstLoop = false;
+            return true;
+        }
+    }
+    public class setPowerForDuration implements Action{
+        boolean firstLoop=true;
+        double power,duration;
+        TTimer timer = new TTimer(Actions::now);
+        public setPowerForDuration(double power, double duration){
+            this.power = power;
+            this.duration = duration;
+        }
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            if(firstLoop){
+                motor.JustKeepRunning(power);
+                timer.StartTimer(duration);
+            }
+            if(timer.timeover()){
+                motor.stop();
+                return false;
+            }
+            firstLoop = false;
+            return true;
+        }
+    }
+    public class GoUntilStopped implements Action {
+        boolean firstLoop=true;
+        double power;
+        TTimer timer = new TTimer(Actions::now);
+        public GoUntilStopped(double power){
+            this.power = power;
+        }
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            if(firstLoop){
+                motor.JustKeepRunning(power);
+                timer.StartTimer(1000);
+            }
+            if(getSpeed() == 0&&timer.timeover()){
+                motor.stop();
+                return false;
+            }
+            firstLoop = false;
+            return true;
+        }
+    }
+    public class IncreaseForceUntilStoppedOnceMore implements Action {
+        boolean firstLoop=true;
+        boolean secondStage = false;
+        double rampedForce = 0;
+        double power;
+        TTimer timer = new TTimer(Actions::now);
+        public IncreaseForceUntilStoppedOnceMore(double power){
+            this.power = power;
+        }
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            if(firstLoop){
+                timer.StartTimer(5);
+            }
+            if(!secondStage){
+                motor.JustKeepRunning(rampedForce);
+                rampedForce+=power;
+                if(motor.getSpeed()!=0){
+                    secondStage = true;
+                }
+            }
+            if(secondStage){
+                if(motor.getSpeed()==0){
+                    motor.setPower(0);
+                    return false;
+                }
+            }
+            if(timer.timeover()){
                 return false;
             }
             firstLoop = false;
@@ -252,6 +339,33 @@ public class ActionDcMotor {
     public Action goUntilStoppedAndAssumeTgtAngleHasBeenReached(double angle,double power,AngleUnitV2 unit){
         return new CancelableAction(new goUntilStoppedAndAssumeTgtPosHasBeenReached(power,angle,unit),Stop);
     }
+    public Action goUntilStoppedAndThenRampPowerUntilItsStoppedAgain(double power1,double power2){
+        return new ParallelAction(new GoUntilStopped(power1),new IncreaseForceUntilStoppedOnceMore(power2));
+    }
+
+
+    public class runWithRawPower implements Action{
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            return false;
+        }
+    }
+    public class HoldCurrentPos implements Action{
+        public HoldCurrentPos(){
+
+        }
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            motor.setTgPosTick(getPos());
+            motor.runToTgPos();
+            return false;
+        }
+    }
+//    public Action HoldPos(){
+//
+//    }
     public double getDistanceToTarget(){
         return motor.getTargetPos()-motor.getPos();
     }
@@ -264,7 +378,7 @@ public class ActionDcMotor {
     public double getCurrent(){
         return motor.getCurrent();
     }
-    public double getPos(){
+    public int getPos(){
         return motor.getPos();
     }
     public double getAngle(AngleUnitV2 unit){

@@ -7,8 +7,7 @@ import com.acmerobotics.roadrunner.SequentialAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.ExtraMath;
-import org.firstinspires.ftc.teamcode.MiscActions.ConditionalAction;
-import org.firstinspires.ftc.teamcode.MiscActions.WaitForConditionAction;
+import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
 import java.util.function.DoubleSupplier;
 
@@ -18,6 +17,11 @@ public class Outtake {
     public DcMotorPrimaryOuttakePivot pivot1;
     public SecondaryOuttakePivot pivot2;
     boolean BasketDropping = false;
+
+    double grabOffWallAngle = 211-180;
+    double pivotHeight = 15;
+    double outtakeLength = 8.375;
+    double wallGrabHeight = 9.75;
 
     public Outtake(HardwareMap hardwareMap, DoubleSupplier time) {
         claw = new OuttakeClaw(hardwareMap, time);
@@ -39,18 +43,41 @@ public class Outtake {
     }
     public Action grabSpecPos(){
         return new ParallelAction(
-                vipers.Down(),
-                pivot1.SpecimenOnWallPos(),
-                pivot2.SpecimenOnWallPos(),
+                //vipers.GoToInches(wallGrabHeight+Math.sin(Math.toRadians(grabOffWallAngle))-pivotHeight),
+                vipers.GoToInches(0.75),
+                moveToAngleAndMakeTheClawStraight(grabOffWallAngle),
                 claw.Open()
         );
+    }
+    public Action moveToAngleAndMakeTheClawStraight(double angle){
+        return new ParallelAction(
+                pivot1.SpecimenOnWallPos(angle+180),
+                pivot2.goToDegrees(103-angle)
+        );
+    }
+
+    /**
+     * doesnt work
+     * @param height
+     * @return
+     */
+    public Action moveToHeightAndMakeTheClawStraight(double height){
+
+        double angle = getAngleFromHeight(height);
+        return moveToAngleAndMakeTheClawStraight(angle);
+    }
+    public double getAngleFromHeight(double height){
+        return Math.asin((pivotHeight-height)/outtakeLength);
+    }
+    public boolean isGrabbingOffWall(){
+        return ExtraMath.ApproximatelyEqualTo(pivot1.pivot.getTargetAngle(AngleUnitV2.DEGREES),grabOffWallAngle+180,5);
     }
     public Action prepareToPlaceSpec(){
         return new ParallelAction(
                 claw.Close(),
                 pivot1.prepareForSpecimenOnChamberPos(),
                 pivot2.SpecimenOnChamberPos(),
-                vipers.Down()
+                vipers.SpecimenPlaceV2()
         );
     }
     public Action placeSpecPos(){
@@ -59,22 +86,29 @@ public class Outtake {
                 claw.Open()
         );
     }
+    boolean pivotMoving(){
+        return ExtraMath.ApproximatelyEqualTo( pivot1.pivot.getSpeed(),0,0.02);
+    }
     public Action placeSpecPosV2(){
         return new SequentialAction(
-                pivot1.SpecimenOnChamberPos(),
+                pivot1.prepareForSpecimenOnChamberPos(),
                 vipers.SpecimenPlaceV2(),
                 new ParallelAction(
+                        //new CancelableAction(pivot1.SpecimenOnChamberPosV2(),pivot1.);
                         pivot1.SpecimenOnChamberPosV2(),
                         pivot2.SpecimenOnChamberPos(),
-                        new WaitForConditionAction(claw.Open(), ()-> pivot1.pivot.getSpeed()==0)
+                        new SequentialAction(
+                                new SleepAction(0.6),
+                                claw.Open()
+                        )
                 )
         );
     }
-    public Action GrabSpecOfWall(){
+    public Action grabSpecOfWall(){
         return new SequentialAction(
                 claw.Close(),
                 vipers.RemoveSpecimenFromWall(),
-                pivot1.SpecimenOnChamberPos()
+                prepareToPlaceSpec()//TODO: maybe change to this.prepareToPlaceSpec
         );
     }
     public Action OutOfTheWayOfTheIntakePos(){
@@ -95,4 +129,7 @@ public class Outtake {
 
         );
     }
+//    public boolean atWallPos(){
+//        return
+//    }
 }

@@ -69,10 +69,10 @@ public class ViperSlidesSubSystem{
         return GoToPos(0.5);
     }
     public Action SpecimenPlaceV2(){
-        return GoToPos(0.175);
+        return GoToPos(0.15);
     }
     public Action RemoveSpecimenFromWall(){
-        return GoToInches(6);
+        return GoToInches(3);
     }
     public Action SpecimenHold(){
         return GoToPosAndHoldIt(0.5,0.5);
@@ -95,6 +95,9 @@ public class ViperSlidesSubSystem{
 
     public Action updatePower(){
         return new ParallelAction(l.updatePower(),r.updatePower());
+    }
+    public Action zeroMotor(){
+        return new ParallelAction( l.GoToPosButIfStoppedAssumePosHasBeenReached(0),r.GoToPosButIfStoppedAssumePosHasBeenReached(0));
     }
 
     //region unused

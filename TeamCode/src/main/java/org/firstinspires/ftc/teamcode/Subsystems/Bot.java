@@ -34,6 +34,7 @@ public class Bot {
     public Outtake outtake;
     public PrimaryOuttakePivot outtakePivot;
     public Intake intake;
+    //public Hang hang;
     public boolean transfering = false;
     public final double robotWidth = 9;
 //    Action path = drive.actionBuilder(beginPose)
@@ -58,6 +59,7 @@ public class Bot {
         outtakePivot = new PrimaryOuttakePivot(hardwareMap,time);
         intake = new Intake(hardwareMap,time);
         //vision = new Vision(hardwareMap,telemetry);
+        //hang = new Hang(hardwareMap);
     }
     private class addTelemetry implements Action{
         String description;
@@ -149,7 +151,7 @@ public class Bot {
     public Action SafeUndeployIntake(){
         return new SequentialAction(
                 outtake.OutOfTheWayOfTheIntakePos(),
-                intake.undeploy()
+                intake.DefaultPos()
         );
     }
     /**
