@@ -19,7 +19,8 @@ public class ACTIONMOTOR extends UpdatableMOTOR {
     public Action runToPosition(double target){
         return new SequentialAction(
                 new InstantAction(()->setTargetPosition(target)),
-                new WaitForConditionAction(this::targetReached)
+                new WaitForConditionAction(this::targetReached),
+                new InstantAction(this::stop)
         );
     }
 }

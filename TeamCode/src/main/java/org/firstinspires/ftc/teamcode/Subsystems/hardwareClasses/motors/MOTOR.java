@@ -54,7 +54,7 @@ public class MOTOR extends RAWMOTOR {
         runToTargetPosition();
     }
     public boolean targetReached(){
-        return targetReached();
+        return controller.targetReached();
     }
 
 }

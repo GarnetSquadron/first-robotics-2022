@@ -17,6 +17,8 @@ public abstract class Controller {
     public double getTargetPosition(){
         return targetPosition;
     }
-
+    public boolean targetReached(){
+        return targetPosition == position.getAsDouble();
+    };
     public abstract double calculate();
 }
