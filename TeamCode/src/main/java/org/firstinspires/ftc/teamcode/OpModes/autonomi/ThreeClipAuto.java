@@ -74,6 +74,7 @@ public class ThreeClipAuto extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(WallPos, Math.toRadians(90)), Math.toRadians(-90),new TranslationalVelConstraint(10));
 
         TrajectoryActionBuilder Deposit1 = WallGrab1.endTrajectory().fresh()
+                .setTangent(90)
                 .splineToLinearHeading(new Pose2d(-0.5, SubPos, Math.toRadians(90)), Math.toRadians(90), new TranslationalVelConstraint(30));
 
         TrajectoryActionBuilder WallGrab2 = Deposit1.endTrajectory().fresh()
@@ -83,8 +84,7 @@ public class ThreeClipAuto extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(WallPos.minus(new Vector2d(0.5,0)), Math.toRadians(90)), Math.toRadians(-90),new TranslationalVelConstraint(10));
 
         TrajectoryActionBuilder Deposit2 = WallGrab2.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(1.5, SubPos-30, Math.toRadians(90)), Math.toRadians(0))
-                .waitSeconds(0.1)
+                .setTangent(90)
                 .splineToLinearHeading(new Pose2d(1.5,SubPos, Math.toRadians(90)), Math.toRadians(90), new TranslationalVelConstraint(30));
 
         TrajectoryActionBuilder WallGrab3 = Deposit2.endTrajectory().fresh()
