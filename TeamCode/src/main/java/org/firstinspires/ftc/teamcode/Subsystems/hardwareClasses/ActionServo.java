@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Subsystems;
+package org.firstinspires.ftc.teamcode.Subsystems.hardwareClasses;
 
 import androidx.annotation.NonNull;
 
@@ -8,6 +8,7 @@ import com.acmerobotics.roadrunner.SequentialAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.ExtraMath;
+import org.firstinspires.ftc.teamcode.Subsystems.ServoSub;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
 import java.util.function.DoubleSupplier;
@@ -46,10 +47,10 @@ public class ActionServo {
         this(hardwareMap,name,min,max,0.5,time,hardwareAngleRange,unit);
     }
     public void SetSoftwareAngleRange(double range, AngleUnitV2 unit){
-        softwareAngleRangeInDegrees = ExtraMath.ConvertUnit(range,unit, AngleUnitV2.DEGREES);
+        softwareAngleRangeInDegrees = ExtraMath.ConvertAngleUnit(range,unit, AngleUnitV2.DEGREES);
     }
     public void SetHardwareAngleRange(double range, AngleUnitV2 unit){
-        softwareAngleRangeInDegrees = ExtraMath.ConvertUnit(range,unit, AngleUnitV2.DEGREES)*Math.abs(max-min);
+        softwareAngleRangeInDegrees = ExtraMath.ConvertAngleUnit(range,unit, AngleUnitV2.DEGREES)*Math.abs(max-min);
     }
     public void Set0Angle(double ratio){
         zeroAngle = ratio;

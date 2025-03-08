@@ -1,17 +1,15 @@
 package org.firstinspires.ftc.teamcode.Subsystems.Intake;
 
 import com.acmerobotics.roadrunner.Action;
-import static org.firstinspires.ftc.teamcode.ExtraMath.Tau;
+
 import static java.lang.Math.PI;
 import static java.lang.Math.pow;
 
 import com.acmerobotics.roadrunner.ParallelAction;
-import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.ExtraMath;
-import org.firstinspires.ftc.teamcode.Subsystems.ActionServo;
-import org.firstinspires.ftc.teamcode.Subsystems.ServoSub;
+import org.firstinspires.ftc.teamcode.Subsystems.hardwareClasses.ActionServo;
 
 import java.util.function.DoubleSupplier;
 

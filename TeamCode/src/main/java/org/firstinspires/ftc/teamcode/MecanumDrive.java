@@ -571,7 +571,7 @@ public class MecanumDrive {
         MecanumDrive.pose = pose;
     }
     public void SetDirectionTo(double direction, AngleUnitV2 m){
-        SetPosTo(new Pose2d(MecanumDrive.pose.position, ExtraMath.ConvertUnit(direction,m, AngleUnitV2.RADIANS)));
+        SetPosTo(new Pose2d(MecanumDrive.pose.position, ExtraMath.ConvertAngleUnit(direction,m, AngleUnitV2.RADIANS)));
     }
 
     public Action SetPosTolerance(double tolerance){

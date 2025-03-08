@@ -7,8 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Pipelines.SamplePipeline;
-import org.firstinspires.ftc.teamcode.Subsystems.ActionServo;
-import org.firstinspires.ftc.teamcode.Subsystems.ServoSub;
+import org.firstinspires.ftc.teamcode.Subsystems.hardwareClasses.ActionServo;
 import org.firstinspires.ftc.teamcode.Subsystems.Vision;
 
 @TeleOp(name = "VisionTest",group = "test")
