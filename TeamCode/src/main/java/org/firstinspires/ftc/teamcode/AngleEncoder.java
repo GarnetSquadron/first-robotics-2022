@@ -1,6 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.arcrobotics.ftclib.hardware.motors.MotorEx;
+
 import org.firstinspires.ftc.teamcode.Subsystems.Encoder;
+import org.firstinspires.ftc.teamcode.Subsystems.hardwareClasses.motors.MOTOR;
+import org.firstinspires.ftc.teamcode.Subsystems.hardwareClasses.motors.RAWMOTOR;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
 import java.util.function.DoubleSupplier;
@@ -12,6 +17,9 @@ public class AngleEncoder extends Encoder {
      */
     public AngleEncoder(DoubleSupplier supplier) {
         super(supplier);
+    }
+    public AngleEncoder(Motor motor){
+        super(motor);
     }
 
     /**

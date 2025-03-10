@@ -13,8 +13,7 @@ public class PIDCon extends PositionController {
 //    double prevPos;
     ValueAtTimeStamp prevPos;
     double integral;
-    public PIDCon(double kp, double ki, double kd, Encoder encoder){
-        super(encoder);
+    public PIDCon(double kp, double ki, double kd){
         this.kp = kp;
         this.ki = ki;
         this.kd = kd;
@@ -25,9 +24,9 @@ public class PIDCon extends PositionController {
     }
     @Override
     public double calculate() {
-        double error = targetPosition-position.getAsDouble();
+        double error = targetPosition-encoder.getPos();
         integral+= ExtraMath.integration.trapazoid(prevPos,new ValueAtTimeStamp(error, TIME.getTime()));
         prevPos = new ValueAtTimeStamp(error,TIME.getTime());
-        return kp*error+ki*integral+kd*velocity.getAsDouble();
+        return kp*error+ki*integral+kd*encoder.getVelocity();
     }
 }

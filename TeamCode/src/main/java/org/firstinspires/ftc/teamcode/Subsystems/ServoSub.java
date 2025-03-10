@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoControllerEx;
 
 import org.firstinspires.ftc.teamcode.ExtraMath;
 import org.firstinspires.ftc.teamcode.TTimer;
@@ -81,10 +82,11 @@ public class ServoSub {
     }
 
     /**
-     * I believe that this will turn off all the servos conne
+     * I believe that this will turn off the servo
      */
     public void turnOffController(){
-        servo.getController().pwmDisable();
+        ServoControllerEx controller = (ServoControllerEx) servo.getController();
+        controller.setServoPwmDisable(servo.getPortNumber());
     }
 
 }

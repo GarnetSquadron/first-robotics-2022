@@ -203,7 +203,7 @@ public class Bot {
         );
     }
     public Action UpdateMotorPowers(){
-        return new CancelableAction(new ParallelAction(outtake.vipers.updatePower(),outtake.pivot1.pivot.updatePower()));
+        return new CancelableAction(new ParallelAction(outtake.vipers.updatePower(),outtake.pivot1.pivot.new UpdatePower()));
     }
 
     //endregion

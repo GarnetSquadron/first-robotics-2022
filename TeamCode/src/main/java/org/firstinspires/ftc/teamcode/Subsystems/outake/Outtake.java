@@ -70,7 +70,7 @@ public class Outtake {
         return Math.asin((pivotHeight-height)/outtakeLength);
     }
     public boolean isGrabbingOffWall(){
-        return ExtraMath.ApproximatelyEqualTo(pivot1.pivot.getTargetAngle(AngleUnitV2.DEGREES),grabOffWallAngle+180,5);
+        return ExtraMath.ApproximatelyEqualTo(Math.toDegrees(pivot1.pivot.getTargetPosition()),grabOffWallAngle+180,5);
     }
     public Action prepareToPlaceSpec(){
         return new ParallelAction(
@@ -87,7 +87,7 @@ public class Outtake {
         );
     }
     boolean pivotMoving(){
-        return ExtraMath.ApproximatelyEqualTo( pivot1.pivot.getSpeed(),0,0.02);
+        return ExtraMath.ApproximatelyEqualTo( pivot1.pivot.getEncoder().getVelocity(),0,0.02);
     }
     public Action placeSpecPosV2(){
         return new SequentialAction(

@@ -2,9 +2,13 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 
 import static org.firstinspires.ftc.teamcode.ExtraMath.getAverageTimeDerivative;
 
+import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.arcrobotics.ftclib.hardware.motors.MotorEx;
+
 import org.firstinspires.ftc.teamcode.ExtraMath;
 import org.firstinspires.ftc.teamcode.TIME;
 import org.firstinspires.ftc.teamcode.ValueAtTimeStamp;
+import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
 import java.util.function.DoubleSupplier;
 
@@ -20,14 +24,24 @@ public class Encoder {
         this.supplier = supplier;
         this.velocitySupplier = velocitySupplier;
     }
+    public Encoder(Motor motor){
+        this(motor::getCurrentPosition, (motor.getClass()==MotorEx.class)?(((MotorEx)motor)::getVelocity):(motor::getRate));
+        scaleToAngleUnit(motor,AngleUnitV2.RADIANS);//Defaults to radians because radians are great
+    }
     public double getPos(){
         return (supplier.getAsDouble() + offset)*scale;
     }
     public void setPos(double pos){
         offset = pos-supplier.getAsDouble();
     }
-    public void scalePos(double scale){
+    public void setScale(double scale){
         this.scale = scale;
+    }
+    public void scaleScaleBy(double scale){
+        this.scale*=scale;
+    }
+    public void scaleToAngleUnit(Motor motor, AngleUnitV2 unit){
+        scale = ExtraMath.ConvertAngleUnit(1/(motor.getCPR()),AngleUnitV2.REVOLUTIONS,unit);
     }
 
     /**
@@ -41,5 +55,8 @@ public class Encoder {
     }
     public double getVelocity(){
         return velocitySupplier.getAsDouble();
+    }
+    public boolean isStopped(){
+        return getVelocity()==0;
     }
 }

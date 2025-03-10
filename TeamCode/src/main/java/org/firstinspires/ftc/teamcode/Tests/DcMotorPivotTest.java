@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Tests;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.teamcode.OpmodeActionSceduling.TeleOpActionSchedule
 import org.firstinspires.ftc.teamcode.Subsystems.outake.DcMotorPrimaryOuttakePivot;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
+@Disabled
 @TeleOp(name = "pivot motor test",group = "test")
 public class DcMotorPivotTest extends OpMode {
     DcMotorPrimaryOuttakePivot pivot;
@@ -40,12 +42,12 @@ public class DcMotorPivotTest extends OpMode {
             scheduler.start(pivot.SpecimenOnChamberPos(),"bucket");
         }
         if(X.getState()){
-            scheduler.start(pivot.pivot.GoToAngle(180,AngleUnitV2.DEGREES),"bucket");
+            scheduler.start(pivot.pivot.runToPosition(180),"bucket");
         }
-        telemetry.addData("ticks",pivot.pivot.getPos());
-        telemetry.addData("angle",pivot.pivot.getAngle(AngleUnitV2.DEGREES));
-        telemetry.addData("tgtTicks",pivot.pivot.getTargetPos());
-        telemetry.addData("tgtAngle",pivot.pivot.getTargetAngle(AngleUnitV2.DEGREES));
+//        telemetry.addData("ticks",pivot.pivot.getPos());
+//        telemetry.addData("angle",pivot.pivot.getAngle(AngleUnitV2.DEGREES));
+//        telemetry.addData("tgtTicks",pivot.pivot.getTargetPos());
+//        telemetry.addData("tgtAngle",pivot.pivot.getTargetAngle(AngleUnitV2.DEGREES));
         telemetry.update();
         scheduler.update();
     }

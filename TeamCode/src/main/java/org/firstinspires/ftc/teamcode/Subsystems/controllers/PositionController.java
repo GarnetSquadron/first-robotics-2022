@@ -5,9 +5,6 @@ import org.firstinspires.ftc.teamcode.Subsystems.Encoder;
 
 public abstract class PositionController extends Controller{
     double targetPosition, tolerance = 0;
-    PositionController(Encoder encoder) {
-        super(encoder);
-    }
     public void setTargetPosition(double targetPosition){
         this.targetPosition = targetPosition;
     }
@@ -18,7 +15,7 @@ public abstract class PositionController extends Controller{
         return targetPosition;
     }
     public boolean targetReached(){
-        return ExtraMath.ApproximatelyEqualTo(targetPosition,position.getAsDouble(),tolerance);
+        return ExtraMath.ApproximatelyEqualTo(targetPosition,encoder.getPos(),tolerance);
     }
     public double calculateIfWithinTolerance(){
         if(targetReached()){

@@ -33,7 +33,7 @@ public class UpdatableMOTOR extends MOTOR {
     public void runWithTargetPower(){
         setPower(targetPower);
     }
-    public void SetTargetPower(double targetPower){
+    public void setTargetPower(double targetPower){
         positionControl = false;
         this.targetPower = targetPower;
     }
