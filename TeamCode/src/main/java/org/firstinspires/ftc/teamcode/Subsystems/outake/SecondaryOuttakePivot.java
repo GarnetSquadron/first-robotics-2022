@@ -36,6 +36,6 @@ public class SecondaryOuttakePivot {
 //        return pivot.get
 //    }
     public Action goToDegrees(double angle){
-        return pivot.runToDegrees(angle);
+        return pivot.runToDegrees(103-angle);
     }
 }

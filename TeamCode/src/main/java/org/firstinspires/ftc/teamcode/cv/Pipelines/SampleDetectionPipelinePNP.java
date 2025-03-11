@@ -1,13 +1,8 @@
-package org.firstinspires.ftc.teamcode.Pipelines;
-
-import com.acmerobotics.dashboard.config.Config;
-
-import org.openftc.easyopencv.OpenCvPipeline;
+package org.firstinspires.ftc.teamcode.cv.Pipelines;
 
 import org.opencv.calib3d.Calib3d;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
-import org.opencv.core.MatOfDouble;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.MatOfPoint3f;
@@ -15,10 +10,8 @@ import org.opencv.core.Point3;
 import org.opencv.core.Point;
 import org.opencv.core.RotatedRect;
 import org.opencv.core.Scalar;
-import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
-import org.firstinspires.ftc.teamcode.Pipelines.SamplePipeline.AnalyzedStone;
-import org.firstinspires.ftc.teamcode.Pipelines.SamplePipeline.Stage;
+
 import java.util.ArrayList;
 
 public class SampleDetectionPipelinePNP extends SamplePipeline

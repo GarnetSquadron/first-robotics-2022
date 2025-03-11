@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Subsystems.outake;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
@@ -48,6 +49,9 @@ public class DcMotorPrimaryOuttakePivot{
     public Action SpecimenOnChamberPosV2() {
         return new SequentialAction(prepareForSpecimenOnChamberPos(), new InstantAction(()->pivot.setTargetPower(0.9)),new SleepAction(0.8));//TODO: try increasing duration, and then decreasing power to keep the robot together.
         /*   new SleepAction(0.1), pivot.goUntilStoppedAndThenRampPowerUntilItsStoppedAgain(1,0.001)*//*goToPosWithCorrectSpeed(120,AngleUnitV2.DEGREES)*/
+    }
+    public Action SpecimenOnChamberPosV3(){
+        return pivot.runToPosition(0);
     }
     public Action prepareForSpecimenOnChamberPos() {
         return goToPosWithCorrectSpeed(Math.toRadians(25));

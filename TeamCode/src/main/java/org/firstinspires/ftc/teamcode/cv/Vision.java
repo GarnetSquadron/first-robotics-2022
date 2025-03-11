@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Subsystems;
+package org.firstinspires.ftc.teamcode.cv;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -7,10 +7,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
-import org.firstinspires.ftc.teamcode.Pipelines.SampleDetectionPipelineAngledCam;
-import org.firstinspires.ftc.teamcode.Pipelines.SampleDetectionPipelinePNP;
-import org.firstinspires.ftc.teamcode.Pipelines.SamplePipeline.AnalyzedStone;
-import org.firstinspires.ftc.teamcode.enums.Color;
+import org.firstinspires.ftc.teamcode.cv.Pipelines.SampleDetectionPipelineAngledCam;
+import org.firstinspires.ftc.teamcode.cv.Pipelines.SamplePipeline.AnalyzedStone;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;

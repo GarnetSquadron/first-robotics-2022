@@ -6,8 +6,8 @@ import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.Dimensions.RobotDimensions;
 import org.firstinspires.ftc.teamcode.ExtraMath;
-import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
 import java.util.function.DoubleSupplier;
 
@@ -19,9 +19,6 @@ public class Outtake {
     boolean BasketDropping = false;
 
     double grabOffWallAngle = 211-180;
-    double pivotHeight = 15;
-    double outtakeLength = 8.375;
-    double wallGrabHeight = 9.75;
 
     public Outtake(HardwareMap hardwareMap, DoubleSupplier time) {
         claw = new OuttakeClaw(hardwareMap, time);
@@ -52,7 +49,7 @@ public class Outtake {
     public Action moveToAngleAndMakeTheClawStraight(double angle){
         return new ParallelAction(
                 pivot1.SpecimenOnWallPos(angle+180),
-                pivot2.goToDegrees(103-angle)
+                pivot2.goToDegrees(angle)
         );
     }
 
@@ -67,7 +64,7 @@ public class Outtake {
         return moveToAngleAndMakeTheClawStraight(angle);
     }
     public double getAngleFromHeight(double height){
-        return Math.asin((pivotHeight-height)/outtakeLength);
+        return Math.toDegrees(Math.asin((RobotDimensions.outtakePivotMinimumHeight -height)/ RobotDimensions.outtakeLength));
     }
     public boolean isGrabbingOffWall(){
         return ExtraMath.ApproximatelyEqualTo(Math.toDegrees(pivot1.pivot.getTargetPosition()),grabOffWallAngle+180,5);
@@ -103,6 +100,9 @@ public class Outtake {
                         )
                 )
         );
+    }
+    public Action placeSpecPosV3(){
+        return new ParallelAction(pivot1.SpecimenOnChamberPosV3(), pivot2.goToDegrees(90), vipers.SpecimenPlaceV2());
     }
     public Action grabSpecOfWall(){
         return new SequentialAction(

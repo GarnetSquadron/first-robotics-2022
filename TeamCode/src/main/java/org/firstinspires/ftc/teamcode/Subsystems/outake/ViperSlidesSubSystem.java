@@ -6,7 +6,9 @@ import com.acmerobotics.roadrunner.ParallelAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
+import org.firstinspires.ftc.teamcode.Dimensions.RobotDimensions;
 import org.firstinspires.ftc.teamcode.ExtraMath;
+import org.firstinspires.ftc.teamcode.Dimensions.FieldDimensions;
 import org.firstinspires.ftc.teamcode.Subsystems.ActionDcMotor;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
@@ -70,6 +72,9 @@ public class ViperSlidesSubSystem{
     }
     public Action SpecimenPlaceV2(){
         return GoToPos(0.15);
+    }
+    public Action SpecimenPlaceV3(){
+        return GoToInches(FieldDimensions.highChamberHeight- RobotDimensions.outtakePivotMinimumHeight+RobotDimensions.AdditionalClippingHeight);
     }
     public Action RemoveSpecimenFromWall(){
         return GoToInches(3);
