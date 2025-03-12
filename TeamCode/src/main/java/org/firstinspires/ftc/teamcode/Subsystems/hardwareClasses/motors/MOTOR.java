@@ -57,7 +57,7 @@ public class MOTOR extends RAWMOTOR {
         setNetTorque(positionController.calculate());
     }
     public void setNetTorque(double power){
-        motor.set(power-extTorqueController.calculate());
+        setPower(power-extTorqueController.calculate());
     }
     public void runToPos(double tgtPos) {
         if(positionController.getTargetPosition()!=tgtPos){

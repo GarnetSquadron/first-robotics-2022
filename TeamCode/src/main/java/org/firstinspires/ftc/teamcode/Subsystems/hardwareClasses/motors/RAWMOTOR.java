@@ -9,14 +9,18 @@ import org.firstinspires.ftc.teamcode.Subsystems.Encoder;
 public class RAWMOTOR {
     MotorEx motor;
     Encoder encoder;
+    double maxPower = 1;
     public RAWMOTOR(HardwareMap hardwareMap, String name){
         motor = new MotorEx(hardwareMap,name);
     }
     public void setPower(double power){
-        motor.set(power);
+        motor.set(Math.max(power,maxPower));
     }
     public double getPower(){
         return motor.get();
+    }
+    public void setMaxPower(double maxPower) {
+        this.maxPower = maxPower;
     }
 
     /**

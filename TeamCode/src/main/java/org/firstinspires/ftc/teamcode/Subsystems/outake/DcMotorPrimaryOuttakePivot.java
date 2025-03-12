@@ -16,23 +16,25 @@ import org.firstinspires.ftc.teamcode.Subsystems.Encoder;
 import org.firstinspires.ftc.teamcode.Subsystems.controllers.ArmOnAPivotController;
 import org.firstinspires.ftc.teamcode.Subsystems.controllers.Controller;
 import org.firstinspires.ftc.teamcode.Subsystems.hardwareClasses.motors.ACTIONMOTOR;
+import org.firstinspires.ftc.teamcode.Subsystems.hardwareClasses.motors.LimitedMotor;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
 import java.lang.reflect.InvocationTargetException;
 
 @Config
 public class DcMotorPrimaryOuttakePivot{
-    public ACTIONMOTOR pivot;
+    public LimitedMotor pivot;
     public Encoder encoder;
     double tolerance = 60;
     double powerCoefficient, minHeight;
     public DcMotorPrimaryOuttakePivot(HardwareMap hardwareMap){
-        pivot = new ACTIONMOTOR(hardwareMap,"Primary Pivot");//min and max need to be tuned
+        pivot = new LimitedMotor(hardwareMap,"Primary Pivot",0,Math.PI);//min and max need to be tuned
         encoder = new Encoder(pivot.getFtcLibMotor());
         pivot.setTolerance(tolerance);
         pivot.setEncoder(encoder);
         pivot.setPID(0.4,0,0);
         pivot.setExtTorqueController(new ArmOnAPivotController(Math.PI/2,0.1));
+        pivot.setMaxPower(0.5);
     }
     public Action goToPosWithCorrectSpeed(double angle){
         return pivot.runToPosition(angle);
@@ -47,7 +49,7 @@ public class DcMotorPrimaryOuttakePivot{
         return goToPosWithCorrectSpeed(0);
     }
     public Action SpecimenOnChamberPosV2() {
-        return new SequentialAction(prepareForSpecimenOnChamberPos(), new InstantAction(()->pivot.setTargetPower(0.9)),new SleepAction(0.8));//TODO: try increasing duration, and then decreasing power to keep the robot together.
+        return new SequentialAction(prepareForSpecimenOnChamberPos(), new InstantAction(()->pivot.setTargetPower(0.8)),new SleepAction(0.4), new InstantAction(()->pivot.setTargetPower(0)));//TODO: try increasing duration, and then decreasing power to keep the robot together.
         /*   new SleepAction(0.1), pivot.goUntilStoppedAndThenRampPowerUntilItsStoppedAgain(1,0.001)*//*goToPosWithCorrectSpeed(120,AngleUnitV2.DEGREES)*/
     }
     public Action SpecimenOnChamberPosV3(){

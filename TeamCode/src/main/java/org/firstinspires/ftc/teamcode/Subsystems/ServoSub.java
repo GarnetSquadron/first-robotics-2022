@@ -82,11 +82,12 @@ public class ServoSub {
     }
 
     /**
-     * I believe that this will turn off the servo
+     * This turns off the servo, but only for certain types of servos.
+     * I hate servos.
      */
     public void turnOffController(){
         ServoControllerEx controller = (ServoControllerEx) servo.getController();
-        //controller.setServoPwmDisable(servo.getPortNumber());
+        controller.setServoPwmDisable(servo.getPortNumber());
         //controller.close();
     }
 
