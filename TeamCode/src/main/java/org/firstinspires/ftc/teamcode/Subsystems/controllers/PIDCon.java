@@ -17,6 +17,7 @@ public class PIDCon extends PositionController {
         this.kp = kp;
         this.ki = ki;
         this.kd = kd;
+        reset();
     }
     public void reset(){
         integral = 0;
@@ -25,8 +26,11 @@ public class PIDCon extends PositionController {
     @Override
     public double calculate() {
         double error = targetPosition-encoder.getPos();
-        integral+= ExtraMath.integration.trapazoid(prevPos,new ValueAtTimeStamp(error, TIME.getTime()));
-        prevPos = new ValueAtTimeStamp(error,TIME.getTime());
+        //if(ki!=0){
+            double currentTime = TIME.getTime();
+            integral += ExtraMath.integration.trapazoid(prevPos, new ValueAtTimeStamp(error, currentTime));
+            prevPos = new ValueAtTimeStamp(error,currentTime);
+        //}
         return kp*error+ki*integral+kd*encoder.getVelocity();
     }
 }

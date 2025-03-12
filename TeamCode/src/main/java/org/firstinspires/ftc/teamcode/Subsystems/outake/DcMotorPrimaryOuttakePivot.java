@@ -31,7 +31,7 @@ public class DcMotorPrimaryOuttakePivot{
         encoder = new Encoder(pivot.getFtcLibMotor());
         pivot.setTolerance(tolerance);
         pivot.setEncoder(encoder);
-        pivot.setPID(0.004,0,0.5);
+        pivot.setPID(0.4,0,0);
         pivot.setExtTorqueController(new ArmOnAPivotController(Math.PI/2,0.1));
     }
     public Action goToPosWithCorrectSpeed(double angle){
@@ -51,7 +51,7 @@ public class DcMotorPrimaryOuttakePivot{
         /*   new SleepAction(0.1), pivot.goUntilStoppedAndThenRampPowerUntilItsStoppedAgain(1,0.001)*//*goToPosWithCorrectSpeed(120,AngleUnitV2.DEGREES)*/
     }
     public Action SpecimenOnChamberPosV3(){
-        return pivot.runToPosition(0);
+        return pivot.runToPosition(Math.toRadians(20));
     }
     public Action prepareForSpecimenOnChamberPos() {
         return goToPosWithCorrectSpeed(Math.toRadians(25));
@@ -63,7 +63,7 @@ public class DcMotorPrimaryOuttakePivot{
     public Action outOfTheWayOfIntakePos(){
         return goToPosWithCorrectSpeed(Math.toRadians(55));
     }
-    public Action zeroMotor(){return new SequentialAction(pivot.runWithPowerUntilStopped(-0.5), new InstantAction(()->pivot.getEncoder().setPos(0)));}
+    public Action zeroMotor(){return new SequentialAction(pivot.runWithPowerUntilStopped(-0.5,1), new InstantAction(()->pivot.getEncoder().setPos(0)));}
     public double getTargetDegrees(){
         return Math.toDegrees(pivot.getTargetPosition());
     }

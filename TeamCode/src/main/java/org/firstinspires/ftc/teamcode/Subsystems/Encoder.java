@@ -41,7 +41,7 @@ public class Encoder {
         this.scale*=scale;
     }
     public void scaleToAngleUnit(Motor motor, AngleUnitV2 unit){
-        scale = ExtraMath.ConvertAngleUnit(1/(motor.getCPR()),AngleUnitV2.REVOLUTIONS,unit);
+        scale = ExtraMath.ConvertAngleUnit(2/(motor.getCPR()),AngleUnitV2.REVOLUTIONS,unit);//it was off by a factor of 2 so I added the 2, idk why its like that
     }
 
     /**

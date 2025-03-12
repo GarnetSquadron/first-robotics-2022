@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.OpmodeActionSceduling.TeleOpActionScheduler;
 import org.firstinspires.ftc.teamcode.Subsystems.Bot;
 import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
+import org.firstinspires.ftc.teamcode.TIME;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 import org.firstinspires.ftc.teamcode.enums.Color;
 import org.firstinspires.ftc.teamcode.risingEdgeDetector;
@@ -180,28 +181,29 @@ public class IntoTheDeepTeleOp extends OpMode {
         //telemetry.addData("left stick y", gamepad2.left_stick_y);
 
         telemetry.addData("outtake pivot power",bot.outtake.pivot1.pivot.getPower());
-        telemetry.addData("outtake pivot ticks", bot.outtake.pivot1.pivot.getEncoder().getPos());
-        telemetry.addData("outtake pivot tgt ticks", bot.outtake.pivot1.pivot.getTargetPosition());
+        telemetry.addData("outtake pivot degrees", Math.toDegrees(bot.outtake.pivot1.pivot.getEncoder().getPos()));
+        telemetry.addData("outtake pivot tgt degrees", Math.toDegrees(bot.outtake.pivot1.pivot.getTargetPosition()));
         telemetry.addData("outtake pivot target reached", bot.outtake.pivot1.pivot.targetReached());
 
-        telemetry.addData("viper power",bot.outtake.vipers.l.getPower());
-        telemetry.addData("viper ticks",bot.outtake.vipers.l.getPos());
-        telemetry.addData("viper tgt ticks",bot.outtake.vipers.l.getTargetPos());
-        telemetry.addData("viper tgt reached",bot.outtake.vipers.l.targetReached());
-        telemetry.addData("viper ext force mode", bot.outtake.vipers.l.inExtForceMode());
-        telemetry.addData("viper power",bot.outtake.vipers.r.getPower());
-        telemetry.addData("viper ticks",bot.outtake.vipers.r.getPos());
-        telemetry.addData("viper tgt ticks",bot.outtake.vipers.r.getTargetPos());
-        telemetry.addData("viper tgt reached",bot.outtake.vipers.r.targetReached());
-        telemetry.addData("viper ext force mode", bot.outtake.vipers.r.inExtForceMode());
-
-        telemetry.addData("grabbing ",bot.outtake.isGrabbingOffWall());
-        //telemetry.addData("pivot target ",bot.outtake.pivot1.pivot.getTargetPos());
-
-
-        telemetry.addData("direction", MecanumDrive.pose.heading.toDouble());
-        telemetry.addData("x", MecanumDrive.pose.position.x);
-        telemetry.addData("y", MecanumDrive.pose.position.y);
+        telemetry.addData("time", TIME.getTime());
+//        telemetry.addData("viper power",bot.outtake.vipers.l.getPower());
+//        telemetry.addData("viper ticks",bot.outtake.vipers.l.getPos());
+//        telemetry.addData("viper tgt ticks",bot.outtake.vipers.l.getTargetPos());
+//        telemetry.addData("viper tgt reached",bot.outtake.vipers.l.targetReached());
+//        telemetry.addData("viper ext force mode", bot.outtake.vipers.l.inExtForceMode());
+//        telemetry.addData("viper power",bot.outtake.vipers.r.getPower());
+//        telemetry.addData("viper ticks",bot.outtake.vipers.r.getPos());
+//        telemetry.addData("viper tgt ticks",bot.outtake.vipers.r.getTargetPos());
+//        telemetry.addData("viper tgt reached",bot.outtake.vipers.r.targetReached());
+//        telemetry.addData("viper ext force mode", bot.outtake.vipers.r.inExtForceMode());
+//
+//        telemetry.addData("grabbing ",bot.outtake.isGrabbingOffWall());
+//        //telemetry.addData("pivot target ",bot.outtake.pivot1.pivot.getTargetPos());
+//
+//
+//        telemetry.addData("direction", MecanumDrive.pose.heading.toDouble());
+//        telemetry.addData("x", MecanumDrive.pose.position.x);
+//        telemetry.addData("y", MecanumDrive.pose.position.y);
         telemetry.addData("CURRENT ACTIONS", actionScheduler.getActionIDs());
         telemetry.update();
         FtcDashboard.getInstance().sendTelemetryPacket(packet);

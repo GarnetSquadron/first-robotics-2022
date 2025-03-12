@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
+import androidx.annotation.NonNull;
+
 public class ValueAtTimeStamp {
-    final double value;
-    final double timeStamp;
+    double value;
+    double timeStamp;
     public ValueAtTimeStamp(double value, double timeStamp){
         this.value = value;
         this.timeStamp = timeStamp;

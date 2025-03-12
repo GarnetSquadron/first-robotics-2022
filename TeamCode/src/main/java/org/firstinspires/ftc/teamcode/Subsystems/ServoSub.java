@@ -86,7 +86,8 @@ public class ServoSub {
      */
     public void turnOffController(){
         ServoControllerEx controller = (ServoControllerEx) servo.getController();
-        controller.setServoPwmDisable(servo.getPortNumber());
+        //controller.setServoPwmDisable(servo.getPortNumber());
+        //controller.close();
     }
 
 }

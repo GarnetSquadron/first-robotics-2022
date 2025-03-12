@@ -48,7 +48,7 @@ public class Outtake {
     }
     public Action moveToAngleAndMakeTheClawStraight(double angle){
         return new ParallelAction(
-                pivot1.SpecimenOnWallPos(angle+180),
+                pivot1.SpecimenOnWallPos(Math.toRadians(angle+180)),
                 pivot2.goToDegrees(angle)
         );
     }
@@ -102,7 +102,7 @@ public class Outtake {
         );
     }
     public Action placeSpecPosV3(){
-        return new ParallelAction(pivot1.SpecimenOnChamberPosV3(), pivot2.goToDegrees(90), vipers.SpecimenPlaceV2());
+        return new ParallelAction(pivot1.SpecimenOnChamberPosV3(), pivot2.goToDegrees(90), vipers.SpecimenPlaceV3());
     }
     public Action grabSpecOfWall(){
         return new SequentialAction(

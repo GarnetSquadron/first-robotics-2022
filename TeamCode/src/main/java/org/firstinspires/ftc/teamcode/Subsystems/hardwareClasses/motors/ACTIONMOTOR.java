@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.configuration.EthernetOverUsbConfiguration;
 
 import org.firstinspires.ftc.teamcode.InitialToggler;
+import org.firstinspires.ftc.teamcode.MiscActions.ActionUntillOneIsDone;
 import org.firstinspires.ftc.teamcode.MiscActions.ConditionalAction;
 import org.firstinspires.ftc.teamcode.MiscActions.WaitForConditionAction;
 
@@ -27,12 +28,17 @@ public class ACTIONMOTOR extends UpdatableMOTOR {
                 new WaitForConditionAction(this::targetReached)
         );
     }
-    public Action runWithPowerUntilStopped(double power){
+    public Action runWithPowerUntilStopped(double power,double timeOut){
         return (
                 new SequentialAction(
-                        new InstantAction(()->setTargetPower(power)),
-                        new WaitForConditionAction(this::isMovingInTheDirectionOfForce),
-                        new WaitForConditionAction(encoder::isStopped),
+                        new ActionUntillOneIsDone(
+                                new SequentialAction(
+                                        new InstantAction(()->setTargetPower(power)),
+                                        new WaitForConditionAction(this::isMovingInTheDirectionOfForce),
+                                        new WaitForConditionAction(encoder::isStopped)
+                                ),
+                                new SleepAction(2)
+                        ),
                         new InstantAction(()->setTargetPower(0))
                 )
         );

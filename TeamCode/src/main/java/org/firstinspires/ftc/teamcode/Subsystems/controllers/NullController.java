@@ -7,7 +7,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.Encoder;
  */
 public class NullController extends Controller{
     public NullController(){
-        super(new Encoder(()->0));
+        super();
+        setEncoder(new Encoder(()->0));
     }
     @Override
     public double calculate() {

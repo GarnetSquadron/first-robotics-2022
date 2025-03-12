@@ -69,7 +69,7 @@ public class ExtraMath {
             return deltaT * (i + f) / 2;
         }
         public static double trapazoid(ValueAtTimeStamp val1, ValueAtTimeStamp val2){
-            return trapazoid(val2.timeStamp-val1.timeStamp,val1.value, val2.value);
+            return trapazoid(val2.getTimeStamp()-val1.getTimeStamp(),val1.getValue(), val2.getValue());
         }
     }
 
