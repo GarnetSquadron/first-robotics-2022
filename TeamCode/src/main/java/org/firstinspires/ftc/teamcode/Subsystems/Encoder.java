@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 
 import org.firstinspires.ftc.teamcode.ExtraMath;
+import org.firstinspires.ftc.teamcode.Subsystems.hardwareClasses.motors.MOTOR;
 import org.firstinspires.ftc.teamcode.TIME;
 import org.firstinspires.ftc.teamcode.ValueAtTimeStamp;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
@@ -16,9 +17,17 @@ public class Encoder {
     ValueAtTimeStamp prevPos;
     DoubleSupplier supplier,velocitySupplier;
     double offset = 0,scale = 1;
+    double CPR = 0;
     public Encoder(DoubleSupplier supplier){
         this.supplier = supplier;
         velocitySupplier = ()->getAverageTimeDerivative(prevPos,getCurrentPositionAndTime());
+    }
+    public Encoder(Encoder encoder){
+        this.supplier = encoder.supplier;
+        this.velocitySupplier = encoder.velocitySupplier;
+        this.scale = encoder.scale;
+        this.offset = encoder.offset;
+        this.prevPos = encoder.prevPos;
     }
     public Encoder(DoubleSupplier supplier,DoubleSupplier velocitySupplier){
         this.supplier = supplier;
@@ -26,7 +35,8 @@ public class Encoder {
     }
     public Encoder(Motor motor){
         this(motor::getCurrentPosition, (motor.getClass()==MotorEx.class)?(((MotorEx)motor)::getVelocity):(motor::getRate));
-        scaleToAngleUnit(motor,AngleUnitV2.RADIANS);//Defaults to radians because radians are great
+        setCPR(motor);
+        scaleToAngleUnit(AngleUnitV2.RADIANS);//Defaults to radians because radians are great
     }
     public double getPos(){
         return (supplier.getAsDouble() + offset)*scale;
@@ -40,8 +50,26 @@ public class Encoder {
     public void scaleScaleBy(double scale){
         this.scale*=scale;
     }
-    public void scaleToAngleUnit(Motor motor, AngleUnitV2 unit){
-        scale = ExtraMath.ConvertAngleUnit(2/(motor.getCPR()),AngleUnitV2.REVOLUTIONS,unit);//it was off by a factor of 2 so I added the 2, idk why its like that
+    public double getTicks(){
+        return supplier.getAsDouble();
+    }
+    public double getScale(){
+        return scale;
+    }
+    public void scaleToAngleUnit(AngleUnitV2 unit){
+        scale = ExtraMath.ConvertAngleUnit(1/(CPR),AngleUnitV2.REVOLUTIONS,unit);//it was off by a factor of 2 so I added the 2, idk why its like that
+    }
+    public void setCPR(double CPR){
+        this.CPR = CPR;
+    }
+    public void setCPR(Motor motor){
+        this.CPR = motor.getCPR();
+    }
+    public void setCPR(Motor.GoBILDA type){
+        this.CPR = type.getCPR();
+    }
+    public double getCPR(){
+        return CPR;
     }
 
     /**
@@ -51,10 +79,10 @@ public class Encoder {
         prevPos = new ValueAtTimeStamp(getPos(), TIME.getTime());
     }
     public ValueAtTimeStamp getCurrentPositionAndTime(){
-        return new ValueAtTimeStamp(supplier.getAsDouble(),TIME.getTime());
+        return new ValueAtTimeStamp(getPos(),TIME.getTime());
     }
     public double getVelocity(){
-        return velocitySupplier.getAsDouble();
+        return velocitySupplier.getAsDouble()*scale;
     }
     public boolean isStopped(){
         return getVelocity()==0;

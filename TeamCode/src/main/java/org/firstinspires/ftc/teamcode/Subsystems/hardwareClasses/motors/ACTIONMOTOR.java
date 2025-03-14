@@ -28,17 +28,12 @@ public class ACTIONMOTOR extends UpdatableMOTOR {
                 new WaitForConditionAction(this::targetReached)
         );
     }
-    public Action runWithPowerUntilStopped(double power,double timeOut){
+    public Action runWithPowerUntilStopped(double power,double timeTillMovement){
         return (
                 new SequentialAction(
-                        new ActionUntillOneIsDone(
-                                new SequentialAction(
-                                        new InstantAction(()->setTargetPower(power)),
-                                        new WaitForConditionAction(this::isMovingInTheDirectionOfForce),
-                                        new WaitForConditionAction(encoder::isStopped)
-                                ),
-                                new SleepAction(2)
-                        ),
+                        new InstantAction(()->setTargetPower(power)),
+                        new SleepAction(timeTillMovement),
+                        new WaitForConditionAction(encoder::isStopped),
                         new InstantAction(()->setTargetPower(0))
                 )
         );

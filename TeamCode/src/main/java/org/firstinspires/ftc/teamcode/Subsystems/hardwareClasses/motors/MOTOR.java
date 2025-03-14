@@ -1,18 +1,13 @@
 package org.firstinspires.ftc.teamcode.Subsystems.hardwareClasses.motors;
 
-import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.sun.tools.javac.code.Attribute;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Encoder;
 import org.firstinspires.ftc.teamcode.Subsystems.controllers.Controller;
+import org.firstinspires.ftc.teamcode.Subsystems.controllers.MaxSpeedController;
 import org.firstinspires.ftc.teamcode.Subsystems.controllers.NullController;
 import org.firstinspires.ftc.teamcode.Subsystems.controllers.PIDCon;
 import org.firstinspires.ftc.teamcode.Subsystems.controllers.PositionController;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Type;
-import java.util.function.DoubleSupplier;
 
 public class MOTOR extends RAWMOTOR {
     Controller extTorqueController = new NullController();
@@ -34,6 +29,12 @@ public class MOTOR extends RAWMOTOR {
     }
     public void setPositionController(PositionController positionController){
         positionController.setEncoder(encoder);
+        if(this.positionController!=null){
+            positionController.setTolerance(getTolerance());
+        }
+        if(positionController instanceof MaxSpeedController) {
+            ((MaxSpeedController)positionController).setMaxAcceleration(maxPower);
+        }
         this.positionController = positionController;
     }
     public void setPID(double kp, double ki, double kd){
@@ -41,6 +42,9 @@ public class MOTOR extends RAWMOTOR {
     }
     public void setTolerance(double tolerance){
         positionController.setTolerance(tolerance);
+    }
+    public double getTolerance(){
+        return positionController.getTolerance();
     }
 
     /**

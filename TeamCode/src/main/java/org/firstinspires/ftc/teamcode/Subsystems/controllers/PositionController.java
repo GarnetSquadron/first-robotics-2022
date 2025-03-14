@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Subsystems.controllers;
 
 import org.firstinspires.ftc.teamcode.ExtraMath;
-import org.firstinspires.ftc.teamcode.Subsystems.Encoder;
 
 public abstract class PositionController extends Controller{
     double targetPosition, tolerance = 0;
@@ -11,13 +10,19 @@ public abstract class PositionController extends Controller{
     public void setTolerance(double tolerance){
         this.tolerance = tolerance;
     }
+    public double getTolerance(){
+        return tolerance;
+    }
     public double getTargetPosition(){
         return targetPosition;
     }
-    public boolean targetReached(){
-        return ExtraMath.ApproximatelyEqualTo(targetPosition,encoder.getPos(),tolerance);
+    public double getDistanceToTarget(){
+        return targetPosition-encoder.getPos();
     }
-    public double calculateIfWithinTolerance(){
+    public boolean targetReached(){
+        return ExtraMath.ApproximatelyEqualTo(encoder.getPos(),targetPosition,tolerance);
+    }
+    public double calculateIfOutsideTolerance(){
         if(targetReached()){
             return 0;
         }

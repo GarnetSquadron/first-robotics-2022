@@ -3,11 +3,7 @@ package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
 import org.firstinspires.ftc.teamcode.Subsystems.Bot;
 import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
-import org.firstinspires.ftc.teamcode.Subsystems.outake.Outtake;
-import org.firstinspires.ftc.teamcode.Subsystems.outake.ViperSlidesSubSystem;
 
-import com.acmerobotics.roadrunner.AccelConstraint;
-import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
@@ -149,7 +145,7 @@ public class ThreeClipAuto extends LinearOpMode {
                                 WallGrab1.build()
                         ),
 
-                        bot.outtake.grabSpecOfWall(),
+                        bot.outtake.prepareToGrabSpecOffWall(),
 
                         bot.outtake.prepareToPlaceSpec(),
 
@@ -164,7 +160,7 @@ public class ThreeClipAuto extends LinearOpMode {
                                 bot.outtake.grabSpecPos()
                         ),
 
-                        bot.outtake.grabSpecOfWall(),
+                        bot.outtake.prepareToGrabSpecOffWall(),
 
                         bot.outtake.prepareToPlaceSpec(),
 

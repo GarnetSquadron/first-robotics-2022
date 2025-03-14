@@ -187,8 +187,7 @@ public class Bot {
                 outtake.vipers.Up(),
                 new ParallelAction(
                         outtake.pivot1.BucketPos(),
-                        outtake.pivot2.BucketPos(),
-                        outtake.vipers.HoldUp()
+                        outtake.pivot2.BucketPos()
                 )
         );
     }

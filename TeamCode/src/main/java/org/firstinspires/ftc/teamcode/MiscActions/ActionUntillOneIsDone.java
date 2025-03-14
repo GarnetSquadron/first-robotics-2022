@@ -7,7 +7,7 @@ import com.acmerobotics.roadrunner.Action;
 
 public class ActionUntillOneIsDone implements Action {
     Action[] actions;
-    boolean actionRunning;
+    boolean actionRunning = true;
     public ActionUntillOneIsDone(Action... actions){
         this.actions = actions;
     }

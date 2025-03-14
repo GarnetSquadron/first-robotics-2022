@@ -25,6 +25,9 @@ public class UpdatableMOTOR extends MOTOR {
             return true;
         }
     }
+    public boolean inPositionControl(){
+        return positionControl;
+    }
     @Override
     public void setTargetPosition(double targetPosition){
         positionControl = true;

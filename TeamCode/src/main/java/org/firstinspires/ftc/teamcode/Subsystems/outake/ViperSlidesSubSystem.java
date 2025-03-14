@@ -1,86 +1,92 @@
 package org.firstinspires.ftc.teamcode.Subsystems.outake;
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.NullAction;
 import com.acmerobotics.roadrunner.ParallelAction;
+import com.acmerobotics.roadrunner.SequentialAction;
+import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.teamcode.Dimensions.RobotDimensions;
 import org.firstinspires.ftc.teamcode.ExtraMath;
 import org.firstinspires.ftc.teamcode.Dimensions.FieldDimensions;
-import org.firstinspires.ftc.teamcode.Subsystems.ActionDcMotor;
+import org.firstinspires.ftc.teamcode.Subsystems.controllers.Controller;
+import org.firstinspires.ftc.teamcode.Subsystems.hardwareClasses.motors.LimitedMotor;
+import org.firstinspires.ftc.teamcode.Subsystems.hardwareClasses.motors.RAWMOTOR;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
 public class ViperSlidesSubSystem{
-    public ActionDcMotor l;
-    public ActionDcMotor r;
-    public TouchSensor LimitSwitch;
+    public LimitedMotor l;
+    public RAWMOTOR r;
 
     public boolean disabled = false;
     private final int LMaxPos = -4000;
     private final int LMinPos = 0;
     private final int RMaxPos = 4000;
     private final int RMinPos = 0;
-    private double posCoefficient = 0.03;//0.05<-original, worked decently
-    private double downTolerance = 10, downWaitTime = 1;
-    double revPerInch = 8.1/38.425;//based on gobuilda site
+    double totalRevs = 8.1, strokeLength = 38.425;//based on https://www.gobilda.com/4-stage-viper-slide-kit-belt-driven-336mm-slides/?srsltid=AfmBOop1ONQi_MCp5LMjMV55FO3ZtN6YcIHnEL4hXhXS2j3_KoAiYx0O
+    double revPerInch = totalRevs/strokeLength;
     public ViperSlidesSubSystem(HardwareMap hardwareMap){
-         l = new ActionDcMotor(hardwareMap,"LeftViper",0,-3300,posCoefficient,100);
-         r = new ActionDcMotor(hardwareMap,"RightViper",0,-3300,posCoefficient,100);
-         r.reverseMotor();
-         r.setEncoder(l.getMotor());
+        l = new LimitedMotor(hardwareMap,"LeftViper",0,30);
+        l.getEncoder().setCPR(Motor.GoBILDA.RPM_312);
+        l.getEncoder().scaleToAngleUnit(AngleUnitV2.REVOLUTIONS);
+        l.getEncoder().scaleScaleBy(1/revPerInch);
+        //l.getEncoder().setPos(0);
+        l.setPID(0.5,0,0);
+        l.setTolerance(1);
+        l.setExtTorqueController(new Controller() {
+            @Override
+            public double calculate() {
+                return -0.15;
+            }
+        });
+        r = new RAWMOTOR(hardwareMap,"RightViper");
+        l.reverseMotor();
+        //r.reverseMotor();
+    }
+    public Action goToInches(double inches){
+        return l.runToPosition(inches);
     }
     public boolean targetReached(){
-        return l.targetReached()&&r.targetReached();
+        return l.targetReached();
     }
-    public double DistanceToTarget(){
-        return l.getDistanceToTarget();
+//    public double DistanceToTarget(){
+//        return l.getDistanceToTarget();
+//    }
+    public double getTgtPosition(){
+        return l.getTargetPosition();
     }
-    public double GetTgtPos(){
-        return l.getTargetPos();
-    }
-    public Action GoToPos(double pos){
-        return new ParallelAction(l.GoToPos(pos),r.GoToPos(pos));
-    }
-    public Action GoToInches(double inches){
-        double rev = -inches*revPerInch;
-        return new ParallelAction(l.GoToAngle(rev, AngleUnitV2.REVOLUTIONS),r.GoToAngle(rev,AngleUnitV2.REVOLUTIONS));
-    }
-    public Action GoToPosAndHoldIt(double pos,double holdPower){
-        return new ParallelAction(l.GoToPosAndHoldIt(pos,holdPower),r.GoToPosAndHoldIt(pos,holdPower));
+    public double getInches() {
+        return l.getEncoder().getPos();
     }
     public Action Up() {
         if(disabled){
             return new NullAction();
         }
         else
-            return GoToPos(1);
-    }
-    public Action HoldUp() {
-        if(disabled){
-            return new NullAction();
-        }
-        else
-            return GoToPosAndHoldIt(1,0.5);
+            return l.runToPosition(30);
     }
     public Action prepareSpecimenPlace(){
-        return GoToPos(0.1);
+        return l.runToPosition(1.0985);
     }
     public Action SpecimenPlace(){
-        return GoToPos(0.5);
+        return l.runToPosition(5.492625);//what can I say I like ridiculous numbers of sig figs
     }
     public Action SpecimenPlaceV2(){
-        return GoToPos(0.15);
+        return l.runToPosition(1.6477875);
     }
     public Action SpecimenPlaceV3(){
-        return GoToInches(FieldDimensions.highChamberHeight- RobotDimensions.outtakePivotMinimumHeight+RobotDimensions.AdditionalClippingHeight);
+        return l.runToPosition(FieldDimensions.highChamberHeight- RobotDimensions.outtakePivotMinimumHeight+RobotDimensions.AdditionalClippingHeight);
     }
     public Action RemoveSpecimenFromWall(){
-        return GoToInches(3);
+        return l.runToPosition(5);
     }
     public Action SpecimenHold(){
-        return GoToPosAndHoldIt(0.5,0.5);
+        return l.runToPosition(0.5);
     }
 
     public Action Down() {
@@ -88,29 +94,26 @@ public class ViperSlidesSubSystem{
             return new NullAction();
         }
         else
-            return new ParallelAction(
-                    l.GoToPosButIfStoppedAssumePosHasBeenReached(0,downTolerance),
-                    r.GoToPosButIfStoppedAssumePosHasBeenReached(0,downTolerance)
-            );
+            return new SequentialAction(l.runWithPowerUntilStopped(-1,0.1),new InstantAction(()->l.getEncoder().setPos(0)));
     }
 
+    public boolean isGoingDown(){
+        return ExtraMath.ApproximatelyEqualTo(getTgtPosition(),0,1);
+    }
     public boolean isDown(){
-        return ExtraMath.ApproximatelyEqualTo(GetTgtPos(),0,50);
+        return ExtraMath.ApproximatelyEqualTo(l.getEncoder().getPos(),0,1);
     }
-
+    public class updateR implements Action{
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            r.setPower(l.getPower());
+            return true;
+        }
+    }
     public Action updatePower(){
-        return new ParallelAction(l.updatePower(),r.updatePower());
+        return new ParallelAction(new updateR(),l.new UpdatePower());
     }
-    public Action zeroMotor(){
-        return new ParallelAction( l.GoToPosButIfStoppedAssumePosHasBeenReached(0),r.GoToPosButIfStoppedAssumePosHasBeenReached(0));
-    }
-
-    //region unused
-    public Action TgtPosUp(){
-        return new ParallelAction(l.new SetTgtPosRatio(1,0),r.new SetTgtPosRatio(1,0));
-    }
-    public Action TgtPosDown(){
-        return new ParallelAction(l.new SetTgtPosRatio(0,0),r.new SetTgtPosRatio(0,0));
-    }
-    //endregion
+//    public Action zeroMotor(){
+//        return new ParallelAction( l.runWithPowerUntilStopped(1,1),r.GoToPosButIfStoppedAssumePosHasBeenReached(0));
+//    }
 }

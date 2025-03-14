@@ -11,11 +11,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.BetterControllerClass;
 import org.firstinspires.ftc.teamcode.InitialToggler;
-import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.OpmodeActionSceduling.TeleOpActionScheduler;
 import org.firstinspires.ftc.teamcode.Subsystems.Bot;
 import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
-import org.firstinspires.ftc.teamcode.TIME;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 import org.firstinspires.ftc.teamcode.enums.Color;
 import org.firstinspires.ftc.teamcode.risingEdgeDetector;
@@ -78,7 +76,7 @@ public class IntoTheDeepTeleOp extends OpMode {
     public void loop() {
         if(firstiter){
             actionScheduler.start(bot.outtake.pivot1.zeroMotor(),"zero outtake pivot");
-            //actionScheduler.start(bot.outtake.vipers.zeroMotor(),"zero vipers");
+            actionScheduler.start(bot.outtake.vipers.Down(),"zero vipers");
             actionScheduler.start(bot.UpdateMotorPowers(),"updating motor powers");
             firstiter = false;
         }
@@ -125,8 +123,13 @@ public class IntoTheDeepTeleOp extends OpMode {
         );
         actionScheduler.actionBooleanPair(
                 grabOffWallToggle.JustChanged(),bot.outtake.isGrabbingOffWall(),
-                bot.outtake.grabSpecOfWall(),"preparing to grab spec",
+                bot.outtake.prepareToGrabSpecOffWall(),"preparing to grab spec",
                 bot.outtake.grabSpecPos(),"grabbing spec"
+        );
+        actionScheduler.actionBooleanPair(
+                SpecimenPlaceButton.getState(),bot.outtake.readyForClip(),
+                bot.outtake.placeSpecPosV2(),"Place Specimen",
+                bot.outtake.prepareToPlaceSpec(),"preparing to grab spec"
         );
 
         //misc controls
@@ -147,7 +150,7 @@ public class IntoTheDeepTeleOp extends OpMode {
 //        }
         if(SpecimenPlaceButton.getState()){
             //actionScheduler.cancelAll();
-            actionScheduler.start(bot.outtake.placeSpecPosV2(),"Place Specimen");
+
         }
 //        if(!(
 //                actionScheduler.TeleOpActionRunning("transfer")||
@@ -184,19 +187,23 @@ public class IntoTheDeepTeleOp extends OpMode {
         telemetry.addData("outtake pivot degrees", Math.toDegrees(bot.outtake.pivot1.pivot.getEncoder().getPos()));
         telemetry.addData("outtake pivot tgt degrees", Math.toDegrees(bot.outtake.pivot1.pivot.getTargetPosition()));
         telemetry.addData("outtake pivot target reached", bot.outtake.pivot1.pivot.targetReached());
+        telemetry.addData("outtake velocity", bot.outtake.pivot1.pivot.getEncoder().getVelocity());
+        telemetry.addData("outtake distanceToTarget", bot.outtake.pivot1.pivot.getTargetPosition()-bot.outtake.pivot1.pivot.getEncoder().getPos());
 
-        telemetry.addData("time", TIME.getTime());
-//        telemetry.addData("viper power",bot.outtake.vipers.l.getPower());
-//        telemetry.addData("viper ticks",bot.outtake.vipers.l.getPos());
-//        telemetry.addData("viper tgt ticks",bot.outtake.vipers.l.getTargetPos());
-//        telemetry.addData("viper tgt reached",bot.outtake.vipers.l.targetReached());
-//        telemetry.addData("viper ext force mode", bot.outtake.vipers.l.inExtForceMode());
-//        telemetry.addData("viper power",bot.outtake.vipers.r.getPower());
-//        telemetry.addData("viper ticks",bot.outtake.vipers.r.getPos());
-//        telemetry.addData("viper tgt ticks",bot.outtake.vipers.r.getTargetPos());
-//        telemetry.addData("viper tgt reached",bot.outtake.vipers.r.targetReached());
-//        telemetry.addData("viper ext force mode", bot.outtake.vipers.r.inExtForceMode());
-//
+        telemetry.addLine("");
+        telemetry.addLine("----------------------------------------------------------------------");
+        telemetry.addLine("");
+
+        telemetry.addData("vipers down", bot.outtake.vipers.isDown());
+        telemetry.addData("left viper power",bot.outtake.vipers.l.getPower());
+        telemetry.addData("viper inches",bot.outtake.vipers.l.getEncoder().getPos());
+        telemetry.addData("viper tgt inches",bot.outtake.vipers.l.getTargetPosition());
+        telemetry.addData("viper tgt reached",bot.outtake.vipers.l.targetReached());
+        telemetry.addData("right viper power",bot.outtake.vipers.r.getPower());
+        telemetry.addData("viper position controlling", bot.outtake.vipers.l.inPositionControl());
+        telemetry.addData("vipers stopped", bot.outtake.vipers.l.getEncoder().isStopped());
+
+
 //        telemetry.addData("grabbing ",bot.outtake.isGrabbingOffWall());
 //        //telemetry.addData("pivot target ",bot.outtake.pivot1.pivot.getTargetPos());
 //

@@ -4,6 +4,7 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.ExtraMath;
 import org.firstinspires.ftc.teamcode.Subsystems.Encoder;
 
 public class RAWMOTOR {
@@ -14,7 +15,7 @@ public class RAWMOTOR {
         motor = new MotorEx(hardwareMap,name);
     }
     public void setPower(double power){
-        motor.set(Math.max(power,maxPower));
+        motor.set(ExtraMath.Clamp(power,maxPower,-maxPower));
     }
     public double getPower(){
         return motor.get();
@@ -50,6 +51,9 @@ public class RAWMOTOR {
     }
     public void setEncoderPosition(double position){
         encoder.setPos(position);
+    }
+    public void reverseMotor(){
+        motor.setInverted(!motor.getInverted());
     }
 
 }

@@ -6,14 +6,18 @@ import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.teamcode.Dimensions.FieldDimensions;
 import org.firstinspires.ftc.teamcode.Dimensions.RobotDimensions;
 import org.firstinspires.ftc.teamcode.ExtraMath;
+import org.firstinspires.ftc.teamcode.MiscActions.IfThenAction;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 public class Outtake {
     public ViperSlidesSubSystem vipers;
     public OuttakeClaw claw;
+    public boolean goingDown,basketPlacing;
     public DcMotorPrimaryOuttakePivot pivot1;
     public SecondaryOuttakePivot pivot2;
     boolean BasketDropping = false;
@@ -25,6 +29,51 @@ public class Outtake {
         pivot1 = new DcMotorPrimaryOuttakePivot(hardwareMap);
         pivot2 = new SecondaryOuttakePivot(hardwareMap, time);
         vipers = new ViperSlidesSubSystem(hardwareMap);
+    }
+    public Action safeVipersToInches(double inches){
+        double heightFromStart = FieldDimensions.highBasketHeight-RobotDimensions.outtakePivotMinimumHeight;
+        double heightToAllowPivotToMove = heightFromStart-RobotDimensions.maxOuttakeLength;
+        BooleanSupplier movingDown = ()->inches<vipers.getInches();
+        BooleanSupplier movingUp = ()->inches>vipers.getInches();
+        BooleanSupplier pivotInTheWay = ()->pivot1.pivot.getEncoder().getPos()>Math.toRadians(80);
+        BooleanSupplier aboveBaskets = ()-> heightFromStart<vipers.getInches()+ pivot1.getExtraHeight();
+        BooleanSupplier belowBaskets = ()->!aboveBaskets.getAsBoolean();
+        BooleanSupplier needToGoDownBeforePivoting = ()-> movingUp.getAsBoolean()&&belowBaskets.getAsBoolean()&&heightFromStart<vipers.getInches()+ RobotDimensions.maxOuttakeLength;
+        BooleanSupplier needToPivot = ()->(aboveBaskets.getAsBoolean()&&movingDown.getAsBoolean())||(belowBaskets.getAsBoolean()&&movingUp.getAsBoolean());
+        Action moveVipersDownToAllowPivotToMove = vipers.goToInches(heightToAllowPivotToMove);
+        Action movePivotOutOfTheWay = pivot1.goToRad(70);
+        return new SequentialAction(
+//                new IfThenAction(
+//                        pivotInTheWay,
+//                        new IfThenAction(
+//                                movingDown,
+//                                new IfThenAction(
+//                                        aboveBaskets,
+//                                        movePivotOutOfTheWay
+//                                )
+//                        ).Else(
+//                                new IfThenAction(
+//                                        ()->!aboveBaskets.getAsBoolean(),
+//                                        new SequentialAction(
+//                                                new IfThenAction(
+//                                                        needToGoDownBeforePivoting,
+//                                                        moveVipersDownToAllowPivotToMove
+//                                                ),
+//                                                movePivotOutOfTheWay
+//                                        )
+//                                )
+//                        )
+//                ),
+                new IfThenAction(
+                        needToGoDownBeforePivoting,
+                        moveVipersDownToAllowPivotToMove
+                ),
+                new IfThenAction(
+                        needToPivot,
+                        movePivotOutOfTheWay
+                ),
+                vipers.goToInches(inches)
+        );
     }
 
     /**
@@ -41,7 +90,7 @@ public class Outtake {
     public Action grabSpecPos(){
         return new ParallelAction(
                 //vipers.GoToInches(wallGrabHeight+Math.sin(Math.toRadians(grabOffWallAngle))-pivotHeight),
-                vipers.GoToInches(0.75),
+                vipers.goToInches(0.75),
                 moveToAngleAndMakeTheClawStraight(grabOffWallAngle),
                 claw.Open()
         );
@@ -64,16 +113,21 @@ public class Outtake {
         return moveToAngleAndMakeTheClawStraight(angle);
     }
     public double getAngleFromHeight(double height){
-        return Math.toDegrees(Math.asin((RobotDimensions.outtakePivotMinimumHeight -height)/ RobotDimensions.outtakeLength));
+        return Math.toDegrees(Math.asin((RobotDimensions.outtakePivotMinimumHeight -height)/ RobotDimensions.minOuttakeLength));
     }
     public boolean isGrabbingOffWall(){
         return ExtraMath.ApproximatelyEqualTo(Math.toDegrees(pivot1.pivot.getTargetPosition()),grabOffWallAngle+180,5);
     }
+    public boolean readyForClip(){
+        return ExtraMath.ApproximatelyEqualTo(Math.toDegrees(pivot1.pivot.getTargetPosition()),25,5);
+    }
     public Action prepareToPlaceSpec(){
-        return new ParallelAction(
+        return new SequentialAction(
                 claw.Close(),
-                pivot1.prepareForSpecimenOnChamberPos(),
-                pivot2.SpecimenOnChamberPos(),
+                new ParallelAction(
+                        pivot1.prepareForSpecimenOnChamberPos(),
+                        pivot2.SpecimenOnChamberPos()
+                ),
                 vipers.SpecimenPlaceV2()
         );
     }
@@ -104,7 +158,7 @@ public class Outtake {
     public Action placeSpecPosV3(){
         return new ParallelAction(pivot1.SpecimenOnChamberPosV3(), pivot2.goToDegrees(90), vipers.SpecimenPlaceV3());
     }
-    public Action grabSpecOfWall(){
+    public Action prepareToGrabSpecOffWall(){
         return new SequentialAction(
                 claw.Close(),
                 vipers.RemoveSpecimenFromWall(),
@@ -127,6 +181,12 @@ public class Outtake {
                 vipers.Down()
 
 
+        );
+    }
+    public Action clipAndThenPrepareToGrab(){
+        return new SequentialAction(
+                placeSpecPosV2(),
+                prepareToGrabSpecOffWall()
         );
     }
 //    public boolean atWallPos(){
