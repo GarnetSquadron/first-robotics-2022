@@ -75,7 +75,7 @@ public class Autocliptesting extends LinearOpMode {
 
         TrajectoryActionBuilder Deposit1 = WallGrab1.endTrajectory().fresh()
                 .setTangent(Math.toRadians(160))
-                .splineToLinearHeading(new Pose2d(14, -40, Math.toRadians(270)), Math.toRadians(90));
+                .splineToLinearHeading(new Pose2d(8, -40, Math.toRadians(270)), Math.toRadians(90));
 
         TrajectoryActionBuilder WallGrab2 = Deposit1.endTrajectory().fresh()
                 .setTangent(-90)
@@ -85,7 +85,7 @@ public class Autocliptesting extends LinearOpMode {
 
         TrajectoryActionBuilder Deposit2 = WallGrab2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(160))
-                .splineToLinearHeading(new Pose2d(12, -40, Math.toRadians(270)), Math.toRadians(90));
+                .splineToLinearHeading(new Pose2d(6.5, -40, Math.toRadians(270)), Math.toRadians(90));
 
         TrajectoryActionBuilder WallGrab3 = Deposit2.endTrajectory().fresh()
                 .setTangent(-90)
@@ -95,7 +95,7 @@ public class Autocliptesting extends LinearOpMode {
 
         TrajectoryActionBuilder Deposit3 = WallGrab3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(160))
-                .splineToLinearHeading(new Pose2d(10, -40, Math.toRadians(270)), Math.toRadians(90));
+                .splineToLinearHeading(new Pose2d(5, -40, Math.toRadians(270)), Math.toRadians(90));
 
         TrajectoryActionBuilder Park = Deposit3.endTrajectory().fresh()
                 .setTangent(-90)
