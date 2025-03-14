@@ -34,15 +34,15 @@ public class Autocliptesting extends LinearOpMode {
 
         Vector2d WallPos =  new Vector2d(34,-54.75);
         Vector2d prepWallPos = new Vector2d(34,-52);
-        double SubPos = -29.5;
-        double prepSubPos = -40;
+        //double SubPos = -29.5;
+        //double prepSubPos = -40;
         double SampleDistanceX = 4;
         double SampleDistanceY = 5;
         double dropAngle = -60;
 
         TrajectoryActionBuilder StartDeposit = bot.drive.actionBuilder(beginPose)
-                .splineToLinearHeading(new Pose2d(-2.5, prepSubPos, Math.toRadians(90)), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(-2.5,SubPos),90);
+                .setTangent(Math.toRadians(160))
+                .splineToLinearHeading(new Pose2d(9.5, -40, Math.toRadians(270)), Math.toRadians(90));
 
         TrajectoryActionBuilder SampGrab1 = StartDeposit.endTrajectory().fresh()
                 .setTangent(-Math.PI/2)
