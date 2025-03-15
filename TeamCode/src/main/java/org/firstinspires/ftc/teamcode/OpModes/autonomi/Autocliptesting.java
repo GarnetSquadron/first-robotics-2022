@@ -116,7 +116,7 @@ public class Autocliptesting extends LinearOpMode {
                                 bot.intake.claw.Open()
                         ),
 
-                        new SequentialAction(
+                        new ParallelAction(
                         StartDeposit.build(),
                         bot.outtake.placeSpec()
                         ),
@@ -160,7 +160,7 @@ public class Autocliptesting extends LinearOpMode {
 
                         bot.outtake.prepareToGrabSpecOffWall(),
 
-                        new SequentialAction(
+                        new ParallelAction(
                         Deposit1.build(),
                         bot.outtake.placeSpec()
                         ),
@@ -176,7 +176,7 @@ public class Autocliptesting extends LinearOpMode {
 
                         bot.outtake.prepareToGrabSpecOffWall(),
 
-                        new SequentialAction(
+                        new ParallelAction(
                         Deposit2.build(),
                         bot.outtake.placeSpec()
                         ),
