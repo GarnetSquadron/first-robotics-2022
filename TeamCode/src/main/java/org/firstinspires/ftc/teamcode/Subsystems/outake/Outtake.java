@@ -133,7 +133,7 @@ public class Outtake {
     }
     public Action placeSpec(){
         return new ParallelAction(
-                pivot1.goToRad(Math.toRadians(145)),
+                pivot1.goToRad(Math.toRadians(140)),
                 pivot2.goToDegrees(40)
         );
     }
