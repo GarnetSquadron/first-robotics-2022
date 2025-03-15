@@ -73,8 +73,8 @@ public class MecanumDrive {
         public double trackWidthTicks =  12.7;//4536.496586158054;//4418.884240665918;
 
         // feedforward parameters (in tick units)
-        public double kS = 1.0501776046464413;//0.78105834686844;
-        public double kV =   0.20077367580165867;//0.0005353022058210014;
+        public double kS = 0.957413108168820;//1.0501776046464413;//0.78105834686844;
+        public double kV =   0.17998656516687941;//0.20077367580165867;//0.0005353022058210014;
         public double kA = 0.00005;
 
         // path profile parameters (in inches)
@@ -588,6 +588,14 @@ public class MecanumDrive {
     }
     public Action ResetToleranceToDefault(double posTolerance){
         return new SequentialAction(SetPosTolerance(2),SetVelTolerance(0.5),SetAngleTolerance(2),SetAngularVelTolerance(0.5));
+    }
+
+
+    public void unbrake(){
+        leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
     }
 
 }

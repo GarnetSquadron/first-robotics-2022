@@ -17,7 +17,6 @@ public class WaitForConditionAction implements Action {
     }
     @Override
     public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-        telemetryPacket.put("condition",condition.getAsBoolean());
         return !condition.getAsBoolean();
     }
 }

@@ -15,6 +15,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Drawing;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.teamcode.PinpointDrive;
 import org.firstinspires.ftc.teamcode.TankDrive;
 
 public class LocalizationTest extends LinearOpMode {
@@ -22,11 +23,10 @@ public class LocalizationTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        if (TuningOpModes.DRIVE_CLASS.equals(MecanumDrive.class)) {
-            MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(-26, -62, Math.toRadians(0)));
-            OverflowEncoder par = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "par")));
-            OverflowEncoder perp = new OverflowEncoder(new RawEncoder(hardwareMap.get(DcMotorEx.class, "perp/lift")));
+        if (TuningOpModes.DRIVE_CLASS.equals(PinpointDrive.class)) {
+            PinpointDrive drive = new PinpointDrive(hardwareMap, new Pose2d(-26, -62, Math.toRadians(0)));
             IMU imu = hardwareMap.get(IMU.class,"imu");
+            drive.unbrake();
             waitForStart();
 
             while (opModeIsActive()) {
@@ -42,8 +42,6 @@ public class LocalizationTest extends LinearOpMode {
 
                 telemetry.addData("x", drive.pose.position.x);
                 telemetry.addData("y", drive.pose.position.y);
-                telemetry.addData("xVel", par.encoder.getPositionAndVelocity().velocity);
-                telemetry.addData("yVel", perp.encoder.getPositionAndVelocity().velocity);
                 telemetry.addData("heading (deg)", Math.toDegrees(drive.pose.heading.toDouble()));
                 telemetry.addData("yaw (deg)", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
                 telemetry.addData("pitch (deg)", imu.getRobotYawPitchRollAngles().getPitch(AngleUnit.DEGREES));
