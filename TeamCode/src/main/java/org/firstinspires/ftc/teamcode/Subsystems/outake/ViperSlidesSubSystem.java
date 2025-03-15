@@ -83,7 +83,7 @@ public class ViperSlidesSubSystem{
         return l.runToPosition(FieldDimensions.highChamberHeight- RobotDimensions.outtakePivotMinimumHeight+RobotDimensions.AdditionalClippingHeight);
     }
     public Action RemoveSpecimenFromWall(){
-        return l.runToPosition(5);
+        return l.runToPosition(4);
     }
     public Action SpecimenHold(){
         return l.runToPosition(0.5);
