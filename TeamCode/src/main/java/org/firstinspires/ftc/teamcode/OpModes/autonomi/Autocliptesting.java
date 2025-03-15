@@ -69,7 +69,7 @@ public class Autocliptesting extends LinearOpMode {
 
         TrajectoryActionBuilder WallGrab1 = SampDrop3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-100))
-                .splineToLinearHeading(new Pose2d(prepWallPos, Math.toRadians(90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(prepWallPos, Math.toRadians(90)), Math.toRadians(90))
                 .waitSeconds(0.5)
                 .splineToLinearHeading(new Pose2d(WallPos, Math.toRadians(90)), Math.toRadians(-90),new TranslationalVelConstraint(10));
 
@@ -82,7 +82,7 @@ public class Autocliptesting extends LinearOpMode {
 
         TrajectoryActionBuilder WallGrab2 = Depositdrivein1.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-100))
-                .splineToLinearHeading(new Pose2d(prepWallPos.minus(new Vector2d(0.5,0)), Math.toRadians(90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(prepWallPos.minus(new Vector2d(0.5,0)), Math.toRadians(90)), Math.toRadians(90))
                 .waitSeconds(0.5)
                 .splineToLinearHeading(new Pose2d(WallPos.minus(new Vector2d(0.5,0)), Math.toRadians(90)), Math.toRadians(-90),new TranslationalVelConstraint(10));
 
@@ -95,7 +95,7 @@ public class Autocliptesting extends LinearOpMode {
 
         TrajectoryActionBuilder WallGrab3 = Depositdrivein2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-100))
-                .splineToLinearHeading(new Pose2d(prepWallPos, Math.toRadians(90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(prepWallPos, Math.toRadians(90)), Math.toRadians(90))
                 .waitSeconds(0.5)
                 .splineToConstantHeading(WallPos,Math.toRadians(-90));
 
