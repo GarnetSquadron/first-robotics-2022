@@ -111,7 +111,7 @@ public class Autocliptesting extends LinearOpMode {
 
                         StartDeposit.build(),
 
-                        bot.outtake.placeSpecPosV2(),
+                        bot.outtake.placeSpecPosV4(),
 
                         bot.outtake.claw.Open(),
 
@@ -154,7 +154,7 @@ public class Autocliptesting extends LinearOpMode {
 
                         Deposit1.build(),
 
-                        bot.outtake.placeSpecPosV2(),
+                        bot.outtake.placeSpecPosV4(),
 
                         bot.outtake.claw.Open(),
 
@@ -169,7 +169,7 @@ public class Autocliptesting extends LinearOpMode {
 
                         Deposit2.build(),
 
-                        bot.outtake.placeSpecPosV3(),
+                        bot.outtake.placeSpecPosV4(),
 
                         bot.outtake.claw.Open()
 

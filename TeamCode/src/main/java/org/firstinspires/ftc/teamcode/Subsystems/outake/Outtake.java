@@ -155,6 +155,9 @@ public class Outtake {
                 )
         );
     }
+    public Action placeSpecPosV4(){
+        return new SequentialAction(pivot2.BucketPos(),pivot1.pivot.runToPosition(Math.PI/6));
+    }
     public Action placeSpecPosV3(){
         return new SequentialAction(pivot1.pivot.runToPosition(0),pivot1.clip(),claw.Open());
     }
