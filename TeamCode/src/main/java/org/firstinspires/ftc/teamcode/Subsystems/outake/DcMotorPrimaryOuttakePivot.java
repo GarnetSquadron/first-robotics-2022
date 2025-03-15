@@ -18,7 +18,6 @@ import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 @Config
 public class DcMotorPrimaryOuttakePivot{
     public LimitedMotor pivot;
-    public Encoder encoder;
     double tolerance = 0.0421;
     double powerCoefficient, minHeight;
     public DcMotorPrimaryOuttakePivot(HardwareMap hardwareMap){
@@ -65,7 +64,9 @@ public class DcMotorPrimaryOuttakePivot{
         return Math.toDegrees(pivot.getTargetPosition());
     }
     public double getExtraHeight(){
-        return (RobotDimensions.maxOuttakeLength)*Math.asin(encoder.getPos());
+        return (RobotDimensions.maxOuttakeLength)*Math.asin(pivot.getEncoder().getPos());
     }
-
+    public Action clip(){
+        return new SequentialAction(new InstantAction(()->pivot.setTargetPower(0.8)), new SleepAction(0.4));//pivot.runWithPowerUntilStopped(0.5,1);
+    }
 }

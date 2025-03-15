@@ -156,7 +156,7 @@ public class Outtake {
         );
     }
     public Action placeSpecPosV3(){
-        return new ParallelAction(pivot1.SpecimenOnChamberPosV3(), pivot2.goToDegrees(90), vipers.SpecimenPlaceV3());
+        return new SequentialAction(pivot1.pivot.runToPosition(0),pivot1.clip(),claw.Open());
     }
     public Action prepareToGrabSpecOffWall(){
         return new SequentialAction(
