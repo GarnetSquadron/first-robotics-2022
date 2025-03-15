@@ -131,16 +131,16 @@ public class Outtake {
                 vipers.SpecimenPlaceV2()
         );
     }
-    public Action placeSpecPos(){
-        return new SequentialAction(
-                vipers.SpecimenHold(),
-                claw.Open()
+    public Action placeSpec(){
+        return new ParallelAction(
+                pivot1.goToRad(Math.toRadians(35)),
+                pivot2.goToDegrees(55)
         );
     }
     boolean pivotMoving(){
         return ExtraMath.ApproximatelyEqualTo( pivot1.pivot.getEncoder().getVelocity(),0,0.02);
     }
-    public Action placeSpecPosV2(){
+    public Action placeSpecV2(){
         return new SequentialAction(
                 pivot1.prepareForSpecimenOnChamberPos(),
                 vipers.SpecimenPlaceV2(),
@@ -155,10 +155,10 @@ public class Outtake {
                 )
         );
     }
-    public Action placeSpecPosV4(){
-        return new SequentialAction(pivot2.BucketPos(),pivot1.pivot.runToPosition(Math.PI/6));
-    }
-    public Action placeSpecPosV3(){
+//    public Action placeSpecV2(){
+//        return new SequentialAction(pivot2.BucketPos(),pivot1.pivot.runToPosition(Math.PI/6));
+//    }
+    public Action placeSpecV3(){
         return new SequentialAction(pivot1.pivot.runToPosition(0),pivot1.clip(),claw.Open());
     }
     public Action prepareToGrabSpecOffWall(){
@@ -188,7 +188,7 @@ public class Outtake {
     }
     public Action clipAndThenPrepareToGrab(){
         return new SequentialAction(
-                placeSpecPosV2(),
+                placeSpecV2(),
                 prepareToGrabSpecOffWall()
         );
     }

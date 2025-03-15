@@ -3,11 +3,9 @@ package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 import org.firstinspires.ftc.teamcode.Subsystems.Bot;
 import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
 
-import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
@@ -94,7 +92,7 @@ public class FiveClipAuto extends LinearOpMode {
 
                                 new ParallelAction(
                                         StartDeposit.build(),
-                                        bot.outtake.placeSpecPos()
+                                        bot.outtake.placeSpec()
                                 ),
 
                                 bot.outtake.claw.Open(),
@@ -137,7 +135,7 @@ public class FiveClipAuto extends LinearOpMode {
 
                                 new ParallelAction(
                                         Deposit1.build(),
-                                        bot.outtake.placeSpecPos()
+                                        bot.outtake.placeSpec()
                                 ),
 
                                 bot.outtake.claw.Open(),
@@ -151,7 +149,7 @@ public class FiveClipAuto extends LinearOpMode {
 
                                 new ParallelAction(
                                         Deposit2.build(),
-                                        bot.outtake.placeSpecPos()
+                                        bot.outtake.placeSpec()
                                 ),
 
                                 bot.outtake.claw.Open(),
@@ -165,7 +163,7 @@ public class FiveClipAuto extends LinearOpMode {
 
                                 new ParallelAction(
                                         Deposit3.build(),
-                                        bot.outtake.placeSpecPos()
+                                        bot.outtake.placeSpec()
                                 ),
 
                                 bot.outtake.claw.Open(),
@@ -180,7 +178,7 @@ public class FiveClipAuto extends LinearOpMode {
 
                                 new ParallelAction(
                                         Deposit4.build(),
-                                        bot.outtake.placeSpecPos()
+                                        bot.outtake.placeSpec()
                                 ),
 
                                 bot.outtake.claw.Open(),
