@@ -31,6 +31,7 @@ public class FourClip {
                 .splineToLinearHeading(new Pose2d(36, -60, Math.toRadians(90)), Math.toRadians(-90))
                 .waitSeconds(0.7)
                 .setTangent(Math.toRadians(160))
+                       .setTangent(Math.toRadians(90))
                 .splineToLinearHeading(new Pose2d(14, -40, Math.toRadians(270)), Math.toRadians(90))
                 .waitSeconds(0.7)
                 .setTangent(-90)
