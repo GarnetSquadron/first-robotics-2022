@@ -78,7 +78,7 @@ public class MecanumDrive {
         public double kA = 0.00005;
 
         // path profile parameters (in inches)
-        public double maxWheelVel = 100;
+        public double maxWheelVel = 40;
         public double minProfileAccel = -200;
         public double maxProfileAccel = 200;
 
@@ -91,14 +91,15 @@ public class MecanumDrive {
         public double lateralGain = 4.0;
         public double headingGain = 4; // shared with turn
 
-        public double axialVelGain = 0.0;
+        public double axialVelGain = 0.5;
         public double lateralVelGain = 0.0;
         public double headingVelGain = 0.0; // shared with turn
+
+        public double posTolerance = 2;
+        public double velTolerance = 0.5;
     }
 
     public static Params PARAMS = new Params();
-    public double posTolerance = 2;
-    public double velTolerance = 0.5;
     public double angleTolerance = 2;
     public double angularVelTolerance = 0.5;
 
@@ -308,8 +309,8 @@ public class MecanumDrive {
 
             PoseVelocity2d robotVelRobot = updatePoseEstimate();
             Pose2d error = txWorldTarget.value().minusExp(pose);
-            if (t >= timeTrajectory.duration && error.position.norm() < posTolerance
-                    && robotVelRobot.linearVel.norm() < velTolerance
+            if (t >= timeTrajectory.duration && error.position.norm() < PARAMS.posTolerance
+                    && robotVelRobot.linearVel.norm() < PARAMS.velTolerance
                     || t >= timeTrajectory.duration + 3) {
                 leftFront.setPower(0);
                 leftBack.setPower(0);
@@ -575,10 +576,10 @@ public class MecanumDrive {
     }
 
     public Action SetPosTolerance(double tolerance){
-        return new InstantAction(()-> posTolerance = tolerance);
+        return new InstantAction(()-> PARAMS.posTolerance = tolerance);
     }
     public Action SetVelTolerance(double tolerance){
-        return new InstantAction(()-> velTolerance = tolerance);
+        return new InstantAction(()-> PARAMS.velTolerance = tolerance);
     }
     public Action SetAngleTolerance(double tolerance){
         return new InstantAction(()-> angleTolerance = tolerance);

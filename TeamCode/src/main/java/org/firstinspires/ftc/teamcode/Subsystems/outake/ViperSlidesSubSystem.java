@@ -9,11 +9,15 @@ import com.acmerobotics.roadrunner.NullAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Dimensions.RobotDimensions;
 import org.firstinspires.ftc.teamcode.ExtraMath;
 import org.firstinspires.ftc.teamcode.Dimensions.FieldDimensions;
+import org.firstinspires.ftc.teamcode.Subsystems.Encoder;
 import org.firstinspires.ftc.teamcode.Subsystems.controllers.Controller;
 import org.firstinspires.ftc.teamcode.Subsystems.hardwareClasses.motors.LimitedMotor;
 import org.firstinspires.ftc.teamcode.Subsystems.hardwareClasses.motors.RAWMOTOR;
@@ -28,14 +32,17 @@ public class ViperSlidesSubSystem{
     private final int LMinPos = 0;
     private final int RMaxPos = 4000;
     private final int RMinPos = 0;
+    DistanceSensor sensor;
     double totalRevs = 8.1, strokeLength = 38.425;//based on https://www.gobilda.com/4-stage-viper-slide-kit-belt-driven-336mm-slides/?srsltid=AfmBOop1ONQi_MCp5LMjMV55FO3ZtN6YcIHnEL4hXhXS2j3_KoAiYx0O
     double revPerInch = totalRevs/strokeLength;
     public ViperSlidesSubSystem(HardwareMap hardwareMap){
         l = new LimitedMotor(hardwareMap,"LeftViper",0,30);
+        //sensor = hardwareMap.get(Rev2mDistanceSensor.class,"viper distance sensor");
+        //l.setEncoder(new Encoder(()->sensor.getDistance(DistanceUnit.INCH)));
         l.getEncoder().setCPR(Motor.GoBILDA.RPM_312);
         l.getEncoder().scaleToAngleUnit(AngleUnitV2.REVOLUTIONS);
         l.getEncoder().scaleScaleBy(1/revPerInch);
-        //l.getEncoder().setPos(0);
+        l.getEncoder().setPos(0);
         l.setPID(0.5,0,0);
         l.setTolerance(1);
         l.setExtTorqueController(new Controller() {
