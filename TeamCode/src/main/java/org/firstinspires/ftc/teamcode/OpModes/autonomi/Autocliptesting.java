@@ -172,9 +172,12 @@ public class Autocliptesting extends LinearOpMode {
                         bot.outtake.claw.Open(),
 
                         new ParallelAction(
-                                WallGrab2.build(),
-                                bot.outtake.grabSpecPos()
-                        ),
+
+                                new SequentialAction(
+                                        new SleepAction(0.2),
+                                        WallGrab2.build()
+                                ),
+                                bot.outtake.grabSpecPos()),
 
                         bot.outtake.prepareToGrabSpecOffWall(),
 
