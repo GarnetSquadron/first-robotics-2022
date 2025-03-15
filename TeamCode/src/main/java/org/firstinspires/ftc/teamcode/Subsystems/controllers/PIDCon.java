@@ -24,8 +24,13 @@ public class PIDCon extends PositionController {
         prevPos = new ValueAtTimeStamp(0,TIME.getTime());
     }
     @Override
+    public void setTargetPosition(double targetPosition){
+        this.targetPosition = targetPosition;
+        reset();
+    }
+    @Override
     public double calculate() {
-        double error = targetPosition-encoder.getPos();
+        double error = getDistanceToTarget();
         //if(ki!=0){
             double currentTime = TIME.getTime();
             integral += ExtraMath.integration.trapazoid(prevPos, new ValueAtTimeStamp(error, currentTime));

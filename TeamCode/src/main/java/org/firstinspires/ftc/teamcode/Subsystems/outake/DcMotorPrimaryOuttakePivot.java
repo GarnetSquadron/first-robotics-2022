@@ -24,7 +24,7 @@ public class DcMotorPrimaryOuttakePivot{
         pivot = new LimitedMotor(hardwareMap,"Primary Pivot",0,4.188);//min and max need to be tuned
         pivot.getEncoder().setCPR(Motor.GoBILDA.RPM_117);
         pivot.getEncoder().scaleToAngleUnit(AngleUnitV2.RADIANS);
-        pivot.setPID(3,0,-0.0004);
+        pivot.setPID(3,0.2,0);
         //pivot.setPositionController(new MaxSpeedController(4320,0.1));
         pivot.setTolerance(tolerance);
         pivot.setExtTorqueController(new ArmOnAPivotController(Math.PI/2,0.25));
