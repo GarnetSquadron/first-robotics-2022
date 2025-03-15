@@ -3,11 +3,7 @@ package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
 import org.firstinspires.ftc.teamcode.Subsystems.Bot;
 import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
-import org.firstinspires.ftc.teamcode.Subsystems.outake.Outtake;
-import org.firstinspires.ftc.teamcode.Subsystems.outake.ViperSlidesSubSystem;
 
-import com.acmerobotics.roadrunner.AccelConstraint;
-import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
@@ -34,7 +30,7 @@ public class Autocliptesting extends LinearOpMode {
 
         Vector2d WallPos =  new Vector2d(34,-54.75);
         Vector2d prepWallPos = new Vector2d(34,-52);
-        //double SubPos = -29.5;
+        double SubPos = -35;
         //double prepSubPos = -40;
         double SampleDistanceX = 4;
         double SampleDistanceY = 5;
@@ -42,7 +38,7 @@ public class Autocliptesting extends LinearOpMode {
 
         TrajectoryActionBuilder StartDeposit = bot.drive.actionBuilder(beginPose)
                 .setTangent(Math.toRadians(160))
-                .splineToLinearHeading(new Pose2d(9.5, -40, Math.toRadians(270)), Math.toRadians(90));
+                .splineToLinearHeading(new Pose2d(9.5, SubPos, Math.toRadians(270)), Math.toRadians(90));
 
         TrajectoryActionBuilder SampGrab1 = StartDeposit.endTrajectory().fresh()
                 .setTangent(-Math.PI/2)
@@ -75,7 +71,7 @@ public class Autocliptesting extends LinearOpMode {
 
         TrajectoryActionBuilder Deposit1 = WallGrab1.endTrajectory().fresh()
                 .setTangent(Math.toRadians(160))
-                .splineToLinearHeading(new Pose2d(8, -40, Math.toRadians(270)), Math.toRadians(90));
+                .splineToLinearHeading(new Pose2d(8, SubPos, Math.toRadians(270)), Math.toRadians(90));
 
         TrajectoryActionBuilder WallGrab2 = Deposit1.endTrajectory().fresh()
                 .setTangent(-90)
@@ -85,7 +81,7 @@ public class Autocliptesting extends LinearOpMode {
 
         TrajectoryActionBuilder Deposit2 = WallGrab2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(160))
-                .splineToLinearHeading(new Pose2d(6.5, -40, Math.toRadians(270)), Math.toRadians(90));
+                .splineToLinearHeading(new Pose2d(6.5, SubPos, Math.toRadians(270)), Math.toRadians(90));
 
         TrajectoryActionBuilder WallGrab3 = Deposit2.endTrajectory().fresh()
                 .setTangent(-90)
@@ -95,7 +91,7 @@ public class Autocliptesting extends LinearOpMode {
 
         TrajectoryActionBuilder Deposit3 = WallGrab3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(160))
-                .splineToLinearHeading(new Pose2d(5, -40, Math.toRadians(270)), Math.toRadians(90));
+                .splineToLinearHeading(new Pose2d(5, SubPos, Math.toRadians(270)), Math.toRadians(90));
 
         TrajectoryActionBuilder Park = Deposit3.endTrajectory().fresh()
                 .setTangent(-90)
@@ -111,7 +107,7 @@ public class Autocliptesting extends LinearOpMode {
 
                         StartDeposit.build(),
 
-                        bot.outtake.placeSpecPosV4(),
+                        bot.outtake.placeSpec(),
 
                         bot.outtake.claw.Open(),
 
@@ -154,7 +150,7 @@ public class Autocliptesting extends LinearOpMode {
 
                         Deposit1.build(),
 
-                        bot.outtake.placeSpecPosV4(),
+                        bot.outtake.placeSpec(),
 
                         bot.outtake.claw.Open(),
 
@@ -169,7 +165,7 @@ public class Autocliptesting extends LinearOpMode {
 
                         Deposit2.build(),
 
-                        bot.outtake.placeSpecPosV4(),
+                        bot.outtake.placeSpec(),
 
                         bot.outtake.claw.Open()
 

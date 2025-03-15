@@ -198,7 +198,7 @@ public class Bot {
         return new SequentialAction(
                 outtake.prepareToPlaceSpec(),
                 //drive.StraightTo(ChamberPos),
-                outtake.placeSpecPos()
+                outtake.placeSpec()
         );
     }
     public Action UpdateMotorPowers(){

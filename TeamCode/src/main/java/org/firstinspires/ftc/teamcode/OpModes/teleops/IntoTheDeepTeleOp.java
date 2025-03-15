@@ -128,7 +128,7 @@ public class IntoTheDeepTeleOp extends OpMode {
         );
         actionScheduler.actionBooleanPair(
                 SpecimenPlaceButton.getState(),bot.outtake.readyForClip(),
-                bot.outtake.placeSpecPosV2(),"Place Specimen",
+                bot.outtake.placeSpecV2(),"Place Specimen",
                 bot.outtake.prepareToPlaceSpec(),"preparing to grab spec"
         );
 

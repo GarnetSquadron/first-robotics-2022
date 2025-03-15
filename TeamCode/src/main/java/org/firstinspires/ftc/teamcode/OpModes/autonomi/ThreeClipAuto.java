@@ -108,7 +108,7 @@ public class ThreeClipAuto extends LinearOpMode {
 
                         StartDeposit.build(),
 
-                        bot.outtake.placeSpecPosV2(),
+                        bot.outtake.placeSpecV2(),
 
                         bot.outtake.claw.Open(),
 
@@ -151,7 +151,7 @@ public class ThreeClipAuto extends LinearOpMode {
 
                         Deposit1.build(),
 
-                        bot.outtake.placeSpecPosV2(),
+                        bot.outtake.placeSpecV2(),
 
                         bot.outtake.claw.Open(),
 
@@ -166,7 +166,7 @@ public class ThreeClipAuto extends LinearOpMode {
 
                         Deposit2.build(),
 
-                        bot.outtake.placeSpecPosV2(),
+                        bot.outtake.placeSpecV2(),
 
                         bot.outtake.claw.Open()
 
