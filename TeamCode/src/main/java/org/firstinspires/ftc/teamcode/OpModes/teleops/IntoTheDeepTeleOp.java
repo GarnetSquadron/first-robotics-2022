@@ -128,7 +128,7 @@ public class IntoTheDeepTeleOp extends OpMode {
         );
         actionScheduler.actionBooleanPair(
                 SpecimenPlaceButton.getState(),bot.outtake.readyForClip(),
-                bot.outtake.placeSpecV2(),"Place Specimen",
+                bot.outtake.placeSpec(),"Place Specimen",
                 bot.outtake.prepareToPlaceSpec(),"preparing to grab spec"
         );
 
@@ -170,7 +170,7 @@ public class IntoTheDeepTeleOp extends OpMode {
         if(gamepad1.y){
             bot.drive.SetDirectionTo(Math.PI/2, AngleUnitV2.RADIANS);
         }
-        sensitivity = 0.75;
+        sensitivity = 0.5;
         if(gamepad1.left_bumper){
             sensitivity = 0.2;
         }

@@ -4,6 +4,8 @@ import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
 import org.firstinspires.ftc.teamcode.Subsystems.Bot;
 import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
@@ -21,6 +23,7 @@ public class Autocliptesting extends LinearOpMode {
     Bot bot;
     @Override
     public void runOpMode() throws InterruptedException {
+        //telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         //the position the auto starts at
         Pose2d beginPose = new Pose2d(26, -62, Math.toRadians(90));
         //the class that contains all the subsystems
@@ -96,7 +99,7 @@ public class Autocliptesting extends LinearOpMode {
 
         TrajectoryActionBuilder WallGrab3 = Depositdrivein2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-100))
-                .splineToLinearHeading(new Pose2d(6.5, -45, Math.toRadians(90)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(6.5, -45, Math.toRadians(270)), Math.toRadians(0))
                 .splineToLinearHeading(new Pose2d(prepWallPos, Math.toRadians(90)), Math.toRadians(-90))
                 .waitSeconds(0.1)
                 .splineToConstantHeading(WallPos,Math.toRadians(-90));
@@ -113,6 +116,7 @@ public class Autocliptesting extends LinearOpMode {
                 .splineToConstantHeading(new Vector2d(36,-60),6);
         CancelableAction auto = new CancelableAction(
                 new SequentialAction(
+                        bot.outtake.pivot1.zeroMotor(),
                         new ParallelAction(
                                 bot.outtake.claw.Close(),
                                 bot.intake.claw.Open()
@@ -175,7 +179,7 @@ public class Autocliptesting extends LinearOpMode {
 
                                 WallGrab2.build(),
                                 new SequentialAction(
-                                new SleepAction(0.5),
+                                new SleepAction(2),
                                 bot.outtake.grabSpecPos()
                                 )
                         ),
@@ -211,13 +215,17 @@ public class Autocliptesting extends LinearOpMode {
                 bot.drive.Stop()
 
         );
-
         waitForStart();
 
+        telemetry.addData("outtake target reached",bot.outtake.pivot1.pivot::targetReached);
+        telemetry.addData("outtake power",bot.outtake.pivot1.pivot::getPower);
+        telemetry.addData("outtake pivot degrees", ()->Math.toDegrees(bot.outtake.pivot1.pivot.getEncoder().getPos()));
+        telemetry.addData("outtake pivot tgt degrees", ()->Math.toDegrees(bot.outtake.pivot1.pivot.getTargetPosition()));
         Actions.runBlocking(
                 new ParallelAction(
                         bot.UpdateMotorPowers(),
                         auto,
+                        new InstantAction(telemetry::update),
                         new SequentialAction(
                                 new SleepAction(28),
                                 new InstantAction(auto::failover),

@@ -30,6 +30,12 @@ public class DcMotorPrimaryOuttakePivot{
         pivot.setExtTorqueController(new ArmOnAPivotController(Math.PI/2,0.25));
         pivot.setMaxPower(0.5);
     }
+
+    /**
+     * for some reason this function wasnt working when the angle was 125 degrees =
+     * @param angle
+     * @return
+     */
     public Action goToRad(double angle){
         return pivot.runToPosition(angle);
     }
