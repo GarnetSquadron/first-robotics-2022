@@ -31,7 +31,7 @@ public class Autocliptesting extends LinearOpMode {
         Vector2d WallPos =  new Vector2d(34,-54.75);
         Vector2d prepWallPos = new Vector2d(34,-52);
         double SubPos = -40;
-        double SubDriveInPos = -33;
+        double SubDriveInPos = -32;
         //double prepSubPos = -40;
         double SampleDistanceX = 4;
         double SampleDistanceY = 5;
@@ -174,8 +174,10 @@ public class Autocliptesting extends LinearOpMode {
                         new ParallelAction(
 
                                 WallGrab2.build(),
-                                new SleepAction(1),
+                                new SequentialAction(
+                                new SleepAction(0.5),
                                 bot.outtake.grabSpecPos()
+                                )
                         ),
 
                         bot.outtake.prepareToGrabSpecOffWall(),
