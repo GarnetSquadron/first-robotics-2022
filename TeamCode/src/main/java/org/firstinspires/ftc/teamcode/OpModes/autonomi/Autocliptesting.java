@@ -30,7 +30,8 @@ public class Autocliptesting extends LinearOpMode {
 
         Vector2d WallPos =  new Vector2d(34,-54.75);
         Vector2d prepWallPos = new Vector2d(34,-52);
-        double SubPos = -35;
+        double SubPos = -34;
+        double SubDriveInPos = -37;
         //double prepSubPos = -40;
         double SampleDistanceX = 4;
         double SampleDistanceY = 5;
@@ -40,7 +41,10 @@ public class Autocliptesting extends LinearOpMode {
                 .setTangent(Math.toRadians(160))
                 .splineToLinearHeading(new Pose2d(9.5, SubPos, Math.toRadians(270)), Math.toRadians(90));
 
-        TrajectoryActionBuilder SampGrab1 = StartDeposit.endTrajectory().fresh()
+        TrajectoryActionBuilder Depositdriveinstart = StartDeposit.endTrajectory().fresh()
+                .splineToLinearHeading(new Pose2d(9.5, SubDriveInPos, Math.toRadians(270)), Math.toRadians(90));
+
+        TrajectoryActionBuilder SampGrab1 = Depositdriveinstart.endTrajectory().fresh()
                 .setTangent(-Math.PI/2)
                 .splineToLinearHeading(new Pose2d(25+SampleDistanceX, -41+SampleDistanceY, Math.toRadians(30)), Math.toRadians(0))
                 .afterDisp(20,new ParallelAction(
@@ -73,7 +77,10 @@ public class Autocliptesting extends LinearOpMode {
                 .setTangent(Math.toRadians(160))
                 .splineToLinearHeading(new Pose2d(8, SubPos, Math.toRadians(270)), Math.toRadians(90));
 
-        TrajectoryActionBuilder WallGrab2 = Deposit1.endTrajectory().fresh()
+        TrajectoryActionBuilder Depositdrivein1 = Deposit1.endTrajectory().fresh()
+                .splineToLinearHeading(new Pose2d(8, SubDriveInPos, Math.toRadians(270)), Math.toRadians(90));
+
+        TrajectoryActionBuilder WallGrab2 = Depositdrivein1.endTrajectory().fresh()
                 .setTangent(-90)
                 .splineToLinearHeading(new Pose2d(prepWallPos.minus(new Vector2d(0.5,0)), Math.toRadians(90)), Math.toRadians(-90))
                 .waitSeconds(0.5)
@@ -83,7 +90,10 @@ public class Autocliptesting extends LinearOpMode {
                 .setTangent(Math.toRadians(160))
                 .splineToLinearHeading(new Pose2d(6.5, SubPos, Math.toRadians(270)), Math.toRadians(90));
 
-        TrajectoryActionBuilder WallGrab3 = Deposit2.endTrajectory().fresh()
+        TrajectoryActionBuilder Depositdrivein2 = Deposit2.endTrajectory().fresh()
+                .splineToLinearHeading(new Pose2d(6.5, SubDriveInPos, Math.toRadians(270)), Math.toRadians(90));
+
+        TrajectoryActionBuilder WallGrab3 = Depositdrivein2.endTrajectory().fresh()
                 .setTangent(-90)
                 .splineToLinearHeading(new Pose2d(prepWallPos, Math.toRadians(90)), Math.toRadians(-90))
                 .waitSeconds(0.5)
@@ -93,7 +103,10 @@ public class Autocliptesting extends LinearOpMode {
                 .setTangent(Math.toRadians(160))
                 .splineToLinearHeading(new Pose2d(5, SubPos, Math.toRadians(270)), Math.toRadians(90));
 
-        TrajectoryActionBuilder Park = Deposit3.endTrajectory().fresh()
+        TrajectoryActionBuilder Depositdrivein3 = Deposit3.endTrajectory().fresh()
+                .splineToLinearHeading(new Pose2d(5, SubDriveInPos, Math.toRadians(270)), Math.toRadians(90));
+
+        TrajectoryActionBuilder Park = Depositdrivein3.endTrajectory().fresh()
                 .setTangent(-90)
                 .splineToConstantHeading(new Vector2d(36,-60),6);
         CancelableAction auto = new CancelableAction(
@@ -107,6 +120,8 @@ public class Autocliptesting extends LinearOpMode {
                         StartDeposit.build(),
 
                         bot.outtake.placeSpec(),
+
+                        Depositdriveinstart.build(),
 
                         bot.outtake.claw.Open(),
 
@@ -149,6 +164,8 @@ public class Autocliptesting extends LinearOpMode {
 
                         bot.outtake.placeSpec(),
 
+                        Depositdrivein1.build(),
+
                         bot.outtake.claw.Open(),
 
                         new ParallelAction(
@@ -162,6 +179,8 @@ public class Autocliptesting extends LinearOpMode {
                         Deposit2.build(),
 
                         bot.outtake.placeSpec(),
+
+                        Depositdrivein2.build(),
 
                         bot.outtake.claw.Open()
 
