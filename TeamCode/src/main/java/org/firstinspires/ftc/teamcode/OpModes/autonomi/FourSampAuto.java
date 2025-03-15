@@ -32,7 +32,7 @@ public class FourSampAuto extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(-48.5, -47, Math.toRadians(90)), 45);
 
         TrajectoryActionBuilder Deposit2 = Sample1.endTrajectory().fresh()
-                .splineToLinearHeading(depositSpot, 10);
+                .splineToLinearHeading(depositSpot, 10);p;
 
         TrajectoryActionBuilder Sample2 = Deposit2.endTrajectory().fresh()
                 .splineToLinearHeading(new Pose2d(-59, -47, Math.toRadians(90)), 90);
