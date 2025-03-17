@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
+import org.firstinspires.ftc.teamcode.MiscActions.ConditionLoopAction;
 import org.firstinspires.ftc.teamcode.Subsystems.Bot;
 import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
@@ -217,22 +219,33 @@ public class Autocliptesting extends LinearOpMode {
         );
         waitForStart();
 
-        telemetry.addData("outtake target reached",bot.outtake.pivot1.pivot::targetReached);
-        telemetry.addData("outtake power",bot.outtake.pivot1.pivot::getPower);
-        telemetry.addData("outtake pivot degrees", ()->Math.toDegrees(bot.outtake.pivot1.pivot.getEncoder().getPos()));
-        telemetry.addData("outtake pivot tgt degrees", ()->Math.toDegrees(bot.outtake.pivot1.pivot.getTargetPosition()));
+
         Actions.runBlocking(
                 new ParallelAction(
-                        bot.UpdateMotorPowers(),
-                        auto,
-                        new InstantAction(telemetry::update),
                         new SequentialAction(
+                                new ParallelAction(
+                                        bot.UpdateMotorPowers(),
+                                        auto
+                                ),
                                 new SleepAction(28),
                                 new InstantAction(auto::failover),
                                 bot.outtake.vipers.Down()
+                        ),
+                        new ConditionLoopAction(
+                                new InstantAction(()->{
+                                    telemetry.addData("outtake target reached",bot.outtake.pivot1.pivot.targetReached());
+                                    telemetry.addData("outtake power",bot.outtake.pivot1.pivot.getPower());
+                                    telemetry.addData("outtake pivot degrees", Math.toDegrees(bot.outtake.pivot1.pivot.getEncoder().getPos()));
+                                    telemetry.addData("outtake pivot tgt degrees", Math.toDegrees(bot.outtake.pivot1.pivot.getTargetPosition()));
+                                    telemetry.update();
+                                }),
+                                this::opModeIsActive
                         )
                 )
         );
+
+
+
         StaticInfo.LastOpModeWasAuto = true;
     }
 }
