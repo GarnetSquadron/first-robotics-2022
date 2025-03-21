@@ -50,7 +50,7 @@ public class RAWMOTOR {
         return encoder;
     }
     public void setEncoderPosition(double position){
-        encoder.setPos(position);
+        encoder.setTicks(position);
     }
     public void reverseMotor(){
         motor.setInverted(!motor.getInverted());

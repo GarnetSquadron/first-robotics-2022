@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.InitialToggler;
 import org.firstinspires.ftc.teamcode.OpmodeActionSceduling.TeleOpActionScheduler;
 import org.firstinspires.ftc.teamcode.Subsystems.Bot;
 import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
+import org.firstinspires.ftc.teamcode.TIME;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 import org.firstinspires.ftc.teamcode.enums.Color;
 import org.firstinspires.ftc.teamcode.risingEdgeDetector;
@@ -74,12 +75,14 @@ public class IntoTheDeepTeleOp extends OpMode {
 
     @Override
     public void loop() {
+        double time1 = TIME.getTime();
         if(firstiter){
             actionScheduler.start(bot.outtake.pivot1.zeroMotor(),"zero outtake pivot");
-            actionScheduler.start(bot.outtake.vipers.Down(),"zero vipers");
+            //actionScheduler.start(bot.outtake.vipers.Down(),"zero vipers");
             actionScheduler.start(bot.UpdateMotorPowers(),"updating motor powers");
             firstiter = false;
         }
+        //bot.outtake.vipers.l.updateDistance();
         StaticInfo.LastOpModeWasAuto = false;
         //update the value of each rising edge button detector so we don't miss a button press
         outtakeClawToggle.updateValue();
@@ -202,6 +205,8 @@ public class IntoTheDeepTeleOp extends OpMode {
         telemetry.addData("right viper power",bot.outtake.vipers.r.getPower());
         telemetry.addData("viper position controlling", bot.outtake.vipers.l.inPositionControl());
         telemetry.addData("vipers stopped", bot.outtake.vipers.l.getEncoder().isStopped());
+        telemetry.addData("viper speed", bot.outtake.vipers.l.getEncoder().getVelocity());
+        telemetry.addData("time diff", time1-TIME.getTime());
 
 
 //        telemetry.addData("grabbing ",bot.outtake.isGrabbingOffWall());

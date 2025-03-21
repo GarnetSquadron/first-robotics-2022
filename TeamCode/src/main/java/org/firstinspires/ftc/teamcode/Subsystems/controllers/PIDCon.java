@@ -31,11 +31,11 @@ public class PIDCon extends PositionController {
     @Override
     public double calculate() {
         double error = getDistanceToTarget();
-        //if(ki!=0){
+        if(ki!=0){
             double currentTime = TIME.getTime();
             integral += ExtraMath.integration.trapazoid(prevPos, new ValueAtTimeStamp(error, currentTime));
             prevPos = new ValueAtTimeStamp(error,currentTime);
-        //}
+        }
         return kp*error+ki*integral+kd*encoder.getVelocity();
     }
 }

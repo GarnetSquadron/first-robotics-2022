@@ -16,6 +16,7 @@ public class UpdatableMOTOR extends MOTOR {
 
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+            encoder.updateVelocity();
             if(positionControl){
                 runToTargetPosition();
             }

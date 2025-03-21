@@ -6,7 +6,6 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 
 import org.firstinspires.ftc.teamcode.ExtraMath;
-import org.firstinspires.ftc.teamcode.Subsystems.hardwareClasses.motors.MOTOR;
 import org.firstinspires.ftc.teamcode.TIME;
 import org.firstinspires.ftc.teamcode.ValueAtTimeStamp;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
@@ -14,7 +13,7 @@ import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 import java.util.function.DoubleSupplier;
 
 public class Encoder {
-    ValueAtTimeStamp prevPos;
+    ValueAtTimeStamp prevPos = new ValueAtTimeStamp(0,TIME.getTime());
     DoubleSupplier supplier,velocitySupplier;
     double offset = 0,scale = 1;
     double CPR = 0;
@@ -41,8 +40,11 @@ public class Encoder {
     public double getPos(){
         return (supplier.getAsDouble() + offset)*scale;
     }
-    public void setPos(double pos){
-        offset = pos-supplier.getAsDouble();
+    public void setTicks(double ticks){
+        offset = ticks-supplier.getAsDouble();
+    }
+    public void setPosition(double position){
+        setTicks(position/scale);
     }
     public void setScale(double scale){
         this.scale = scale;

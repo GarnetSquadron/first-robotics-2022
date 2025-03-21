@@ -1,11 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.arcrobotics.ftclib.hardware.motors.Motor;
-import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Encoder;
-import org.firstinspires.ftc.teamcode.Subsystems.hardwareClasses.motors.MOTOR;
-import org.firstinspires.ftc.teamcode.Subsystems.hardwareClasses.motors.RAWMOTOR;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
 import java.util.function.DoubleSupplier;
@@ -37,7 +34,7 @@ public class AngleEncoder extends Encoder {
         return ExtraMath.ConvertAngleUnit(getPos(),AngleUnitV2.RADIANS,unit);
     }
     public void setPos(double pos, AngleUnitV2 unit){
-        setPos(ExtraMath.ConvertAngleUnit(pos,AngleUnitV2.RADIANS,unit));
+        setTicks(ExtraMath.ConvertAngleUnit(pos,AngleUnitV2.RADIANS,unit));
     }
 
 }

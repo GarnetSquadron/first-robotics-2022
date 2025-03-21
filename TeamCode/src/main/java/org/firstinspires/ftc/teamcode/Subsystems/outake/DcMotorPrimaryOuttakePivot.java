@@ -9,9 +9,7 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Dimensions.RobotDimensions;
-import org.firstinspires.ftc.teamcode.Subsystems.Encoder;
 import org.firstinspires.ftc.teamcode.Subsystems.controllers.ArmOnAPivotController;
-import org.firstinspires.ftc.teamcode.Subsystems.controllers.MaxSpeedController;
 import org.firstinspires.ftc.teamcode.Subsystems.hardwareClasses.motors.LimitedMotor;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
@@ -24,7 +22,7 @@ public class DcMotorPrimaryOuttakePivot{
         pivot = new LimitedMotor(hardwareMap,"Primary Pivot",0,4.188);//min and max need to be tuned
         pivot.getEncoder().setCPR(Motor.GoBILDA.RPM_117);
         pivot.getEncoder().scaleToAngleUnit(AngleUnitV2.RADIANS);
-        pivot.setPID(3,0,0);
+        pivot.setPID(3,0.01,0);
         //pivot.setPositionController(new MaxSpeedController(4320,0.1));
         pivot.setTolerance(tolerance);
         pivot.setExtTorqueController(new ArmOnAPivotController(Math.PI/2,0.25));
@@ -65,7 +63,7 @@ public class DcMotorPrimaryOuttakePivot{
     public Action outOfTheWayOfIntakePos(){
         return goToRad(Math.toRadians(55));
     }
-    public Action zeroMotor(){return new SequentialAction(pivot.runWithPowerUntilStopped(-0.5,0.01), new InstantAction(()->pivot.getEncoder().setPos(0)));}
+    public Action zeroMotor(){return new SequentialAction(pivot.runWithPowerUntilStopped(-0.5,0.01), new InstantAction(()->pivot.getEncoder().setTicks(0)));}
     public double getTargetDegrees(){
         return Math.toDegrees(pivot.getTargetPosition());
     }

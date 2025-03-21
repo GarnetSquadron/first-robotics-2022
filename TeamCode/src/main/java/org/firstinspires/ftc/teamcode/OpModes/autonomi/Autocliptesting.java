@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
+import org.firstinspires.ftc.teamcode.MiscActions.WaitForConditionAction;
 import org.firstinspires.ftc.teamcode.Subsystems.Bot;
 import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
 
