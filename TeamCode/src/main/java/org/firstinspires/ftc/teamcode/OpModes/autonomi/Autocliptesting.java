@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 
+import androidx.annotation.NonNull;
+
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
 import org.firstinspires.ftc.teamcode.MiscActions.LoopAction;
 import org.firstinspires.ftc.teamcode.MiscActions.WaitForConditionAction;
@@ -8,6 +10,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
@@ -23,6 +27,14 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 @Autonomous(name = "#CLIP TESTING#", group = "test")
 public class Autocliptesting extends LinearOpMode {
     Bot bot;
+//    class Telemetry implements Action {
+//
+//        @Override
+//        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+//            updateTelemetry(telemetry);
+//            return !opModeIsActive();
+//        }
+//    }
     @Override
     public void runOpMode() throws InterruptedException {
         //telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -221,7 +233,7 @@ public class Autocliptesting extends LinearOpMode {
                 new ParallelAction(
                         bot.UpdateMotorPowers(),
                         auto,
-                        new LoopAction(new InstantAction(telemetry::update),()->!opModeIsActive()),
+                        new LoopAction(new InstantAction(telemetry::update),this::opModeIsActive),
                         new SequentialAction(
                                 new SleepAction(28),
                                 new InstantAction(auto::failover),
