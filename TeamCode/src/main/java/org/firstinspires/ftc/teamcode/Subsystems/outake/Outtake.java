@@ -132,11 +132,12 @@ public class Outtake {
         );
     }
     public Action placeSpec(){
-        return new ParallelAction(
-                vipers.goToInches(3),
+        return new SequentialAction(
+                vipers.goToInches(3.5),
+                new ParallelAction(
                 pivot1.goToRad(Math.toRadians(150)),
                 pivot2.goToDegrees(60)
-        );
+                ));
     }
     boolean pivotMoving(){
         return ExtraMath.ApproximatelyEqualTo( pivot1.pivot.getEncoder().getVelocity(),0,0.02);
