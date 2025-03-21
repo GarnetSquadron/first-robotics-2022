@@ -56,10 +56,10 @@ public class Autocliptesting extends LinearOpMode {
 
         TrajectoryActionBuilder StartDeposit = bot.drive.actionBuilder(beginPose)
                 .setTangent(Math.toRadians(160))
-                .splineToLinearHeading(new Pose2d(9.5, SubPos, Math.toRadians(270)), Math.toRadians(90));
+                .splineToLinearHeading(new Pose2d(8, SubPos, Math.toRadians(270)), Math.toRadians(90));
 
         TrajectoryActionBuilder Depositdriveinstart = StartDeposit.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(9.5, SubDriveInPos, Math.toRadians(270)), Math.toRadians(90));
+                .splineToLinearHeading(new Pose2d(8, SubDriveInPos, Math.toRadians(270)), Math.toRadians(90));
 
         TrajectoryActionBuilder SampGrab1 = Depositdriveinstart.endTrajectory().fresh()
                 .setTangent(-Math.PI/2)
@@ -172,6 +172,8 @@ public class Autocliptesting extends LinearOpMode {
                         ),
                                 WallGrab1.build(),
 
+                        bot.outtake.claw.Close(),
+
                         bot.outtake.placeSpec(),
 
                         Deposit1.build(),
@@ -189,7 +191,10 @@ public class Autocliptesting extends LinearOpMode {
                                 )
                         ),
 
-                        bot.outtake.prepareToGrabSpecOffWall(),
+
+                        bot.outtake.claw.Close(),
+
+                        bot.outtake.placeSpec(),
 
                         new ParallelAction(
                         Deposit2.build(),
