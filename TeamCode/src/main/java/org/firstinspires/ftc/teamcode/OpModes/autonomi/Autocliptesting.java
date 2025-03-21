@@ -116,6 +116,7 @@ public class Autocliptesting extends LinearOpMode {
         TrajectoryActionBuilder Park = Depositdrivein3.endTrajectory().fresh()
                 .setTangent(-90)
                 .splineToConstantHeading(new Vector2d(36,-60),6);
+
         CancelableAction auto = new CancelableAction(
                 new SequentialAction(
                         bot.outtake.pivot1.zeroMotor(),
@@ -154,7 +155,7 @@ public class Autocliptesting extends LinearOpMode {
                         //                        bot.IntakeDropSample(),
 
                         new ParallelAction(
-                                bot.SafeUndeployIntake(),
+                                bot.intake.undeploy(),
                                 bot.outtake.grabSpecPos()
                         ),
                                 WallGrab1.build(),
