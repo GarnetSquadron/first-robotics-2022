@@ -172,12 +172,9 @@ public class Autocliptesting extends LinearOpMode {
                         ),
                                 WallGrab1.build(),
 
-                        bot.outtake.prepareToGrabSpecOffWall(),
+                        bot.outtake.placeSpec(),
 
-                        new ParallelAction(
                         Deposit1.build(),
-                        bot.outtake.placeSpec()
-                        ),
 
                         Depositdrivein1.build(),
 
