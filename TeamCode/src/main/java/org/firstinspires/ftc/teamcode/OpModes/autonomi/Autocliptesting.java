@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
+import org.firstinspires.ftc.teamcode.MiscActions.LoopAction;
 import org.firstinspires.ftc.teamcode.MiscActions.WaitForConditionAction;
 import org.firstinspires.ftc.teamcode.Subsystems.Bot;
 import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
@@ -219,7 +220,7 @@ public class Autocliptesting extends LinearOpMode {
                 new ParallelAction(
                         bot.UpdateMotorPowers(),
                         auto,
-                        new InstantAction(telemetry::update),
+                        new LoopAction(new InstantAction(telemetry::update),()->!opModeIsActive()),
                         new SequentialAction(
                                 new SleepAction(28),
                                 new InstantAction(auto::failover),
