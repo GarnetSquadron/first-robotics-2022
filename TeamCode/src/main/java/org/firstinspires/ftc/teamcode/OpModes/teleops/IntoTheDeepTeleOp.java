@@ -27,7 +27,7 @@ public class IntoTheDeepTeleOp extends OpMode {
     Color AlianceColor = Color.RED;
     GamepadButton intakeDeployButton;
     InitialToggler intakeDeployToggle, intakeClawToggle, outtakeClawToggle, viperToggle, grabOffWallToggle;
-    risingEdgeDetector transferDetector,wristGoLeft, wristGoRight, SpecimenGrabPosButton, SpecimenPlaceButton;
+    risingEdgeDetector transferDetector,wristGoLeft, wristGoRight, SpecimenGrabPosButton, SpecimenPlaceButton, viperUpdateButton;
     TeleOpActionScheduler actionScheduler;
     TelemetryPacket packet;
     double sensitivity = 1;
@@ -63,6 +63,8 @@ public class IntoTheDeepTeleOp extends OpMode {
         wristGoLeft = new risingEdgeDetector(Con2::LeftBumper);
         wristGoRight = new risingEdgeDetector(Con2::RightBumper);
 
+        viperUpdateButton = new risingEdgeDetector(Con1::leftStickDown);
+
 
         actionScheduler = new TeleOpActionScheduler(packet);
         actionScheduler.CancelOnAnyOtherAction("transfer","basket drop");
@@ -96,6 +98,8 @@ public class IntoTheDeepTeleOp extends OpMode {
         wristGoRight.update();
         //SpecimenGrabPosButton.update();
         SpecimenPlaceButton.update();
+
+        viperUpdateButton.update();
 
         //These are the controls for several mechanisms that have two states.
         //These take the input of a rising edge detector and toggles between those states.
@@ -163,6 +167,10 @@ public class IntoTheDeepTeleOp extends OpMode {
 //            actionScheduler.start(bot.intake.crankSlide.goToLengthInInches(18-11*gamepad2.left_stick_y),"adjusting length");
 //        }
         //^^^ coming soon!!!
+
+        if(viperUpdateButton.getState()){
+            bot.outtake.vipers.updatePos();//avoid doing this when something is already moving, because this will put a 0.03
+        }
 
 
         //wheels driver
