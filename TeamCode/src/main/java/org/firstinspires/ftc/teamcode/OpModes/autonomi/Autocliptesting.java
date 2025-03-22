@@ -65,8 +65,7 @@ public class Autocliptesting extends LinearOpMode {
                 .setTangent(-Math.PI/2)
                 .splineToLinearHeading(new Pose2d(25+SampleDistanceX, -41+SampleDistanceY, Math.toRadians(30)), Math.toRadians(0))
                 .afterDisp(20,new ParallelAction(
-                        bot.intake.PoiseToGrab(1),
-                        bot.intake.wrist.runToDegrees(120)
+                        bot.intake.PoiseToGrab(1)
                 ));
 //auto route
         TrajectoryActionBuilder SampDrop1 = SampGrab1.endTrajectory().fresh()
@@ -152,7 +151,11 @@ public class Autocliptesting extends LinearOpMode {
 
                         ),
 
-                        bot.IntakeGrab(),
+                        new ParallelAction(
+                        bot.intake.wrist.runToDegrees(120),
+
+                        bot.IntakeGrab()
+                        ),
 
                         SampDrop1.build(),
 
