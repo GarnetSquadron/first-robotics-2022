@@ -133,7 +133,7 @@ public class Outtake {
     }
     public Action placeSpec(){
         return new SequentialAction(
-                vipers.goToInches(3.7),
+                vipers.goToInches(3.6),
                 new SleepAction(0.15),
                 new ParallelAction(
                 pivot1.goToRad(Math.toRadians(150)),
