@@ -48,7 +48,7 @@ public class Autocliptesting extends LinearOpMode {
         Vector2d WallPos =  new Vector2d(34,-54.75);
         Vector2d prepWallPos = new Vector2d(34,-52);
         double SubPos = -40;
-        double SubDriveInPos = -31;
+        double SubDriveInPos = -30.75;
         //double prepSubPos = -40;
         double SampleDistanceX = 4;
         double SampleDistanceY = 5;
