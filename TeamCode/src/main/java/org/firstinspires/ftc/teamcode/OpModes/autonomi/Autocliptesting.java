@@ -147,7 +147,7 @@ public class Autocliptesting extends LinearOpMode {
 
                         new ParallelAction(
                                 SampGrab1.build(),
-                                bot.intake.deploy(1),
+                                bot.intake.deploy(0.8),
                                 new SleepAction(1),
                                 bot.intake.wrist.runToDegrees(120)
                         ),
@@ -171,7 +171,8 @@ public class Autocliptesting extends LinearOpMode {
                                 bot.intake.wrist.runToDegrees(0),
                                 bot.outtake.grabSpecPos()
                         ),
-                                WallGrab1.build(),
+
+                        WallGrab1.build(),
 
                         bot.outtake.claw.Close(),
 
