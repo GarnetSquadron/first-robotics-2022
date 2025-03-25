@@ -229,10 +229,14 @@ public class Autocliptesting extends LinearOpMode {
         );
         waitForStart();
 
-        telemetry.addData("outtake target reached",bot.outtake.pivot1.pivot::targetReached);
-        telemetry.addData("outtake power",bot.outtake.pivot1.pivot::getPower);
+        telemetry.addData("outtake pivot target reached",bot.outtake.pivot1.pivot::targetReached);
+        telemetry.addData("outtake pivot power",bot.outtake.pivot1.pivot::getPower);
         telemetry.addData("outtake pivot degrees", ()->Math.toDegrees(bot.outtake.pivot1.pivot.getEncoder().getPos()));
         telemetry.addData("outtake pivot tgt degrees", ()->Math.toDegrees(bot.outtake.pivot1.pivot.getTargetPosition()));
+        telemetry.addData("viper target reached",bot.outtake.vipers.l::targetReached);
+        telemetry.addData("viper power",bot.outtake.vipers.l::getPower);
+        telemetry.addData("viper degrees", ()->Math.toDegrees(bot.outtake.vipers.l.getEncoder().getPos()));
+        telemetry.addData("viper tgt degrees", ()->Math.toDegrees(bot.outtake.vipers.l.getTargetPosition()));
         Actions.runBlocking(
                 new ParallelAction(
                         bot.UpdateMotorPowers(),

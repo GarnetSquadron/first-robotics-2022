@@ -43,5 +43,7 @@ public class BetterControllerClass {
     public boolean DpadDown(){
         return gamepad.dpad_down;
     }
-
+    public boolean leftStickDown(){
+        return gamepad.left_stick_button;
+    }
 }
