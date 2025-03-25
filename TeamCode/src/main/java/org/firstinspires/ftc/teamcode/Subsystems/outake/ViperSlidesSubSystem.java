@@ -37,7 +37,7 @@ public class ViperSlidesSubSystem{
         l = new DistanceSensorMotor(hardwareMap,"LeftViper",0,30);
         sensor = hardwareMap.get(Rev2mDistanceSensor.class,"viper distance sensor");
         l.setDistanceSensor(sensor);
-        l.getEncoder().setCPR(Motor.GoBILDA.RPM_312);
+        l.getEncoder().setCPR(Motor.GoBILDA.RPM_435);
         l.getEncoder().scaleToAngleUnit(AngleUnitV2.REVOLUTIONS);
         l.getEncoder().scaleScaleBy(1/revPerInch);
         l.getEncoder().setTicks(0);
