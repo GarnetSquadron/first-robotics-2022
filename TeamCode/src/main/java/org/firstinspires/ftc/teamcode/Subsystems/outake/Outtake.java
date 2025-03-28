@@ -90,7 +90,10 @@ public class Outtake {
     public Action grabSpecPos(){
         return new ParallelAction(
                 //vipers.GoToInches(wallGrabHeight+Math.sin(Math.toRadians(grabOffWallAngle))-pivotHeight),
-                vipers.goToInches(0.75),
+                new SequentialAction(
+                        vipers.Down(),
+                        vipers.goToInches(0.75)
+                ),
                 moveToAngleAndMakeTheClawStraight(grabOffWallAngle),
                 claw.Open()
         );
