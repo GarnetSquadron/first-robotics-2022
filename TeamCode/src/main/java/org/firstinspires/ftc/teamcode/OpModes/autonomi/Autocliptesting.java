@@ -97,7 +97,7 @@ public class Autocliptesting extends LinearOpMode {
                 .splineToLinearHeading(new Pose2d(5, SubDriveInPos, Math.toRadians(270)), Math.toRadians(90));
 
         TrajectoryActionBuilder WallGrab2 = Depositdrivein1.endTrajectory().fresh()
-                .setTangent(Math.toRadians(30))
+                .setTangent(Math.toRadians(270))
                 .splineToLinearHeading(new Pose2d(8, -45, Math.toRadians(270)), Math.toRadians(180))
                 .setTangent(Math.toRadians(-10))
                 .splineToLinearHeading(new Pose2d(prepWallPos.minus(new Vector2d(0.5,0)), Math.toRadians(90)), Math.toRadians(-90))
