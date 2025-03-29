@@ -56,10 +56,10 @@ public class Autocliptesting extends LinearOpMode {
 
         TrajectoryActionBuilder StartDeposit = bot.drive.actionBuilder(beginPose)
                 .setTangent(Math.toRadians(160))
-                .splineToLinearHeading(new Pose2d(5.5, SubPos, Math.toRadians(270)), Math.toRadians(90));
+                .splineToLinearHeading(new Pose2d(4, SubPos, Math.toRadians(270)), Math.toRadians(90));
 
         TrajectoryActionBuilder Depositdriveinstart = StartDeposit.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(5.5, SubDriveInPos, Math.toRadians(270)), Math.toRadians(90));
+                .splineToLinearHeading(new Pose2d(4, SubDriveInPos, Math.toRadians(270)), Math.toRadians(90));
 
         TrajectoryActionBuilder SampGrab1 = Depositdriveinstart.endTrajectory().fresh()
                 .setTangent(-Math.PI/2)
@@ -91,13 +91,13 @@ public class Autocliptesting extends LinearOpMode {
 
         TrajectoryActionBuilder Deposit1 = WallGrab1.endTrajectory().fresh()
                 .setTangent(Math.toRadians(160))
-                .splineToLinearHeading(new Pose2d(6, SubPos, Math.toRadians(270)), Math.toRadians(90));
+                .splineToLinearHeading(new Pose2d(5, SubPos, Math.toRadians(270)), Math.toRadians(90));
 
         TrajectoryActionBuilder Depositdrivein1 = Deposit1.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(6, SubDriveInPos, Math.toRadians(270)), Math.toRadians(90));
+                .splineToLinearHeading(new Pose2d(5, SubDriveInPos, Math.toRadians(270)), Math.toRadians(90));
 
         TrajectoryActionBuilder WallGrab2 = Depositdrivein1.endTrajectory().fresh()
-                .setTangent(Math.toRadians(-10))
+                .setTangent(Math.toRadians(30))
                 .splineToLinearHeading(new Pose2d(8, -45, Math.toRadians(270)), Math.toRadians(180))
                 .setTangent(Math.toRadians(-10))
                 .splineToLinearHeading(new Pose2d(prepWallPos.minus(new Vector2d(0.5,0)), Math.toRadians(90)), Math.toRadians(-90))
@@ -106,10 +106,10 @@ public class Autocliptesting extends LinearOpMode {
 
         TrajectoryActionBuilder Deposit2 = WallGrab2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(160))
-                .splineToLinearHeading(new Pose2d(5.5, SubPos, Math.toRadians(270)), Math.toRadians(90));
+                .splineToLinearHeading(new Pose2d(5, SubPos, Math.toRadians(270)), Math.toRadians(90));
 
         TrajectoryActionBuilder Depositdrivein2 = Deposit2.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(5.5, SubDriveInPos, Math.toRadians(270)), Math.toRadians(90));
+                .splineToLinearHeading(new Pose2d(5, SubDriveInPos, Math.toRadians(270)), Math.toRadians(90));
 
         TrajectoryActionBuilder WallGrab3 = Depositdrivein2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-100))
