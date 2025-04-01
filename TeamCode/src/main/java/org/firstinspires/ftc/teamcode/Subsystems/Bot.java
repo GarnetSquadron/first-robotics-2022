@@ -7,11 +7,13 @@ import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Dimensions.FieldDimensions;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.teamcode.MiscActions.ActionUntillOneIsDone;
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
 import org.firstinspires.ftc.teamcode.PinpointDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake.Intake;
@@ -133,13 +135,18 @@ public class Bot {
      */
     public Action Transfer(){
         return new SequentialAction(
-                new ParallelAction(
-                        outtake.claw.Open(),
-                        IntakeGrab()
+                new ActionUntillOneIsDone(
+                        new SequentialAction(
+                                new ParallelAction(
+                                        outtake.claw.Open(),
+                                        IntakeGrab()
+                                ),
+                                outtake.OutOfTheWayOfTheIntakePos(),
+                                intake.DefaultPos(),
+                                outtake.TransferPos()
+                        ),
+                        new SleepAction(1)
                 ),
-                outtake.OutOfTheWayOfTheIntakePos(),
-                intake.DefaultPos(),
-                outtake.TransferPos(),
                 outtake.claw.Close(),
                 intake.claw.Open()
 
