@@ -163,11 +163,12 @@ public class Autocliptesting extends LinearOpMode {
                         bot.IntakeDropSample(),
                         bot.intake.undeploy()
                                 ),
+
                         new ParallelAction(
                                 SampGrab2.build(),
-                                bot.intake.deploy(0.8),
-                                new SleepAction(1),
-                                bot.intake.wrist.runToDegrees(120)
+                                bot.intake.deploy(0.9),
+                                new SleepAction(1)
+
                         ),
 
                         bot.IntakeGrab(),
@@ -188,7 +189,7 @@ public class Autocliptesting extends LinearOpMode {
                                         new SequentialAction(
                                                 bot.outtake.claw.Close()
                                         ),
-                                        new SleepAction(0.05)
+                                        new SleepAction(0.5)
                                 ),
                                 bot.outtake.placeSpec()
                         ),
@@ -215,7 +216,7 @@ public class Autocliptesting extends LinearOpMode {
                                         new SequentialAction(
                                                 bot.outtake.claw.Close()
                                         ),
-                                        new SleepAction(0.05)
+                                        new SleepAction(0.5)
                                 ),
                                 bot.outtake.placeSpec()
                         ),
@@ -244,7 +245,7 @@ public class Autocliptesting extends LinearOpMode {
                                 new SequentialAction(
                         bot.outtake.claw.Close()
                                         ),
-                                new SleepAction(0.05)
+                                new SleepAction(0.5)
                         ),
                         bot.outtake.placeSpec()
                 ),
