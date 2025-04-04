@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 
 //import androidx.annotation.NonNull;
 
+import org.firstinspires.ftc.teamcode.MiscActions.ActionUntillOneIsDone;
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
 import org.firstinspires.ftc.teamcode.MiscActions.LoopAction;
 //import org.firstinspires.ftc.teamcode.MiscActions.WaitForConditionAction;
@@ -158,8 +159,10 @@ public class Autocliptesting extends LinearOpMode {
 
                         SampDrop1.build(),
 
+                        new ParallelAction(
                         bot.IntakeDropSample(),
-
+                        bot.intake.undeploy()
+                                ),
                         new ParallelAction(
                                 SampGrab2.build(),
                                 bot.intake.deploy(0.8),
@@ -180,10 +183,15 @@ public class Autocliptesting extends LinearOpMode {
                         ),
 
                         WallGrab1.build(),
-                        new ParallelAction(
-                                bot.outtake.claw.Close(),
-                                bot.outtake.placeSpec()
+                        new SequentialAction(
+                                new ActionUntillOneIsDone(
+                                        new SequentialAction(
+                                                bot.outtake.claw.Close()
+                                        ),
+                                        new SleepAction(0.05)
                                 ),
+                                bot.outtake.placeSpec()
+                        ),
 
                         Deposit1.build(),
 
@@ -195,14 +203,20 @@ public class Autocliptesting extends LinearOpMode {
 
                                 WallGrab2.build(),
                                 new SequentialAction(
-                                new SleepAction(2),
-                                bot.outtake.grabSpecPos()
+                                        new SleepAction(1),
+                                        bot.outtake.grabSpecPos()
+
                                 )
                         ),
 
 
-                        new ParallelAction(
-                                bot.outtake.claw.Close(),
+                        new SequentialAction(
+                                new ActionUntillOneIsDone(
+                                        new SequentialAction(
+                                                bot.outtake.claw.Close()
+                                        ),
+                                        new SleepAction(0.05)
+                                ),
                                 bot.outtake.placeSpec()
                         ),
 
@@ -216,14 +230,22 @@ public class Autocliptesting extends LinearOpMode {
 
                                 WallGrab3.build(),
                                 new SequentialAction(
-                                new SleepAction(2),
-                        bot.outtake.grabSpecPos()
-                )
-        ),
+                                        new SleepAction(1),
+                                        bot.outtake.grabSpecPos()
+                                )
 
 
-                new ParallelAction(
-                        bot.outtake.claw.Close(),
+                ),
+
+
+
+                new SequentialAction(
+                        new ActionUntillOneIsDone(
+                                new SequentialAction(
+                        bot.outtake.claw.Close()
+                                        ),
+                                new SleepAction(0.05)
+                        ),
                         bot.outtake.placeSpec()
                 ),
 
