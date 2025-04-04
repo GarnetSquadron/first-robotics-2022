@@ -163,7 +163,7 @@ public class Autocliptesting extends LinearOpMode {
                         bot.IntakeDropSample(),
 
                         bot.intake.undeploy(),
-
+//
                         new ParallelAction(
                                 SampGrab2.build(),
                                 bot.intake.deploy(0.9),
