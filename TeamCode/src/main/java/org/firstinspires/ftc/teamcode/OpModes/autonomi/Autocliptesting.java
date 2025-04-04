@@ -1,17 +1,17 @@
 package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 
-import androidx.annotation.NonNull;
+//import androidx.annotation.NonNull;
 
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
 import org.firstinspires.ftc.teamcode.MiscActions.LoopAction;
-import org.firstinspires.ftc.teamcode.MiscActions.WaitForConditionAction;
+//import org.firstinspires.ftc.teamcode.MiscActions.WaitForConditionAction;
 import org.firstinspires.ftc.teamcode.Subsystems.Bot;
 import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.acmerobotics.roadrunner.Action;
+//import com.acmerobotics.dashboard.FtcDashboard;
+//import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+//import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+//import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
@@ -125,9 +125,9 @@ public class Autocliptesting extends LinearOpMode {
         TrajectoryActionBuilder Depositdrivein3 = Deposit3.endTrajectory().fresh()
                 .splineToLinearHeading(new Pose2d(3, SubDriveInPos, Math.toRadians(270)), Math.toRadians(90));
 
-        TrajectoryActionBuilder Park = Depositdrivein3.endTrajectory().fresh()
-                .setTangent(-90)
-                .splineToConstantHeading(new Vector2d(36,-60),6);
+//        TrajectoryActionBuilder Park = Depositdrivein3.endTrajectory().fresh()
+//                .setTangent(-90)
+//                .splineToConstantHeading(new Vector2d(36,-60),6);
 
         CancelableAction auto = new CancelableAction(
                 new SequentialAction(
@@ -138,9 +138,10 @@ public class Autocliptesting extends LinearOpMode {
                         ),
 
                         new ParallelAction(
-                        StartDeposit.build(),
-                        bot.outtake.placeSpec()
+                                StartDeposit.build(),
+                                bot.outtake.placeSpec()
                         ),
+
                         new SleepAction(0.5),
                         Depositdriveinstart.build(),
 
@@ -159,13 +160,18 @@ public class Autocliptesting extends LinearOpMode {
 
                         bot.IntakeDropSample(),
 
-                        //                        SampGrab2.build(),
-                        //
-                        //                        bot.IntakeGrab(),
-                        //
-                        //                        SampDrop2.build(),
-                        //
-                        //                        bot.IntakeDropSample(),
+                        new ParallelAction(
+                                SampGrab2.build(),
+                                bot.intake.deploy(0.8),
+                                new SleepAction(1),
+                                bot.intake.wrist.runToDegrees(120)
+                        ),
+
+                        bot.IntakeGrab(),
+
+                        SampDrop2.build(),
+
+                        bot.IntakeDropSample(),
 
                         new ParallelAction(
                                 bot.intake.undeploy(),
@@ -174,10 +180,10 @@ public class Autocliptesting extends LinearOpMode {
                         ),
 
                         WallGrab1.build(),
-
-                        bot.outtake.claw.Close(),
-
-                        bot.outtake.placeSpec(),
+                        new ParallelAction(
+                                bot.outtake.claw.Close(),
+                                bot.outtake.placeSpec()
+                                ),
 
                         Deposit1.build(),
 
@@ -195,33 +201,37 @@ public class Autocliptesting extends LinearOpMode {
                         ),
 
 
-                        bot.outtake.claw.Close(),
-
-                        bot.outtake.placeSpec(),
-
                         new ParallelAction(
-                        Deposit2.build(),
-                        bot.outtake.placeSpec()
+                                bot.outtake.claw.Close(),
+                                bot.outtake.placeSpec()
                         ),
+
+                        Deposit2.build(),
 
                         Depositdrivein2.build(),
 
-                        bot.outtake.claw.Open()
+                        bot.outtake.claw.Open(),
 
-                        //                        new ParallelAction(
-                        //                                WallGrab3.build(),
-                        //                                bot.outtake.grabSpecPos()
-                        //                        ),
-                        //
-                        //                        bot.outtake.grabSpecOfWall(),
-                        //
-                        //                        bot.outtake.prepareToPlaceSpec(),
-                        //
-                        //                        Deposit3.build(),
-                        //
-                        //                        bot.outtake.placeSpecPosV2(),
-                        //
-                        //                        bot.outtake.claw.Open(),
+                        new ParallelAction(
+
+                                WallGrab3.build(),
+                                new SequentialAction(
+                                new SleepAction(2),
+                        bot.outtake.grabSpecPos()
+                )
+        ),
+
+
+                new ParallelAction(
+                        bot.outtake.claw.Close(),
+                        bot.outtake.placeSpec()
+                ),
+
+                Deposit3.build(),
+
+                Depositdrivein3.build(),
+
+                bot.outtake.claw.Open()
                         //
                         //                        Park.build()
                 ),

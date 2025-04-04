@@ -145,7 +145,7 @@ public class Bot {
                                 intake.DefaultPos(),
                                 outtake.TransferPos()
                         ),
-                        new SleepAction(1)
+                        new SleepAction(1.2)
                 ),
                 outtake.claw.Close(),
                 intake.claw.Open()
