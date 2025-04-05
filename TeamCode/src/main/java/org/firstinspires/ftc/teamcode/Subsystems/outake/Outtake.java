@@ -139,7 +139,7 @@ public class Outtake {
                 vipers.goToInches(3.40),
                 new SleepAction(0.05),
                 new ParallelAction(
-                pivot1.goToRad(Math.toRadians(154)),
+                pivot1.goToRad(Math.toRadians(157)),
                 pivot2.goToDegrees(60)
                 ));
     }
