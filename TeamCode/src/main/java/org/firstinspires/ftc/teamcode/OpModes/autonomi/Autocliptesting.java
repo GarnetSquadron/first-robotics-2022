@@ -68,7 +68,7 @@ public class Autocliptesting extends LinearOpMode {
                 .afterDisp(20,new ParallelAction(
                         bot.intake.PoiseToGrab(1)
                 ));
-//auto route//
+//auto route
         TrajectoryActionBuilder SampDrop1 = SampGrab1.endTrajectory().fresh()
                 .splineToLinearHeading(new Pose2d(35, -45, Math.toRadians(dropAngle)), Math.toRadians(3));
 

@@ -128,7 +128,7 @@ public class Outtake {
         return new SequentialAction(
                 claw.Close(),
                 new ParallelAction(
-                        pivot1.prepareForSpecimenOnChamberPos(),//
+                        pivot1.prepareForSpecimenOnChamberPos(),
                         pivot2.SpecimenOnChamberPos()
                 ),
                 vipers.SpecimenPlaceV2()
