@@ -190,7 +190,7 @@ public class Outtake {
                 vipers.Down()
 
 
-        );
+        );//
     }
     public Action clipAndThenPrepareToGrab(){
         return new SequentialAction(
