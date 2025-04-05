@@ -64,16 +64,16 @@ public class Autocliptesting extends LinearOpMode {
 
         TrajectoryActionBuilder SampGrab1 = Depositdriveinstart.endTrajectory().fresh()
                 .setTangent(-Math.PI/2)
-                .splineToLinearHeading(new Pose2d(26+SampleDistanceX, -41+SampleDistanceY, Math.toRadians(30)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(26+SampleDistanceX, -40+SampleDistanceY, Math.toRadians(30)), Math.toRadians(0))
                 .afterDisp(20,new ParallelAction(
                         bot.intake.PoiseToGrab(1)
                 ));
-//auto route
+//auto route//
         TrajectoryActionBuilder SampDrop1 = SampGrab1.endTrajectory().fresh()
                 .splineToLinearHeading(new Pose2d(35, -45, Math.toRadians(dropAngle)), Math.toRadians(3));
 
         TrajectoryActionBuilder SampGrab2 = SampDrop1.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(35+SampleDistanceX, -41+SampleDistanceY, Math.toRadians(30)), Math.toRadians(0));
+                .splineToLinearHeading(new Pose2d(36+SampleDistanceX, -40+SampleDistanceY, Math.toRadians(30)), Math.toRadians(0));
 
         TrajectoryActionBuilder SampDrop2 = SampGrab2.endTrajectory().fresh()
                 .splineToLinearHeading(new Pose2d(42, -41, Math.toRadians(dropAngle)), Math.toRadians(3));

@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.MiscActions.IfThenAction;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
-
+//
 public class Outtake {
     public ViperSlidesSubSystem vipers;
     public OuttakeClaw claw;
@@ -139,7 +139,7 @@ public class Outtake {
                 vipers.goToInches(3.40),
                 new SleepAction(0.05),
                 new ParallelAction(
-                pivot1.goToRad(Math.toRadians(154)),
+                pivot1.goToRad(Math.toRadians(159)),
                 pivot2.goToDegrees(60)
                 ));
     }
