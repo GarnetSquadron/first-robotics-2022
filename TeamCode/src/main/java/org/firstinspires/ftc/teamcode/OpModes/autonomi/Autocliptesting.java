@@ -159,13 +159,17 @@ public class Autocliptesting extends LinearOpMode {
 
                         SampDrop1.build(),
 
-
                         bot.IntakeDropSample(),
 
                         bot.intake.undeploy(),
 //
                         new ParallelAction(
-                                SampGrab2.build(),
+                                new ActionUntillOneIsDone(
+                                        new SequentialAction(
+                                            SampGrab2.build()
+                                        ),
+                                        new SleepAction(0.3)
+                                ),
                                 bot.intake.deploy(0.9),
                                 new SleepAction(1)
 
@@ -216,7 +220,7 @@ public class Autocliptesting extends LinearOpMode {
                                         new SequentialAction(
                                                 bot.outtake.claw.Close()
                                         ),
-                                        new SleepAction(0.5)
+                                        new SleepAction(0.4)
                                 ),
                                 bot.outtake.placeSpec()
                         ),
