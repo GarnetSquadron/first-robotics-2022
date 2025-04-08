@@ -43,6 +43,7 @@ public class ViperSlidesSubSystem{
         l.getEncoder().setTicks(0);
         l.setPID(0.5,0,0);
         l.setTolerance(1);
+        //l.setMaxPower(0.5);
         l.setExtTorqueController(new Controller() {
             @Override
             public double calculate() {

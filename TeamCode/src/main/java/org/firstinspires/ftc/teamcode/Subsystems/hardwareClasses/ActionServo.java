@@ -8,7 +8,7 @@ import com.acmerobotics.roadrunner.SequentialAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.ExtraMath;
-import org.firstinspires.ftc.teamcode.Subsystems.ServoSub;
+import org.firstinspires.ftc.teamcode.Subsystems.SERVO;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
 import java.util.function.DoubleSupplier;
@@ -16,7 +16,7 @@ import java.util.function.DoubleSupplier;
  * Servo that has a bunch of actions
  */
 public class ActionServo {
-    public ServoSub servo;
+    public SERVO servo;
     public double softwareAngleRangeInDegrees;//the range of motion in degrees that the software limits allow
     public double zeroAngle = 0;//the ratio pos for 0 degrees
     public double min,max;
@@ -32,7 +32,7 @@ public class ActionServo {
      * @param hardwareAngleRange
      */
     public ActionServo(HardwareMap hardwareMap, String name, double min, double max, double t, DoubleSupplier time, double hardwareAngleRange, AngleUnitV2 unit){
-        servo = new ServoSub(hardwareMap,name,min,max,time,t);
+        servo = new SERVO(hardwareMap,name,min,max,time,t);
         this.min = min;
         this.max = max;
         SetHardwareAngleRange(hardwareAngleRange,unit);

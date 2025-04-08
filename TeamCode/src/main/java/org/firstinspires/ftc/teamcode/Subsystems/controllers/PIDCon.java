@@ -9,8 +9,6 @@ import java.util.function.DoubleSupplier;
 
 public class PIDCon extends PositionController {
     double kp,ki,kd;
-//    double prevTimeStamp;
-//    double prevPos;
     ValueAtTimeStamp prevPos;
     double integral;
     public PIDCon(double kp, double ki, double kd){

@@ -14,22 +14,22 @@ import java.util.function.DoubleSupplier;
 
 public class Encoder {
     ValueAtTimeStamp prevPos = new ValueAtTimeStamp(0,TIME.getTime());
-    DoubleSupplier supplier,velocitySupplier;
+    DoubleSupplier positionSupplier,velocitySupplier;
     double offset = 0,scale = 1;
     double CPR = 0;
-    public Encoder(DoubleSupplier supplier){
-        this.supplier = supplier;
+    public Encoder(DoubleSupplier positionSupplier){
+        this.positionSupplier = positionSupplier;
         velocitySupplier = ()->getAverageTimeDerivative(prevPos,getCurrentPositionAndTime());
     }
     public Encoder(Encoder encoder){
-        this.supplier = encoder.supplier;
+        this.positionSupplier = encoder.positionSupplier;
         this.velocitySupplier = encoder.velocitySupplier;
         this.scale = encoder.scale;
         this.offset = encoder.offset;
         this.prevPos = encoder.prevPos;
     }
-    public Encoder(DoubleSupplier supplier,DoubleSupplier velocitySupplier){
-        this.supplier = supplier;
+    public Encoder(DoubleSupplier positionSupplier, DoubleSupplier velocitySupplier){
+        this.positionSupplier = positionSupplier;
         this.velocitySupplier = velocitySupplier;
     }
     public Encoder(Motor motor){
@@ -38,10 +38,10 @@ public class Encoder {
         scaleToAngleUnit(AngleUnitV2.RADIANS);//Defaults to radians because radians are great
     }
     public double getPos(){
-        return (supplier.getAsDouble() + offset)*scale;
+        return (positionSupplier.getAsDouble() + offset)*scale;
     }
     public void setTicks(double ticks){
-        offset = ticks-supplier.getAsDouble();
+        offset = ticks- positionSupplier.getAsDouble();
     }
     public void setPosition(double position){
         setTicks(position/scale);
@@ -53,7 +53,7 @@ public class Encoder {
         this.scale*=scale;
     }
     public double getTicks(){
-        return supplier.getAsDouble();
+        return positionSupplier.getAsDouble();
     }
     public double getScale(){
         return scale;

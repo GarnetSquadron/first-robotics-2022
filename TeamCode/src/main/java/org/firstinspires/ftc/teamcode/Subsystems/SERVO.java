@@ -9,21 +9,21 @@ import org.firstinspires.ftc.teamcode.TTimer;
 
 import java.util.function.DoubleSupplier;
 
-public class ServoSub {
+public class SERVO {
     private final Servo servo;
-    private double Max;
-    private double Min;
+    private double max;
+    private double min;
     public TTimer timer;
     double runtimeCoefficient;
     private boolean powered = false;
-    public ServoSub(HardwareMap hardwareMap, String name, double min, double max, DoubleSupplier time, double runtimeCoefficient/*the time it takes for the servo to rotate to its maximum position*/) {
+    public SERVO(HardwareMap hardwareMap, String name, double min, double max, DoubleSupplier time, double runtimeCoefficient/*the time it takes for the servo to rotate to its maximum position*/) {
         servo = hardwareMap.get(Servo.class, name);
-        Max = max;
-        Min = min;
+        this.max = max;
+        this.min = min;
         timer = new TTimer(time);
         this.runtimeCoefficient = runtimeCoefficient;
     }
-    public ServoSub(HardwareMap hardwareMap, String name, double min, double max, DoubleSupplier time){
+    public SERVO(HardwareMap hardwareMap, String name, double min, double max, DoubleSupplier time){
         this(hardwareMap, name, min, max,time,2);
 
     }
@@ -34,10 +34,10 @@ public class ServoSub {
      * @return
      */
     double getPosFromRatio(double ratio){
-        return Min+ratio*(Max-Min);
+        return min +ratio*(max - min);
     }
     double getRatioFromPos(double pos){
-        return (pos-Min)/(Max-Min);
+        return (pos- min)/(max - min);
     }
     public void goToRatio(double ratioPos){
         ratioPos = ExtraMath.Clamp(ratioPos,1,0);
@@ -78,7 +78,7 @@ public class ServoSub {
         return powered;
     };
     public boolean atMax(){
-        return ExtraMath.ApproximatelyEqualTo(servo.getPosition(),Max,0.01);
+        return ExtraMath.ApproximatelyEqualTo(servo.getPosition(), max,0.01);
     }
 
     /**
