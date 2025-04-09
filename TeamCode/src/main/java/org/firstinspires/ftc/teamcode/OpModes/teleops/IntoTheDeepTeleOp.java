@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.OpModes.teleops;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
@@ -27,7 +28,7 @@ public class IntoTheDeepTeleOp extends OpMode {
     Color AlianceColor = Color.RED;
     GamepadButton intakeDeployButton;
     InitialToggler intakeDeployToggle, intakeClawToggle, outtakeClawToggle, viperToggle, grabOffWallToggle;
-    risingEdgeDetector transferDetector,wristGoLeft, wristGoRight, SpecimenGrabPosButton, SpecimenPlaceButton, viperUpdateButton;
+    risingEdgeDetector transferDetector,wristGoLeft, wristGoRight, SpecimenGrabPosButton, SpecimenPlaceButton, viperUpdateButton, lowBasketDeploy;
     TeleOpActionScheduler actionScheduler;
     TelemetryPacket packet;
     double sensitivity = 1;
@@ -65,6 +66,8 @@ public class IntoTheDeepTeleOp extends OpMode {
 
         viperUpdateButton = new risingEdgeDetector(Con1::leftStickDown);
 
+        lowBasketDeploy = new risingEdgeDetector(Con1::rightStickDown);
+
 
         actionScheduler = new TeleOpActionScheduler(packet);
         actionScheduler.CancelOnAnyOtherAction("transfer","basket drop");
@@ -100,6 +103,8 @@ public class IntoTheDeepTeleOp extends OpMode {
         SpecimenPlaceButton.update();
 
         viperUpdateButton.update();
+
+        lowBasketDeploy.update();
 
         //These are the controls for several mechanisms that have two states.
         //These take the input of a rising edge detector and toggles between those states.
@@ -170,6 +175,9 @@ public class IntoTheDeepTeleOp extends OpMode {
 
         if(viperUpdateButton.getState()){
             bot.outtake.vipers.updatePos();//avoid doing this when something is already moving, because this will put a 0.03
+        }
+        if(lowBasketDeploy.getState()){
+            actionScheduler.start(bot.LowBasketDrop(),"Low Basket");
         }
 
 

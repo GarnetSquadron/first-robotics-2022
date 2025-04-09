@@ -79,6 +79,9 @@ public class ViperSlidesSubSystem{
         else
             return l.runToPosition(30);
     }
+    public Action LowBasket(){
+        return l.runToPosition(15);
+    }
     public Action prepareSpecimenPlace(){
         return l.runToPosition(1.0985);
     }

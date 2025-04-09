@@ -144,8 +144,8 @@ public class Bot {
                                 outtake.OutOfTheWayOfTheIntakePos(),
                                 intake.DefaultPos(),
                                 outtake.TransferPos()
-                        ),
-                        new SleepAction(1.2)
+                        )
+                        //new SleepAction(3)
                 ),
                 outtake.claw.Close(),
                 intake.claw.Open()
@@ -192,6 +192,16 @@ public class Bot {
         return new SequentialAction(
                 outtake.claw.Close(),
                 outtake.vipers.Up(),
+                new ParallelAction(
+                        outtake.pivot1.BucketPos(),
+                        outtake.pivot2.BucketPos()
+                )
+        );
+    }
+    public Action LowBasketDrop(){
+        return new SequentialAction(
+                outtake.claw.Close(),
+                outtake.vipers.LowBasket(),
                 new ParallelAction(
                         outtake.pivot1.BucketPos(),
                         outtake.pivot2.BucketPos()
