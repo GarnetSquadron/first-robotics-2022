@@ -24,4 +24,7 @@ public class IntakePivot extends SubsystemBase {
     public Action poiseForTheGrab(){
         return pivot.runToRatio(0.95);
     }
+    public Action poiseForTheGrabAuto(){
+        return pivot.runToRatio(0.85);
+    }
 }

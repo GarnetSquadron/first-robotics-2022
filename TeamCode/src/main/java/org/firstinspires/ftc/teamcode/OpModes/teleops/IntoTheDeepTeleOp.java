@@ -64,9 +64,9 @@ public class IntoTheDeepTeleOp extends OpMode {
         wristGoLeft = new risingEdgeDetector(Con2::LeftBumper);
         wristGoRight = new risingEdgeDetector(Con2::RightBumper);
 
-        viperUpdateButton = new risingEdgeDetector(Con1::leftStickDown);
+        viperUpdateButton = new risingEdgeDetector(Con2::leftStickDown);
 
-        lowBasketDeploy = new risingEdgeDetector(Con1::rightStickDown);
+        lowBasketDeploy = new risingEdgeDetector(Con2::DpadDown);
 
 
         actionScheduler = new TeleOpActionScheduler(packet);

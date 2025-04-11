@@ -46,7 +46,7 @@ public class BetterControllerClass {
     public boolean leftStickDown(){
         return gamepad.left_stick_button;
     }
-    public boolean rightStickDown(){
+    public boolean rightStickDown() {
         return gamepad.right_stick_button;
     }
 }

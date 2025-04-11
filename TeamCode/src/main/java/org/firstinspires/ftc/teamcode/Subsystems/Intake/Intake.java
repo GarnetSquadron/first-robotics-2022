@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.teamcode.Subsystems.Intake;
 
-import androidx.annotation.NonNull;
-
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -48,6 +45,12 @@ public class Intake {
         return new ParallelAction(
                 crankSlide.goToPos(distance),
                 pivot.poiseForTheGrab()
+        );
+    }
+    public Action PoiseToGrabAuto(double distance){
+        return new ParallelAction(
+                crankSlide.goToPos(distance),
+                pivot.poiseForTheGrabAuto()
         );
     }
 

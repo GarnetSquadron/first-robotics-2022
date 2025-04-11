@@ -80,7 +80,7 @@ public class FourSampAuto extends LinearOpMode {
                                 Sample1.build(),
                                 bot.outtake.SafeVipersDown(),
                                 new SequentialAction(
-                                        bot.intake.PoiseToGrab(1)
+                                        bot.intake.PoiseToGrabAuto(1)
                                 )
                         ),
                         //rotate the intake pivot down more to grab the sample
@@ -105,7 +105,7 @@ public class FourSampAuto extends LinearOpMode {
                                 Sample2.build(),
                                 bot.outtake.SafeVipersDown(),
                                 new SequentialAction(
-                                        bot.intake.PoiseToGrab(1)
+                                        bot.intake.PoiseToGrabAuto(1)
                                 )
                         ),
                         //you can probably see where this is going. position to grab
@@ -131,7 +131,7 @@ public class FourSampAuto extends LinearOpMode {
 
                         ),
                         bot.intake.wrist.runToDegrees(45),
-                        bot.intake.PoiseToGrab(1),
+                        bot.intake.PoiseToGrabAuto(1),
 
 
                         bot.intake.deploy(1),
