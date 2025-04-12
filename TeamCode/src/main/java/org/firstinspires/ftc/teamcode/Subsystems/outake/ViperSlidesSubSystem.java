@@ -80,7 +80,7 @@ public class ViperSlidesSubSystem{
             return l.runToPosition(30);
     }
     public Action LowBasket(){
-        return l.runToPosition(15);
+        return l.runToPosition(10);
     }
     public Action prepareSpecimenPlace(){
         return l.runToPosition(1.0985);
