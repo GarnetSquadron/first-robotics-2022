@@ -11,7 +11,7 @@ public class REFERENCE_ACTIONS {
         return new SequentialAction(
                 bot.SafeDeployIntake(1),//deploy the intake. 1 is maximum distance, 0 is minimum distance
                 bot.SafeUndeployIntake(),//undeploy the intake
-                bot.BasketDrop(),//move the outtake in a position to drop a sample in the basket
+                bot.AutoBasketDrop(),//move the outtake in a position to drop a sample in the basket
                 bot.outtake.SafeVipersDown(),//bring the vipers down, and this makes sure that the outtake is flipped first so that it doesn't attempt level 4 hang
                 bot.Transfer(),//transfer
                 bot.intake.PoiseToGrab(1), //get ready to grab a sample by rotating the intake to above a sample

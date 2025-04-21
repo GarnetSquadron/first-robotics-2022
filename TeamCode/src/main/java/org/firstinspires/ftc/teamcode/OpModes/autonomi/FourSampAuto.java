@@ -29,19 +29,19 @@ public class FourSampAuto extends LinearOpMode {
                 .splineToLinearHeading(depositSpot, 10);
 
         TrajectoryActionBuilder Sample1 = Deposit1.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(-48.5, -47, Math.toRadians(90)), 45);
+                .splineToLinearHeading(new Pose2d(-48.5, -45, Math.toRadians(90)), 45);
 
         TrajectoryActionBuilder Deposit2 = Sample1.endTrajectory().fresh()
                 .splineToLinearHeading(depositSpot, 10);
 
         TrajectoryActionBuilder Sample2 = Deposit2.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(-59, -47, Math.toRadians(90)), 90);
+                .splineToLinearHeading(new Pose2d(-59, -45, Math.toRadians(90)), 90);
 
         TrajectoryActionBuilder Deposit3 = Sample2.endTrajectory().fresh()
                 .splineToLinearHeading(depositSpot, 10);
 
         TrajectoryActionBuilder Sample3 = Deposit3.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(-53, -42, Math.toRadians(133)), 90);
+                .splineToLinearHeading(new Pose2d(-54.5, -40.5, Math.toRadians(133)), 90);
 
         TrajectoryActionBuilder Deposit4Tan = Deposit3.fresh()
                 .setTangent(-90)
@@ -68,7 +68,7 @@ public class FourSampAuto extends LinearOpMode {
 
                         //drive to the basket and move the outtake to a position where it can drop the sample in a basket by extending the vipers
                         new ParallelAction(
-                                bot.BasketDrop(),
+                                bot.AutoBasketDrop(),
                                 Deposit1.build()
                         ),
                         //wait for an instant and then drop the sample
@@ -92,7 +92,7 @@ public class FourSampAuto extends LinearOpMode {
                         //move to the basket again as we extend the vipers
                         new ParallelAction(
                                 new SequentialAction(
-                                        bot.BasketDrop()
+                                        bot.AutoBasketDrop()
                                 ),
                                 Deposit2.build()
                         ),
@@ -116,7 +116,7 @@ public class FourSampAuto extends LinearOpMode {
                         //again, go back to the basket and get ready to deposit
                         new ParallelAction(
                                 new SequentialAction(
-                                        bot.BasketDrop()
+                                        bot.AutoBasketDrop()
                                 ),
                                 Deposit3.build()
                         ),
@@ -145,7 +145,7 @@ public class FourSampAuto extends LinearOpMode {
 
                         new ParallelAction(
                                 new SequentialAction(
-                                        bot.BasketDrop()
+                                        bot.AutoBasketDrop()
                                 ),
                                 Deposit4Tan.build()
                         ),

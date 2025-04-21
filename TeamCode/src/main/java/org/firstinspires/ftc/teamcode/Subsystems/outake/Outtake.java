@@ -143,6 +143,15 @@ public class Outtake {
                 pivot2.goToDegrees(60)
                 ));
     }
+    public Action AutoplaceSpec(){
+        return new SequentialAction(
+                vipers.goToInches(3.40),
+                new SleepAction(0.05),
+                new ParallelAction(
+                        pivot1.goToRad(Math.toRadians(150)),
+                        pivot2.goToDegrees(60)
+                ));
+    }
     boolean pivotMoving(){
         return ExtraMath.ApproximatelyEqualTo( pivot1.pivot.getEncoder().getVelocity(),0,0.02);
     }
@@ -201,4 +210,5 @@ public class Outtake {
 //    public boolean atWallPos(){
 //        return
 //    }
+
 }

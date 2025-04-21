@@ -139,7 +139,7 @@ public class Autocliptesting extends LinearOpMode {
 
                         new ParallelAction(
                         StartDeposit.build(),
-                        bot.outtake.placeSpec()
+                        bot.outtake.AutoplaceSpec()
                         ),
                         new SleepAction(0.5),
                         Depositdriveinstart.build(),
@@ -177,7 +177,7 @@ public class Autocliptesting extends LinearOpMode {
 
                         bot.outtake.claw.Close(),
 
-                        bot.outtake.placeSpec(),
+                        bot.outtake.AutoplaceSpec(),
 
                         Deposit1.build(),
 
@@ -197,11 +197,11 @@ public class Autocliptesting extends LinearOpMode {
 
                         bot.outtake.claw.Close(),
 
-                        bot.outtake.placeSpec(),
+                        bot.outtake.AutoplaceSpec(),
 
                         new ParallelAction(
                         Deposit2.build(),
-                        bot.outtake.placeSpec()
+                        bot.outtake.AutoplaceSpec()
                         ),
 
                         Depositdrivein2.build(),

@@ -188,13 +188,23 @@ public class Bot {
     /**
      * Deploys the outtake in a position to drop samples in the basket
      */
-    public Action BasketDrop() {
+    public Action AutoBasketDrop() {
         return new SequentialAction(
                 outtake.claw.Close(),
                 outtake.vipers.Up(),
                 new ParallelAction(
                         outtake.pivot1.BucketPos(),
-                        outtake.pivot2.BucketPos()
+                        outtake.pivot2.AutoBucketPos()
+                )
+        );
+    }
+    public Action TeleBasketDrop() {
+        return new SequentialAction(
+                outtake.claw.Close(),
+                outtake.vipers.Up(),
+                new ParallelAction(
+                        outtake.pivot1.BucketPos(),
+                        outtake.pivot2.TeleBucketPos()
                 )
         );
     }
@@ -204,7 +214,7 @@ public class Bot {
                 outtake.vipers.LowBasket(),
                 new ParallelAction(
                         outtake.pivot1.BucketPos(),
-                        outtake.pivot2.BucketPos()
+                        outtake.pivot2.TeleBucketPos()
                 )
         );
     }

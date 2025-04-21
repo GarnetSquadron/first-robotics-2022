@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.OpModes.teleops;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
@@ -28,7 +27,7 @@ public class IntoTheDeepTeleOp extends OpMode {
     Color AlianceColor = Color.RED;
     GamepadButton intakeDeployButton;
     InitialToggler intakeDeployToggle, intakeClawToggle, outtakeClawToggle, viperToggle, grabOffWallToggle;
-    risingEdgeDetector transferDetector,wristGoLeft, wristGoRight, SpecimenGrabPosButton, SpecimenPlaceButton, viperUpdateButton, lowBasketDeploy;
+    risingEdgeDetector transferDetector,wristGoLeft, wristGoRight, SpecimenGrabPosButton, SpecimenPlaceButton, viperUpdateButton, lowBasketDeploy, UltimatePivotResetButton;
     TeleOpActionScheduler actionScheduler;
     TelemetryPacket packet;
     double sensitivity = 1;
@@ -63,8 +62,9 @@ public class IntoTheDeepTeleOp extends OpMode {
         SpecimenPlaceButton = new risingEdgeDetector(Con2::RightTrigger);
         wristGoLeft = new risingEdgeDetector(Con2::LeftBumper);
         wristGoRight = new risingEdgeDetector(Con2::RightBumper);
+        UltimatePivotResetButton = new risingEdgeDetector(Con2::DpadLeft);
 
-        viperUpdateButton = new risingEdgeDetector(Con2::leftStickDown);
+        viperUpdateButton = new risingEdgeDetector(Con2::DpadRight);
 
         lowBasketDeploy = new risingEdgeDetector(Con2::DpadDown);
 
@@ -130,7 +130,7 @@ public class IntoTheDeepTeleOp extends OpMode {
         );
         actionScheduler.actionBooleanPair(
                 viperToggle.JustChanged(),bot.outtake.vipers.isDown(),
-                bot.BasketDrop(),"vipers up",
+                bot.TeleBasketDrop(),"vipers up",
                 bot.outtake.SafeVipersDown(),"vipers down"
         );
         actionScheduler.actionBooleanPair(
@@ -143,6 +143,10 @@ public class IntoTheDeepTeleOp extends OpMode {
                 bot.outtake.placeSpec(),"Place Specimen",
                 bot.outtake.prepareToPlaceSpec(),"preparing to grab spec"
         );
+        if(UltimatePivotResetButton.getState())
+        {
+                actionScheduler.start(bot.outtake.pivot1.zeroMotor(),"zeroingPivot");
+        }
 
         //misc controls
         if(wristGoLeft.getState()){

@@ -13,9 +13,13 @@ public class SecondaryOuttakePivot {
         pivot = new ActionServo(hardwareMap,"secondary pivot",0.1,1,0.5,time);
     }
 
-    public Action BucketPos() {
+    public Action AutoBucketPos() {
         return pivot.runToRatio(1);
     }
+    public Action TeleBucketPos() {
+        return pivot.runToRatio(0.80);
+    }
+
     public Action SpecimenOnWallPos(){
         return pivot.runToDegrees(50);
     }
@@ -30,7 +34,7 @@ public class SecondaryOuttakePivot {
     }
 
     public Action TransferPos() {
-        return pivot.runToDegrees(10);
+        return pivot.runToDegrees(15);
     }
 //    public boolean grabbingOffWall(){
 //        return pivot.get
