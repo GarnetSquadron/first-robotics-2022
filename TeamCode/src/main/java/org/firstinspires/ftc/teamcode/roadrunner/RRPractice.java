@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes.autonomi;
+package org.firstinspires.ftc.teamcode.roadrunner;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Action;
@@ -8,7 +8,7 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 @Config
 @TeleOp(name="Practice")
 public class RRPractice extends LinearOpMode {

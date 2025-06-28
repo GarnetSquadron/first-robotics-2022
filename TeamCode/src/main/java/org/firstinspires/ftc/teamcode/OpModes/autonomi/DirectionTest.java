@@ -8,9 +8,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.MecanumDrive;
-import org.firstinspires.ftc.teamcode.PinpointDrive;
+import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
 
 @Autonomous(name = "Direction Test", group = "tests")
@@ -19,7 +17,7 @@ public class DirectionTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         Pose2d beginPose = new Pose2d(0,0,0);
-        MecanumDrive drive = new PinpointDrive(hardwareMap,beginPose);
+        MecanumDrive drive = new MecanumDrive(hardwareMap,beginPose);
         waitForStart();
         while (opModeIsActive()){
             Actions.runBlocking(

@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoControllerEx;
 
 import org.firstinspires.ftc.teamcode.ExtraMath;
-import org.firstinspires.ftc.teamcode.TTimer;
+import org.firstinspires.ftc.teamcode.time.TTimer;
 
 import java.util.function.DoubleSupplier;
 

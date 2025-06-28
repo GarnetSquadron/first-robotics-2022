@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.TIME;
+import org.firstinspires.ftc.teamcode.time.TIME;
 
 @TeleOp(name = "delay test")
 public class SensorDelayTest extends OpMode {

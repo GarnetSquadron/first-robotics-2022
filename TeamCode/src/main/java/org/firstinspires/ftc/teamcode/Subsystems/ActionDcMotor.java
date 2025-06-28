@@ -12,7 +12,7 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
-import org.firstinspires.ftc.teamcode.TTimer;
+import org.firstinspires.ftc.teamcode.time.TTimer;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
 import java.util.function.Function;

@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Subsystems.controllers;
 
-import org.firstinspires.ftc.teamcode.Subsystems.Encoder;
-import org.firstinspires.ftc.teamcode.TIME;
+import org.firstinspires.ftc.teamcode.time.TIME;
 
 import kotlin.jvm.functions.Function3;
 

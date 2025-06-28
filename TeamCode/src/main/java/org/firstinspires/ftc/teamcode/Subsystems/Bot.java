@@ -12,10 +12,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Dimensions.FieldDimensions;
-import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.MiscActions.ActionUntillOneIsDone;
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
-import org.firstinspires.ftc.teamcode.PinpointDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.Intake.Intake;
 import org.firstinspires.ftc.teamcode.Subsystems.outake.Outtake;
 import org.firstinspires.ftc.teamcode.Subsystems.outake.PrimaryOuttakePivot;
@@ -29,10 +28,10 @@ import java.util.function.DoubleSupplier;
  * the class that holds everything
  */
 public class Bot {
-    public PinpointDrive drive;
+    public MecanumDrive drive;
     public Pose2d beginPose;
     public HeadlessDriveCommand headlessDriveCommand;
-    public RegularDrive regularDrive;
+    public RegularDrive regularDrive;//depricatedish
     public Outtake outtake;
     public PrimaryOuttakePivot outtakePivot;
     public Intake intake;
@@ -44,7 +43,7 @@ public class Bot {
 //            .build();
     public Bot(HardwareMap hardwareMap, Telemetry telemetry, DoubleSupplier time, Pose2d beginPose){
         this.beginPose = beginPose;
-        drive = new PinpointDrive(hardwareMap,beginPose);
+        drive = new MecanumDrive(hardwareMap,beginPose);
         headlessDriveCommand = new HeadlessDriveCommand(drive);
         regularDrive = new RegularDrive(drive);
         outtake = new Outtake(hardwareMap,time);
@@ -54,7 +53,7 @@ public class Bot {
     }
     public Bot(HardwareMap hardwareMap, Telemetry telemetry, DoubleSupplier time){
         this.beginPose = MecanumDrive.pose;
-        drive = new PinpointDrive(hardwareMap);
+        drive = new MecanumDrive(hardwareMap,beginPose);
         headlessDriveCommand = new HeadlessDriveCommand(drive);
         regularDrive = new RegularDrive(drive);
         outtake = new Outtake(hardwareMap,time);

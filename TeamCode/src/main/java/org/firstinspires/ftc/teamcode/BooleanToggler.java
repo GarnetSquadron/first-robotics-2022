@@ -1,7 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
+import org.firstinspires.ftc.teamcode.time.TTimer;
+
 import java.util.function.BooleanSupplier;
-import java.util.function.DoubleSupplier;
 
 public class BooleanToggler {
     BooleanSupplier bool;

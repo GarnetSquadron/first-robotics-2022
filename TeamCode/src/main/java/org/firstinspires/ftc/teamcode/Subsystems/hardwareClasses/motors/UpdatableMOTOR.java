@@ -13,7 +13,6 @@ public class UpdatableMOTOR extends MOTOR {
         super(hardwareMap, name);
     }
     public class UpdatePower implements Action{
-
         @Override
         public boolean run(@NonNull TelemetryPacket telemetryPacket) {
             encoder.updateVelocity();

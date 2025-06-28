@@ -6,7 +6,7 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 
 import org.firstinspires.ftc.teamcode.ExtraMath;
-import org.firstinspires.ftc.teamcode.TIME;
+import org.firstinspires.ftc.teamcode.time.TIME;
 import org.firstinspires.ftc.teamcode.ValueAtTimeStamp;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 

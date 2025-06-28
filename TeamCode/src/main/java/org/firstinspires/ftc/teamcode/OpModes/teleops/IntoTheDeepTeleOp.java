@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.InitialToggler;
 import org.firstinspires.ftc.teamcode.OpmodeActionSceduling.TeleOpActionScheduler;
 import org.firstinspires.ftc.teamcode.Subsystems.Bot;
 import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
-import org.firstinspires.ftc.teamcode.TIME;
+import org.firstinspires.ftc.teamcode.time.TIME;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 import org.firstinspires.ftc.teamcode.enums.Color;
 import org.firstinspires.ftc.teamcode.risingEdgeDetector;

@@ -4,10 +4,8 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
-
-import java.util.ConcurrentModificationException;
 
 @Autonomous(name = "auto that does nothing for testing purposes")
 public class nullAuto extends LinearOpMode {

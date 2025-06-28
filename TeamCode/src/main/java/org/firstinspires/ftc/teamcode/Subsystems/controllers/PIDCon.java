@@ -1,11 +1,8 @@
 package org.firstinspires.ftc.teamcode.Subsystems.controllers;
 
 import org.firstinspires.ftc.teamcode.ExtraMath;
-import org.firstinspires.ftc.teamcode.Subsystems.Encoder;
-import org.firstinspires.ftc.teamcode.TIME;
+import org.firstinspires.ftc.teamcode.time.TIME;
 import org.firstinspires.ftc.teamcode.ValueAtTimeStamp;
-
-import java.util.function.DoubleSupplier;
 
 public class PIDCon extends PositionController {
     double kp,ki,kd;
