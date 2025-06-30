@@ -6,6 +6,7 @@ import org.firstinspires.ftc.teamcode.inputmodifiers.BooleanToggler;
 import java.util.function.BooleanSupplier;
 
 public class InitialToggler {
+
     BooleanToggler toggler;
     BooleanChangeDetector changeDetector;
     public InitialToggler(BooleanSupplier bool){
