@@ -8,7 +8,7 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
+import org.firstinspires.ftc.teamcode.roadrunner.drives.MecanumDrive;
 @Config
 @TeleOp(name="GracesChallenge")
 public class GracesChallenge extends LinearOpMode {

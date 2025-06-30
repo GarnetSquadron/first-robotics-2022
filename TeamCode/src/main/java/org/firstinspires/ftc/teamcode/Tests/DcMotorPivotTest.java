@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.GamepadClasses.BetterControllerClass;
-import org.firstinspires.ftc.teamcode.BooleanChangeDetector;
+import org.firstinspires.ftc.teamcode.inputmodifiers.BooleanChangeDetector;
 import org.firstinspires.ftc.teamcode.OpmodeActionSceduling.TeleOpActionScheduler;
 import org.firstinspires.ftc.teamcode.Subsystems.outake.DcMotorPrimaryOuttakePivot;
 

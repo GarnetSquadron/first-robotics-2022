@@ -1,4 +1,7 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.inputmodifiers;
+
+import org.firstinspires.ftc.teamcode.inputmodifiers.BooleanChangeDetector;
+import org.firstinspires.ftc.teamcode.inputmodifiers.BooleanToggler;
 
 import java.util.function.BooleanSupplier;
 

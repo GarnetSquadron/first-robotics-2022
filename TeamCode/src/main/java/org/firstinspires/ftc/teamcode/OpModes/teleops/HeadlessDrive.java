@@ -11,8 +11,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
-import org.firstinspires.ftc.teamcode.roadrunner.TankDrive;
+import org.firstinspires.ftc.teamcode.roadrunner.drives.MecanumDrive;
+import org.firstinspires.ftc.teamcode.roadrunner.drives.TankDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.tuning.TuningOpModes;
 ///import ViperSlidesSubSystem;
 

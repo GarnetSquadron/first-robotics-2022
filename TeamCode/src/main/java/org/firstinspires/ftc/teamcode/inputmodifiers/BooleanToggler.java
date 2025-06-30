@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.inputmodifiers;
 
 import org.firstinspires.ftc.teamcode.time.TTimer;
 

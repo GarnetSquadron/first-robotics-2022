@@ -8,7 +8,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.roadrunner.MecanumDrive;
+import org.firstinspires.ftc.teamcode.roadrunner.drives.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
 
 @Autonomous(name = "Direction Test", group = "tests")

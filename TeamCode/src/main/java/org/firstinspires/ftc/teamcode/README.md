@@ -3,26 +3,25 @@ hi
 here are some of the most important classes in this code
 
 
-[Bot.java](Subsystems%2FBot.java)
+[Bot](Subsystems/Bot.java)
     Holds all imports and objects used to import methods. Basically, when you are making a
     new opmode, instead of creating a new instance of each object you need, simply create
     an instance of this and
 
-[MecanumDrive.java](roadrunner%2FMecanumDrive.java)
+[MecanumDrive](roadrunner/drives/MecanumDrive.java)
     the mecanum drive code, implements roadrunner
 
-[TeleOpActionScheduler.java](OpmodeActionSceduling%2FTeleOpActionScheduler.java)
+[TeleOpActionScheduler](OpmodeActionSceduling/TeleOpActionScheduler.java)
     Adds action supports for non autonomous
 
-[TeleOpAction.java](OpmodeActionSceduling%2FTeleOpAction.java)
+[TeleOpAction](OpmodeActionSceduling/TeleOpAction.java)
     Used by teleop action scheduler, hotels information
 
-DC Motor Ex: 
-    Another team’s motor class, used only in mecanum drive
+[MotorEx](com/arcrobotics/ftclib/hardware/motors/MotorEx.java)
+    ftc lib’s motor class, used only in mecanum drive
 
-Pinpoint Drive: 
-    All of the roadrunner drive code
-
+[PinpointLocalizer](roadrunner/localizers/PinpointLocalizer.java)
+    a class that a drive
 Headless Drive Command: 
     Takes pinpoint drive as a constructor input, headless drive code
 

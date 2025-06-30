@@ -10,14 +10,14 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.GamepadClasses.BetterControllerClass;
-import org.firstinspires.ftc.teamcode.InitialToggler;
+import org.firstinspires.ftc.teamcode.inputmodifiers.InitialToggler;
 import org.firstinspires.ftc.teamcode.OpmodeActionSceduling.TeleOpActionScheduler;
 import org.firstinspires.ftc.teamcode.Subsystems.Bot;
 import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
 import org.firstinspires.ftc.teamcode.time.TIME;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 import org.firstinspires.ftc.teamcode.enums.Color;
-import org.firstinspires.ftc.teamcode.risingEdgeDetector;
+import org.firstinspires.ftc.teamcode.inputmodifiers.risingEdgeDetector;
 
 @TeleOp(name = "AA \uD83E\uDD3F \uD83D\uDC1F ####INTOTHEDEEPTELEOP#### \uD83D\uDC1F \uD83E\uDD3F")
 public class IntoTheDeepTeleOp extends OpMode {
