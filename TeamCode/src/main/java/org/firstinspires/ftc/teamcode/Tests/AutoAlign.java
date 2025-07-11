@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Tests;
 
 import com.acmerobotics.roadrunner.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -8,6 +9,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.drives.MecanumDrive;
 import org.firstinspires.ftc.teamcode.cv.Vision;
 
 @TeleOp(name = "AutoAlign", group = "tests")
+@Disabled
 public class AutoAlign extends OpMode {
     //Servo wrist;
     Vision vision;

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Tests;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.teamcode.ValueAtTimeStamp;
 
 
 @TeleOp(name = "acceleration test",group = "tests")
+@Disabled
 public class AccelerationTest extends LinearOpMode {
     //RAWMOTOR motor;
     DcMotorEx motor;

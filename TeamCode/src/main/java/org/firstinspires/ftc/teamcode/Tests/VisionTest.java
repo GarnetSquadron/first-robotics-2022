@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Tests;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.hardwareClasses.ActionServo;
 import org.firstinspires.ftc.teamcode.cv.Vision;
 
 @TeleOp(name = "VisionTest",group = "test")
+@Disabled
 public class VisionTest extends LinearOpMode {
 
     Vision vision = new Vision(hardwareMap,telemetry);

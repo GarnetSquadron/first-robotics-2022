@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.roadrunner.tuning;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.localizers.ThreeDeadWheelLocali
 import org.firstinspires.ftc.teamcode.roadrunner.localizers.TwoDeadWheelLocalizer;
 
 @TeleOp(name = "heading feedback tuner")
+@Disabled
 public class HeadingFeedbackTuner extends LinearOpMode {
     public static double DISTANCE = 36;
 

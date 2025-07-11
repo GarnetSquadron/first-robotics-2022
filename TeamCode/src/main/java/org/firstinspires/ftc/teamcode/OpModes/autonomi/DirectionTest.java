@@ -6,12 +6,14 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.roadrunner.drives.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
 
 @Autonomous(name = "Direction Test", group = "tests")
+@Disabled
 public class DirectionTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

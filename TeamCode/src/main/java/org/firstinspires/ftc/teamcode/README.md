@@ -21,9 +21,9 @@ here are some of the most important classes in this code
     ftc lib’s motor class, used only in mecanum drive
 
 [PinpointLocalizer](roadrunner/localizers/PinpointLocalizer.java)
-    a class that a drive
+    a class that roadrunnerifies the pinpoint
 Headless Drive Command: 
-    Takes pinpoint drive as a constructor input, headless drive code
+    Takes mecanum drive as a constructor input, headless drive code
 
 Outtake and Intake (Robot system code): 
     Specific functions to use robot systems
@@ -67,3 +67,12 @@ UpdatePower:
 DistanceSensorMotor: 
     Limited motor with distance sensor report
     
+
+USEFULLLINKS:
+
+intro to ftc sdk:
+
+https://ftc-docs.firstinspires.org/en/latest/ftc_sdk/overview/index.html
+
+https://ftc-docs.firstinspires.org/en/latest/programming_resources/android_studio_java/Android-Studio-Tutorial.html
+
