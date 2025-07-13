@@ -13,6 +13,7 @@ public class RAWMOTOR {
     double maxPower = 1;
     public RAWMOTOR(HardwareMap hardwareMap, String name){
         motor = new MotorEx(hardwareMap,name);
+        setEncoderToMotorEncoder();
     }
     public void setPower(double power){
         motor.set(ExtraMath.Clamp(power,maxPower,-maxPower));

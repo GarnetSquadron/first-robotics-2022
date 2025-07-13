@@ -7,8 +7,8 @@ import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class ArmsStuff {
-    RingArm ringArms;
-    WeddingVipers vipers;
+    public RingArm ringArms;
+    public WeddingVipers vipers;
     public ArmsStuff(HardwareMap hardwareMap){
         ringArms = new RingArm(hardwareMap);
         vipers = new WeddingVipers(hardwareMap);

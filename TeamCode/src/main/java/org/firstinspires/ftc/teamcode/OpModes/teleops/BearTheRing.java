@@ -26,6 +26,6 @@ public class BearTheRing extends OpMode {
     @Override
     public void loop() {
         weddingDrive.run(gamepad1.left_stick_y,gamepad1.left_stick_x,gamepad1.right_stick_y);
-        arm.funToUp().run(p);
+        arm.vipers.setpower(gamepad1.left_trigger);
     }
 }

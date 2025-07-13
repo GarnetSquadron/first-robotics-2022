@@ -14,7 +14,6 @@ public class MOTOR extends RAWMOTOR {
     PositionController positionController;
     public MOTOR(HardwareMap hardwareMap, String name){
         super(hardwareMap, name);
-        setEncoderToMotorEncoder();
         setPID(1,0,0);
     }
     @Override
