@@ -16,13 +16,13 @@ public class RingArm {
         arm = new LimitedMotor(hardwareMap, "armmotor", 0, 100);
         arm.getEncoder().setCPR(Motor.GoBILDA.RPM_117);
         arm.getEncoder().scaleToAngleUnit(AngleUnitV2.DEGREES);
-        arm.setPID(0.01,0.01,0);
+        arm.setPID(0.02,0.01,0);
         wrist = hardwareMap.get(Servo.class, "wristservo");
 
     }
     public void setPosition(double angle){
         arm.setTargetPosition(angle);
-        wrist.setPosition((90+angle)/270);
+        wrist.setPosition((90-angle)/270);
     }
     public void update(){
         arm.runToTargetPosition();

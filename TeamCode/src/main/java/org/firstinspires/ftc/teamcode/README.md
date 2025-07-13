@@ -3,9 +3,11 @@ hi
 ### IF YOU ARE A BEGINNER(OR REALLY ANYONE WHO HASNT SEEN THIS ) THIS WILL SAVE YOU SO MUCH PAIN:
 
 
+[The_Unintuitive_Rules_Of_Servos.md](..%2F..%2F..%2F..%2FThe_Unintuitive_Rules_Of_Servos.md)
 
 
-here are some of the most important classes in this code
+
+### here are some of the most important classes in this code
 
 
 [Bot](Subsystems/Bot.java)
@@ -76,7 +78,7 @@ DistanceSensorMotor:
 
 
 
-USEFULLLINKS:
+### USEFULLLINKS:
 
 intro to ftc sdk:
 
