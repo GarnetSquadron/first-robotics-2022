@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
-public class ExtraMath {
+public class ExtraMath{
 
     /**
      * Tau is superior to pi. Fight me
@@ -24,6 +24,23 @@ public class ExtraMath {
     }
     public static boolean ApproximatelyEqualTo(double val, double expectedVal, double tolerance){
         return withinRange(val,expectedVal+tolerance,expectedVal-tolerance);
+    }
+
+    /**
+     * returns input with minimum magnitude
+     * @return
+     */
+    public static double minMag(double num1,double num2){
+        if(Math.abs(num1)<Math.abs(num2)){
+            return num1;
+        }
+        else return num2;
+    }
+    public static double maxMag(double num1, double num2){
+        if(Math.abs(num1)>Math.abs(num2)){
+            return num1;
+        }
+        else return num2;
     }
     public static double convertFromRatio(double min, double max,double ratio){
         return min+ratio*(max-min);

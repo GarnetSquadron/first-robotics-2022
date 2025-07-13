@@ -1,5 +1,10 @@
 hi 
 
+### IF YOU ARE A BEGINNER(OR REALLY ANYONE WHO HASNT SEEN THIS ) THIS WILL SAVE YOU SO MUCH PAIN:
+
+
+
+
 here are some of the most important classes in this code
 
 
@@ -68,6 +73,9 @@ DistanceSensorMotor:
     Limited motor with distance sensor report
     
 
+
+
+
 USEFULLLINKS:
 
 intro to ftc sdk:
@@ -76,3 +84,6 @@ https://ftc-docs.firstinspires.org/en/latest/ftc_sdk/overview/index.html
 
 https://ftc-docs.firstinspires.org/en/latest/programming_resources/android_studio_java/Android-Studio-Tutorial.html
 
+roadrunner docs:
+
+https://rr.brott.dev/docs/v1-0
