@@ -11,9 +11,9 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-import org.firstinspires.ftc.teamcode.roadrunner.drives.MecanumDrive;
-import org.firstinspires.ftc.teamcode.roadrunner.drives.TankDrive;
-import org.firstinspires.ftc.teamcode.roadrunner.tuning.TuningOpModes;
+import org.firstinspires.ftc.teamcode.pathing.roadrunner.drives.MecanumDrive;
+import org.firstinspires.ftc.teamcode.pathing.roadrunner.drives.TankDrive;
+import org.firstinspires.ftc.teamcode.pathing.roadrunner.tuning.TuningOpModes;
 ///import ViperSlidesSubSystem;
 
 @TeleOp(name = "Headless Drive")

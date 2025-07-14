@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.ExtraMath;
-import org.firstinspires.ftc.teamcode.Subsystems.hardwareClasses.motors.RAWMOTOR;
+import org.firstinspires.ftc.teamcode.hardwareClasses.motors.RAWMOTOR;
 
 public class WeddingVipers
 {

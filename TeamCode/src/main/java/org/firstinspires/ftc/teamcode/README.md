@@ -11,7 +11,7 @@ Holds all imports and objects used to import methods. Basically, when you are ma
 new opmode, instead of creating a new instance of each object you need, simply create
 an instance of this and
 
-[MecanumDrive](roadrunner/drives/MecanumDrive.java)
+[MecanumDrive](pathing/roadrunner/drives/MecanumDrive.java)
 the mecanum drive code, implements roadrunner
 
 [TeleOpActionScheduler](OpmodeActionSceduling/TeleOpActionScheduler.java)
@@ -23,20 +23,13 @@ Used by teleop action scheduler, hotels information
 [MotorEx](com/arcrobotics/ftclib/hardware/motors/MotorEx.java)
 ftc lib’s motor class, used only in mecanum drive
 
-[PinpointLocalizer](roadrunner/localizers/PinpointLocalizer.java)
+[PinpointLocalizer](pathing/roadrunner/localizers/PinpointLocalizer.java)
 a class that roadrunnerifies the pinpoint
 Headless Drive Command:
 Takes mecanum drive as a constructor input, headless drive code
 
-Outtake and Intake (Robot system code):
-Specific functions to use robot systems
-
-Intake:
-Consolidates multiple smaller subsystems that the intake uses, passing hardware map, creating
-actions
-
-ActionServo:
-Action compatible servo class
+[ActionServo.java](hardwareClasses%2FActionServo.java)
+Action compatible servo class(probably unneccesary in most cases but idk)
 
 CRServo:
 continuous rotation servo
@@ -53,22 +46,19 @@ SDK Motor class
 MOTOR:
 Custom motor class with controller support
 
-RAWMOTOR:
+[RAWMOTOR.java](hardwareClasses%2Fmotors%2FRAWMOTOR.java)
 Basic custom motor class with max power and encoder support
 
-UpdatableMOTOR:
+[UpdatableMOTOR.java](hardwareClasses%2Fmotors%2FUpdatableMOTOR.java)
 Uses UpdatePower in a loop to continuously update power
 
-ACTIONMOTOR:
+[ACTIONMOTOR.java](hardwareClasses%2Fmotors%2FACTIONMOTOR.java)
 a motor class with actions
 
-LimitedMotor:
+[LimitedMotor.java](hardwareClasses%2Fmotors%2FLimitedMotor.java)
 A motor with limited position
 
-UpdatePower:
-Updates power
-
-DistanceSensorMotor:
+[DistanceSensorMotor.java](hardwareClasses%2Fmotors%2FDistanceSensorMotor.java)
 Limited motor with distance sensor report
 
 ### USEFULLLINKS:

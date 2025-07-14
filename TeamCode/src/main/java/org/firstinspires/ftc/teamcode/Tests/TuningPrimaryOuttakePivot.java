@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Subsystems.DcMotorSub;
+import org.firstinspires.ftc.teamcode.depricated.failedMotorClasses.DcMotorSub;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
 @TeleOp(name = "AATuning pivot")

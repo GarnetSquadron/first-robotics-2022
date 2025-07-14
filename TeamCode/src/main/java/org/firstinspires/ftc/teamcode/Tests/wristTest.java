@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.Tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.Subsystems.Intake.Wrist;
+import org.firstinspires.ftc.teamcode.depricated.IntoTheDeepStuff.Intake.Wrist;
 
 public class wristTest extends OpMode
 {

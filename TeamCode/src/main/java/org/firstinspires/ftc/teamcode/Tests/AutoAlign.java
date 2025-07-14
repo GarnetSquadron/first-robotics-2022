@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.cv.Vision;
-import org.firstinspires.ftc.teamcode.roadrunner.drives.MecanumDrive;
+import org.firstinspires.ftc.teamcode.depricated.IntoTheDeepStuff.cv.Vision;
+import org.firstinspires.ftc.teamcode.pathing.roadrunner.drives.MecanumDrive;
 
 @TeleOp(name = "AutoAlign", group = "tests")
 @Disabled

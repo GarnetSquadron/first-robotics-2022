@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.depricated.NonDriveHardware;
-import org.firstinspires.ftc.teamcode.roadrunner.drives.MecanumDrive;
+import org.firstinspires.ftc.teamcode.pathing.roadrunner.drives.MecanumDrive;
 
 @TeleOp(name = "JAMANUELS CHALLENGE")
 @Disabled

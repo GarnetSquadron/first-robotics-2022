@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Subsystems.outake.OuttakeClaw;
+import org.firstinspires.ftc.teamcode.depricated.IntoTheDeepStuff.outake.OuttakeClaw;
 
 @TeleOp(name = "OuttakeClawTest", group = "test")
 @Disabled

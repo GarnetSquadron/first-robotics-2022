@@ -8,9 +8,9 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
-import org.firstinspires.ftc.teamcode.Subsystems.Intake.CrankSlideSubSystem;
+import org.firstinspires.ftc.teamcode.depricated.IntoTheDeepStuff.Intake.CrankSlideSubSystem;
 import org.firstinspires.ftc.teamcode.commands.IntakeCenteredHeadlessDrive;
-import org.firstinspires.ftc.teamcode.roadrunner.drives.MecanumDrive;
+import org.firstinspires.ftc.teamcode.pathing.roadrunner.drives.MecanumDrive;
 
 public class IntakeHeadlessDrive extends OpMode
 {

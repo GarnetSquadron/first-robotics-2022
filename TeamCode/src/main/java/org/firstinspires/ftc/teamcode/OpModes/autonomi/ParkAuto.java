@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
 import org.firstinspires.ftc.teamcode.MiscActions.LoopAction;
-import org.firstinspires.ftc.teamcode.Subsystems.Bot;
+import org.firstinspires.ftc.teamcode.depricated.IntoTheDeepStuff.Bot;
 
 @Autonomous(name = "#PARK AUTO#")
 @Disabled

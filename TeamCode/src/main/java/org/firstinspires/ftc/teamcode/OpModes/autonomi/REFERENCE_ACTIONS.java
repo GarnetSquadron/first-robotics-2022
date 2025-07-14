@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.SequentialAction;
 
-import org.firstinspires.ftc.teamcode.Subsystems.Bot;
+import org.firstinspires.ftc.teamcode.depricated.IntoTheDeepStuff.Bot;
 
 public class REFERENCE_ACTIONS
 {

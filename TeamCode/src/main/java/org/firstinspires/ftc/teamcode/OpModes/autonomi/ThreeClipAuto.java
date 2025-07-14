@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
-import org.firstinspires.ftc.teamcode.Subsystems.Bot;
+import org.firstinspires.ftc.teamcode.depricated.IntoTheDeepStuff.Bot;
 import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
 
 @Autonomous(name = "#THREE CLIPS#", group = "test")

@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.depricated;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 
 import org.firstinspires.ftc.teamcode.ExtraMath;
-import org.firstinspires.ftc.teamcode.Subsystems.Encoder;
+import org.firstinspires.ftc.teamcode.encoders.Encoder;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
 import java.util.function.DoubleSupplier;

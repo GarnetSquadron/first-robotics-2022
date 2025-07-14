@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.GamepadClasses.BetterControllerClass;
 import org.firstinspires.ftc.teamcode.OpmodeActionSceduling.TeleOpActionScheduler;
-import org.firstinspires.ftc.teamcode.Subsystems.Bot;
+import org.firstinspires.ftc.teamcode.depricated.IntoTheDeepStuff.Bot;
 import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 import org.firstinspires.ftc.teamcode.enums.Color;
