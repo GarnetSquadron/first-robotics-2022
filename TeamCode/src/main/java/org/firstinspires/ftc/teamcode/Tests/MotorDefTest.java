@@ -7,11 +7,14 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name = "MotorDefTest")
 @Disabled
-public class MotorDefTest extends LinearOpMode {
+public class MotorDefTest extends LinearOpMode
+{
     DcMotor motor1;
     DcMotor motor2;
+
     @Override
-    public void runOpMode(){
+    public void runOpMode()
+    {
         motor1 = hardwareMap.get(DcMotor.class, "arm");
         motor2 = motor1;
         waitForStart();

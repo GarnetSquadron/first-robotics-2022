@@ -12,26 +12,31 @@ import org.firstinspires.ftc.teamcode.ExtraMath;
 /**
  * Class to keep all DcMotor actions that can be used for multiple different motors
  */
-public class ViperMotorSub extends SubsystemBase {
+public class ViperMotorSub extends SubsystemBase
+{
     private final Motor motor;
     private final DcMotorEx m;
     private final int MaxPos;
     private final int MinPos;
-    private double PosCoefficient;
+    private final double PosCoefficient;
     private int tgtPos;
     private int PosError = 0;//the amount that its set position differs from the real position
     double tolerance = 100;
     HardwareMap hardwareMap;
-    public ViperMotorSub(HardwareMap hardwareMap, String MotorName, int minPos, int maxPos, double posCoefficient){
-        motor = new Motor(hardwareMap,MotorName);
-        m = hardwareMap.get(DcMotorEx.class,MotorName);
+
+    public ViperMotorSub(HardwareMap hardwareMap, String MotorName, int minPos, int maxPos, double posCoefficient)
+    {
+        motor = new Motor(hardwareMap, MotorName);
+        m = hardwareMap.get(DcMotorEx.class, MotorName);
         motor.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
         motor.resetEncoder();
         MaxPos = maxPos;
         MinPos = minPos;
         PosCoefficient = posCoefficient;
     }
-    public void setTgPosRatio(double posRatio,double tolerance){
+
+    public void setTgPosRatio(double posRatio, double tolerance)
+    {
         // set the run mode
         motor.setRunMode(Motor.RunMode.PositionControl);
 
@@ -39,7 +44,7 @@ public class ViperMotorSub extends SubsystemBase {
         motor.setPositionCoefficient(PosCoefficient);
 
 
-        tgtPos = getPosFromRatio(MinPos, MaxPos,posRatio);// an integer representing
+        tgtPos = getPosFromRatio(MinPos, MaxPos, posRatio);// an integer representing
         // desired tick count
 // set the target position
         motor.setTargetPosition(tgtPos);
@@ -53,56 +58,82 @@ public class ViperMotorSub extends SubsystemBase {
 // perform the control loop
 
     }
-    public void runToTgPos(){
+
+    public void runToTgPos()
+    {
         if (!TargetReached()) {
             motor.set(1);
-        }
-        else {
+        } else {
             motor.stopMotor();// stop the motor
         }
     }
-    public void runToTgPosAndHoldIt(double holdPower){
+
+    public void runToTgPosAndHoldIt(double holdPower)
+    {
         if (!TargetReached()) {
             motor.set(1);
-        }
-        else {
+        } else {
             motor.set(holdPower);// keep the motor up
         }
     }
-    public void stop(){
+
+    public void stop()
+    {
         motor.stopMotor();
     }
-    int getPosFromRatio(int min, int max, double pos){
-        return min+(int)Math.round(pos*(max-min));
+
+    int getPosFromRatio(int min, int max, double pos)
+    {
+        return min + (int) Math.round(pos * (max - min));
     }
-    public boolean TargetReached(){
-        return ExtraMath.ApproximatelyEqualTo( motor.getCurrentPosition(), tgtPos,tolerance);
+
+    public boolean TargetReached()
+    {
+        return ExtraMath.ApproximatelyEqualTo(motor.getCurrentPosition(), tgtPos, tolerance);
     }
-    public int getPos(){
-        return motor.getCurrentPosition()+PosError;
+
+    public int getPos()
+    {
+        return motor.getCurrentPosition() + PosError;
     }
-    public int getTargetPos(){
+
+    public int getTargetPos()
+    {
         return tgtPos;
     }
-    public double getCurrent(){
+
+    public double getCurrent()
+    {
         return m.getCurrent(CurrentUnit.AMPS);
     }
-    public void setPosition(int position){
-        PosError = position-motor.getCurrentPosition();
+
+    public void setPosition(int position)
+    {
+        PosError = position - motor.getCurrentPosition();
     }
-    public double getPower(){
+
+    public double getPower()
+    {
         return motor.motor.getPower();
     }
-    public double getSpeed(){
+
+    public double getSpeed()
+    {
         return motor.getRate();
     }
-    public void setEncoder(Motor encoder){
+
+    public void setEncoder(Motor encoder)
+    {
         motor.encoder = encoder.encoder;
     }
-    public Motor getMotor(){
+
+    public Motor getMotor()
+    {
         return motor;
     }
-    public void ReverseMotor(){
+
+    public void ReverseMotor()
+    {
         motor.motor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 

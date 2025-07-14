@@ -7,12 +7,17 @@ import org.firstinspires.ftc.teamcode.roadrunner.drives.MecanumDrive;
 
 import java.util.function.DoubleSupplier;
 
-public class RegularDrive {
+public class RegularDrive
+{
     MecanumDrive drive;
-    public RegularDrive(MecanumDrive m){
+
+    public RegularDrive(MecanumDrive m)
+    {
         drive = m;
     }
-    public void execute(DoubleSupplier xvel, DoubleSupplier yvel, DoubleSupplier AngularVel, double sensitivity){
+
+    public void execute(DoubleSupplier xvel, DoubleSupplier yvel, DoubleSupplier AngularVel, double sensitivity)
+    {
         drive.updatePoseEstimate();
         double direction = MecanumDrive.pose.heading.toDouble();
         drive.setDrivePowers(new PoseVelocity2d(
@@ -20,7 +25,7 @@ public class RegularDrive {
                         yvel.getAsDouble(),
                         xvel.getAsDouble()
                 ).times(sensitivity),
-                -AngularVel.getAsDouble()*sensitivity
+                -AngularVel.getAsDouble() * sensitivity
         ));
     }
 }

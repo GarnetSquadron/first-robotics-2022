@@ -8,26 +8,31 @@ import com.acmerobotics.roadrunner.ParallelAction;
 
 import java.util.function.BooleanSupplier;
 
-public class IfThenAction implements Action{
+public class IfThenAction implements Action
+{
     BooleanSupplier condition;
     boolean firstIter = true;
     Action action;
-    public IfThenAction(BooleanSupplier condition, Action action){
+
+    public IfThenAction(BooleanSupplier condition, Action action)
+    {
         this.condition = condition;
         this.action = action;
     }
 
     @Override
-    public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-        if(firstIter){
+    public boolean run(@NonNull TelemetryPacket telemetryPacket)
+    {
+        if (firstIter) {
             firstIter = false;
             return condition.getAsBoolean();
-        }
-        else {
+        } else {
             return action.run(telemetryPacket);
         }
     }
-    public Action Else(Action action){
-        return new ParallelAction(this,new IfThenAction(()->!condition.getAsBoolean(),action));
+
+    public Action Else(Action action)
+    {
+        return new ParallelAction(this, new IfThenAction(() -> !condition.getAsBoolean(), action));
     }
 }

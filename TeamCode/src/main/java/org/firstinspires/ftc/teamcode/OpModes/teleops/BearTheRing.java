@@ -6,20 +6,22 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.GamepadClasses.BetterControllerClass;
 import org.firstinspires.ftc.teamcode.WeddingDrive;
-import org.firstinspires.ftc.teamcode.depricated.NonDriveHardware;
 import org.firstinspires.ftc.teamcode.inputmodifiers.risingEdgeDetector;
 import org.firstinspires.ftc.teamcode.learningStuf.ArmsStuff;
 
 @TeleOp(name = "Bear The Ring")
-public class BearTheRing extends OpMode {
+public class BearTheRing extends OpMode
+{
     WeddingDrive weddingDrive;
     BetterControllerClass controller;
     ArmsStuff arm;
     TelemetryPacket p;
 
-    risingEdgeDetector a,b;
+    risingEdgeDetector a, b;
+
     @Override
-    public void init() {
+    public void init()
+    {
         weddingDrive = new WeddingDrive(hardwareMap);
         controller = new BetterControllerClass(gamepad1);
         p = new TelemetryPacket();
@@ -30,24 +32,25 @@ public class BearTheRing extends OpMode {
     }
 
     @Override
-    public void loop() {
-        weddingDrive.run(gamepad1.left_stick_y,gamepad1.left_stick_x,gamepad1.right_stick_y/2);
+    public void loop()
+    {
+        weddingDrive.run(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_y / 2);
         arm.vipers.setpower(gamepad1.left_trigger);
-        telemetry.addData("left trigger",gamepad1.left_trigger);
-        telemetry.addData("viper pos",arm.vipers.getPos());
-        telemetry.addData("vipers in range",arm.vipers.inRange());
+        telemetry.addData("left trigger", gamepad1.left_trigger);
+        telemetry.addData("viper pos", arm.vipers.getPos());
+        telemetry.addData("vipers in range", arm.vipers.inRange());
         telemetry.addData("gravityPower", arm.vipers.gravityPower);
-        telemetry.addData("viper power",arm.vipers.getPower());
-        telemetry.addData("arm position",arm.ringArms.getPosition());
+        telemetry.addData("viper power", arm.vipers.getPower());
+        telemetry.addData("arm position", arm.ringArms.getPosition());
         a.update();
         b.update();
-        if(a.getState()){
+        if (a.getState()) {
             //arm.vipers.gravityPower+=0.05;
         }
-        if(b.getState()){
+        if (b.getState()) {
             //arm.vipers.gravityPower-=0.05;
         }
-        if(gamepad1.right_trigger==1){
+        if (gamepad1.right_trigger == 1) {
             arm.ringArms.setPosition(45);
         }
         arm.ringArms.update();

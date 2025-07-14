@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.teamcode.OpModes.autonomi;
 
-import org.firstinspires.ftc.teamcode.Subsystems.Bot;
-import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
-
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -13,21 +10,27 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.Subsystems.Bot;
+import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
+
 @Autonomous(name = "#FIVE CLIPS#", group = "test")
 @Disabled
-public class FiveClipAuto extends LinearOpMode {
+public class FiveClipAuto extends LinearOpMode
+{
     Bot bot;
+
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() throws InterruptedException
+    {
         //the position the auto starts at
         Pose2d beginPose = new Pose2d(26, -62, Math.toRadians(90));
         //the class that contains all the subsystems
-        bot =  new Bot(hardwareMap,telemetry,this::getRuntime,beginPose);
+        bot = new Bot(hardwareMap, telemetry, this::getRuntime, beginPose);
 
         //the trajectories that it will drive along the course of the auto
 
         TrajectoryActionBuilder StartDeposit = bot.drive.actionBuilder(beginPose)
-                .splineToConstantHeading(new Vector2d(-5,-34),90);
+                .splineToConstantHeading(new Vector2d(-5, -34), 90);
 
         TrajectoryActionBuilder SampGrab1 = StartDeposit.endTrajectory().fresh()
                 .setTangent(182)
@@ -57,28 +60,28 @@ public class FiveClipAuto extends LinearOpMode {
 
         TrajectoryActionBuilder WallGrab2 = Deposit1.endTrajectory().fresh()
                 .setTangent(-90)
-                .splineToConstantHeading(new Vector2d(36,-60),6);
+                .splineToConstantHeading(new Vector2d(36, -60), 6);
 
         TrajectoryActionBuilder Deposit2 = WallGrab2.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(5,-34, Math.toRadians(90)), Math.toRadians(0));
+                .splineToLinearHeading(new Pose2d(5, -34, Math.toRadians(90)), Math.toRadians(0));
 
         TrajectoryActionBuilder WallGrab3 = Deposit2.endTrajectory().fresh()
                 .setTangent(-90)
-                .splineToConstantHeading(new Vector2d(36,-60),6);
+                .splineToConstantHeading(new Vector2d(36, -60), 6);
 
         TrajectoryActionBuilder Deposit3 = WallGrab3.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(8,-34, Math.toRadians(90)), Math.toRadians(0));
+                .splineToLinearHeading(new Pose2d(8, -34, Math.toRadians(90)), Math.toRadians(0));
 
         TrajectoryActionBuilder WallGrab4 = Deposit3.endTrajectory().fresh()
                 .setTangent(-90)
-                .splineToConstantHeading(new Vector2d(36,-60),6);
+                .splineToConstantHeading(new Vector2d(36, -60), 6);
 
         TrajectoryActionBuilder Deposit4 = WallGrab4.endTrajectory().fresh()
-                .splineToLinearHeading(new Pose2d(12,-34, Math.toRadians(90)), Math.toRadians(0));
+                .splineToLinearHeading(new Pose2d(12, -34, Math.toRadians(90)), Math.toRadians(0));
 
         TrajectoryActionBuilder Park = Deposit4.endTrajectory().fresh()
                 .setTangent(-90)
-                .splineToConstantHeading(new Vector2d(36,-60),6);
+                .splineToConstantHeading(new Vector2d(36, -60), 6);
 
         waitForStart();
 

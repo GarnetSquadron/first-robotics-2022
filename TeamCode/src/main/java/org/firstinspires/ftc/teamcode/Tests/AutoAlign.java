@@ -5,20 +5,23 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.roadrunner.drives.MecanumDrive;
 import org.firstinspires.ftc.teamcode.cv.Vision;
+import org.firstinspires.ftc.teamcode.roadrunner.drives.MecanumDrive;
 
 @TeleOp(name = "AutoAlign", group = "tests")
 @Disabled
-public class AutoAlign extends OpMode {
+public class AutoAlign extends OpMode
+{
     //Servo wrist;
     Vision vision;
-    Pose2d beginPose = new Pose2d(0,0,0);
+    Pose2d beginPose = new Pose2d(0, 0, 0);
     MecanumDrive drive;
+
     @Override
-    public void init() {
+    public void init()
+    {
         telemetry.addLine("1");
-        drive = new MecanumDrive(hardwareMap,beginPose);
+        drive = new MecanumDrive(hardwareMap, beginPose);
         telemetry.addLine("2");
         //vision = new Vision(hardwareMap,telemetry);
         telemetry.addLine("3");
@@ -29,7 +32,8 @@ public class AutoAlign extends OpMode {
     }
 
     @Override
-    public void loop() {
+    public void loop()
+    {
         //SamplePipeline.AnalyzedStone Sample = vision.getNearestSample();
         //Action path = drive.actionBuilder(beginPose).splineToSplineHeading(Sample.getPose2d(),Sample.getAngleRad()).build();
         //Actions.runBlocking(path);

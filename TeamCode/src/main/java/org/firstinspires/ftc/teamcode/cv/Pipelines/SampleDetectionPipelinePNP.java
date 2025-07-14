@@ -6,8 +6,8 @@ import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.MatOfPoint3f;
-import org.opencv.core.Point3;
 import org.opencv.core.Point;
+import org.opencv.core.Point3;
 import org.opencv.core.RotatedRect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
@@ -29,8 +29,7 @@ public class SampleDetectionPipelinePNP extends SamplePipeline
     {
         int nextStageNum = stageNum + 1;
 
-        if(nextStageNum >= stages.length)
-        {
+        if (nextStageNum >= stages.length) {
             nextStageNum = 0;
         }
 
@@ -53,36 +52,30 @@ public class SampleDetectionPipelinePNP extends SamplePipeline
         /*
          * Decide which buffer to send to the viewport
          */
-        switch (stages[stageNum])
-        {
-            case YCrCb:
-            {
+        switch (stages[stageNum]) {
+            case YCrCb: {
                 return ycrcbMat;
             }
 
-            case FINAL:
-            {
+            case FINAL: {
                 return input;
             }
 
-            case MASKS:
-            {
+            case MASKS: {
                 Mat masks = new Mat();
                 Core.addWeighted(yellowThresholdMat, 1.0, redThresholdMat, 1.0, 0.0, masks);
                 Core.addWeighted(masks, 1.0, blueThresholdMat, 1.0, 0.0, masks);
                 return masks;
             }
 
-            case MASKS_NR:
-            {
+            case MASKS_NR: {
                 Mat masksNR = new Mat();
                 Core.addWeighted(morphedYellowThreshold, 1.0, morphedRedThreshold, 1.0, 0.0, masksNR);
                 Core.addWeighted(masksNR, 1.0, morphedBlueThreshold, 1.0, 0.0, masksNR);
                 return masksNR;
             }
 
-            case CONTOURS:
-            {
+            case CONTOURS: {
                 return contoursOnPlainImageMat;
             }
         }
@@ -131,30 +124,28 @@ public class SampleDetectionPipelinePNP extends SamplePipeline
         Imgproc.findContours(morphedYellowThreshold, yellowContoursList, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);
 
         //draw contors
-        Imgproc.drawContours(input, yellowContoursList,-1, new Scalar(0,0,255),1,1);
-        Imgproc.drawContours(input, blueContoursList,-1, new Scalar(0,255,0),1,1);
-        Imgproc.drawContours(input, redContoursList,-1, new Scalar(255,0,0),1,1);
+        Imgproc.drawContours(input, yellowContoursList, -1, new Scalar(0, 0, 255), 1, 1);
+        Imgproc.drawContours(input, blueContoursList, -1, new Scalar(0, 255, 0), 1, 1);
+        Imgproc.drawContours(input, redContoursList, -1, new Scalar(255, 0, 0), 1, 1);
 
 
         // Now analyze the contours
-        for(MatOfPoint contour : blueContoursList)
-        {
+        for (MatOfPoint contour : blueContoursList) {
             analyzeContour(contour, input, "Blue");
 
         }
 
-        for(MatOfPoint contour : redContoursList)
-        {
+        for (MatOfPoint contour : redContoursList) {
             analyzeContour(contour, input, "Red");
         }
 
-        for(MatOfPoint contour : yellowContoursList)
-        {
+        for (MatOfPoint contour : yellowContoursList) {
             analyzeContour(contour, input, "Yellow");
         }
 
         //FtcDashboard.getInstance().startCameraStream(,0);
     }
+
     void analyzeContour(MatOfPoint contour, Mat input, String color)
     {
         // Transform the contour to a different format
@@ -163,7 +154,7 @@ public class SampleDetectionPipelinePNP extends SamplePipeline
 
         // Do a rect fit to the contour, and draw it on the screen
         RotatedRect rotatedRectFitToContour = Imgproc.minAreaRect(contour2f);
-        if(rotatedRectFitToContour.size.height<100||rotatedRectFitToContour.size.width<100){
+        if (rotatedRectFitToContour.size.height < 100 || rotatedRectFitToContour.size.width < 100) {
             return;
         }
         drawRotatedRect(rotatedRectFitToContour, input, color);
@@ -171,14 +162,13 @@ public class SampleDetectionPipelinePNP extends SamplePipeline
         // The angle OpenCV gives us can be ambiguous, so look at the shape of
         // the rectangle to fix that.
         double rotRectAngle = rotatedRectFitToContour.angle;
-        if (rotatedRectFitToContour.size.width < rotatedRectFitToContour.size.height)
-        {
+        if (rotatedRectFitToContour.size.width < rotatedRectFitToContour.size.height) {
             rotRectAngle += 90;
         }
 
         // Compute the angle and store it
         double angle = -(rotRectAngle - 180);
-        drawTagText(rotatedRectFitToContour, Integer.toString((int) Math.round(angle)) + " deg", input, color);
+        drawTagText(rotatedRectFitToContour, (int) Math.round(angle) + " deg", input, color);
 
         // Prepare object points and image points for solvePnP
         // Assuming the object is a rectangle with known dimensions
@@ -215,8 +205,7 @@ public class SampleDetectionPipelinePNP extends SamplePipeline
                 tvec
         );
 
-        if (success)
-        {
+        if (success) {
             // Draw the coordinate axes on the image
             drawAxis(input, rvec, tvec, cameraMatrix, distCoeffs);
 

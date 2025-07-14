@@ -26,13 +26,13 @@ public class SampleDetectionPipelineAngledCam extends SamplePipeline
     {
         int nextStageNum = stageNum + 1;
 
-        if(nextStageNum >= stages.length)
-        {
+        if (nextStageNum >= stages.length) {
             nextStageNum = 0;
         }
 
         stageNum = nextStageNum;
     }
+
     @Override
     public Mat processFrame(Mat input)
     {
@@ -49,42 +49,37 @@ public class SampleDetectionPipelineAngledCam extends SamplePipeline
         /*
          * Decide which buffer to send to the viewport
          */
-        switch (stages[stageNum])
-        {
-            case YCrCb:
-            {
+        switch (stages[stageNum]) {
+            case YCrCb: {
                 return ycrcbMat;
             }
 
-            case FINAL:
-            {
+            case FINAL: {
                 return input;
             }
 
-            case MASKS:
-            {
+            case MASKS: {
                 Mat masks = new Mat();
                 Core.addWeighted(yellowThresholdMat, 1.0, redThresholdMat, 1.0, 0.0, masks);
                 Core.addWeighted(masks, 1.0, blueThresholdMat, 1.0, 0.0, masks);
                 return masks;
             }
 
-            case MASKS_NR:
-            {
+            case MASKS_NR: {
                 Mat masksNR = new Mat();
                 Core.addWeighted(morphedYellowThreshold, 1.0, morphedRedThreshold, 1.0, 0.0, masksNR);
                 Core.addWeighted(masksNR, 1.0, morphedBlueThreshold, 1.0, 0.0, masksNR);
                 return masksNR;
             }
 
-            case CONTOURS:
-            {
+            case CONTOURS: {
                 return contoursOnPlainImageMat;
             }
         }
 
         return input;
     }
+
     void findContours(Mat input)
     {
         brightness = getMidPixelBrightness(input);
@@ -119,26 +114,23 @@ public class SampleDetectionPipelineAngledCam extends SamplePipeline
         ArrayList<MatOfPoint> yellowContoursList = new ArrayList<>();
         Imgproc.findContours(morphedYellowThreshold, yellowContoursList, new Mat(), Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_NONE);
 
-        Imgproc.drawContours(input, yellowContoursList,-1, new Scalar(0,0,255),1,1);
-        Imgproc.drawContours(input, blueContoursList,-1, new Scalar(0,255,0),1,1);
-        Imgproc.drawContours(input, redContoursList,-1, new Scalar(255,0,0),1,1);
+        Imgproc.drawContours(input, yellowContoursList, -1, new Scalar(0, 0, 255), 1, 1);
+        Imgproc.drawContours(input, blueContoursList, -1, new Scalar(0, 255, 0), 1, 1);
+        Imgproc.drawContours(input, redContoursList, -1, new Scalar(255, 0, 0), 1, 1);
 
-        for(MatOfPoint contour : blueContoursList)
-        {
+        for (MatOfPoint contour : blueContoursList) {
             analyzeContour(contour, input, "Blue");
 
         }
 
-        for(MatOfPoint contour : redContoursList)
-        {
+        for (MatOfPoint contour : redContoursList) {
             analyzeContour(contour, input, "Red");
         }
 
-        for(MatOfPoint contour : yellowContoursList)
-        {
+        for (MatOfPoint contour : yellowContoursList) {
             analyzeContour(contour, input, "Yellow");
         }
-        DrawScreenAxes(input,"Red");
+        DrawScreenAxes(input, "Red");
 
         //get the approximate position of the nearest sample
 //        BlueCoords = getPoseOfClosestPixel(morphedBlueThreshold,cameraMatrix, camAngle, camHeight);
@@ -160,21 +152,20 @@ public class SampleDetectionPipelineAngledCam extends SamplePipeline
 
         // Adjust the angle based on rectangle dimensions
         double rotRectAngle = rotatedRectFitToContour.angle;
-        if (rotatedRectFitToContour.size.width < rotatedRectFitToContour.size.height)
-        {
+        if (rotatedRectFitToContour.size.width < rotatedRectFitToContour.size.height) {
             rotRectAngle += 90;
         }
 
         // Compute the angle and store it
         double angle = -(rotRectAngle - 180);
-        drawTagText(rotatedRectFitToContour, Integer.toString((int) Math.round(angle)) + " deg", input, color);
+        drawTagText(rotatedRectFitToContour, (int) Math.round(angle) + " deg", input, color);
 
         // Store the detected stone information
         AnalyzedStone analyzedStone = new AnalyzedStone();
         analyzedStone.rect = rotatedRectFitToContour;
         analyzedStone.angle = rotRectAngle;
         analyzedStone.color = color;
-        analyzedStone.setCoordsOnScreen(new Point((rotatedRectFitToContour.center.x-cx)/fx,-(rotatedRectFitToContour.center.y-cy)/fy));
+        analyzedStone.setCoordsOnScreen(new Point((rotatedRectFitToContour.center.x - cx) / fx, -(rotatedRectFitToContour.center.y - cy) / fy));
         analyzedStone.setPos(getCoordOnFloorFromCoordOnScreen(rotatedRectFitToContour.center));
         analyzedStone.width = getApriximateRealWidth(analyzedStone);
         analyzedStone.length = getApriximateRealLength(analyzedStone);

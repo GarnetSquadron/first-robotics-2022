@@ -5,21 +5,33 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.canvas.Canvas;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.acmerobotics.roadrunner.*;
+import com.acmerobotics.roadrunner.AccelConstraint;
+import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.Actions;
 import com.acmerobotics.roadrunner.AngularVelConstraint;
 import com.acmerobotics.roadrunner.DualNum;
 import com.acmerobotics.roadrunner.HolonomicController;
+import com.acmerobotics.roadrunner.InstantAction;
 import com.acmerobotics.roadrunner.MecanumKinematics;
 import com.acmerobotics.roadrunner.MinVelConstraint;
 import com.acmerobotics.roadrunner.MotorFeedforward;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Pose2dDual;
+import com.acmerobotics.roadrunner.PoseVelocity2d;
+import com.acmerobotics.roadrunner.PoseVelocity2dDual;
 import com.acmerobotics.roadrunner.ProfileAccelConstraint;
+import com.acmerobotics.roadrunner.ProfileParams;
+import com.acmerobotics.roadrunner.Rotation2d;
+import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.Time;
 import com.acmerobotics.roadrunner.TimeTrajectory;
 import com.acmerobotics.roadrunner.TimeTurn;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.acmerobotics.roadrunner.TrajectoryBuilderParams;
 import com.acmerobotics.roadrunner.TurnConstraints;
+import com.acmerobotics.roadrunner.Twist2d;
+import com.acmerobotics.roadrunner.Twist2dDual;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.VelConstraint;
 import com.acmerobotics.roadrunner.ftc.DownsampledWriter;
 import com.acmerobotics.roadrunner.ftc.Encoder;
@@ -33,8 +45,8 @@ import com.acmerobotics.roadrunner.ftc.RawEncoder;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
@@ -51,14 +63,15 @@ import org.firstinspires.ftc.teamcode.messages.PoseMessage;
 import org.firstinspires.ftc.teamcode.roadrunner.Drawing;
 import org.firstinspires.ftc.teamcode.roadrunner.Localizer;
 
-import java.lang.Math;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 @Config
-public final class MecanumDrive {
-    public static class Params {
+public final class MecanumDrive
+{
+    public static class Params
+    {
         // IMU orientation
         // TODO: fill in these values based on
         //   see https://ftc-docs.firstinspires.org/en/latest/programming_resources/imu/imu.html?highlight=imu#physical-hub-mounting
@@ -125,7 +138,7 @@ public final class MecanumDrive {
     public final LazyImu lazyImu;
 
     public final Localizer localizer;
-    public static Pose2d pose = new Pose2d(0,0,Math.PI/2);
+    public static Pose2d pose = new Pose2d(0, 0, Math.PI / 2);
     public final LinkedList<Pose2d> poseHistory = new LinkedList<>();
 
     private final DownsampledWriter estimatedPoseWriter = new DownsampledWriter("ESTIMATED_POSE", 50_000_000);
@@ -133,7 +146,8 @@ public final class MecanumDrive {
     private final DownsampledWriter driveCommandWriter = new DownsampledWriter("DRIVE_COMMAND", 50_000_000);
     private final DownsampledWriter mecanumCommandWriter = new DownsampledWriter("MECANUM_COMMAND", 50_000_000);
 
-    public class DriveLocalizer implements Localizer {
+    public class DriveLocalizer implements Localizer
+    {
         public final Encoder leftFront, leftBack, rightBack, rightFront;
         public final IMU imu;
 
@@ -142,7 +156,8 @@ public final class MecanumDrive {
         private boolean initialized;
         private Pose2d pose;
 
-        public DriveLocalizer(Pose2d pose) {
+        public DriveLocalizer(Pose2d pose)
+        {
             leftFront = new OverflowEncoder(new RawEncoder(MecanumDrive.this.leftFront));
             leftBack = new OverflowEncoder(new RawEncoder(MecanumDrive.this.leftBack));
             rightBack = new OverflowEncoder(new RawEncoder(MecanumDrive.this.rightBack));
@@ -157,17 +172,20 @@ public final class MecanumDrive {
         }
 
         @Override
-        public void setPose(Pose2d pose) {
+        public void setPose(Pose2d pose)
+        {
             this.pose = pose;
         }
 
         @Override
-        public Pose2d getPose() {
+        public Pose2d getPose()
+        {
             return pose;
         }
 
         @Override
-        public PoseVelocity2d update() {
+        public PoseVelocity2d update()
+        {
             PositionVelocityPair leftFrontPosVel = leftFront.getPositionAndVelocity();
             PositionVelocityPair leftBackPosVel = leftBack.getPositionAndVelocity();
             PositionVelocityPair rightBackPosVel = rightBack.getPositionAndVelocity();
@@ -229,7 +247,8 @@ public final class MecanumDrive {
         }
     }
 
-    public MecanumDrive(HardwareMap hardwareMap, Pose2d pose) {
+    public MecanumDrive(HardwareMap hardwareMap, Pose2d pose)
+    {
         LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
 
         for (LynxModule module : hardwareMap.getAll(LynxModule.class)) {
@@ -265,7 +284,8 @@ public final class MecanumDrive {
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }
 
-    public void setDrivePowers(PoseVelocity2d powers) {
+    public void setDrivePowers(PoseVelocity2d powers)
+    {
         MecanumKinematics.WheelVelocities<Time> wheelVels = new MecanumKinematics(1).inverse(
                 PoseVelocity2dDual.constant(powers, 1));
 
@@ -280,13 +300,15 @@ public final class MecanumDrive {
         rightFront.setPower(wheelVels.rightFront.get(0) / maxPowerMag);
     }
 
-    public final class FollowTrajectoryAction implements Action {
+    public final class FollowTrajectoryAction implements Action
+    {
         public final TimeTrajectory timeTrajectory;
         private double beginTs = -1;
 
         private final double[] xPoints, yPoints;
 
-        public FollowTrajectoryAction(TimeTrajectory t) {
+        public FollowTrajectoryAction(TimeTrajectory t)
+        {
             timeTrajectory = t;
 
             List<Double> disps = com.acmerobotics.roadrunner.Math.range(
@@ -302,7 +324,8 @@ public final class MecanumDrive {
         }
 
         @Override
-        public boolean run(@NonNull TelemetryPacket p) {
+        public boolean run(@NonNull TelemetryPacket p)
+        {
             double t;
             if (beginTs < 0) {
                 beginTs = Actions.now();
@@ -377,24 +400,28 @@ public final class MecanumDrive {
         }
 
         @Override
-        public void preview(Canvas c) {
+        public void preview(Canvas c)
+        {
             c.setStroke("#4CAF507A");
             c.setStrokeWidth(1);
             c.strokePolyline(xPoints, yPoints);
         }
     }
 
-    public final class TurnAction implements Action {
+    public final class TurnAction implements Action
+    {
         private final TimeTurn turn;
 
         private double beginTs = -1;
 
-        public TurnAction(TimeTurn turn) {
+        public TurnAction(TimeTurn turn)
+        {
             this.turn = turn;
         }
 
         @Override
-        public boolean run(@NonNull TelemetryPacket p) {
+        public boolean run(@NonNull TelemetryPacket p)
+        {
             double t;
             if (beginTs < 0) {
                 beginTs = Actions.now();
@@ -457,13 +484,15 @@ public final class MecanumDrive {
         }
 
         @Override
-        public void preview(Canvas c) {
+        public void preview(Canvas c)
+        {
             c.setStroke("#7C4DFF7A");
             c.fillCircle(turn.beginPose.position.x, turn.beginPose.position.y, 2);
         }
     }
 
-    public PoseVelocity2d updatePoseEstimate() {
+    public PoseVelocity2d updatePoseEstimate()
+    {
         PoseVelocity2d vel = localizer.update();
         poseHistory.add(localizer.getPose());
 
@@ -477,7 +506,8 @@ public final class MecanumDrive {
         return vel;
     }
 
-    private void drawPoseHistory(Canvas c) {
+    private void drawPoseHistory(Canvas c)
+    {
         double[] xPoints = new double[poseHistory.size()];
         double[] yPoints = new double[poseHistory.size()];
 
@@ -494,7 +524,8 @@ public final class MecanumDrive {
         c.strokePolyline(xPoints, yPoints);
     }
 
-    public TrajectoryActionBuilder actionBuilder(Pose2d beginPose) {
+    public TrajectoryActionBuilder actionBuilder(Pose2d beginPose)
+    {
         return new TrajectoryActionBuilder(
                 TurnAction::new,
                 FollowTrajectoryAction::new,
@@ -511,87 +542,117 @@ public final class MecanumDrive {
     }
 
     /**
-     * I havent tested this yet but it should stay still for a given period of time
-     * and importantly it should try to get back to where it was if it isnt there.
+     * I havent tested this yet but it should stay still for a given period of time and importantly
+     * it should try to get back to where it was if it isnt there.
      */
-    public class StayAndWait implements Action {
-         Pose2d beginPose, tgPose;
+    public class StayAndWait implements Action
+    {
+        Pose2d beginPose, tgPose;
         double duration;
         double initTime;
-         double error;
-        public StayAndWait(Pose2d beginPose, double t, double error){
+        double error;
+
+        public StayAndWait(Pose2d beginPose, double t, double error)
+        {
             tgPose = pose;
             initTime = Actions.now();
-            duration =t;
+            duration = t;
             this.beginPose = beginPose;
-            this.error=error;
+            this.error = error;
         }
-        @Override
-        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
 
-            if (Actions.now()-initTime< duration) {
+        @Override
+        public boolean run(@NonNull TelemetryPacket telemetryPacket)
+        {
+
+            if (Actions.now() - initTime < duration) {
                 return true;
             }
-            double poseError=Math.hypot((tgPose.position.x-pose.position.x),(tgPose.position.y-pose.position.y));
-            double headingError=Math.abs(tgPose.heading.toDouble()-pose.heading.toDouble());
-            if(poseError<error||headingError<error ){
+            double poseError = Math.hypot((tgPose.position.x - pose.position.x), (tgPose.position.y - pose.position.y));
+            double headingError = Math.abs(tgPose.heading.toDouble() - pose.heading.toDouble());
+            if (poseError < error || headingError < error) {
                 actionBuilder(beginPose).splineToLinearHeading(tgPose, 0).build();
             }
             return false;
         }
     }
-    public Action stayAndWait(Pose2d beginPos, double t,double error){
-        return new StayAndWait(beginPos,t,error);
+
+    public Action stayAndWait(Pose2d beginPos, double t, double error)
+    {
+        return new StayAndWait(beginPos, t, error);
     }
 
-    public static double getTangentAngle(Pose2d tgtPose, Pose2d beginPose){
-        return Math.PI+Math.atan((tgtPose.position.y-beginPose.position.y)/(tgtPose.position.x-beginPose.position.x));
+    public static double getTangentAngle(Pose2d tgtPose, Pose2d beginPose)
+    {
+        return Math.PI + Math.atan((tgtPose.position.y - beginPose.position.y) / (tgtPose.position.x - beginPose.position.x));
     }
-    public Action EasyLine(Pose2d tgtPose, Pose2d beginPose){
+
+    public Action EasyLine(Pose2d tgtPose, Pose2d beginPose)
+    {
         return actionBuilder(beginPose)
-                .setTangent(getTangentAngle(beginPose,tgtPose))
-                .splineToSplineHeading(tgtPose, getTangentAngle(tgtPose,beginPose))
+                .setTangent(getTangentAngle(beginPose, tgtPose))
+                .splineToSplineHeading(tgtPose, getTangentAngle(tgtPose, beginPose))
                 .build();
     }
-    public Action StraightTo(Pose2d tgtPos){
+
+    public Action StraightTo(Pose2d tgtPos)
+    {
         return actionBuilder(pose)
-                .strafeToSplineHeading(tgtPos.position,tgtPos.heading)
+                .strafeToSplineHeading(tgtPos.position, tgtPos.heading)
                 .build();
     }
-    public Action CancelableStraightTo(Pose2d tgtPos){
+
+    public Action CancelableStraightTo(Pose2d tgtPos)
+    {
         return new CancelableAction(
                 StraightTo(tgtPos),
                 Stop()
         );
     }
-    public Action Stop(){
+
+    public Action Stop()
+    {
         return new InstantAction(() -> setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0)));
     }
-    public void SetPosTo(Pose2d pose){
+
+    public void SetPosTo(Pose2d pose)
+    {
         MecanumDrive.pose = pose;
     }
-    public void SetDirectionTo(double direction, AngleUnitV2 m){
-        SetPosTo(new Pose2d(MecanumDrive.pose.position, ExtraMath.ConvertAngleUnit(direction,m, AngleUnitV2.RADIANS)));
+
+    public void SetDirectionTo(double direction, AngleUnitV2 m)
+    {
+        SetPosTo(new Pose2d(MecanumDrive.pose.position, ExtraMath.ConvertAngleUnit(direction, m, AngleUnitV2.RADIANS)));
     }
 
-    public Action SetPosTolerance(double tolerance){
-        return new InstantAction(()-> PARAMS.posTolerance = tolerance);
+    public Action SetPosTolerance(double tolerance)
+    {
+        return new InstantAction(() -> PARAMS.posTolerance = tolerance);
     }
-    public Action SetVelTolerance(double tolerance){
-        return new InstantAction(()-> PARAMS.velTolerance = tolerance);
+
+    public Action SetVelTolerance(double tolerance)
+    {
+        return new InstantAction(() -> PARAMS.velTolerance = tolerance);
     }
-    public Action SetAngleTolerance(double tolerance){
-        return new InstantAction(()-> angleTolerance = tolerance);
+
+    public Action SetAngleTolerance(double tolerance)
+    {
+        return new InstantAction(() -> angleTolerance = tolerance);
     }
-    public Action SetAngularVelTolerance(double tolerance){
-        return new InstantAction(()-> angularVelTolerance = tolerance);
+
+    public Action SetAngularVelTolerance(double tolerance)
+    {
+        return new InstantAction(() -> angularVelTolerance = tolerance);
     }
-    public Action ResetToleranceToDefault(double posTolerance){
-        return new SequentialAction(SetPosTolerance(2),SetVelTolerance(0.5),SetAngleTolerance(2),SetAngularVelTolerance(0.5));
+
+    public Action ResetToleranceToDefault(double posTolerance)
+    {
+        return new SequentialAction(SetPosTolerance(2), SetVelTolerance(0.5), SetAngleTolerance(2), SetAngularVelTolerance(0.5));
     }
 
 
-    public void unbrake(){
+    public void unbrake()
+    {
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);

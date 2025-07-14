@@ -16,18 +16,19 @@ import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
 
 /**
- * This is the Triangle autonomous OpMode.
- * It runs the robot in a triangle, with the starting point being the bottom-middle point.
+ * This is the Triangle autonomous OpMode. It runs the robot in a triangle, with the starting point
+ * being the bottom-middle point.
  *
  * @author Baron Henderson - 20077 The Indubitables
  * @author Samarth Mahapatra - 1002 CircuitRunners Robotics Surge
  * @version 1.0, 12/30/2024
  */
 @Autonomous(name = "Triangle", group = "Examples")
-public class Triangle extends OpMode {
+public class Triangle extends OpMode
+{
     private Follower follower;
 
-    private final Pose startPose = new Pose(0,0, Math.toRadians(0));
+    private final Pose startPose = new Pose(0, 0, Math.toRadians(0));
     private final Pose interPose = new Pose(24, -24, Math.toRadians(90));
     private final Pose endPose = new Pose(24, 24, Math.toRadians(45));
 
@@ -40,7 +41,8 @@ public class Triangle extends OpMode {
      * the Telemetry, as well as the FTC Dashboard.
      */
     @Override
-    public void loop() {
+    public void loop()
+    {
         follower.update();
 
         if (follower.atParametricEnd()) {
@@ -51,11 +53,12 @@ public class Triangle extends OpMode {
     }
 
     /**
-     * This initializes the Follower and creates the PathChain for the "triangle". Additionally, this
-     * initializes the FTC Dashboard telemetry.
+     * This initializes the Follower and creates the PathChain for the "triangle". Additionally,
+     * this initializes the FTC Dashboard telemetry.
      */
     @Override
-    public void init() {
+    public void init()
+    {
         follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
         follower.setStartingPose(startPose);
 

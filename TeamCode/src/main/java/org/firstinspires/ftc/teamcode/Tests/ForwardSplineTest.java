@@ -13,12 +13,14 @@ import org.firstinspires.ftc.teamcode.roadrunner.drives.MecanumDrive;
 
 @TeleOp(name = "ForwardSplineTest")
 @Disabled
-public class ForwardSplineTest extends LinearOpMode {
+public class ForwardSplineTest extends LinearOpMode
+{
 
-    public void runOpMode(){
-        Pose2d beginPose = new Pose2d(0,0,0);
-        MecanumDrive drive = new MecanumDrive(hardwareMap,beginPose);
-        Action path = drive.actionBuilder(beginPose).splineToConstantHeading(new Vector2d(40,0), 0).build();
+    public void runOpMode()
+    {
+        Pose2d beginPose = new Pose2d(0, 0, 0);
+        MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
+        Action path = drive.actionBuilder(beginPose).splineToConstantHeading(new Vector2d(40, 0), 0).build();
         waitForStart();
         Actions.runBlocking(path);
     }

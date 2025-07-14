@@ -9,11 +9,13 @@ import org.firstinspires.ftc.teamcode.roadrunner.drives.TankDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.localizers.ThreeDeadWheelLocalizer;
 import org.firstinspires.ftc.teamcode.roadrunner.localizers.TwoDeadWheelLocalizer;
 
-public final class ManualFeedbackTuner extends LinearOpMode {
+public final class ManualFeedbackTuner extends LinearOpMode
+{
     public static double DISTANCE = 36;
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() throws InterruptedException
+    {
         if (TuningOpModes.DRIVE_CLASS.equals(MecanumDrive.class)) {
             MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
 

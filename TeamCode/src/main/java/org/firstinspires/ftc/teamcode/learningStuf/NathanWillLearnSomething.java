@@ -4,15 +4,19 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Subsystems.hardwareClasses.motors.RAWMOTOR;
 
-public class NathanWillLearnSomething {
+public class NathanWillLearnSomething
+{
     RAWMOTOR leftwheel;
     RAWMOTOR rightwheel;
 
-    public NathanWillLearnSomething(HardwareMap hardwareMap) {
+    public NathanWillLearnSomething(HardwareMap hardwareMap)
+    {
         leftwheel = new RAWMOTOR(hardwareMap, "viperleft");
         rightwheel = new RAWMOTOR(hardwareMap, "viperright");
     }
-    public void setpower(double power, double curve){
+
+    public void setpower(double power, double curve)
+    {
         leftwheel.setPower(power - curve);
         rightwheel.setPower(-power - curve);
     }

@@ -3,7 +3,10 @@ package org.firstinspires.ftc.teamcode.pedroPathing.tuners_tests.localization;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.pedropathing.localization.PoseUpdater;
 import com.pedropathing.util.Constants;
+import com.pedropathing.util.DashboardPoseTracker;
+import com.pedropathing.util.Drawing;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
@@ -11,27 +14,24 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
-import com.pedropathing.localization.PoseUpdater;
-import com.pedropathing.util.DashboardPoseTracker;
-import com.pedropathing.util.Drawing;
-
 
 /**
  * This is the LateralTuner OpMode. This tracks the strafe movement of the robot and displays the
  * necessary ticks to inches multiplier. This displayed multiplier is what's necessary to scale the
  * robot's current distance in ticks to the specified distance in inches. So, to use this, run the
- * tuner, then pull/push the robot to the specified distance using a ruler on the ground. When you're
- * at the end of the distance, record the ticks to inches multiplier. Feel free to run multiple trials
- * and average the results. Then, input the multiplier into the strafe ticks to inches in your
- * localizer of choice.
- * You can adjust the target distance on FTC Dashboard: 192/168/43/1:8080/dash
+ * tuner, then pull/push the robot to the specified distance using a ruler on the ground. When
+ * you're at the end of the distance, record the ticks to inches multiplier. Feel free to run
+ * multiple trials and average the results. Then, input the multiplier into the strafe ticks to
+ * inches in your localizer of choice. You can adjust the target distance on FTC Dashboard:
+ * 192/168/43/1:8080/dash
  *
  * @author Anyi Lin - 10158 Scott's Bots
  * @version 1.0, 5/6/2024
  */
 @Config
 @Autonomous(name = "Lateral Localizer Tuner", group = ".Localization")
-public class LateralTuner extends OpMode {
+public class LateralTuner extends OpMode
+{
     private PoseUpdater poseUpdater;
     private DashboardPoseTracker dashboardPoseTracker;
 
@@ -43,7 +43,8 @@ public class LateralTuner extends OpMode {
      * This initializes the PoseUpdater as well as the FTC Dashboard telemetry.
      */
     @Override
-    public void init() {
+    public void init()
+    {
         Constants.setConstants(FConstants.class, LConstants.class);
         poseUpdater = new PoseUpdater(hardwareMap, FConstants.class, LConstants.class);
 
@@ -62,7 +63,8 @@ public class LateralTuner extends OpMode {
      * calculated multiplier and draws the robot.
      */
     @Override
-    public void loop() {
+    public void loop()
+    {
         poseUpdater.update();
 
         telemetryA.addData("distance moved", poseUpdater.getPose().getY());

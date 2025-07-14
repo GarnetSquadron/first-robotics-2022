@@ -8,16 +8,20 @@ import org.firstinspires.ftc.teamcode.cv.Vision;
 
 @TeleOp(name = "brightness test")
 @Disabled
-public class BrightnessTest extends OpMode {
+public class BrightnessTest extends OpMode
+{
     Vision vision;
+
     @Override
-    public void init() {
-        vision = new Vision(hardwareMap,telemetry);
+    public void init()
+    {
+        vision = new Vision(hardwareMap, telemetry);
         vision.InitPipeline();
     }
 
     @Override
-    public void loop() {
+    public void loop()
+    {
 
     }
 }

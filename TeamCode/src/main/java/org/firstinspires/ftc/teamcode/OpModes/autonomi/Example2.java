@@ -8,20 +8,22 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.roadrunner.drives.MecanumDrive;
 import org.firstinspires.ftc.teamcode.depricated.NonDriveHardware;
+import org.firstinspires.ftc.teamcode.roadrunner.drives.MecanumDrive;
 
 @Config
-@TeleOp(name="Example2", group = "RoadRunnerStuff")
+@TeleOp(name = "Example2", group = "RoadRunnerStuff")
 @Disabled
-public class Example2 extends LinearOpMode {
+public class Example2 extends LinearOpMode
+{
     @Override
-    public void runOpMode() throws InterruptedException {
-        Pose2d beginpos = new Pose2d(0,0,0);
+    public void runOpMode() throws InterruptedException
+    {
+        Pose2d beginpos = new Pose2d(0, 0, 0);
         MecanumDrive drive = new MecanumDrive(hardwareMap, beginpos);
         NonDriveHardware.Arm arm = new NonDriveHardware.Arm(hardwareMap, 20);
         Action path = drive.actionBuilder(beginpos)
-                .splineToSplineHeading(new Pose2d(20,20,Math.toRadians(90)), 0)
+                .splineToSplineHeading(new Pose2d(20, 20, Math.toRadians(90)), 0)
                 .build();
         waitForStart();
         Actions.runBlocking(

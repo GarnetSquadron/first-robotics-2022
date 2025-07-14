@@ -17,31 +17,37 @@ import org.firstinspires.ftc.teamcode.roadrunner.tuning.TuningOpModes;
 ///import ViperSlidesSubSystem;
 
 @TeleOp(name = "Headless Drive")
-public class HeadlessDrive extends LinearOpMode {
+public class HeadlessDrive extends LinearOpMode
+{
     //ViperSlidesSubSystem viperSlidesSubSystem = new ViperSlidesSubSystem();
-    DcMotorEx lf,rf,lb,rb;
+    DcMotorEx lf, rf, lb, rb;
+
     /**
      * put this in a loop so that it updates the position
-     * @param drive the MecanumDrive instance
+     *
+     * @param drive   the MecanumDrive instance
      * @param gamepad the gamepad you want to use for driving
      */
-    public static void RunHeadlessDrive(MecanumDrive drive, Gamepad gamepad){
-        double direction = drive.pose.heading.toDouble();
+    public static void RunHeadlessDrive(MecanumDrive drive, Gamepad gamepad)
+    {
+        double direction = MecanumDrive.pose.heading.toDouble();
         drive.setDrivePowers(new PoseVelocity2d(
                 new Vector2d(
-                        -Math.sin(drive.pose.heading.toDouble())*gamepad.left_stick_x-Math.cos(drive.pose.heading.toDouble())*gamepad.left_stick_y,
-                        -Math.cos(drive.pose.heading.toDouble())*gamepad.left_stick_x+Math.sin(drive.pose.heading.toDouble())*gamepad.left_stick_y
+                        -Math.sin(MecanumDrive.pose.heading.toDouble()) * gamepad.left_stick_x - Math.cos(MecanumDrive.pose.heading.toDouble()) * gamepad.left_stick_y,
+                        -Math.cos(MecanumDrive.pose.heading.toDouble()) * gamepad.left_stick_x + Math.sin(MecanumDrive.pose.heading.toDouble()) * gamepad.left_stick_y
                 ),
                 -gamepad.right_stick_x
         ));
     }
+
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() throws InterruptedException
+    {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        lb = hardwareMap.get(DcMotorEx.class,"lb");
-        rb = hardwareMap.get(DcMotorEx.class,"rb");
-        lf = hardwareMap.get(DcMotorEx.class,"lf");
-        rf = hardwareMap.get(DcMotorEx.class,"rf");
+        lb = hardwareMap.get(DcMotorEx.class, "lb");
+        rb = hardwareMap.get(DcMotorEx.class, "rb");
+        lf = hardwareMap.get(DcMotorEx.class, "lf");
+        rf = hardwareMap.get(DcMotorEx.class, "rf");
 
         if (TuningOpModes.DRIVE_CLASS.equals(MecanumDrive.class)) {
             MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
@@ -104,7 +110,7 @@ public class HeadlessDrive extends LinearOpMode {
         }
 
         if (gamepad1.right_bumper) {
-           //viperSlidesSubSystem.Extend();
+            //viperSlidesSubSystem.Extend();
         } else if (gamepad1.left_bumper) {
             //viperSlidesSubSystem.Return();
         } else {

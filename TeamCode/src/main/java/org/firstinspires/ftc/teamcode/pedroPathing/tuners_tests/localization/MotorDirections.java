@@ -29,7 +29,8 @@ import java.util.List;
 
 @TeleOp(name = "Motor Directions", group = "Teleop Test")
 @Disabled
-public class MotorDirections extends OpMode {
+public class MotorDirections extends OpMode
+{
     private Telemetry telemetryA;
 
     private DcMotorEx leftFront;
@@ -39,7 +40,8 @@ public class MotorDirections extends OpMode {
     private List<DcMotorEx> motors;
 
     @Override
-    public void init() {
+    public void init()
+    {
         Constants.setConstants(FConstants.class, LConstants.class);
 
         leftFront = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);
@@ -69,29 +71,30 @@ public class MotorDirections extends OpMode {
     }
 
     @Override
-    public void loop() {
+    public void loop()
+    {
         Constants.setConstants(FConstants.class, LConstants.class);
         leftFront.setDirection(leftFrontMotorDirection);
         leftRear.setDirection(leftRearMotorDirection);
         rightFront.setDirection(rightFrontMotorDirection);
         rightRear.setDirection(rightRearMotorDirection);
 
-        if(gamepad1.a)
+        if (gamepad1.a)
             leftFront.setPower(1);
         else
             leftFront.setPower(0);
 
-        if(gamepad1.y)
+        if (gamepad1.y)
             leftRear.setPower(1);
         else
             leftRear.setPower(0);
 
-        if(gamepad1.b)
+        if (gamepad1.b)
             rightFront.setPower(1);
         else
             rightFront.setPower(0);
 
-        if(gamepad1.x)
+        if (gamepad1.x)
             rightRear.setPower(1);
         else
             rightRear.setPower(0);

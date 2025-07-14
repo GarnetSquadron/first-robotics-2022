@@ -7,15 +7,20 @@ import com.acmerobotics.roadrunner.Action;
 
 import java.util.function.BooleanSupplier;
 
-public class ConditionLoopAction implements Action {
+public class ConditionLoopAction implements Action
+{
     Action action;
     BooleanSupplier condition;
-    public ConditionLoopAction(Action action, BooleanSupplier condition){
+
+    public ConditionLoopAction(Action action, BooleanSupplier condition)
+    {
         this.action = action;
         this.condition = condition;
     }
+
     @Override
-    public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+    public boolean run(@NonNull TelemetryPacket telemetryPacket)
+    {
         action.run(telemetryPacket);
         return condition.getAsBoolean();
     }

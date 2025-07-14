@@ -1,0 +1,3 @@
+If you want to move the servo, use `servo.setPosition(double position)`
+(if you're a beginner, that line means replace `double position` with a double(which means any number)). All the servos can be given an input of 0 to 1, which covers the entire range it is programmed to cover. Sometimes you can reprogram a servo to have a larger or smaller range, depending on the servo. 
+I have yet to be able to reprogram 

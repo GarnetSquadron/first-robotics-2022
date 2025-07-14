@@ -12,22 +12,24 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.roadrunner.drives.MecanumDrive;
 
 @Config
-@TeleOp(name="ScrimmageAutoRouteRR")
+@TeleOp(name = "ScrimmageAutoRouteRR")
 @Disabled
-public class ScrimmageAutoRouteRR extends LinearOpMode {
+public class ScrimmageAutoRouteRR extends LinearOpMode
+{
 
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() throws InterruptedException
+    {
 
-        Pose2d beginpose = new Pose2d(-26,-70,90);
-        MecanumDrive Drive = new MecanumDrive(hardwareMap,beginpose);
+        Pose2d beginpose = new Pose2d(-26, -70, 90);
+        MecanumDrive Drive = new MecanumDrive(hardwareMap, beginpose);
         Action path = Drive.actionBuilder(beginpose)
-                .splineToConstantHeading(new Vector2d(-45,-34),0)
-                .splineToConstantHeading(new Vector2d(-60,-60),0)
-                .splineToConstantHeading(new Vector2d(-70,-34),0)
-                .splineToConstantHeading(new Vector2d(-60,-60),0)
-                .splineToConstantHeading(new Vector2d(-54,-34),0)
-                .splineToConstantHeading(new Vector2d(-60,-60),0)
-                .splineToConstantHeading(new Vector2d(56,-60),0)
+                .splineToConstantHeading(new Vector2d(-45, -34), 0)
+                .splineToConstantHeading(new Vector2d(-60, -60), 0)
+                .splineToConstantHeading(new Vector2d(-70, -34), 0)
+                .splineToConstantHeading(new Vector2d(-60, -60), 0)
+                .splineToConstantHeading(new Vector2d(-54, -34), 0)
+                .splineToConstantHeading(new Vector2d(-60, -60), 0)
+                .splineToConstantHeading(new Vector2d(56, -60), 0)
                 .build();
         waitForStart();
         Actions.runBlocking(path);

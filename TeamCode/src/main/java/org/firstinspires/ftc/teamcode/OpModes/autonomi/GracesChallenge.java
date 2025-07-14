@@ -10,19 +10,22 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.roadrunner.drives.MecanumDrive;
+
 @Config
-@TeleOp(name="GracesChallenge")
+@TeleOp(name = "GracesChallenge")
 @Disabled
-public class GracesChallenge extends LinearOpMode {
+public class GracesChallenge extends LinearOpMode
+{
 
 
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() throws InterruptedException
+    {
 
-            Pose2d beginpose = new Pose2d(0,0,0);
-            MecanumDrive Drive = new MecanumDrive(hardwareMap,beginpose);
-            Action path = Drive.actionBuilder(beginpose).splineToConstantHeading(new Vector2d(10,0),0) .splineToConstantHeading(new Vector2d(20,-20),0).build();
-            waitForStart();
-            Actions.runBlocking(path);
+        Pose2d beginpose = new Pose2d(0, 0, 0);
+        MecanumDrive Drive = new MecanumDrive(hardwareMap, beginpose);
+        Action path = Drive.actionBuilder(beginpose).splineToConstantHeading(new Vector2d(10, 0), 0).splineToConstantHeading(new Vector2d(20, -20), 0).build();
+        waitForStart();
+        Actions.runBlocking(path);
     }
 
 }

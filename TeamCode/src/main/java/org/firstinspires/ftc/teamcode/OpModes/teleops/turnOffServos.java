@@ -8,11 +8,14 @@ import org.firstinspires.ftc.teamcode.Subsystems.Bot;
 
 @TeleOp(name = "ATurnOffTheServos")//the A is for the alphabetical order
 @Disabled
-public class turnOffServos extends LinearOpMode {
+public class turnOffServos extends LinearOpMode
+{
     Bot bot;
+
     @Override
-    public void runOpMode() throws InterruptedException {
-        bot = new Bot(hardwareMap,telemetry,this::getRuntime);
+    public void runOpMode() throws InterruptedException
+    {
+        bot = new Bot(hardwareMap, telemetry, this::getRuntime);
         waitForStart();
         bot.turnOffTheServos();
         sleep(100000);

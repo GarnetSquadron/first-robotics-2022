@@ -1,18 +1,21 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.tuners_tests.automatic;
 
-import static com.pedropathing.follower.FollowerConstants.leftFrontMotorName;
-import static com.pedropathing.follower.FollowerConstants.leftRearMotorName;
-import static com.pedropathing.follower.FollowerConstants.rightFrontMotorName;
-import static com.pedropathing.follower.FollowerConstants.rightRearMotorName;
 import static com.pedropathing.follower.FollowerConstants.leftFrontMotorDirection;
+import static com.pedropathing.follower.FollowerConstants.leftFrontMotorName;
 import static com.pedropathing.follower.FollowerConstants.leftRearMotorDirection;
+import static com.pedropathing.follower.FollowerConstants.leftRearMotorName;
 import static com.pedropathing.follower.FollowerConstants.rightFrontMotorDirection;
+import static com.pedropathing.follower.FollowerConstants.rightFrontMotorName;
 import static com.pedropathing.follower.FollowerConstants.rightRearMotorDirection;
+import static com.pedropathing.follower.FollowerConstants.rightRearMotorName;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.pedropathing.follower.FollowerConstants;
+import com.pedropathing.localization.PoseUpdater;
+import com.pedropathing.pathgen.MathFunctions;
+import com.pedropathing.pathgen.Vector;
 import com.pedropathing.util.Constants;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -24,15 +27,9 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
-import com.pedropathing.localization.PoseUpdater;
-import com.pedropathing.pathgen.MathFunctions;
-import com.pedropathing.pathgen.Vector;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-
 
 
 /**
@@ -42,8 +39,8 @@ import java.util.List;
  * stops. The accelerations across the entire time the robot is slowing down is then averaged and
  * that number is then printed. This is used to determine how the robot will decelerate in the
  * forward direction when power is cut, making the estimations used in the calculations for the
- * drive Vector more accurate and giving better braking at the end of Paths.
- * You can adjust the max velocity the robot will hit on FTC Dashboard: 192/168/43/1:8080/dash
+ * drive Vector more accurate and giving better braking at the end of Paths. You can adjust the max
+ * velocity the robot will hit on FTC Dashboard: 192/168/43/1:8080/dash
  *
  * @author Anyi Lin - 10158 Scott's Bots
  * @author Aaron Yang - 10158 Scott's Bots
@@ -52,8 +49,9 @@ import java.util.List;
  */
 @Config
 @Autonomous(name = "Forward Zero Power Acceleration Tuner", group = "Automatic Tuners")
-public class ForwardZeroPowerAccelerationTuner extends OpMode {
-    private ArrayList<Double> accelerations = new ArrayList<>();
+public class ForwardZeroPowerAccelerationTuner extends OpMode
+{
+    private final ArrayList<Double> accelerations = new ArrayList<>();
 
     private DcMotorEx leftFront;
     private DcMotorEx leftRear;
@@ -78,8 +76,9 @@ public class ForwardZeroPowerAccelerationTuner extends OpMode {
      * This initializes the drive motors as well as the FTC Dashboard telemetry.
      */
     @Override
-    public void init() {
-Constants.setConstants(FConstants.class, LConstants.class);
+    public void init()
+    {
+        Constants.setConstants(FConstants.class, LConstants.class);
         poseUpdater = new PoseUpdater(hardwareMap, FConstants.class, LConstants.class);
 
         leftFront = hardwareMap.get(DcMotorEx.class, leftFrontMotorName);
@@ -116,7 +115,8 @@ Constants.setConstants(FConstants.class, LConstants.class);
      * This starts the OpMode by setting the drive motors to run forward at full power.
      */
     @Override
-    public void start() {
+    public void start()
+    {
         leftFront.setPower(1);
         leftRear.setPower(1);
         rightFront.setPower(1);
@@ -130,7 +130,8 @@ Constants.setConstants(FConstants.class, LConstants.class);
      * recorded deceleration / negative acceleration and print that value.
      */
     @Override
-    public void loop() {
+    public void loop()
+    {
         if (gamepad1.cross || gamepad1.a) {
             for (DcMotorEx motor : motors) {
                 motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -165,7 +166,7 @@ Constants.setConstants(FConstants.class, LConstants.class);
             for (Double acceleration : accelerations) {
                 average += acceleration;
             }
-            average /= (double) accelerations.size();
+            average /= accelerations.size();
 
             telemetryA.addData("forward zero power acceleration (deceleration):", average);
             telemetryA.update();

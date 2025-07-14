@@ -1,41 +1,51 @@
 package org.firstinspires.ftc.teamcode.depricated.TriangleIntake;
 
 //import com.acmerobotics.roadrunner.Action;
+
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
-public class TriangleIntake extends SubsystemBase {
+public class TriangleIntake extends SubsystemBase
+{
     private final CRServo Ti;
     private final CRServo Fi;
     private final CRServo Bi;
-    public TriangleIntake(HardwareMap hardwareMap, String TiName,String FiName,String BiName, String pivotName){
-        Ti = hardwareMap.get(CRServo.class,TiName);
-        Fi = hardwareMap.get(CRServo.class,FiName);
-        Bi = hardwareMap.get(CRServo.class,BiName);
+
+    public TriangleIntake(HardwareMap hardwareMap, String TiName, String FiName, String BiName, String pivotName)
+    {
+        Ti = hardwareMap.get(CRServo.class, TiName);
+        Fi = hardwareMap.get(CRServo.class, FiName);
+        Bi = hardwareMap.get(CRServo.class, BiName);
     }
-    public enum State{
+
+    public enum State
+    {
         INTAKING,
         EJECTING,
         HOLDING
     }
+
     public State state;
-    public void intake() {
+
+    public void intake()
+    {
         Ti.setPower(0);
         Fi.setPower(+1);
         Bi.setPower(-1);
         state = State.INTAKING;
     }
 
-    public void eject() {
+    public void eject()
+    {
         Ti.setPower(+1);
         Fi.setPower(+1);
         Bi.setPower(0);
         state = State.EJECTING;
     }
 
-    public void hold() {
+    public void hold()
+    {
         Ti.setPower(0);
         Fi.setPower(0);
         Bi.setPower(0);

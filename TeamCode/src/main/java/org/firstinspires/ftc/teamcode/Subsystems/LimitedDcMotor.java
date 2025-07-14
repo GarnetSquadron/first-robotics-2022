@@ -1,13 +1,12 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
-import com.arcrobotics.ftclib.hardware.motors.Motor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
  * UNUSED
  */
-public class LimitedDcMotor extends SubsystemBase {
+public class LimitedDcMotor extends SubsystemBase
+{
 //    private final DcMotorSub motor;
 //    private final int MaxPos;
 //    private final int MinPos;

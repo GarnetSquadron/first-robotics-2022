@@ -8,23 +8,34 @@ import org.firstinspires.ftc.teamcode.Subsystems.hardwareClasses.ActionServo;
 
 import java.util.function.DoubleSupplier;
 
-public class IntakePivot extends SubsystemBase {
+public class IntakePivot extends SubsystemBase
+{
     public ActionServo pivot;
-    public IntakePivot(HardwareMap hardwaremap, DoubleSupplier time){
-        pivot = new ActionServo(hardwaremap,"pivot",1,0,0.5,time);
-    //hardwaremap.get(Servo.class, "pivot");
+
+    public IntakePivot(HardwareMap hardwaremap, DoubleSupplier time)
+    {
+        pivot = new ActionServo(hardwaremap, "pivot", 1, 0, 0.5, time);
+        //hardwaremap.get(Servo.class, "pivot");
 
     }
-    public Action deploy() {
+
+    public Action deploy()
+    {
         return pivot.runToRatio(1);
     }
-    public Action undeploy() {
+
+    public Action undeploy()
+    {
         return pivot.runToRatio(0);
     }
-    public Action poiseForTheGrab(){
+
+    public Action poiseForTheGrab()
+    {
         return pivot.runToRatio(0.95);
     }
-    public Action poiseForTheGrabAuto(){
+
+    public Action poiseForTheGrabAuto()
+    {
         return pivot.runToRatio(0.85);
     }
 }

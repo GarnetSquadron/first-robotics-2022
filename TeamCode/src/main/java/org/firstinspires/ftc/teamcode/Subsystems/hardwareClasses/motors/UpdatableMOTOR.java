@@ -6,37 +6,50 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class UpdatableMOTOR extends MOTOR {
+public class UpdatableMOTOR extends MOTOR
+{
     double targetPower;
     boolean positionControl;
-    public UpdatableMOTOR(HardwareMap hardwareMap, String name) {
+
+    public UpdatableMOTOR(HardwareMap hardwareMap, String name)
+    {
         super(hardwareMap, name);
     }
-    public class UpdatePower implements Action{
+
+    public class UpdatePower implements Action
+    {
         @Override
-        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+        public boolean run(@NonNull TelemetryPacket telemetryPacket)
+        {
             encoder.updateVelocity();
-            if(positionControl){
+            if (positionControl) {
                 runToTargetPosition();
-            }
-            else{
+            } else {
                 runWithTargetPower();
             }
             return true;
         }
     }
-    public boolean inPositionControl(){
+
+    public boolean inPositionControl()
+    {
         return positionControl;
     }
+
     @Override
-    public void setTargetPosition(double targetPosition){
+    public void setTargetPosition(double targetPosition)
+    {
         positionControl = true;
         super.setTargetPosition(targetPosition);
     }
-    public void runWithTargetPower(){
+
+    public void runWithTargetPower()
+    {
         setPower(targetPower);
     }
-    public void setTargetPower(double targetPower){
+
+    public void setTargetPower(double targetPower)
+    {
         positionControl = false;
         this.targetPower = targetPower;
     }

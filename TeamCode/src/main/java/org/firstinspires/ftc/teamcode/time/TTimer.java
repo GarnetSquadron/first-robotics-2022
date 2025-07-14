@@ -1,37 +1,46 @@
 package org.firstinspires.ftc.teamcode.time;
 
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.function.DoubleSupplier;
-import java.util.function.LongSupplier;
 
 /**
- * easier to use than util.Timer and has slightly different functionality. you can get timeover() to see if the time is up, but this cannot schedule tasks like utils.Timer can
+ * easier to use than util.Timer and has slightly different functionality. you can get timeover() to
+ * see if the time is up, but this cannot schedule tasks like utils.Timer can
  */
 
-public class TTimer {
+public class TTimer
+{
     double duration;
     double startTime;
     DoubleSupplier TimeSinceInit;
     boolean timeStarted;
-    public TTimer(DoubleSupplier SystemTime){
+
+    public TTimer(DoubleSupplier SystemTime)
+    {
         duration = 0;
         TimeSinceInit = SystemTime;
         timeStarted = false;
     }
-    public void StartTimer(double duration){
+
+    public void StartTimer(double duration)
+    {
         startTime = TimeSinceInit.getAsDouble();
         timeStarted = true;
         this.duration = duration;
     }
-    public boolean timestarted(){
+
+    public boolean timestarted()
+    {
         return timeStarted;
     }
-    public boolean timeover(){
-        return duration+startTime<TimeSinceInit.getAsDouble();
+
+    public boolean timeover()
+    {
+        return duration + startTime < TimeSinceInit.getAsDouble();
     }
-    public double timeLeft(){
-        return startTime+duration-TimeSinceInit.getAsDouble();
+
+    public double timeLeft()
+    {
+        return startTime + duration - TimeSinceInit.getAsDouble();
     }
 
 }

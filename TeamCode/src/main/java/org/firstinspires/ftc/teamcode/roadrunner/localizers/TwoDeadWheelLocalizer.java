@@ -26,8 +26,10 @@ import org.firstinspires.ftc.teamcode.messages.TwoDeadWheelInputsMessage;
 import org.firstinspires.ftc.teamcode.roadrunner.Localizer;
 
 @Config
-public final class TwoDeadWheelLocalizer implements Localizer {
-    public static class Params {
+public final class TwoDeadWheelLocalizer implements Localizer
+{
+    public static class Params
+    {
         public double parYTicks = 0.0; // y position of the parallel encoder (in tick units)
         public double perpXTicks = 0.0; // x position of the perpendicular encoder (in tick units)
     }
@@ -46,7 +48,8 @@ public final class TwoDeadWheelLocalizer implements Localizer {
     private boolean initialized;
     private Pose2d pose;
 
-    public TwoDeadWheelLocalizer(HardwareMap hardwareMap, IMU imu, double inPerTick, Pose2d initialPose) {
+    public TwoDeadWheelLocalizer(HardwareMap hardwareMap, IMU imu, double inPerTick, Pose2d initialPose)
+    {
         // TODO: make sure your config has **motors** with these names (or change them)
         //   the encoders should be plugged into the slot matching the named motor
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
@@ -66,17 +69,20 @@ public final class TwoDeadWheelLocalizer implements Localizer {
     }
 
     @Override
-    public void setPose(Pose2d pose) {
+    public void setPose(Pose2d pose)
+    {
         this.pose = pose;
     }
 
     @Override
-    public Pose2d getPose() {
+    public Pose2d getPose()
+    {
         return pose;
     }
 
     @Override
-    public PoseVelocity2d update() {
+    public PoseVelocity2d update()
+    {
         PositionVelocityPair parPosVel = par.getPositionAndVelocity();
         PositionVelocityPair perpPosVel = perp.getPositionAndVelocity();
 
@@ -119,16 +125,16 @@ public final class TwoDeadWheelLocalizer implements Localizer {
 
         Twist2dDual<Time> twist = new Twist2dDual<>(
                 new Vector2dDual<>(
-                        new DualNum<Time>(new double[] {
+                        new DualNum<Time>(new double[]{
                                 parPosDelta - PARAMS.parYTicks * headingDelta,
                                 parPosVel.velocity - PARAMS.parYTicks * headingVel,
                         }).times(inPerTick),
-                        new DualNum<Time>(new double[] {
+                        new DualNum<Time>(new double[]{
                                 perpPosDelta - PARAMS.perpXTicks * headingDelta,
                                 perpPosVel.velocity - PARAMS.perpXTicks * headingVel,
                         }).times(inPerTick)
                 ),
-                new DualNum<>(new double[] {
+                new DualNum<>(new double[]{
                         headingDelta,
                         headingVel,
                 })

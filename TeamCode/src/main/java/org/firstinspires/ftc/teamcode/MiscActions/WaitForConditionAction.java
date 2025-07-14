@@ -10,13 +10,18 @@ import java.util.function.BooleanSupplier;
 /**
  * not to be confused with ConditionalAction
  */
-public class WaitForConditionAction implements Action {
+public class WaitForConditionAction implements Action
+{
     BooleanSupplier condition;
-    public WaitForConditionAction(BooleanSupplier condition){
+
+    public WaitForConditionAction(BooleanSupplier condition)
+    {
         this.condition = condition;
     }
+
     @Override
-    public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+    public boolean run(@NonNull TelemetryPacket telemetryPacket)
+    {
         return !condition.getAsBoolean();
     }
 }

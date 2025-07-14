@@ -11,68 +11,90 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
 
-public class ViperActionMotor {
+public class ViperActionMotor
+{
     private ViperMotorSub motor;
-    public ViperActionMotor(HardwareMap hardwareMap, String MotorName, int minPos, int maxPos, double posCoefficient){
-        motor = new ViperMotorSub(hardwareMap,MotorName,minPos, maxPos,posCoefficient);
+
+    public ViperActionMotor(HardwareMap hardwareMap, String MotorName, int minPos, int maxPos, double posCoefficient)
+    {
+        motor = new ViperMotorSub(hardwareMap, MotorName, minPos, maxPos, posCoefficient);
     }
-    public class SetTgtPos implements Action{
-        double pos,tolerance;
-        public SetTgtPos(double pos, double tolerance){
+
+    public class SetTgtPos implements Action
+    {
+        double pos, tolerance;
+
+        public SetTgtPos(double pos, double tolerance)
+        {
             this.pos = pos;
             this.tolerance = tolerance;
         }
 
         @Override
-        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            motor.setTgPosRatio(pos,tolerance);
+        public boolean run(@NonNull TelemetryPacket telemetryPacket)
+        {
+            motor.setTgPosRatio(pos, tolerance);
             return false;
         }
     }
-    public Action goToTgtPos = new Action(){
+
+    public Action goToTgtPos = new Action()
+    {
         @Override
-        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+        public boolean run(@NonNull TelemetryPacket telemetryPacket)
+        {
             motor.runToTgPos();
-            if (motor.TargetReached()){
+            if (motor.TargetReached()) {
                 motor.stop();
                 return false;
-            }
-            else {
+            } else {
                 return true;
             }
         }
     };
-    public class goToTgtPosAndHoldIt implements Action{
-        double holdPower,tgtPos;
+
+    public class goToTgtPosAndHoldIt implements Action
+    {
+        double holdPower, tgtPos;
         boolean firstIter = true;
-        goToTgtPosAndHoldIt(double holdPower){
+
+        goToTgtPosAndHoldIt(double holdPower)
+        {
             this.holdPower = holdPower;
         }
+
         @Override
-        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-            if(firstIter){
+        public boolean run(@NonNull TelemetryPacket telemetryPacket)
+        {
+            if (firstIter) {
                 tgtPos = motor.getTargetPos();
                 firstIter = false;
             }
             motor.runToTgPosAndHoldIt(holdPower);
             return tgtPos == motor.getTargetPos();//if the target position is switched, stop the action
         }
-    };
-    public class goToTgtPosButIfStoppedAssumeTgtPosHasBeenReached implements Action {
+    }
+
+    public class goToTgtPosButIfStoppedAssumeTgtPosHasBeenReached implements Action
+    {
         double tolerance;
-        boolean firstLoop=true;
-        public goToTgtPosButIfStoppedAssumeTgtPosHasBeenReached(double tolerance){
+        boolean firstLoop = true;
+
+        public goToTgtPosButIfStoppedAssumeTgtPosHasBeenReached(double tolerance)
+        {
             this.tolerance = tolerance;
         }
+
         @Override
-        public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+        public boolean run(@NonNull TelemetryPacket telemetryPacket)
+        {
             motor.runToTgPos();
-            if(getSpeed() == 0&&!firstLoop){
+            if (getSpeed() == 0 && !firstLoop) {
                 motor.stop();
                 motor.setPosition(motor.getTargetPos());
                 return false;
             }
-            if(motor.TargetReached()){
+            if (motor.TargetReached()) {
                 motor.stop();
                 return false;
             }
@@ -80,46 +102,71 @@ public class ViperActionMotor {
             return true;
         }
     }
-    public boolean targetReached(){
+
+    public boolean targetReached()
+    {
         return motor.TargetReached();
     }
 
-    public Action Stop = new InstantAction(()->motor.stop());
+    public Action Stop = new InstantAction(() -> motor.stop());
 
-    public Action GoToPos(double pos,double tolerance){
-        return new CancelableAction(new SequentialAction(new SetTgtPos(pos,tolerance),goToTgtPos),Stop);
+    public Action GoToPos(double pos, double tolerance)
+    {
+        return new CancelableAction(new SequentialAction(new SetTgtPos(pos, tolerance), goToTgtPos), Stop);
     }
-    public Action GoToPosAndHoldIt(double pos,double tolerance,double holdPower){
-        return new CancelableAction(new SequentialAction(new SetTgtPos(pos,tolerance),new goToTgtPosAndHoldIt(holdPower)),Stop);
+
+    public Action GoToPosAndHoldIt(double pos, double tolerance, double holdPower)
+    {
+        return new CancelableAction(new SequentialAction(new SetTgtPos(pos, tolerance), new goToTgtPosAndHoldIt(holdPower)), Stop);
     }
-    public Action GoToPosButIfStoppedAssumePosHasBeenReached(double pos,double tolerance){
-        return new CancelableAction(new SequentialAction(new SetTgtPos(pos,tolerance),new goToTgtPosButIfStoppedAssumeTgtPosHasBeenReached(tolerance)),Stop);
+
+    public Action GoToPosButIfStoppedAssumePosHasBeenReached(double pos, double tolerance)
+    {
+        return new CancelableAction(new SequentialAction(new SetTgtPos(pos, tolerance), new goToTgtPosButIfStoppedAssumeTgtPosHasBeenReached(tolerance)), Stop);
     }
-    public double getDistanceToTarget(){
-        return motor.getTargetPos()-motor.getPos();
+
+    public double getDistanceToTarget()
+    {
+        return motor.getTargetPos() - motor.getPos();
     }
-    public double getTargetPos(){
+
+    public double getTargetPos()
+    {
         return motor.getTargetPos();
     }
-    public double getCurrent(){
+
+    public double getCurrent()
+    {
         return motor.getCurrent();
     }
-    public double getPos(){
+
+    public double getPos()
+    {
         return motor.getPos();
     }
-    public double getPower(){
+
+    public double getPower()
+    {
         return motor.getPower();
     }
-    public double getSpeed(){
+
+    public double getSpeed()
+    {
         return motor.getSpeed();
     }
-    public void setEncoder(Motor encoder){
+
+    public void setEncoder(Motor encoder)
+    {
         motor.setEncoder(encoder);
     }
-    public Motor getMotor(){
+
+    public Motor getMotor()
+    {
         return motor.getMotor();
     }
-    public void reverseMotor(){
+
+    public void reverseMotor()
+    {
         motor.ReverseMotor();
     }
 }

@@ -1,15 +1,16 @@
 package org.firstinspires.ftc.teamcode.commands;
 
-import org.firstinspires.ftc.teamcode.Subsystems.Intake.CrankSlideSubSystem;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.depricated.TriangleIntake.ColorSensorSubSystem;
-import org.firstinspires.ftc.teamcode.depricated.TriangleIntake.TriangleIntake;
 import com.arcrobotics.ftclib.command.CommandBase;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Subsystems.Intake.CrankSlideSubSystem;
+import org.firstinspires.ftc.teamcode.depricated.TriangleIntake.ColorSensorSubSystem;
+import org.firstinspires.ftc.teamcode.depricated.TriangleIntake.TriangleIntake;
 import org.firstinspires.ftc.teamcode.enums.Color;
 
 
-public class TriangleIntakeCommand extends CommandBase {
+public class TriangleIntakeCommand extends CommandBase
+{
     TriangleIntake triangleIntake;
     CrankSlideSubSystem crankSlideSubSystem;
     public Color alianceColor;
@@ -17,24 +18,32 @@ public class TriangleIntakeCommand extends CommandBase {
     Telemetry TELEMETRY;
     public Color c;
     long duration = 1500;
-    long startTime = duration-System.currentTimeMillis();
-    public TriangleIntakeCommand(TriangleIntake t, ColorSensorSubSystem c, Color a, Telemetry tel){
+    long startTime = duration - System.currentTimeMillis();
+
+    public TriangleIntakeCommand(TriangleIntake t, ColorSensorSubSystem c, Color a, Telemetry tel)
+    {
 
         triangleIntake = t;
         alianceColor = a;
         colorSensor = c;
         TELEMETRY = tel;
     }
+
     boolean finished = false;
-    public void stopEjecting(){
-        startTime = duration-System.currentTimeMillis();
+
+    public void stopEjecting()
+    {
+        startTime = duration - System.currentTimeMillis();
     }
-    public void ejectForDuration(){
-        startTime  = System.currentTimeMillis();
+
+    public void ejectForDuration()
+    {
+        startTime = System.currentTimeMillis();
     }
 
     @Override
-    public void execute() {
+    public void execute()
+    {
 
         //triangleIntake.intake();
 
@@ -47,17 +56,15 @@ public class TriangleIntakeCommand extends CommandBase {
         //TELEMETRY.addData("color", c);
         if (c == null) {
             triangleIntake.intake();
-        }
-        else if (c == Color.YELLOW){
+        } else if (c == Color.YELLOW) {
             stopEjecting();
             triangleIntake.hold();
-        }
-        else if (c != alianceColor) {
+        } else if (c != alianceColor) {
 
             ejectForDuration();
 
         }
-        if (c == alianceColor){
+        if (c == alianceColor) {
             stopEjecting();
             triangleIntake.hold();
 
@@ -71,7 +78,8 @@ public class TriangleIntakeCommand extends CommandBase {
 //    public void
 
     @Override
-    public boolean isFinished() {
+    public boolean isFinished()
+    {
         return finished;
     }
 }

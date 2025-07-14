@@ -21,8 +21,7 @@ public class SampleDetectionPipeline extends SamplePipeline
     {
         int nextStageNum = stageNum + 1;
 
-        if(nextStageNum >= stages.length)
-        {
+        if (nextStageNum >= stages.length) {
             nextStageNum = 0;
         }
 
@@ -44,41 +43,34 @@ public class SampleDetectionPipeline extends SamplePipeline
         /*
          * Decide which buffer to send to the viewport
          */
-        switch (stages[stageNum])
-        {
-            case YCrCb:
-            {
+        switch (stages[stageNum]) {
+            case YCrCb: {
                 return ycrcbMat;
             }
 
-            case FINAL:
-            {
+            case FINAL: {
                 return input;
             }
 
-            case MASKS:
-            {
+            case MASKS: {
                 Mat masks = new Mat();
                 Core.addWeighted(yellowThresholdMat, 1.0, redThresholdMat, 1.0, 0.0, masks);
                 Core.addWeighted(masks, 1.0, blueThresholdMat, 1.0, 0.0, masks);
                 return masks;
             }
 
-            case MASKS_NR:
-            {
+            case MASKS_NR: {
                 Mat masksNR = new Mat();
                 Core.addWeighted(morphedYellowThreshold, 1.0, morphedRedThreshold, 1.0, 0.0, masksNR);
                 Core.addWeighted(masksNR, 1.0, morphedBlueThreshold, 1.0, 0.0, masksNR);
                 return masksNR;
             }
 
-            case CONTOURS:
-            {
+            case CONTOURS: {
                 return contoursOnPlainImageMat;
             }
 
-            default:
-            {
+            default: {
                 return input;
             }
         }
@@ -122,21 +114,19 @@ public class SampleDetectionPipeline extends SamplePipeline
         contoursOnPlainImageMat = Mat.zeros(input.size(), input.type());
 
         // Analyze and draw contours
-        for(MatOfPoint contour : blueContoursList)
-        {
+        for (MatOfPoint contour : blueContoursList) {
             analyzeContour(contour, input, "Blue");
         }
 
-        for(MatOfPoint contour : redContoursList)
-        {
+        for (MatOfPoint contour : redContoursList) {
             analyzeContour(contour, input, "Red");
         }
 
-        for(MatOfPoint contour : yellowContoursList)
-        {
+        for (MatOfPoint contour : yellowContoursList) {
             analyzeContour(contour, input, "Yellow");
         }
     }
+
     void analyzeContour(MatOfPoint contour, Mat input, String color)
     {
         // Transform the contour to a different format
@@ -150,14 +140,13 @@ public class SampleDetectionPipeline extends SamplePipeline
 
         // Adjust the angle based on rectangle dimensions
         double rotRectAngle = rotatedRectFitToContour.angle;
-        if (rotatedRectFitToContour.size.width < rotatedRectFitToContour.size.height)
-        {
+        if (rotatedRectFitToContour.size.width < rotatedRectFitToContour.size.height) {
             rotRectAngle += 90;
         }
 
         // Compute the angle and store it
         double angle = -(rotRectAngle - 180);
-        drawTagText(rotatedRectFitToContour, Integer.toString((int) Math.round(angle)) + " deg", input, color);
+        drawTagText(rotatedRectFitToContour, (int) Math.round(angle) + " deg", input, color);
 
         // Store the detected stone information
         AnalyzedStone analyzedStone = new AnalyzedStone();

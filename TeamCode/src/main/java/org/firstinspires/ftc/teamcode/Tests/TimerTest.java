@@ -8,17 +8,20 @@ import org.firstinspires.ftc.teamcode.time.TTimer;
 
 @TeleOp(name = "timer test")
 @Disabled
-public class TimerTest extends OpMode {
-    TTimer timer  = new TTimer(this::getRuntime);
+public class TimerTest extends OpMode
+{
+    TTimer timer = new TTimer(this::getRuntime);
 
     @Override
-    public void init() {
+    public void init()
+    {
         timer.StartTimer(100);
     }
 
     @Override
-    public void loop() {
+    public void loop()
+    {
         telemetry.addData("time", this.getRuntime());
-        telemetry.addData("timer up",timer.timeover());
+        telemetry.addData("timer up", timer.timeover());
     }
 }

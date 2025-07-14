@@ -5,13 +5,17 @@ import org.firstinspires.ftc.teamcode.Subsystems.Encoder;
 /**
  * calculate always returns 0
  */
-public class NullController extends Controller{
-    public NullController(){
+public class NullController extends Controller
+{
+    public NullController()
+    {
         super();
-        setEncoder(new Encoder(()->0));
+        setEncoder(new Encoder(() -> 0));
     }
+
     @Override
-    public double calculate() {
+    public double calculate()
+    {
         return 0;
     }
 }

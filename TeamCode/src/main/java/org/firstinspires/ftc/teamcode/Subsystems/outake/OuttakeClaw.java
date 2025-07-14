@@ -7,21 +7,27 @@ import org.firstinspires.ftc.teamcode.Subsystems.hardwareClasses.ActionServo;
 
 import java.util.function.DoubleSupplier;
 
-public class OuttakeClaw {
+public class OuttakeClaw
+{
     public ActionServo claw;
 
-    public OuttakeClaw(HardwareMap hardwareMap, DoubleSupplier time) {
-        claw = new ActionServo(hardwareMap, "outtake claw", 0.4, 0, 1.5,time);//TODO: tune this
+    public OuttakeClaw(HardwareMap hardwareMap, DoubleSupplier time)
+    {
+        claw = new ActionServo(hardwareMap, "outtake claw", 0.4, 0, 1.5, time);//TODO: tune this
     }
 
-    public Action Close() {
+    public Action Close()
+    {
         return claw.runToRatio(0);
     }
 
-    public Action Open() {
+    public Action Open()
+    {
         return claw.runToRatio(1);
     }
-    public boolean isOpen(){
+
+    public boolean isOpen()
+    {
         return claw.AtMax();
     }
 }

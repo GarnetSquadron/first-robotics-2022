@@ -5,16 +5,21 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
-public class Hang {
+public class Hang
+{
     ActionDcMotor hangmotor;
-    public Hang (HardwareMap hardwareMap){
-        hangmotor = new ActionDcMotor(hardwareMap,"hangmotor",1,10,0.2,100);
+
+    public Hang(HardwareMap hardwareMap)
+    {
+        hangmotor = new ActionDcMotor(hardwareMap, "hangmotor", 1, 10, 0.2, 100);
 
     }
-//    public Action HookUp(){
+
+    //    public Action HookUp(){
 //        return hangmotor.;
 //    }
-    public Action HookDown(){
+    public Action HookDown()
+    {
         return hangmotor.GoToAngle(0, AngleUnitV2.DEGREES);
     }
 //    public Action HoldPosition(){

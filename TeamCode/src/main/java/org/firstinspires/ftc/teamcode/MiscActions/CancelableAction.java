@@ -6,21 +6,26 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.NullAction;
 
-public class CancelableAction implements Action {
+public class CancelableAction implements Action
+{
     private final Action mainAction;
     private final Action failoverAction;
     private boolean failedOver = false;
 
-    public CancelableAction(Action mainAction, Action failoverAction) {
+    public CancelableAction(Action mainAction, Action failoverAction)
+    {
         this.mainAction = mainAction;
         this.failoverAction = failoverAction;
     }
-    public CancelableAction(Action mainAction){
-        this(mainAction,new NullAction());
+
+    public CancelableAction(Action mainAction)
+    {
+        this(mainAction, new NullAction());
     }
 
     @Override
-    public boolean run(@NonNull TelemetryPacket telemetryPacket) {
+    public boolean run(@NonNull TelemetryPacket telemetryPacket)
+    {
         if (failedOver) {
             return failoverAction.run(telemetryPacket);
         }
@@ -28,10 +33,13 @@ public class CancelableAction implements Action {
         return mainAction.run(telemetryPacket);
     }
 
-    public void failover() {
+    public void failover()
+    {
         failedOver = true;
     }
-    public Action getFailoverAction(){
+
+    public Action getFailoverAction()
+    {
         return failoverAction;
     }
 }

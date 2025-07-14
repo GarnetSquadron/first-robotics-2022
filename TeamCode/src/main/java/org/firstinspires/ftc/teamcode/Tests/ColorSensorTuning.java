@@ -5,22 +5,25 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
-@TeleOp(name = "ColorSensorTuning",group= "test")
+@TeleOp(name = "ColorSensorTuning", group = "test")
 @Disabled
-public class ColorSensorTuning extends LinearOpMode {
+public class ColorSensorTuning extends LinearOpMode
+{
     ColorSensor cSensor;
-    public void runOpMode(){
+
+    public void runOpMode()
+    {
         cSensor = hardwareMap.get(ColorSensor.class, "ColorSensor");
         waitForStart();
 
-        while(opModeIsActive()){
+        while (opModeIsActive()) {
             telemetry.addData("red", cSensor.red());
             telemetry.addData("green", cSensor.green());
             telemetry.addData("blue", cSensor.blue());
             telemetry.update();
 
 
-            double HighestColorValue = Math.max(Math.max(cSensor.red(), cSensor.green()),cSensor.blue());
+            double HighestColorValue = Math.max(Math.max(cSensor.red(), cSensor.green()), cSensor.blue());
 
             if (HighestColorValue < 200)
                 telemetry.addLine("No Color");

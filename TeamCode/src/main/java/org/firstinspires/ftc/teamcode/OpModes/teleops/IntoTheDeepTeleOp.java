@@ -11,30 +11,33 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.GamepadClasses.BetterControllerClass;
-import org.firstinspires.ftc.teamcode.inputmodifiers.InitialToggler;
 import org.firstinspires.ftc.teamcode.OpmodeActionSceduling.TeleOpActionScheduler;
 import org.firstinspires.ftc.teamcode.Subsystems.Bot;
 import org.firstinspires.ftc.teamcode.Subsystems.StaticInfo;
-import org.firstinspires.ftc.teamcode.time.TIME;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 import org.firstinspires.ftc.teamcode.enums.Color;
+import org.firstinspires.ftc.teamcode.inputmodifiers.InitialToggler;
 import org.firstinspires.ftc.teamcode.inputmodifiers.risingEdgeDetector;
+import org.firstinspires.ftc.teamcode.time.TIME;
 
 @TeleOp(name = "AA \uD83E\uDD3F \uD83D\uDC1F ####INTOTHEDEEPTELEOP#### \uD83D\uDC1F \uD83E\uDD3F")
 @Disabled
-public class IntoTheDeepTeleOp extends OpMode {
+public class IntoTheDeepTeleOp extends OpMode
+{
     Bot bot;
     GamepadEx Gpad1, Gpad2;
-    BetterControllerClass Con1,Con2;
+    BetterControllerClass Con1, Con2;
     Color AlianceColor = Color.RED;
     GamepadButton intakeDeployButton;
     InitialToggler intakeDeployToggle, intakeClawToggle, outtakeClawToggle, viperToggle, grabOffWallToggle;
-    risingEdgeDetector transferDetector,wristGoLeft, wristGoRight, SpecimenGrabPosButton, SpecimenPlaceButton, viperUpdateButton, lowBasketDeploy, UltimatePivotResetButton;
+    risingEdgeDetector transferDetector, wristGoLeft, wristGoRight, SpecimenGrabPosButton, SpecimenPlaceButton, viperUpdateButton, lowBasketDeploy, UltimatePivotResetButton;
     TeleOpActionScheduler actionScheduler;
     TelemetryPacket packet;
     double sensitivity = 1;
+
     @Override
-    public void init() {
+    public void init()
+    {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         packet = new TelemetryPacket();
 
@@ -45,10 +48,9 @@ public class IntoTheDeepTeleOp extends OpMode {
         Con2 = new BetterControllerClass(gamepad2);
 
 
-        if(StaticInfo.LastOpModeWasAuto){
+        if (StaticInfo.LastOpModeWasAuto) {
             bot = new Bot(hardwareMap, telemetry, this::getRuntime);
-        }
-        else{
+        } else {
             bot = new Bot(hardwareMap, telemetry, this::getRuntime,
                     new Pose2d(0, 0, Math.toRadians(90))
             );
@@ -72,21 +74,22 @@ public class IntoTheDeepTeleOp extends OpMode {
 
 
         actionScheduler = new TeleOpActionScheduler(packet);
-        actionScheduler.CancelOnAnyOtherAction("transfer","basket drop");
+        actionScheduler.CancelOnAnyOtherAction("transfer", "basket drop");
         //actionScheduler.addCancelGroup("antiTransfer",);
 
     }
+
     boolean firstiter = true;
 
 
-
     @Override
-    public void loop() {
+    public void loop()
+    {
         double time1 = TIME.getTime();
-        if(firstiter){
-            actionScheduler.start(bot.outtake.pivot1.zeroMotor(),"zero outtake pivot");
+        if (firstiter) {
+            actionScheduler.start(bot.outtake.pivot1.zeroMotor(), "zero outtake pivot");
             //actionScheduler.start(bot.outtake.vipers.Down(),"zero vipers");
-            actionScheduler.start(bot.UpdateMotorPowers(),"updating motor powers");
+            actionScheduler.start(bot.UpdateMotorPowers(), "updating motor powers");
             firstiter = false;
         }
         //bot.outtake.vipers.l.updateDistance();
@@ -117,7 +120,7 @@ public class IntoTheDeepTeleOp extends OpMode {
                 bot.SafeDeployIntake(1), "deploy intake",
                 bot.SafeUndeployIntake(), "undeploy intake"
         );
-        if(bot.intake.crankSlide.IsExtended()){
+        if (bot.intake.crankSlide.IsExtended()) {
             actionScheduler.actionBooleanPair(
                     intakeClawToggle.JustChanged(),
                     bot.intake.claw.isOpen(),
@@ -128,45 +131,44 @@ public class IntoTheDeepTeleOp extends OpMode {
         actionScheduler.actionBooleanPair(
                 outtakeClawToggle.JustChanged(), bot.outtake.claw.isOpen(),
                 bot.outtake.claw.Close(), "close outtake claw",
-                bot.outtake.claw.Open(),"open outtake claw"
+                bot.outtake.claw.Open(), "open outtake claw"
         );
         actionScheduler.actionBooleanPair(
-                viperToggle.JustChanged(),bot.outtake.vipers.isDown(),
-                bot.TeleBasketDrop(),"vipers up",
-                bot.outtake.SafeVipersDown(),"vipers down"
+                viperToggle.JustChanged(), bot.outtake.vipers.isDown(),
+                bot.TeleBasketDrop(), "vipers up",
+                bot.outtake.SafeVipersDown(), "vipers down"
         );
         actionScheduler.actionBooleanPair(
-                grabOffWallToggle.JustChanged(),bot.outtake.isGrabbingOffWall(),
-                bot.outtake.prepareToGrabSpecOffWall(),"preparing to grab spec",
-                bot.outtake.grabSpecPos(),"grabbing spec"
+                grabOffWallToggle.JustChanged(), bot.outtake.isGrabbingOffWall(),
+                bot.outtake.prepareToGrabSpecOffWall(), "preparing to grab spec",
+                bot.outtake.grabSpecPos(), "grabbing spec"
         );
         actionScheduler.actionBooleanPair(
-                SpecimenPlaceButton.getState(),bot.outtake.readyForClip(),
-                bot.outtake.placeSpec(),"Place Specimen",
-                bot.outtake.prepareToPlaceSpec(),"preparing to grab spec"
+                SpecimenPlaceButton.getState(), bot.outtake.readyForClip(),
+                bot.outtake.placeSpec(), "Place Specimen",
+                bot.outtake.prepareToPlaceSpec(), "preparing to grab spec"
         );
-        if(UltimatePivotResetButton.getState())
-        {
-                actionScheduler.start(bot.outtake.pivot1.zeroMotor(),"zeroingPivot");
+        if (UltimatePivotResetButton.getState()) {
+            actionScheduler.start(bot.outtake.pivot1.zeroMotor(), "zeroingPivot");
         }
 
         //misc controls
-        if(wristGoLeft.getState()){
-            actionScheduler.start(bot.intake.wrist.wrist.changeAngleByRad(1),"wrist turning");
+        if (wristGoLeft.getState()) {
+            actionScheduler.start(bot.intake.wrist.wrist.changeAngleByRad(1), "wrist turning");
         }
-        if (wristGoRight.getState()){
-            actionScheduler.start(bot.intake.wrist.wrist.changeAngleByRad(-1),"wrist turning");
+        if (wristGoRight.getState()) {
+            actionScheduler.start(bot.intake.wrist.wrist.changeAngleByRad(-1), "wrist turning");
         }
 
-        if(transferDetector.getState()){
+        if (transferDetector.getState()) {
             //actionScheduler.cancelAll();
-            actionScheduler.start(bot.Transfer(),"transfer");
+            actionScheduler.start(bot.Transfer(), "transfer");
         }
 //        if(SpecimenGrabPosButton.getState()){
 //            //actionScheduler.cancelAll();
 //            actionScheduler.start(bot.outtake.grabSpecPos(),"Grab Specimen");
 //        }
-        if(SpecimenPlaceButton.getState()){
+        if (SpecimenPlaceButton.getState()) {
             //actionScheduler.cancelAll();
 
         }
@@ -179,56 +181,54 @@ public class IntoTheDeepTeleOp extends OpMode {
 //        }
         //^^^ coming soon!!!
 
-        if(viperUpdateButton.getState()){
+        if (viperUpdateButton.getState()) {
             bot.outtake.vipers.updatePos();//avoid doing this when something is already moving, because this will put a 0.03
         }
-        if(lowBasketDeploy.getState()){
-            actionScheduler.start(bot.LowBasketDrop(),"Low Basket");
+        if (lowBasketDeploy.getState()) {
+            actionScheduler.start(bot.LowBasketDrop(), "Low Basket");
         }
 
 
         //wheels driver
         bot.headlessDriveCommand.execute(
-                Gpad1::getLeftX,Gpad1::getLeftY,
-                Gpad1::getRightX,sensitivity
+                Gpad1::getLeftX, Gpad1::getLeftY,
+                Gpad1::getRightX, sensitivity
         );
-        if(gamepad1.y){
-            bot.drive.SetDirectionTo(Math.PI/2, AngleUnitV2.RADIANS);
+        if (gamepad1.y) {
+            bot.drive.SetDirectionTo(Math.PI / 2, AngleUnitV2.RADIANS);
         }
         sensitivity = 0.5;
-        if(gamepad1.left_bumper){
+        if (gamepad1.left_bumper) {
             sensitivity = 0.2;
         }
-        if(gamepad1.right_bumper){
+        if (gamepad1.right_bumper) {
             sensitivity = 1;
         }
 
 
-
-
         //telemetry.addData("left stick y", gamepad2.left_stick_y);
 
-        telemetry.addData("outtake pivot power",bot.outtake.pivot1.pivot.getPower());
+        telemetry.addData("outtake pivot power", bot.outtake.pivot1.pivot.getPower());
         telemetry.addData("outtake pivot degrees", Math.toDegrees(bot.outtake.pivot1.pivot.getEncoder().getPos()));
         telemetry.addData("outtake pivot tgt degrees", Math.toDegrees(bot.outtake.pivot1.pivot.getTargetPosition()));
         telemetry.addData("outtake pivot target reached", bot.outtake.pivot1.pivot.targetReached());
         telemetry.addData("outtake velocity", bot.outtake.pivot1.pivot.getEncoder().getVelocity());
-        telemetry.addData("outtake distanceToTarget", bot.outtake.pivot1.pivot.getTargetPosition()-bot.outtake.pivot1.pivot.getEncoder().getPos());
+        telemetry.addData("outtake distanceToTarget", bot.outtake.pivot1.pivot.getTargetPosition() - bot.outtake.pivot1.pivot.getEncoder().getPos());
 
         telemetry.addLine("");
         telemetry.addLine("----------------------------------------------------------------------");
         telemetry.addLine("");
 
         telemetry.addData("vipers down", bot.outtake.vipers.isDown());
-        telemetry.addData("left viper power",bot.outtake.vipers.l.getPower());
-        telemetry.addData("viper inches",bot.outtake.vipers.l.getEncoder().getPos());
-        telemetry.addData("viper tgt inches",bot.outtake.vipers.l.getTargetPosition());
-        telemetry.addData("viper tgt reached",bot.outtake.vipers.l.targetReached());
-        telemetry.addData("right viper power",bot.outtake.vipers.r.getPower());
+        telemetry.addData("left viper power", bot.outtake.vipers.l.getPower());
+        telemetry.addData("viper inches", bot.outtake.vipers.l.getEncoder().getPos());
+        telemetry.addData("viper tgt inches", bot.outtake.vipers.l.getTargetPosition());
+        telemetry.addData("viper tgt reached", bot.outtake.vipers.l.targetReached());
+        telemetry.addData("right viper power", bot.outtake.vipers.r.getPower());
         telemetry.addData("viper position controlling", bot.outtake.vipers.l.inPositionControl());
         telemetry.addData("vipers stopped", bot.outtake.vipers.l.getEncoder().isStopped());
         telemetry.addData("viper speed", bot.outtake.vipers.l.getEncoder().getVelocity());
-        telemetry.addData("time diff", time1-TIME.getTime());
+        telemetry.addData("time diff", time1 - TIME.getTime());
 
 
 //        telemetry.addData("grabbing ",bot.outtake.isGrabbingOffWall());

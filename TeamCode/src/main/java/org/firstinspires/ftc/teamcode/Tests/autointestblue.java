@@ -7,13 +7,10 @@ package org.firstinspires.ftc.teamcode.Tests;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-//import com.qualcomm.robotcore.hardware.CRServo;
-//import com.qualcomm.robotcore.hardware.ColorSensor;
 
+import org.firstinspires.ftc.teamcode.commands.TriangleIntakeCommand;
 import org.firstinspires.ftc.teamcode.depricated.TriangleIntake.ColorSensorSubSystem;
 import org.firstinspires.ftc.teamcode.depricated.TriangleIntake.TriangleIntake;
-//import org.firstinspires.ftc.teamcode.Subsystems.Intake.CrankSlideSubSystem;
-import org.firstinspires.ftc.teamcode.commands.TriangleIntakeCommand;
 import org.firstinspires.ftc.teamcode.enums.Color;
 //import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 //import org.firstinspires.ftc.robotcore.external.stream.CameraStreamSource;
@@ -24,33 +21,38 @@ import org.firstinspires.ftc.teamcode.enums.Color;
 //import org.openftc.easyopencv.OpenCvWebcam;
 
 
-@TeleOp(name="auto intake test blue", group = "test")
+@TeleOp(name = "auto intake test blue", group = "test")
 @Disabled
 
 //imports from vision.java.
 
 
-public class autointestblue extends LinearOpMode {
+public class autointestblue extends LinearOpMode
+{
     TriangleIntake triangleIntake;
     //CrankSlideSubSystem crankSlideSubSystem = new CrankSlideSubSystem(hardwareMap, "CrankL","CrankR");
     ColorSensorSubSystem cSensor;
     TriangleIntakeCommand triangleIntakeCommand;
 
-    public enum State{
+    public enum State
+    {
         INTAKING,
         EJECTING,
         HOLDING
     }
-    public void Onstart(){
-        while(!triangleIntakeCommand.isFinished()&&opModeIsActive()){
+
+    public void Onstart()
+    {
+        while (!triangleIntakeCommand.isFinished() && opModeIsActive()) {
             triangleIntakeCommand.execute();
         }
     }
 
-    public void runOpMode(){
-        cSensor = new ColorSensorSubSystem(hardwareMap,"ColorSensor");
-        triangleIntake = new TriangleIntake(hardwareMap,"Ti", "Fi", "Bi","pivot");
-        triangleIntakeCommand = new TriangleIntakeCommand(triangleIntake, cSensor, Color.BLUE,telemetry);
+    public void runOpMode()
+    {
+        cSensor = new ColorSensorSubSystem(hardwareMap, "ColorSensor");
+        triangleIntake = new TriangleIntake(hardwareMap, "Ti", "Fi", "Bi", "pivot");
+        triangleIntakeCommand = new TriangleIntakeCommand(triangleIntake, cSensor, Color.BLUE, telemetry);
         waitForStart();
         Onstart();
     }

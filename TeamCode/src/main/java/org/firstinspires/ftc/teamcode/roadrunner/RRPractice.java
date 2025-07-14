@@ -10,17 +10,20 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.roadrunner.drives.MecanumDrive;
+
 @Config
-@TeleOp(name="Practice")
+@TeleOp(name = "Practice")
 @Disabled
-public class RRPractice extends LinearOpMode {
+public class RRPractice extends LinearOpMode
+{
 
 
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() throws InterruptedException
+    {
 
-        Pose2d beginpose = new Pose2d(0,0,0);
-        MecanumDrive Drive = new MecanumDrive(hardwareMap,beginpose);
-        Action path = Drive.actionBuilder(beginpose).splineToConstantHeading(new Vector2d(20,20),0).build();
+        Pose2d beginpose = new Pose2d(0, 0, 0);
+        MecanumDrive Drive = new MecanumDrive(hardwareMap, beginpose);
+        Action path = Drive.actionBuilder(beginpose).splineToConstantHeading(new Vector2d(20, 20), 0).build();
         waitForStart();
         Actions.runBlocking(path);
     }

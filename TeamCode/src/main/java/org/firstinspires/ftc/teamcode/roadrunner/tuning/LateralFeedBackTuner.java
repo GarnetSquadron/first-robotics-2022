@@ -13,11 +13,13 @@ import org.firstinspires.ftc.teamcode.roadrunner.localizers.TwoDeadWheelLocalize
 
 @TeleOp(name = "lateral feedback tuner")
 @Disabled
-public class LateralFeedBackTuner extends LinearOpMode {
+public class LateralFeedBackTuner extends LinearOpMode
+{
     public static double DISTANCE = 10;
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() throws InterruptedException
+    {
         if (TuningOpModes.DRIVE_CLASS.equals(MecanumDrive.class)) {
             MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
 
@@ -26,7 +28,7 @@ public class LateralFeedBackTuner extends LinearOpMode {
             while (opModeIsActive()) {
                 Actions.runBlocking(
                         drive.actionBuilder(new Pose2d(0, 0, 0))
-                                .setTangent(Math.PI/2)
+                                .setTangent(Math.PI / 2)
                                 .lineToY(DISTANCE)
                                 .lineToY(0)
                                 .build());

@@ -61,8 +61,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Config
-public final class TankDrive {
-    public static class Params {
+public final class TankDrive
+{
+    public static class Params
+    {
         // IMU orientation
         // TODO: fill in these values based on
         //   see https://ftc-docs.firstinspires.org/en/latest/programming_resources/imu/imu.html?highlight=imu#physical-hub-mounting
@@ -127,14 +129,16 @@ public final class TankDrive {
 
     private final DownsampledWriter tankCommandWriter = new DownsampledWriter("TANK_COMMAND", 50_000_000);
 
-    public class DriveLocalizer implements Localizer {
+    public class DriveLocalizer implements Localizer
+    {
         public final List<Encoder> leftEncs, rightEncs;
         private Pose2d pose;
 
         private double lastLeftPos, lastRightPos;
         private boolean initialized;
 
-        public DriveLocalizer(Pose2d pose) {
+        public DriveLocalizer(Pose2d pose)
+        {
             {
                 List<Encoder> leftEncs = new ArrayList<>();
                 for (DcMotorEx m : leftMotors) {
@@ -160,17 +164,20 @@ public final class TankDrive {
         }
 
         @Override
-        public void setPose(Pose2d pose) {
+        public void setPose(Pose2d pose)
+        {
             this.pose = pose;
         }
 
         @Override
-        public Pose2d getPose() {
+        public Pose2d getPose()
+        {
             return pose;
         }
 
         @Override
-        public PoseVelocity2d update() {
+        public PoseVelocity2d update()
+        {
             Twist2dDual<Time> delta;
 
             List<PositionVelocityPair> leftReadings = new ArrayList<>(), rightReadings = new ArrayList<>();
@@ -227,7 +234,8 @@ public final class TankDrive {
         }
     }
 
-    public TankDrive(HardwareMap hardwareMap, Pose2d pose) {
+    public TankDrive(HardwareMap hardwareMap, Pose2d pose)
+    {
         LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
 
         for (LynxModule module : hardwareMap.getAll(LynxModule.class)) {
@@ -237,8 +245,8 @@ public final class TankDrive {
         // TODO: make sure your config has motors with these names (or change them)
         //   add additional motors on each side if you have them
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
-        leftMotors = Arrays.asList(hardwareMap.get(DcMotorEx.class, "left"));
-        rightMotors = Arrays.asList(hardwareMap.get(DcMotorEx.class, "right"));
+        leftMotors = Collections.singletonList(hardwareMap.get(DcMotorEx.class, "left"));
+        rightMotors = Collections.singletonList(hardwareMap.get(DcMotorEx.class, "right"));
 
         for (DcMotorEx m : leftMotors) {
             m.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -262,7 +270,8 @@ public final class TankDrive {
         FlightRecorder.write("TANK_PARAMS", PARAMS);
     }
 
-    public void setDrivePowers(PoseVelocity2d powers) {
+    public void setDrivePowers(PoseVelocity2d powers)
+    {
         TankKinematics.WheelVelocities<Time> wheelVels = new TankKinematics(2).inverse(
                 PoseVelocity2dDual.constant(powers, 1));
 
@@ -279,13 +288,15 @@ public final class TankDrive {
         }
     }
 
-    public final class FollowTrajectoryAction implements Action {
+    public final class FollowTrajectoryAction implements Action
+    {
         public final TimeTrajectory timeTrajectory;
         private double beginTs = -1;
 
         private final double[] xPoints, yPoints;
 
-        public FollowTrajectoryAction(TimeTrajectory t) {
+        public FollowTrajectoryAction(TimeTrajectory t)
+        {
             timeTrajectory = t;
 
             List<Double> disps = com.acmerobotics.roadrunner.Math.range(
@@ -301,7 +312,8 @@ public final class TankDrive {
         }
 
         @Override
-        public boolean run(@NonNull TelemetryPacket p) {
+        public boolean run(@NonNull TelemetryPacket p)
+        {
             double t;
             if (beginTs < 0) {
                 beginTs = Actions.now();
@@ -374,24 +386,28 @@ public final class TankDrive {
         }
 
         @Override
-        public void preview(Canvas c) {
+        public void preview(Canvas c)
+        {
             c.setStroke("#4CAF507A");
             c.setStrokeWidth(1);
             c.strokePolyline(xPoints, yPoints);
         }
     }
 
-    public final class TurnAction implements Action {
+    public final class TurnAction implements Action
+    {
         private final TimeTurn turn;
 
         private double beginTs = -1;
 
-        public TurnAction(TimeTurn turn) {
+        public TurnAction(TimeTurn turn)
+        {
             this.turn = turn;
         }
 
         @Override
-        public boolean run(@NonNull TelemetryPacket p) {
+        public boolean run(@NonNull TelemetryPacket p)
+        {
             double t;
             if (beginTs < 0) {
                 beginTs = Actions.now();
@@ -456,13 +472,15 @@ public final class TankDrive {
         }
 
         @Override
-        public void preview(Canvas c) {
+        public void preview(Canvas c)
+        {
             c.setStroke("#7C4DFF7A");
             c.fillCircle(turn.beginPose.position.x, turn.beginPose.position.y, 2);
         }
     }
 
-    public PoseVelocity2d updatePoseEstimate() {
+    public PoseVelocity2d updatePoseEstimate()
+    {
         PoseVelocity2d vel = localizer.update();
         poseHistory.add(localizer.getPose());
 
@@ -476,7 +494,8 @@ public final class TankDrive {
         return vel;
     }
 
-    private void drawPoseHistory(Canvas c) {
+    private void drawPoseHistory(Canvas c)
+    {
         double[] xPoints = new double[poseHistory.size()];
         double[] yPoints = new double[poseHistory.size()];
 
@@ -493,7 +512,8 @@ public final class TankDrive {
         c.strokePolyline(xPoints, yPoints);
     }
 
-    public TrajectoryActionBuilder actionBuilder(Pose2d beginPose) {
+    public TrajectoryActionBuilder actionBuilder(Pose2d beginPose)
+    {
         return new TrajectoryActionBuilder(
                 TurnAction::new,
                 FollowTrajectoryAction::new,

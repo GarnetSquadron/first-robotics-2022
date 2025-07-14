@@ -5,66 +5,68 @@ import static android.os.SystemClock.sleep;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Subsystems.ActionDcMotor;
 import org.firstinspires.ftc.teamcode.Subsystems.DcMotorSub;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
 
 @TeleOp(name = "AATuning pivot")
 @Disabled
-public class TuningPrimaryOuttakePivot extends OpMode {
+public class TuningPrimaryOuttakePivot extends OpMode
+{
     DcMotorSub pivot;
     double ExtForceCoefficient = 0.1;
     double velCoefficient = 0;
     double posCoefficient = 0.004;
     double tolerance = 60;
     double maxPower = 1;
+
     @Override
-    public void init() {
+    public void init()
+    {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
-        pivot = new DcMotorSub(hardwareMap,"Primary Pivot",0,950,0.004,0,0.5,tolerance);//min and max need to be tuned
-        pivot.setExtTorqueFunction(theta-> -ExtForceCoefficient *Math.cos(theta));
+        pivot = new DcMotorSub(hardwareMap, "Primary Pivot", 0, 950, 0.004, 0, 0.5, tolerance);//min and max need to be tuned
+        pivot.setExtTorqueFunction(theta -> -ExtForceCoefficient * Math.cos(theta));
         pivot.setPosition(0);
         //pivot.setDesiredNetTorqueFunction((x,v)->0.0);
     }
 
     @Override
-    public void loop() {
+    public void loop()
+    {
         pivot.setTgPosTick(450);
         pivot.AccountForExtForces();
         pivot.setPower(0);
-        if (gamepad1.a){
+        if (gamepad1.a) {
             pivot.setPower(1);
         }
-        if (gamepad1.b){
-            velCoefficient +=0.0005;
+        if (gamepad1.b) {
+            velCoefficient += 0.0005;
             sleep(200);
         }
-        if (gamepad1.x){
-            velCoefficient -=0.0005;
+        if (gamepad1.x) {
+            velCoefficient -= 0.0005;
             sleep(200);
         }
-        if (gamepad1.right_bumper){
-            posCoefficient +=0.0005;
+        if (gamepad1.right_bumper) {
+            posCoefficient += 0.0005;
             sleep(200);
         }
-        if (gamepad1.left_bumper){
-            posCoefficient -=0.0005;
+        if (gamepad1.left_bumper) {
+            posCoefficient -= 0.0005;
             sleep(200);
         }
-        if(gamepad1.left_trigger>0){
-            maxPower -=0.1;
+        if (gamepad1.left_trigger > 0) {
+            maxPower -= 0.1;
             sleep(200);
         }
-        if(gamepad1.right_trigger>0){
-            maxPower +=0.1;
+        if (gamepad1.right_trigger > 0) {
+            maxPower += 0.1;
             sleep(200);
         }
-        pivot.setPD(posCoefficient,velCoefficient,maxPower);
+        pivot.setPD(posCoefficient, velCoefficient, maxPower);
         pivot.updatePower();
         telemetry.addLine("press x and b to adjust D");
         telemetry.addLine("press left and right bumper to adjust P");

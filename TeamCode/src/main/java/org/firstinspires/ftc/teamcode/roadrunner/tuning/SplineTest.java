@@ -8,15 +8,17 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.roadrunner.drives.MecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.drives.TankDrive;
 
-public final class SplineTest extends LinearOpMode {
+public final class SplineTest extends LinearOpMode
+{
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() throws InterruptedException
+    {
         Pose2d beginPose = new Pose2d(0, 0, 0);
         if (TuningOpModes.DRIVE_CLASS.equals(MecanumDrive.class)) {
 
-                MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
-                waitForStart();
-            while(opModeIsActive()) {
+            MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
+            waitForStart();
+            while (opModeIsActive()) {
                 Actions.runBlocking(
                         drive.actionBuilder(beginPose)
                                 .setTangent(0)

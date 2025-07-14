@@ -2,18 +2,25 @@ package org.firstinspires.ftc.teamcode.inputmodifiers;
 
 import java.util.function.BooleanSupplier;
 
-public class BooleanChangeDetector {
+public class BooleanChangeDetector
+{
     BooleanSupplier bool;
     boolean prevVal;
     boolean State = false;
-    public BooleanChangeDetector(BooleanSupplier bool){
+
+    public BooleanChangeDetector(BooleanSupplier bool)
+    {
         this.bool = bool;
     }
-    public void update(){
+
+    public void update()
+    {
         State = prevVal != bool.getAsBoolean();
         prevVal = bool.getAsBoolean();
     }
-    public boolean getState(){
+
+    public boolean getState()
+    {
         return State;
     }
 }

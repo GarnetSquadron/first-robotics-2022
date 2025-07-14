@@ -13,8 +13,10 @@ import org.firstinspires.ftc.teamcode.roadrunner.Localizer;
 import java.util.Objects;
 
 @Config
-public final class PinpointLocalizer implements Localizer {
-    public static class Params {
+public final class PinpointLocalizer implements Localizer
+{
+    public static class Params
+    {
         public double parYTicks = 0.0; // y position of the parallel encoder (in tick units)
         public double perpXTicks = 0.0; // x position of the perpendicular encoder (in tick units)
     }
@@ -27,7 +29,8 @@ public final class PinpointLocalizer implements Localizer {
     private Pose2d txWorldPinpoint;
     private Pose2d txPinpointRobot = new Pose2d(0, 0, 0);
 
-    public PinpointLocalizer(HardwareMap hardwareMap, double inPerTick, Pose2d initialPose) {
+    public PinpointLocalizer(HardwareMap hardwareMap, double inPerTick, Pose2d initialPose)
+    {
         // TODO: make sure your config has a Pinpoint device with this name
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
         driver = hardwareMap.get(GoBildaPinpointDriver.class, "pinpoint");
@@ -48,17 +51,20 @@ public final class PinpointLocalizer implements Localizer {
     }
 
     @Override
-    public void setPose(Pose2d pose) {
+    public void setPose(Pose2d pose)
+    {
         txWorldPinpoint = pose.times(txPinpointRobot.inverse());
     }
 
     @Override
-    public Pose2d getPose() {
+    public Pose2d getPose()
+    {
         return txWorldPinpoint.times(txPinpointRobot);
     }
 
     @Override
-    public PoseVelocity2d update() {
+    public PoseVelocity2d update()
+    {
         driver.update();
         if (Objects.requireNonNull(driver.getDeviceStatus()) == GoBildaPinpointDriver.DeviceStatus.READY) {
             txPinpointRobot = new Pose2d(driver.getPosX() / 25.4, driver.getPosY() / 25.4, driver.getHeading());

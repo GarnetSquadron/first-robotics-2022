@@ -6,7 +6,6 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
-import com.acmerobotics.roadrunner.TranslationalVelConstraint;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -19,10 +18,13 @@ import org.firstinspires.ftc.teamcode.Subsystems.Bot;
 
 @Autonomous(name = "#PARK AUTO#")
 @Disabled
-public class ParkAuto extends LinearOpMode {
+public class ParkAuto extends LinearOpMode
+{
     Bot bot;
+
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() throws InterruptedException
+    {
         //telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         //the position the auto starts at
         Pose2d beginPose = new Pose2d(26, -62, Math.toRadians(90));

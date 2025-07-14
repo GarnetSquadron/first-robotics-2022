@@ -14,8 +14,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.roadrunner.Localizer;
 
 @Config
-public class OTOSLocalizer implements Localizer {
-    public static class Params {
+public class OTOSLocalizer implements Localizer
+{
+    public static class Params
+    {
         public double angularScalar = 1.0;
         public double linearScalar = 1.0;
 
@@ -28,7 +30,8 @@ public class OTOSLocalizer implements Localizer {
     public final SparkFunOTOS otos;
     private Pose2d currentPose;
 
-    public OTOSLocalizer(HardwareMap hardwareMap, Pose2d initialPose) {
+    public OTOSLocalizer(HardwareMap hardwareMap, Pose2d initialPose)
+    {
         // TODO: make sure your config has an OTOS device with this name
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
         otos = hardwareMap.get(SparkFunOTOS.class, "sensor_otos");
@@ -44,18 +47,21 @@ public class OTOSLocalizer implements Localizer {
     }
 
     @Override
-    public Pose2d getPose() {
+    public Pose2d getPose()
+    {
         return currentPose;
     }
 
     @Override
-    public void setPose(Pose2d pose) {
+    public void setPose(Pose2d pose)
+    {
         currentPose = pose;
         otos.setPosition(OTOSKt.toOTOSPose(currentPose));
     }
 
     @Override
-    public PoseVelocity2d update() {
+    public PoseVelocity2d update()
+    {
         SparkFunOTOS.Pose2D otosPose = new SparkFunOTOS.Pose2D();
         SparkFunOTOS.Pose2D otosVel = new SparkFunOTOS.Pose2D();
         SparkFunOTOS.Pose2D otosAcc = new SparkFunOTOS.Pose2D();

@@ -7,39 +7,55 @@ import org.firstinspires.ftc.teamcode.Subsystems.hardwareClasses.ActionServo;
 
 import java.util.function.DoubleSupplier;
 
-public class SecondaryOuttakePivot {
+public class SecondaryOuttakePivot
+{
     public ActionServo pivot;
-    public SecondaryOuttakePivot(HardwareMap hardwareMap, DoubleSupplier time) {
-        pivot = new ActionServo(hardwareMap,"secondary pivot",0.1,1,0.5,time);
+
+    public SecondaryOuttakePivot(HardwareMap hardwareMap, DoubleSupplier time)
+    {
+        pivot = new ActionServo(hardwareMap, "secondary pivot", 0.1, 1, 0.5, time);
     }
 
-    public Action AutoBucketPos() {
+    public Action AutoBucketPos()
+    {
         return pivot.runToRatio(1);
     }
-    public Action TeleBucketPos() {
+
+    public Action TeleBucketPos()
+    {
         return pivot.runToRatio(0.80);
     }
 
-    public Action SpecimenOnWallPos(){
+    public Action SpecimenOnWallPos()
+    {
         return pivot.runToDegrees(50);
     }
-    public Action SpecimenOnChamberPos() {
-        return pivot.runToRatio(0.5);
-    }
-    public Action prepareForSpecimenOnChamberPos() {
-        return pivot.runToDegrees(90);
-    }
-    public Action outOfTheWayOfIntakePos(){
+
+    public Action SpecimenOnChamberPos()
+    {
         return pivot.runToRatio(0.5);
     }
 
-    public Action TransferPos() {
+    public Action prepareForSpecimenOnChamberPos()
+    {
+        return pivot.runToDegrees(90);
+    }
+
+    public Action outOfTheWayOfIntakePos()
+    {
+        return pivot.runToRatio(0.5);
+    }
+
+    public Action TransferPos()
+    {
         return pivot.runToDegrees(15);
     }
-//    public boolean grabbingOffWall(){
+
+    //    public boolean grabbingOffWall(){
 //        return pivot.get
 //    }
-    public Action goToDegrees(double angle){
-        return pivot.runToDegrees(103-angle);
+    public Action goToDegrees(double angle)
+    {
+        return pivot.runToDegrees(103 - angle);
     }
 }

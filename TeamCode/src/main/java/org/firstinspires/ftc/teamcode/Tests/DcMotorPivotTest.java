@@ -5,19 +5,22 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.GamepadClasses.BetterControllerClass;
-import org.firstinspires.ftc.teamcode.inputmodifiers.BooleanChangeDetector;
 import org.firstinspires.ftc.teamcode.OpmodeActionSceduling.TeleOpActionScheduler;
 import org.firstinspires.ftc.teamcode.Subsystems.outake.DcMotorPrimaryOuttakePivot;
+import org.firstinspires.ftc.teamcode.inputmodifiers.BooleanChangeDetector;
 
 @Disabled
-@TeleOp(name = "pivot motor test",group = "test")
-public class DcMotorPivotTest extends OpMode {
+@TeleOp(name = "pivot motor test", group = "test")
+public class DcMotorPivotTest extends OpMode
+{
     DcMotorPrimaryOuttakePivot pivot;
     TeleOpActionScheduler scheduler;
     BetterControllerClass GPad1;
-    BooleanChangeDetector A,B,X,Y;
+    BooleanChangeDetector A, B, X, Y;
+
     @Override
-    public void init() {
+    public void init()
+    {
         pivot = new DcMotorPrimaryOuttakePivot(hardwareMap);
         scheduler = new TeleOpActionScheduler();
         GPad1 = new BetterControllerClass(gamepad1);
@@ -28,19 +31,20 @@ public class DcMotorPivotTest extends OpMode {
     }
 
     @Override
-    public void loop() {
+    public void loop()
+    {
         A.update();
         B.update();
         X.update();
         Y.update();
-        if(A.getState()){
-            scheduler.start(pivot.BucketPos(),"bucket");
+        if (A.getState()) {
+            scheduler.start(pivot.BucketPos(), "bucket");
         }
-        if(B.getState()){
-            scheduler.start(pivot.SpecimenOnChamberPos(),"bucket");
+        if (B.getState()) {
+            scheduler.start(pivot.SpecimenOnChamberPos(), "bucket");
         }
-        if(X.getState()){
-            scheduler.start(pivot.pivot.runToPosition(180),"bucket");
+        if (X.getState()) {
+            scheduler.start(pivot.pivot.runToPosition(180), "bucket");
         }
 //        telemetry.addData("ticks",pivot.pivot.getPos());
 //        telemetry.addData("angle",pivot.pivot.getAngle(AngleUnitV2.DEGREES));

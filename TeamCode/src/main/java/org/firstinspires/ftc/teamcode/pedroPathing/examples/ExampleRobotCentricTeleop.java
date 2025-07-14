@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.pedroPathing.examples;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
@@ -19,31 +19,44 @@ import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
 @TeleOp(name = "Example Robot-Centric Teleop", group = "Examples")
 @Disabled
-public class ExampleRobotCentricTeleop extends OpMode {
+public class ExampleRobotCentricTeleop extends OpMode
+{
     private Follower follower;
-    private final Pose startPose = new Pose(0,0,0);
+    private final Pose startPose = new Pose(0, 0, 0);
 
-    /** This method is call once when init is played, it initializes the follower **/
+    /**
+     * This method is call once when init is played, it initializes the follower
+     **/
     @Override
-    public void init() {
+    public void init()
+    {
         follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
         follower.setStartingPose(startPose);
     }
 
-    /** This method is called continuously after Init while waiting to be started. **/
+    /**
+     * This method is called continuously after Init while waiting to be started.
+     **/
     @Override
-    public void init_loop() {
+    public void init_loop()
+    {
     }
 
-    /** This method is called once at the start of the OpMode. **/
+    /**
+     * This method is called once at the start of the OpMode.
+     **/
     @Override
-    public void start() {
+    public void start()
+    {
         follower.startTeleopDrive();
     }
 
-    /** This is the main loop of the opmode and runs continuously after play **/
+    /**
+     * This is the main loop of the opmode and runs continuously after play
+     **/
     @Override
-    public void loop() {
+    public void loop()
+    {
 
         /* Update Pedro to move the robot based on:
         - Forward/Backward Movement: -gamepad1.left_stick_y
@@ -65,8 +78,11 @@ public class ExampleRobotCentricTeleop extends OpMode {
 
     }
 
-    /** We do not use this because everything automatically should disable **/
+    /**
+     * We do not use this because everything automatically should disable
+     **/
     @Override
-    public void stop() {
+    public void stop()
+    {
     }
 }

@@ -3,6 +3,10 @@ package org.firstinspires.ftc.teamcode.pedroPathing.tuners_tests.pid;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.pedropathing.follower.Follower;
+import com.pedropathing.pathgen.BezierLine;
+import com.pedropathing.pathgen.Path;
+import com.pedropathing.pathgen.Point;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
@@ -10,19 +14,14 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.FConstants;
 import org.firstinspires.ftc.teamcode.pedroPathing.constants.LConstants;
 
-import com.pedropathing.follower.Follower;
-import com.pedropathing.pathgen.BezierLine;
-import com.pedropathing.pathgen.Path;
-import com.pedropathing.pathgen.Point;
-
 
 /**
  * This is the StraightBackAndForth autonomous OpMode. It runs the robot in a specified distance
  * straight forward. On reaching the end of the forward Path, the robot runs the backward Path the
  * same distance back to the start. Rinse and repeat! This is good for testing a variety of Vectors,
  * like the drive Vector, the translational Vector, and the heading Vector. Remember to test your
- * tunings on CurvedBackAndForth as well, since tunings that work well for straight lines might
- * have issues going in curves.
+ * tunings on CurvedBackAndForth as well, since tunings that work well for straight lines might have
+ * issues going in curves.
  *
  * @author Anyi Lin - 10158 Scott's Bots
  * @author Aaron Yang - 10158 Scott's Bots
@@ -30,8 +29,9 @@ import com.pedropathing.pathgen.Point;
  * @version 1.0, 3/12/2024
  */
 @Config
-@Autonomous (name = "Straight Back And Forth", group = "PIDF Tuning")
-public class StraightBackAndForth extends OpMode {
+@Autonomous(name = "Straight Back And Forth", group = "PIDF Tuning")
+public class StraightBackAndForth extends OpMode
+{
     private Telemetry telemetryA;
 
     public static double DISTANCE = 40;
@@ -48,20 +48,21 @@ public class StraightBackAndForth extends OpMode {
      * initializes the FTC Dashboard telemetry.
      */
     @Override
-    public void init() {
+    public void init()
+    {
         follower = new Follower(hardwareMap, FConstants.class, LConstants.class);
 
-        forwards = new Path(new BezierLine(new Point(0,0, Point.CARTESIAN), new Point(DISTANCE,0, Point.CARTESIAN)));
+        forwards = new Path(new BezierLine(new Point(0, 0, Point.CARTESIAN), new Point(DISTANCE, 0, Point.CARTESIAN)));
         forwards.setConstantHeadingInterpolation(0);
-        backwards = new Path(new BezierLine(new Point(DISTANCE,0, Point.CARTESIAN), new Point(0,0, Point.CARTESIAN)));
+        backwards = new Path(new BezierLine(new Point(DISTANCE, 0, Point.CARTESIAN), new Point(0, 0, Point.CARTESIAN)));
         backwards.setConstantHeadingInterpolation(0);
 
         follower.followPath(forwards);
 
         telemetryA = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
         telemetryA.addLine("This will run the robot in a straight line going " + DISTANCE
-                            + " inches forward. The robot will go forward and backward continuously"
-                            + " along the path. Make sure you have enough room.");
+                + " inches forward. The robot will go forward and backward continuously"
+                + " along the path. Make sure you have enough room.");
         telemetryA.update();
     }
 
@@ -70,7 +71,8 @@ public class StraightBackAndForth extends OpMode {
      * the Telemetry, as well as the FTC Dashboard.
      */
     @Override
-    public void loop() {
+    public void loop()
+    {
         follower.update();
         if (!follower.isBusy()) {
             if (forward) {
