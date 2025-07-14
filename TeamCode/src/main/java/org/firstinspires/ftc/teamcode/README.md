@@ -6,7 +6,7 @@ hi
 
 ### here are some of the most important classes in this code
 
-[Bot](Subsystems/Bot.java)
+[Bot](SeasonSpecific/Bot.java)
 Holds all imports and objects used to import methods. Basically, when you are making a
 new opmode, instead of creating a new instance of each object you need, simply create
 an instance of this and

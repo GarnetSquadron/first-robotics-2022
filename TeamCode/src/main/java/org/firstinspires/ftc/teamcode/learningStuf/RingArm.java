@@ -4,8 +4,8 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.hardwareClasses.motors.LimitedMotor;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
+import org.firstinspires.ftc.teamcode.hardwareClasses.motors.LimitedMotor;
 
 public class RingArm
 {

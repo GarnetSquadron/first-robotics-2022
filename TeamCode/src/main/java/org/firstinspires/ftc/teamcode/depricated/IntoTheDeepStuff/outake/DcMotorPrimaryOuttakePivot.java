@@ -10,8 +10,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Dimensions.RobotDimensions;
 import org.firstinspires.ftc.teamcode.controllers.ArmOnAPivotController;
-import org.firstinspires.ftc.teamcode.hardwareClasses.motors.LimitedMotor;
 import org.firstinspires.ftc.teamcode.enums.AngleUnitV2;
+import org.firstinspires.ftc.teamcode.hardwareClasses.motors.LimitedMotor;
 
 @Config
 public class DcMotorPrimaryOuttakePivot

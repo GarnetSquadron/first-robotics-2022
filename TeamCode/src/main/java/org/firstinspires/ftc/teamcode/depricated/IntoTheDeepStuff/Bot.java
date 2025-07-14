@@ -17,8 +17,8 @@ import org.firstinspires.ftc.teamcode.MiscActions.CancelableAction;
 import org.firstinspires.ftc.teamcode.depricated.IntoTheDeepStuff.Intake.Intake;
 import org.firstinspires.ftc.teamcode.depricated.IntoTheDeepStuff.outake.Outtake;
 import org.firstinspires.ftc.teamcode.depricated.IntoTheDeepStuff.outake.PrimaryOuttakePivot;
-import org.firstinspires.ftc.teamcode.commands.HeadlessDriveCommand;
-import org.firstinspires.ftc.teamcode.commands.RegularDrive;
+import org.firstinspires.ftc.teamcode.pathing.roadrunner.HeadlessDriveCommand;
+import org.firstinspires.ftc.teamcode.pathing.roadrunner.RegularDrive;
 import org.firstinspires.ftc.teamcode.pathing.roadrunner.drives.MecanumDrive;
 import org.opencv.core.Point;
 
