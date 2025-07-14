@@ -61,7 +61,7 @@ A motor with limited position
 [DistanceSensorMotor.java](hardwareClasses%2Fmotors%2FDistanceSensorMotor.java)
 Limited motor with distance sensor report
 
-### USEFULLLINKS:
+### USEFUL LINKS:
 
 intro to ftc sdk:
 
