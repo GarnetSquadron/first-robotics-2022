@@ -10,7 +10,10 @@ repositories {
     maven { url = 'https://maven.brott.dev/' }
 }
 
+repositories {
+    maven { url = 'https://maven.brott.dev/' }
+}
+
 dependencies {
     implementation 'com.acmerobotics.roadrunner:MeepMeep:0.1.6'
-    implementation 'com.github.rh-robotics:MeepMeep:v1.1.0'
 }
