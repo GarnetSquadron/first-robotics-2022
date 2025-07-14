@@ -1,3 +1,11 @@
+# Universal things about all servos
+If the servo wire only has 3 wires(sub wires?) in it(red,black, and white most times, although its not always white), then it is a servo that can only receive commands and cannot tell you about it's state. This means that you have no idea where the servo is before you send it to any position.
 If you want to move the servo, use `servo.setPosition(double position)`
-(if you're a beginner, that line means replace `double position` with a double(which means any number)). All the servos can be given an input of 0 to 1, which covers the entire range it is programmed to cover. Sometimes you can reprogram a servo to have a larger or smaller range, depending on the servo. 
-I have yet to be able to reprogram 
+(if you're a beginner, that line means replace `double position` with a double(which means any number)). All the servos can be given an input of 0 to 1, which covers the entire range it is programmed to cover. Sometimes you can reprogram a servo to have a larger or smaller range, depending on the servo.
+# plugging it straight into a hub
+Most servos that are plugged straight into the hub (ie not through a rev servo hub)act in this way: If an opmode is not active, it is loose (ie you can turn it with your hand). Even when you activate an opmode, it is loose until the code tells the servo to move, and then it holds its position there. The servo then stays rigid, no matter how you move it, until the opmode is turned off. I have yet to be able to disable a servo.
+# plugging it into a specialized servo module
+I have heard that something like `(ServoControllerEx) servo.getController().setServoPwmDisable(servo.getPortNumber());` should loosen the servo mid opmode if it is attached to a certain servo controller(I think maybe the rev servo hub https://www.revrobotics.com/rev-11-1855/), but this didnt work on the gobuilda Servo Power Distribution Board (https://www.gobilda.com/servo-power-distribution-board-8-channel/) we used once.
+Speaking of that one, if the servos are plugged into the gobuilda Servo Power Distribution Board, they tend to stay powered on even after the first opmode ends, so that the only way to loosen them is to disconnect them or turn off the robot. 
+# The red servos(https://thinkrobotics.com/products/ds3218-servo?srsltid=AfmBOooEs1ZuQ2KrljeWdWltiaasmZngf-cGJ3I3iOfHy28xhyqEL2M8)
+This one has a range of 270 degrees, and another interesting
